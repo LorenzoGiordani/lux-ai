@@ -26,8 +26,9 @@ from backtest.signals import SIGNALS
 from backtest.strategy import _direction, _eval_rule, load
 
 FAPI = "https://fapi.binance.com"
-STATE_FILE = Path("paper/state.json")
-JOURNAL = Path("paper/journal.jsonl")
+ROOT = Path(__file__).resolve().parent.parent  # indipendente dal cwd (cron)
+STATE_FILE = ROOT / "paper/state.json"
+JOURNAL = ROOT / "paper/journal.jsonl"
 LOOKBACK_H = 1000  # copre il lookback massimo dei segnali (336+48)
 
 
@@ -116,6 +117,8 @@ def maybe_open(spec: dict, symbol: str, data: dict, equity: float, strategy_id: 
 
 def main() -> None:
     spec_path, symbols = sys.argv[1], sys.argv[2].split(",")
+    if not Path(spec_path).is_absolute():
+        spec_path = ROOT / spec_path
     spec = load(spec_path)
     sid = spec["id"]
     STATE_FILE.parent.mkdir(exist_ok=True)
