@@ -105,9 +105,19 @@ def main() -> None:
     print(f"paper run {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC — {sid}, equity {st['equity']:.2f}$")
     max_conc = int(spec["risk"]["max_concurrent_positions"])
 
+    news_events = None
+    if any(s["name"] == "news_event" for s in spec.get("signals", [])):
+        try:
+            from pipeline.gdelt import news_events_live
+            news_events = news_events_live()
+            print(f"  news events live: {0 if news_events is None else len(news_events)}")
+        except Exception as e:
+            print(f"  news events fetch fallito ({e})", file=sys.stderr)
+
     for symbol in symbols:
         try:
             data = fetch_live(symbol)
+            data["news_events"] = news_events
         except Exception as e:
             print(f"  {symbol}: fetch fallito ({e})", file=sys.stderr)
             continue

@@ -206,6 +206,25 @@ table.pos-tbl{ width:100%; border-collapse:collapse; min-width:760px; }
 .verdict.approve{ color:var(--green); border-color:var(--green-dim); background:var(--green-wash); }
 .verdict.reduce{ color:var(--amber); border-color:var(--amber-dim); background:var(--amber-wash); }
 .verdict.veto{ color:var(--red); border-color:var(--red-dim); background:var(--red-wash); }
+.verdict.sistema{ color:var(--blue); border-color:var(--blue); background:transparent; }
+
+/* ---------- strategie spiegate ---------- */
+.strat-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:16px; }
+.strat-card{ border:1px solid var(--line); border-radius:var(--r); padding:20px 22px; }
+.strat-card h3{ font-size:17px; margin:0 0 8px; }
+.strat-card .s-cosa{ font-size:13.5px; line-height:1.55; color:var(--text-2); margin:0 0 14px; }
+.strat-card .s-row{ display:flex; gap:10px; font-size:12.5px; line-height:1.45; color:var(--text-2); margin-top:7px; }
+.strat-card .s-k{ font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--text-4); min-width:62px; padding-top:2px; }
+
+/* ---------- mini-chart posizioni ---------- */
+.charts-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; margin-top:18px; }
+.pchart{ border:1px solid var(--line); border-radius:var(--r); padding:14px 16px 10px; }
+.pchart .pc-head{ display:flex; align-items:baseline; gap:10px; margin-bottom:6px; }
+.pchart .pc-sym{ font-family:var(--mono); font-size:12px; letter-spacing:.08em; }
+.pchart .pc-meta{ font-family:var(--mono); font-size:10px; color:var(--text-4); margin-left:auto; }
+.pchart svg{ width:100%; height:auto; display:block; }
+.pchart .pc-legend{ display:flex; gap:14px; margin-top:6px; font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-4); }
+.pchart .pc-legend .sw{ display:inline-block; width:10px; height:2px; vertical-align:middle; margin-right:5px; }
 .verdict .mult{ color:var(--text-3); font-size:9.5px; }
 .thesis{ font-family:var(--serif); font-size:16.5px; line-height:1.55; color:var(--text); margin:4px 0 0; text-wrap:pretty; }
 .invalidation{
@@ -329,12 +348,22 @@ footer .foot-mark b{ color:var(--amber); }
     <div class="accounts" id="accounts"></div>
   </section>
 
+  <!-- STRATEGIE SPIEGATE -->
+  <section id="strategie">
+    <div class="sec-head">
+      <span class="kicker">02 · Le strategie</span>
+      <h2>Come decide il sistema</h2>
+      <p class="note">Ogni conto segue una logica diversa, spiegata senza tecnicismi: cosa cerca, quando entra, quando esce e quanto rischia al massimo.</p>
+    </div>
+    <div class="strat-grid" id="strats"></div>
+  </section>
+
   <!-- POSIZIONI -->
   <section id="posizioni">
     <div class="sec-head">
-      <span class="kicker">02 · Posizioni aperte</span>
+      <span class="kicker">03 · Posizioni aperte</span>
       <h2>Esposizione corrente</h2>
-      <p class="note">Asset misti: cripto, metalli, energia, indici, azioni. Ogni riga ha stop e target dichiarati.</p>
+      <p class="note">Asset misti: cripto, metalli, energia, indici, azioni. <b>Stop</b> = uscita automatica che limita la perdita; <b>target</b> = obiettivo di profitto. Sotto la tabella, il grafico di ogni operazione: dov'è entrata e dove uscirà.</p>
     </div>
     <div class="table-scroll">
       <table class="pos-tbl">
@@ -354,14 +383,15 @@ footer .foot-mark b{ color:var(--amber); }
         <tbody id="positions-body"></tbody>
       </table>
     </div>
+    <div class="charts-grid" id="pos-charts"></div>
   </section>
 
   <!-- DECISIONI -->
   <section id="decisioni">
     <div class="sec-head">
-      <span class="kicker">03 · Feed decisioni</span>
-      <h2>Il journal del desk</h2>
-      <p class="note">Ordine cronologico inverso. Ogni tesi è esplicita e falsificabile: c'è scritto cosa la smentirebbe.</p>
+      <span class="kicker">04 · Feed decisioni</span>
+      <h2>Tutte le decisioni, e il perché</h2>
+      <p class="note">Ordine cronologico inverso: sia le aperture automatiche dei sistemi, sia le proposte del desk AI. Per ognuna: il motivo dell'ingresso e cosa la farebbe chiudere.</p>
     </div>
     <div class="feed" id="feed"></div>
   </section>
@@ -369,7 +399,7 @@ footer .foot-mark b{ color:var(--amber); }
   <!-- LEZIONI -->
   <section id="lezioni">
     <div class="sec-head">
-      <span class="kicker">04 · Lezioni apprese</span>
+      <span class="kicker">05 · Lezioni apprese</span>
       <h2>Imparare in pubblico</h2>
       <p class="note">Gli errori ammessi valgono più dei colpi riusciti. Verdetto onesto su ogni trade chiuso.</p>
     </div>
@@ -379,7 +409,7 @@ footer .foot-mark b{ color:var(--amber); }
   <!-- LINEAGE -->
   <section id="evoluzione">
     <div class="sec-head">
-      <span class="kicker">05 · Albero evolutivo</span>
+      <span class="kicker">06 · Albero evolutivo</span>
       <h2>Generazioni di strategie</h2>
       <p class="note">Ogni nodo è una mutazione di un genitore. Le ritirate restano visibili: è la storia, non solo lo stato.</p>
     </div>
@@ -395,7 +425,7 @@ footer .foot-mark b{ color:var(--amber); }
   <!-- EVENTI NEWS -->
   <section id="eventi">
     <div class="sec-head">
-      <span class="kicker">06 · Eventi news</span>
+      <span class="kicker">07 · Eventi news</span>
       <h2>Catalizzatori dal flusso globale</h2>
       <p class="note">Burst anomali di copertura mediatica per tema (GDELT, timestamp point-in-time). Sono l'input del segnale event-driven: il tono indica la direzione attesa.</p>
     </div>
@@ -436,7 +466,7 @@ footer .foot-mark b{ color:var(--amber); }
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-12 23:33",
+ "updated_utc": "2026-06-12 23:40",
  "accounts": [
   {
    "id": "funding-squeeze-breakout-g2-g1-g2",
@@ -536,7 +566,361 @@ footer .foot-mark b{ color:var(--amber); }
      "size_usd": 2500.0,
      "stop_px": 65576.042168,
      "target_px": 55487.420296,
-     "opened_at": "2026-06-12 07:00"
+     "opened_at": "2026-06-12 07:00",
+     "chart": [
+      [
+       "2026-06-09 07:00",
+       63170.8
+      ],
+      [
+       "2026-06-09 08:00",
+       62816.9
+      ],
+      [
+       "2026-06-09 09:00",
+       62682.5
+      ],
+      [
+       "2026-06-09 10:00",
+       62750.0
+      ],
+      [
+       "2026-06-09 11:00",
+       62679.4
+      ],
+      [
+       "2026-06-09 12:00",
+       62611.6
+      ],
+      [
+       "2026-06-09 13:00",
+       62244.4
+      ],
+      [
+       "2026-06-09 14:00",
+       61511.6
+      ],
+      [
+       "2026-06-09 15:00",
+       61100.7
+      ],
+      [
+       "2026-06-09 16:00",
+       61367.5
+      ],
+      [
+       "2026-06-09 17:00",
+       61667.1
+      ],
+      [
+       "2026-06-09 18:00",
+       61756.1
+      ],
+      [
+       "2026-06-09 19:00",
+       62068.8
+      ],
+      [
+       "2026-06-09 20:00",
+       62132.3
+      ],
+      [
+       "2026-06-09 21:00",
+       61732.2
+      ],
+      [
+       "2026-06-09 22:00",
+       61688.0
+      ],
+      [
+       "2026-06-09 23:00",
+       61695.0
+      ],
+      [
+       "2026-06-10 00:00",
+       61886.5
+      ],
+      [
+       "2026-06-10 01:00",
+       61680.7
+      ],
+      [
+       "2026-06-10 02:00",
+       61271.3
+      ],
+      [
+       "2026-06-10 03:00",
+       61518.2
+      ],
+      [
+       "2026-06-10 04:00",
+       61269.6
+      ],
+      [
+       "2026-06-10 05:00",
+       61321.6
+      ],
+      [
+       "2026-06-10 06:00",
+       61436.5
+      ],
+      [
+       "2026-06-10 07:00",
+       61654.3
+      ],
+      [
+       "2026-06-10 08:00",
+       61228.7
+      ],
+      [
+       "2026-06-10 09:00",
+       61302.7
+      ],
+      [
+       "2026-06-10 10:00",
+       61350.1
+      ],
+      [
+       "2026-06-10 11:00",
+       61003.1
+      ],
+      [
+       "2026-06-10 12:00",
+       61531.7
+      ],
+      [
+       "2026-06-10 13:00",
+       62123.9
+      ],
+      [
+       "2026-06-10 14:00",
+       62170.8
+      ],
+      [
+       "2026-06-10 15:00",
+       62604.8
+      ],
+      [
+       "2026-06-10 16:00",
+       62194.5
+      ],
+      [
+       "2026-06-10 17:00",
+       61944.5
+      ],
+      [
+       "2026-06-10 18:00",
+       61856.0
+      ],
+      [
+       "2026-06-10 19:00",
+       61908.7
+      ],
+      [
+       "2026-06-10 20:00",
+       61770.1
+      ],
+      [
+       "2026-06-10 21:00",
+       61327.3
+      ],
+      [
+       "2026-06-10 22:00",
+       61353.2
+      ],
+      [
+       "2026-06-10 23:00",
+       61483.7
+      ],
+      [
+       "2026-06-11 00:00",
+       61794.6
+      ],
+      [
+       "2026-06-11 01:00",
+       62180.3
+      ],
+      [
+       "2026-06-11 02:00",
+       62113.5
+      ],
+      [
+       "2026-06-11 03:00",
+       62657.5
+      ],
+      [
+       "2026-06-11 04:00",
+       62692.9
+      ],
+      [
+       "2026-06-11 05:00",
+       62581.7
+      ],
+      [
+       "2026-06-11 06:00",
+       62734.2
+      ],
+      [
+       "2026-06-11 07:00",
+       62693.3
+      ],
+      [
+       "2026-06-11 08:00",
+       62927.2
+      ],
+      [
+       "2026-06-11 09:00",
+       62899.9
+      ],
+      [
+       "2026-06-11 10:00",
+       63120.3
+      ],
+      [
+       "2026-06-11 11:00",
+       63078.0
+      ],
+      [
+       "2026-06-11 12:00",
+       62978.3
+      ],
+      [
+       "2026-06-11 13:00",
+       63046.1
+      ],
+      [
+       "2026-06-11 14:00",
+       62699.6
+      ],
+      [
+       "2026-06-11 15:00",
+       62721.1
+      ],
+      [
+       "2026-06-11 16:00",
+       62546.6
+      ],
+      [
+       "2026-06-11 17:00",
+       63614.2
+      ],
+      [
+       "2026-06-11 18:00",
+       63426.0
+      ],
+      [
+       "2026-06-11 19:00",
+       63567.6
+      ],
+      [
+       "2026-06-11 20:00",
+       63361.9
+      ],
+      [
+       "2026-06-11 21:00",
+       63487.2
+      ],
+      [
+       "2026-06-11 22:00",
+       63467.1
+      ],
+      [
+       "2026-06-11 23:00",
+       63597.9
+      ],
+      [
+       "2026-06-12 00:00",
+       63617.7
+      ],
+      [
+       "2026-06-12 01:00",
+       63402.9
+      ],
+      [
+       "2026-06-12 02:00",
+       63589.3
+      ],
+      [
+       "2026-06-12 03:00",
+       63490.0
+      ],
+      [
+       "2026-06-12 04:00",
+       63670.4
+      ],
+      [
+       "2026-06-12 05:00",
+       63317.6
+      ],
+      [
+       "2026-06-12 06:00",
+       62955.9
+      ],
+      [
+       "2026-06-12 07:00",
+       63066.5
+      ],
+      [
+       "2026-06-12 08:00",
+       63440.5
+      ],
+      [
+       "2026-06-12 09:00",
+       63729.5
+      ],
+      [
+       "2026-06-12 10:00",
+       63665.1
+      ],
+      [
+       "2026-06-12 11:00",
+       63729.4
+      ],
+      [
+       "2026-06-12 12:00",
+       63433.7
+      ],
+      [
+       "2026-06-12 13:00",
+       63200.3
+      ],
+      [
+       "2026-06-12 14:00",
+       63971.0
+      ],
+      [
+       "2026-06-12 15:00",
+       63557.0
+      ],
+      [
+       "2026-06-12 16:00",
+       63951.2
+      ],
+      [
+       "2026-06-12 17:00",
+       63836.9
+      ],
+      [
+       "2026-06-12 18:00",
+       63661.8
+      ],
+      [
+       "2026-06-12 19:00",
+       63555.1
+      ],
+      [
+       "2026-06-12 20:00",
+       63417.9
+      ],
+      [
+       "2026-06-12 21:00",
+       63450.1
+      ],
+      [
+       "2026-06-12 22:00",
+       63482.8
+      ]
+     ]
     },
     {
      "symbol": "ETH",
@@ -545,7 +929,361 @@ footer .foot-mark b{ color:var(--amber); }
      "size_usd": 2499.72,
      "stop_px": 1727.312868,
      "target_px": 1461.572427,
-     "opened_at": "2026-06-12 07:00"
+     "opened_at": "2026-06-12 07:00",
+     "chart": [
+      [
+       "2026-06-09 07:00",
+       1679.19
+      ],
+      [
+       "2026-06-09 08:00",
+       1674.1
+      ],
+      [
+       "2026-06-09 09:00",
+       1669.46
+      ],
+      [
+       "2026-06-09 10:00",
+       1673.69
+      ],
+      [
+       "2026-06-09 11:00",
+       1670.74
+      ],
+      [
+       "2026-06-09 12:00",
+       1675.93
+      ],
+      [
+       "2026-06-09 13:00",
+       1665.86
+      ],
+      [
+       "2026-06-09 14:00",
+       1644.9
+      ],
+      [
+       "2026-06-09 15:00",
+       1635.42
+      ],
+      [
+       "2026-06-09 16:00",
+       1631.35
+      ],
+      [
+       "2026-06-09 17:00",
+       1642.09
+      ],
+      [
+       "2026-06-09 18:00",
+       1651.32
+      ],
+      [
+       "2026-06-09 19:00",
+       1656.56
+      ],
+      [
+       "2026-06-09 20:00",
+       1659.79
+      ],
+      [
+       "2026-06-09 21:00",
+       1649.49
+      ],
+      [
+       "2026-06-09 22:00",
+       1638.99
+      ],
+      [
+       "2026-06-09 23:00",
+       1638.64
+      ],
+      [
+       "2026-06-10 00:00",
+       1644.8
+      ],
+      [
+       "2026-06-10 01:00",
+       1638.14
+      ],
+      [
+       "2026-06-10 02:00",
+       1623.31
+      ],
+      [
+       "2026-06-10 03:00",
+       1629.88
+      ],
+      [
+       "2026-06-10 04:00",
+       1625.19
+      ],
+      [
+       "2026-06-10 05:00",
+       1627.26
+      ],
+      [
+       "2026-06-10 06:00",
+       1631.17
+      ],
+      [
+       "2026-06-10 07:00",
+       1639.32
+      ],
+      [
+       "2026-06-10 08:00",
+       1620.46
+      ],
+      [
+       "2026-06-10 09:00",
+       1622.92
+      ],
+      [
+       "2026-06-10 10:00",
+       1627.46
+      ],
+      [
+       "2026-06-10 11:00",
+       1619.18
+      ],
+      [
+       "2026-06-10 12:00",
+       1634.41
+      ],
+      [
+       "2026-06-10 13:00",
+       1650.96
+      ],
+      [
+       "2026-06-10 14:00",
+       1645.76
+      ],
+      [
+       "2026-06-10 15:00",
+       1657.09
+      ],
+      [
+       "2026-06-10 16:00",
+       1641.31
+      ],
+      [
+       "2026-06-10 17:00",
+       1631.45
+      ],
+      [
+       "2026-06-10 18:00",
+       1630.28
+      ],
+      [
+       "2026-06-10 19:00",
+       1629.22
+      ],
+      [
+       "2026-06-10 20:00",
+       1629.6
+      ],
+      [
+       "2026-06-10 21:00",
+       1610.54
+      ],
+      [
+       "2026-06-10 22:00",
+       1615.71
+      ],
+      [
+       "2026-06-10 23:00",
+       1620.72
+      ],
+      [
+       "2026-06-11 00:00",
+       1627.62
+      ],
+      [
+       "2026-06-11 01:00",
+       1642.22
+      ],
+      [
+       "2026-06-11 02:00",
+       1640.08
+      ],
+      [
+       "2026-06-11 03:00",
+       1653.19
+      ],
+      [
+       "2026-06-11 04:00",
+       1656.08
+      ],
+      [
+       "2026-06-11 05:00",
+       1647.09
+      ],
+      [
+       "2026-06-11 06:00",
+       1654.06
+      ],
+      [
+       "2026-06-11 07:00",
+       1653.67
+      ],
+      [
+       "2026-06-11 08:00",
+       1659.31
+      ],
+      [
+       "2026-06-11 09:00",
+       1658.27
+      ],
+      [
+       "2026-06-11 10:00",
+       1657.95
+      ],
+      [
+       "2026-06-11 11:00",
+       1665.76
+      ],
+      [
+       "2026-06-11 12:00",
+       1650.82
+      ],
+      [
+       "2026-06-11 13:00",
+       1652.44
+      ],
+      [
+       "2026-06-11 14:00",
+       1642.25
+      ],
+      [
+       "2026-06-11 15:00",
+       1644.64
+      ],
+      [
+       "2026-06-11 16:00",
+       1638.82
+      ],
+      [
+       "2026-06-11 17:00",
+       1688.07
+      ],
+      [
+       "2026-06-11 18:00",
+       1683.31
+      ],
+      [
+       "2026-06-11 19:00",
+       1680.29
+      ],
+      [
+       "2026-06-11 20:00",
+       1671.49
+      ],
+      [
+       "2026-06-11 21:00",
+       1676.28
+      ],
+      [
+       "2026-06-11 22:00",
+       1675.25
+      ],
+      [
+       "2026-06-11 23:00",
+       1672.57
+      ],
+      [
+       "2026-06-12 00:00",
+       1671.85
+      ],
+      [
+       "2026-06-12 01:00",
+       1666.47
+      ],
+      [
+       "2026-06-12 02:00",
+       1674.72
+      ],
+      [
+       "2026-06-12 03:00",
+       1672.39
+      ],
+      [
+       "2026-06-12 04:00",
+       1676.57
+      ],
+      [
+       "2026-06-12 05:00",
+       1663.29
+      ],
+      [
+       "2026-06-12 06:00",
+       1656.49
+      ],
+      [
+       "2026-06-12 07:00",
+       1661.21
+      ],
+      [
+       "2026-06-12 08:00",
+       1672.44
+      ],
+      [
+       "2026-06-12 09:00",
+       1679.35
+      ],
+      [
+       "2026-06-12 10:00",
+       1674.03
+      ],
+      [
+       "2026-06-12 11:00",
+       1672.85
+      ],
+      [
+       "2026-06-12 12:00",
+       1665.83
+      ],
+      [
+       "2026-06-12 13:00",
+       1656.77
+      ],
+      [
+       "2026-06-12 14:00",
+       1684.89
+      ],
+      [
+       "2026-06-12 15:00",
+       1658.98
+      ],
+      [
+       "2026-06-12 16:00",
+       1671.99
+      ],
+      [
+       "2026-06-12 17:00",
+       1668.02
+      ],
+      [
+       "2026-06-12 18:00",
+       1666.19
+      ],
+      [
+       "2026-06-12 19:00",
+       1665.08
+      ],
+      [
+       "2026-06-12 20:00",
+       1664.05
+      ],
+      [
+       "2026-06-12 21:00",
+       1663.42
+      ],
+      [
+       "2026-06-12 22:00",
+       1661.73
+      ]
+     ]
     },
     {
      "symbol": "GOLD",
@@ -554,12 +1292,385 @@ footer .foot-mark b{ color:var(--amber); }
      "size_usd": 2499.44,
      "stop_px": 4372.741175,
      "target_px": 3700.011764,
-     "opened_at": "2026-06-12 06:00"
+     "opened_at": "2026-06-12 06:00",
+     "chart": [
+      [
+       "2026-06-09 06:00",
+       4354.399902
+      ],
+      [
+       "2026-06-09 07:00",
+       4350.200195
+      ],
+      [
+       "2026-06-09 08:00",
+       4350.399902
+      ],
+      [
+       "2026-06-09 09:00",
+       4356.0
+      ],
+      [
+       "2026-06-09 10:00",
+       4363.299805
+      ],
+      [
+       "2026-06-09 11:00",
+       4364.299805
+      ],
+      [
+       "2026-06-09 12:00",
+       4365.399902
+      ],
+      [
+       "2026-06-09 13:00",
+       4353.200195
+      ],
+      [
+       "2026-06-09 14:00",
+       4325.0
+      ],
+      [
+       "2026-06-09 15:00",
+       4296.700195
+      ],
+      [
+       "2026-06-09 16:00",
+       4276.0
+      ],
+      [
+       "2026-06-09 17:00",
+       4287.200195
+      ],
+      [
+       "2026-06-09 18:00",
+       4294.399902
+      ],
+      [
+       "2026-06-09 19:00",
+       4282.700195
+      ],
+      [
+       "2026-06-09 20:00",
+       4284.799805
+      ],
+      [
+       "2026-06-09 22:00",
+       4260.399902
+      ],
+      [
+       "2026-06-09 23:00",
+       4245.100098
+      ],
+      [
+       "2026-06-10 00:00",
+       4241.600098
+      ],
+      [
+       "2026-06-10 01:00",
+       4212.200195
+      ],
+      [
+       "2026-06-10 02:00",
+       4197.799805
+      ],
+      [
+       "2026-06-10 03:00",
+       4208.200195
+      ],
+      [
+       "2026-06-10 04:00",
+       4198.0
+      ],
+      [
+       "2026-06-10 05:00",
+       4228.700195
+      ],
+      [
+       "2026-06-10 06:00",
+       4227.100098
+      ],
+      [
+       "2026-06-10 07:00",
+       4209.700195
+      ],
+      [
+       "2026-06-10 08:00",
+       4191.700195
+      ],
+      [
+       "2026-06-10 09:00",
+       4191.600098
+      ],
+      [
+       "2026-06-10 10:00",
+       4197.5
+      ],
+      [
+       "2026-06-10 11:00",
+       4170.200195
+      ],
+      [
+       "2026-06-10 12:00",
+       4169.600098
+      ],
+      [
+       "2026-06-10 13:00",
+       4203.0
+      ],
+      [
+       "2026-06-10 14:00",
+       4147.100098
+      ],
+      [
+       "2026-06-10 15:00",
+       4151.899902
+      ],
+      [
+       "2026-06-10 16:00",
+       4144.600098
+      ],
+      [
+       "2026-06-10 17:00",
+       4134.899902
+      ],
+      [
+       "2026-06-10 18:00",
+       4125.0
+      ],
+      [
+       "2026-06-10 19:00",
+       4106.200195
+      ],
+      [
+       "2026-06-10 20:00",
+       4094.100098
+      ],
+      [
+       "2026-06-10 22:00",
+       4069.100098
+      ],
+      [
+       "2026-06-10 23:00",
+       4069.699951
+      ],
+      [
+       "2026-06-11 00:00",
+       4097.5
+      ],
+      [
+       "2026-06-11 01:00",
+       4122.399902
+      ],
+      [
+       "2026-06-11 02:00",
+       4089.300049
+      ],
+      [
+       "2026-06-11 03:00",
+       4095.5
+      ],
+      [
+       "2026-06-11 04:00",
+       4103.799805
+      ],
+      [
+       "2026-06-11 05:00",
+       4115.5
+      ],
+      [
+       "2026-06-11 06:00",
+       4115.700195
+      ],
+      [
+       "2026-06-11 07:00",
+       4125.799805
+      ],
+      [
+       "2026-06-11 08:00",
+       4105.600098
+      ],
+      [
+       "2026-06-11 09:00",
+       4112.399902
+      ],
+      [
+       "2026-06-11 10:00",
+       4110.299805
+      ],
+      [
+       "2026-06-11 11:00",
+       4100.700195
+      ],
+      [
+       "2026-06-11 12:00",
+       4102.5
+      ],
+      [
+       "2026-06-11 13:00",
+       4104.299805
+      ],
+      [
+       "2026-06-11 14:00",
+       4094.399902
+      ],
+      [
+       "2026-06-11 15:00",
+       4110.0
+      ],
+      [
+       "2026-06-11 16:00",
+       4101.200195
+      ],
+      [
+       "2026-06-11 17:00",
+       4173.200195
+      ],
+      [
+       "2026-06-11 18:00",
+       4183.100098
+      ],
+      [
+       "2026-06-11 19:00",
+       4229.899902
+      ],
+      [
+       "2026-06-11 20:00",
+       4233.799805
+      ],
+      [
+       "2026-06-11 22:00",
+       4264.200195
+      ],
+      [
+       "2026-06-11 23:00",
+       4240.600098
+      ],
+      [
+       "2026-06-12 00:00",
+       4229.0
+      ],
+      [
+       "2026-06-12 01:00",
+       4208.200195
+      ],
+      [
+       "2026-06-12 02:00",
+       4213.5
+      ],
+      [
+       "2026-06-12 03:00",
+       4220.899902
+      ],
+      [
+       "2026-06-12 04:00",
+       4211.899902
+      ],
+      [
+       "2026-06-12 05:00",
+       4194.700195
+      ],
+      [
+       "2026-06-12 06:00",
+       4205.399902
+      ],
+      [
+       "2026-06-12 07:00",
+       4215.200195
+      ],
+      [
+       "2026-06-12 08:00",
+       4241.200195
+      ],
+      [
+       "2026-06-12 09:00",
+       4243.100098
+      ],
+      [
+       "2026-06-12 10:00",
+       4231.899902
+      ],
+      [
+       "2026-06-12 11:00",
+       4227.799805
+      ],
+      [
+       "2026-06-12 12:00",
+       4212.299805
+      ],
+      [
+       "2026-06-12 13:00",
+       4206.700195
+      ],
+      [
+       "2026-06-12 14:00",
+       4224.899902
+      ],
+      [
+       "2026-06-12 15:00",
+       4232.399902
+      ],
+      [
+       "2026-06-12 16:00",
+       4236.5
+      ],
+      [
+       "2026-06-12 17:00",
+       4241.799805
+      ],
+      [
+       "2026-06-12 18:00",
+       4236.200195
+      ],
+      [
+       "2026-06-12 19:00",
+       4231.899902
+      ]
+     ]
     }
    ]
   }
  ],
  "decisions": [
+  {
+   "ts": "2026-06-12 07:00",
+   "symbol": "BTC",
+   "direction": "short",
+   "account": "tsmom-v1",
+   "account_label": "TSMOM challenger",
+   "risk_verdict": "sistema",
+   "thesis": "Il sistema «Segui la tendenza (TSMOM)» ha aperto short su BTC: tendenza concorde su settimana e mese.",
+   "invalidation": "esce da sola se il prezzo va contro del 4.0% (stop), se raggiunge l'obiettivo (target) o se passa troppo tempo",
+   "outcome": {
+    "closed": false
+   }
+  },
+  {
+   "ts": "2026-06-12 07:00",
+   "symbol": "ETH",
+   "direction": "short",
+   "account": "tsmom-v1",
+   "account_label": "TSMOM challenger",
+   "risk_verdict": "sistema",
+   "thesis": "Il sistema «Segui la tendenza (TSMOM)» ha aperto short su ETH: tendenza concorde su settimana e mese.",
+   "invalidation": "esce da sola se il prezzo va contro del 4.0% (stop), se raggiunge l'obiettivo (target) o se passa troppo tempo",
+   "outcome": {
+    "closed": false
+   }
+  },
+  {
+   "ts": "2026-06-12 06:00",
+   "symbol": "GOLD",
+   "direction": "short",
+   "account": "tsmom-v1",
+   "account_label": "TSMOM challenger",
+   "risk_verdict": "sistema",
+   "thesis": "Il sistema «Segui la tendenza (TSMOM)» ha aperto short su GOLD: tendenza concorde su settimana e mese.",
+   "invalidation": "esce da sola se il prezzo va contro del 4.0% (stop), se raggiunge l'obiettivo (target) o se passa troppo tempo",
+   "outcome": {
+    "closed": false
+   }
+  },
   {
    "ts": "2026-06-11 21:46",
    "symbol": "ZEC",
@@ -738,6 +1849,32 @@ footer .foot-mark b{ color:var(--amber); }
    "z": 3.12,
    "tone": -2.92
   }
+ ],
+ "strategies": [
+  {
+   "id": "tsmom-v1",
+   "nome": "Segui la tendenza (TSMOM)",
+   "cosa": "Compra ciò che sta già salendo da settimane e vende allo scoperto ciò che sta scendendo. L'idea, documentata sui mercati da decenni: un movimento in corso tende a continuare più spesso di quanto si inverta di colpo.",
+   "entra": "la direzione dell'ultima settimana e dell'ultimo mese concordano (entrambe su, o entrambe giù)",
+   "esce": "perdita massima predefinita (stop), obiettivo raggiunto (target) o troppo tempo senza risultato",
+   "rischio": "massimo 1% del capitale a rischio per operazione, leva non oltre 2x"
+  },
+  {
+   "id": "funding-squeeze-breakout-g2-g1-g2",
+   "nome": "Caccia allo squeeze (crypto)",
+   "cosa": "Quando troppi trader scommettono tutti dallo stesso lato — si vede dal “funding”, il costo di mantenere aperte le posizioni — e il prezzo rompe il suo intervallo dopo una fase calma, chi è dal lato sbagliato è costretto a chiudere in fretta. Quelle chiusure forzate spingono il prezzo: la strategia cavalca proprio quell'onda.",
+   "entra": "affollamento estremo da un lato + prezzo che rompe il range con volumi alti, dopo una fase di calma",
+   "esce": "stop, target o tempo massimo scaduto",
+   "rischio": "massimo 1% del capitale a rischio per operazione, leva non oltre 2x"
+  },
+  {
+   "id": "agents-v1",
+   "nome": "Il desk degli agenti AI",
+   "cosa": "Un team di intelligenze artificiali organizzato come un desk di trading: un analista legge mercati e notizie, due ricercatori dibattono pro e contro, uno stratega propone l'operazione e un gestore del rischio — indipendente e con potere di veto — può bloccarla o ridurla. Ogni errore diventa una lezione scritta che entra nelle decisioni successive.",
+   "entra": "solo se la proposta sopravvive al dibattito e al vaglio del gestore del rischio",
+   "esce": "stop obbligatorio su ogni posizione, target o tesi smentita dai fatti",
+   "rischio": "limiti fissati nel codice, non negoziabili dall'AI: leva max 2x, max 1% a rischio per operazione"
+  }
  ]
 }
 </script>
@@ -769,7 +1906,7 @@ footer .foot-mark b{ color:var(--amber); }
   };
   const symName = s => (SYM[s]&&SYM[s].n) || s;
 
-  const VERDICT_IT = { approve:'approva', reduce:'riduci', veto:'veto' };
+  const VERDICT_IT = { approve:'approva', reduce:'riduci', veto:'veto', sistema:'automatica' };
   const REASON_IT  = { stopped:'stop', target:'target', vetoed:'veto', manual:'manuale', time:'tempo' };
   const STATUS_IT  = { candidate:'candidata', challenger:'sfidante', champion:'campione', retired:'ritirata' };
   const LVERD_IT   = { thesis_wrong:'tesi errata', execution_issue:'problema esecuzione', thesis_right:'tesi corretta' };
@@ -1011,15 +2148,17 @@ footer .foot-mark b{ color:var(--amber); }
         }
       }
       const mult = (d.size_multiplier!=null) ? '<span class="mult">×'+NF2.format(d.size_multiplier).replace(',00','').replace(',','.')+'</span>' : '';
+      const acct = d.account_label || 'Agenti LLM';
       card.innerHTML =
         '<div class="dcard-top">'+
           '<span class="dcard-ts num">'+fmtTs(d.ts)+'</span>'+
           '<span class="dcard-asset"><span class="tk">'+d.symbol+'</span>'+
             '<span class="dir '+d.direction+'">'+(d.direction==='long'?'▲ long':'▼ short')+'</span></span>'+
+          '<span class="acct-pill">'+acct+'</span>'+
           '<span class="verdict '+d.risk_verdict+'">'+(VERDICT_IT[d.risk_verdict]||d.risk_verdict)+' '+mult+'</span>'+
         '</div>'+
         '<p class="thesis">'+d.thesis+'</p>'+
-        '<div class="invalidation"><b>Cosa la smentisce</b>'+d.invalidation+'</div>'+
+        '<div class="invalidation"><b>'+(d.risk_verdict==='sistema'?'Quando si chiude':'Cosa la smentisce')+'</b>'+d.invalidation+'</div>'+
         out;
       host.appendChild(card);
     });
@@ -1041,6 +2180,71 @@ footer .foot-mark b{ color:var(--amber); }
         '<div class="lesson-text">'+l.lesson+'</div>'+
         (tags?'<div class="tags">'+tags+'</div>':'');
       host.appendChild(item);
+    });
+  }
+
+  /* ---------- render: strategie spiegate ---------- */
+  function renderStrats(){
+    const host=$('#strats'); if(!host) return; host.innerHTML='';
+    (DATA.strategies||[]).forEach(s=>{
+      const card=el('div','strat-card');
+      card.innerHTML =
+        '<h3>'+s.nome+'</h3>'+
+        '<p class="s-cosa">'+s.cosa+'</p>'+
+        '<div class="s-row"><span class="s-k">Entra</span><span>'+s.entra+'</span></div>'+
+        '<div class="s-row"><span class="s-k">Esce</span><span>'+s.esce+'</span></div>'+
+        '<div class="s-row"><span class="s-k">Rischio</span><span>'+s.rischio+'</span></div>';
+      host.appendChild(card);
+    });
+  }
+
+  /* ---------- render: mini-chart posizioni aperte ---------- */
+  function posChartSVG(p){
+    const pts=p.chart; if(!pts||pts.length<2) return null;
+    const W=520,H=180,L=10,R=64,T=14,B=26, n=pts.length;
+    const prices=pts.map(q=>q[1]);
+    let lo=Math.min(...prices,p.entry_px,p.stop_px,p.target_px);
+    let hi=Math.max(...prices,p.entry_px,p.stop_px,p.target_px);
+    const padY=(hi-lo)*0.06||1; lo-=padY; hi+=padY;
+    const X=i=>L+(W-L-R)*i/(n-1), Y=v=>T+(H-T-B)*(1-(v-lo)/(hi-lo));
+    const fmt=v=>v>=1000?v.toFixed(0):v>=10?v.toFixed(2):v.toFixed(4);
+    let ei=pts.findIndex(q=>q[0]>=p.opened_at); if(ei<0) ei=0;
+    const path=pts.map((q,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(q[1]).toFixed(1)).join(' ');
+    const hline=(v,color,dash,label)=>(
+      '<line x1="'+L+'" y1="'+Y(v).toFixed(1)+'" x2="'+(W-R)+'" y2="'+Y(v).toFixed(1)+'" stroke="'+color+'" stroke-width="1" stroke-dasharray="'+dash+'" opacity=".85"/>'+
+      '<text x="'+(W-R+6)+'" y="'+(Y(v)+3.5).toFixed(1)+'" fill="'+color+'" font-size="9.5" font-family="var(--mono)">'+label+' '+fmt(v)+'</text>');
+    const lastY=Y(prices[n-1]), lastPx=prices[n-1];
+    return '<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="andamento '+p.symbol+'">'+
+      hline(p.target_px,'var(--green)','5 4','TP')+
+      hline(p.stop_px,'var(--red)','5 4','SL')+
+      hline(p.entry_px,'var(--amber)','2 3','IN')+
+      '<line x1="'+X(ei).toFixed(1)+'" y1="'+T+'" x2="'+X(ei).toFixed(1)+'" y2="'+(H-B)+'" stroke="var(--amber)" stroke-width="1" stroke-dasharray="2 3" opacity=".6"/>'+
+      '<path d="'+path+'" fill="none" stroke="var(--blue)" stroke-width="1.6"/>'+
+      '<circle cx="'+X(ei).toFixed(1)+'" cy="'+Y(pts[ei][1]).toFixed(1)+'" r="3.5" fill="var(--amber)"/>'+
+      '<circle cx="'+X(n-1).toFixed(1)+'" cy="'+lastY.toFixed(1)+'" r="3" fill="var(--blue)"/>'+
+      '<text x="'+X(ei).toFixed(1)+'" y="'+(H-B+13)+'" fill="var(--amber)" font-size="9.5" font-family="var(--mono)" text-anchor="middle">apertura '+p.opened_at.slice(5)+'</text>'+
+      '<text x="'+(W-R+6)+'" y="'+(lastY+(lastY<Y(p.entry_px)?-6:12)).toFixed(1)+'" fill="var(--blue)" font-size="9.5" font-family="var(--mono)">ora '+fmt(lastPx)+'</text>'+
+      '</svg>';
+  }
+  function renderPosCharts(){
+    const host=$('#pos-charts'); if(!host) return; host.innerHTML='';
+    (DATA.accounts||[]).forEach(a=>{
+      (a.positions||[]).forEach(p=>{
+        const svg=posChartSVG(p); if(!svg) return;
+        const pnlPct=(p.direction==='long'?1:-1)*((p.chart[p.chart.length-1][1]/p.entry_px)-1)*100;
+        const card=el('div','pchart');
+        card.innerHTML =
+          '<div class="pc-head"><span class="pc-sym">'+p.symbol+'</span>'+
+            '<span class="side '+p.direction+'">'+(p.direction==='long'?'▲ long':'▼ short')+'</span>'+
+            '<span class="acct-pill">'+a.label+'</span>'+
+            '<span class="pc-meta '+(pnlPct>=0?'pos':'neg')+'">'+(pnlPct>=0?'+':'')+pnlPct.toFixed(2)+'%</span></div>'+
+          svg+
+          '<div class="pc-legend">'+
+            '<span><span class="sw" style="background:var(--amber)"></span>ingresso</span>'+
+            '<span><span class="sw" style="background:var(--green)"></span>target (TP)</span>'+
+            '<span><span class="sw" style="background:var(--red)"></span>stop (SL)</span></div>';
+        host.appendChild(card);
+      });
     });
   }
 
@@ -1097,6 +2301,8 @@ footer .foot-mark b{ color:var(--amber); }
     renderLessons();
     renderTree();
     renderEvents();
+    renderStrats();
+    renderPosCharts();
   }
   boot();
 

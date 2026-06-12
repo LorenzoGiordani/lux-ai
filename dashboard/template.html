@@ -206,6 +206,25 @@ table.pos-tbl{ width:100%; border-collapse:collapse; min-width:760px; }
 .verdict.approve{ color:var(--green); border-color:var(--green-dim); background:var(--green-wash); }
 .verdict.reduce{ color:var(--amber); border-color:var(--amber-dim); background:var(--amber-wash); }
 .verdict.veto{ color:var(--red); border-color:var(--red-dim); background:var(--red-wash); }
+.verdict.sistema{ color:var(--blue); border-color:var(--blue); background:transparent; }
+
+/* ---------- strategie spiegate ---------- */
+.strat-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:16px; }
+.strat-card{ border:1px solid var(--line); border-radius:var(--r); padding:20px 22px; }
+.strat-card h3{ font-size:17px; margin:0 0 8px; }
+.strat-card .s-cosa{ font-size:13.5px; line-height:1.55; color:var(--text-2); margin:0 0 14px; }
+.strat-card .s-row{ display:flex; gap:10px; font-size:12.5px; line-height:1.45; color:var(--text-2); margin-top:7px; }
+.strat-card .s-k{ font-family:var(--mono); font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--text-4); min-width:62px; padding-top:2px; }
+
+/* ---------- mini-chart posizioni ---------- */
+.charts-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; margin-top:18px; }
+.pchart{ border:1px solid var(--line); border-radius:var(--r); padding:14px 16px 10px; }
+.pchart .pc-head{ display:flex; align-items:baseline; gap:10px; margin-bottom:6px; }
+.pchart .pc-sym{ font-family:var(--mono); font-size:12px; letter-spacing:.08em; }
+.pchart .pc-meta{ font-family:var(--mono); font-size:10px; color:var(--text-4); margin-left:auto; }
+.pchart svg{ width:100%; height:auto; display:block; }
+.pchart .pc-legend{ display:flex; gap:14px; margin-top:6px; font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-4); }
+.pchart .pc-legend .sw{ display:inline-block; width:10px; height:2px; vertical-align:middle; margin-right:5px; }
 .verdict .mult{ color:var(--text-3); font-size:9.5px; }
 .thesis{ font-family:var(--serif); font-size:16.5px; line-height:1.55; color:var(--text); margin:4px 0 0; text-wrap:pretty; }
 .invalidation{
@@ -329,12 +348,22 @@ footer .foot-mark b{ color:var(--amber); }
     <div class="accounts" id="accounts"></div>
   </section>
 
+  <!-- STRATEGIE SPIEGATE -->
+  <section id="strategie">
+    <div class="sec-head">
+      <span class="kicker">02 · Le strategie</span>
+      <h2>Come decide il sistema</h2>
+      <p class="note">Ogni conto segue una logica diversa, spiegata senza tecnicismi: cosa cerca, quando entra, quando esce e quanto rischia al massimo.</p>
+    </div>
+    <div class="strat-grid" id="strats"></div>
+  </section>
+
   <!-- POSIZIONI -->
   <section id="posizioni">
     <div class="sec-head">
-      <span class="kicker">02 · Posizioni aperte</span>
+      <span class="kicker">03 · Posizioni aperte</span>
       <h2>Esposizione corrente</h2>
-      <p class="note">Asset misti: cripto, metalli, energia, indici, azioni. Ogni riga ha stop e target dichiarati.</p>
+      <p class="note">Asset misti: cripto, metalli, energia, indici, azioni. <b>Stop</b> = uscita automatica che limita la perdita; <b>target</b> = obiettivo di profitto. Sotto la tabella, il grafico di ogni operazione: dov'è entrata e dove uscirà.</p>
     </div>
     <div class="table-scroll">
       <table class="pos-tbl">
@@ -354,14 +383,15 @@ footer .foot-mark b{ color:var(--amber); }
         <tbody id="positions-body"></tbody>
       </table>
     </div>
+    <div class="charts-grid" id="pos-charts"></div>
   </section>
 
   <!-- DECISIONI -->
   <section id="decisioni">
     <div class="sec-head">
-      <span class="kicker">03 · Feed decisioni</span>
-      <h2>Il journal del desk</h2>
-      <p class="note">Ordine cronologico inverso. Ogni tesi è esplicita e falsificabile: c'è scritto cosa la smentirebbe.</p>
+      <span class="kicker">04 · Feed decisioni</span>
+      <h2>Tutte le decisioni, e il perché</h2>
+      <p class="note">Ordine cronologico inverso: sia le aperture automatiche dei sistemi, sia le proposte del desk AI. Per ognuna: il motivo dell'ingresso e cosa la farebbe chiudere.</p>
     </div>
     <div class="feed" id="feed"></div>
   </section>
@@ -369,7 +399,7 @@ footer .foot-mark b{ color:var(--amber); }
   <!-- LEZIONI -->
   <section id="lezioni">
     <div class="sec-head">
-      <span class="kicker">04 · Lezioni apprese</span>
+      <span class="kicker">05 · Lezioni apprese</span>
       <h2>Imparare in pubblico</h2>
       <p class="note">Gli errori ammessi valgono più dei colpi riusciti. Verdetto onesto su ogni trade chiuso.</p>
     </div>
@@ -379,7 +409,7 @@ footer .foot-mark b{ color:var(--amber); }
   <!-- LINEAGE -->
   <section id="evoluzione">
     <div class="sec-head">
-      <span class="kicker">05 · Albero evolutivo</span>
+      <span class="kicker">06 · Albero evolutivo</span>
       <h2>Generazioni di strategie</h2>
       <p class="note">Ogni nodo è una mutazione di un genitore. Le ritirate restano visibili: è la storia, non solo lo stato.</p>
     </div>
@@ -390,6 +420,28 @@ footer .foot-mark b{ color:var(--amber); }
       <span class="ll-item"><span class="sw" style="background:var(--text-4)"></span>ritirata</span>
     </div>
     <div class="tree" id="tree"></div>
+  </section>
+
+  <!-- EVENTI NEWS -->
+  <section id="eventi">
+    <div class="sec-head">
+      <span class="kicker">07 · Eventi news</span>
+      <h2>Catalizzatori dal flusso globale</h2>
+      <p class="note">Burst anomali di copertura mediatica per tema (GDELT, timestamp point-in-time). Sono l'input del segnale event-driven: il tono indica la direzione attesa.</p>
+    </div>
+    <div class="table-scroll">
+      <table class="pos-tbl">
+        <thead>
+          <tr>
+            <th>Quando (UTC)</th>
+            <th>Tema</th>
+            <th>Intensità (z)</th>
+            <th>Tono</th>
+          </tr>
+        </thead>
+        <tbody id="events-body"></tbody>
+      </table>
+    </div>
   </section>
 
 </main>
@@ -594,7 +646,7 @@ footer .foot-mark b{ color:var(--amber); }
   };
   const symName = s => (SYM[s]&&SYM[s].n) || s;
 
-  const VERDICT_IT = { approve:'approva', reduce:'riduci', veto:'veto' };
+  const VERDICT_IT = { approve:'approva', reduce:'riduci', veto:'veto', sistema:'automatica' };
   const REASON_IT  = { stopped:'stop', target:'target', vetoed:'veto', manual:'manuale', time:'tempo' };
   const STATUS_IT  = { candidate:'candidata', challenger:'sfidante', champion:'campione', retired:'ritirata' };
   const LVERD_IT   = { thesis_wrong:'tesi errata', execution_issue:'problema esecuzione', thesis_right:'tesi corretta' };
@@ -836,15 +888,17 @@ footer .foot-mark b{ color:var(--amber); }
         }
       }
       const mult = (d.size_multiplier!=null) ? '<span class="mult">×'+NF2.format(d.size_multiplier).replace(',00','').replace(',','.')+'</span>' : '';
+      const acct = d.account_label || 'Agenti LLM';
       card.innerHTML =
         '<div class="dcard-top">'+
           '<span class="dcard-ts num">'+fmtTs(d.ts)+'</span>'+
           '<span class="dcard-asset"><span class="tk">'+d.symbol+'</span>'+
             '<span class="dir '+d.direction+'">'+(d.direction==='long'?'▲ long':'▼ short')+'</span></span>'+
+          '<span class="acct-pill">'+acct+'</span>'+
           '<span class="verdict '+d.risk_verdict+'">'+(VERDICT_IT[d.risk_verdict]||d.risk_verdict)+' '+mult+'</span>'+
         '</div>'+
         '<p class="thesis">'+d.thesis+'</p>'+
-        '<div class="invalidation"><b>Cosa la smentisce</b>'+d.invalidation+'</div>'+
+        '<div class="invalidation"><b>'+(d.risk_verdict==='sistema'?'Quando si chiude':'Cosa la smentisce')+'</b>'+d.invalidation+'</div>'+
         out;
       host.appendChild(card);
     });
@@ -866,6 +920,87 @@ footer .foot-mark b{ color:var(--amber); }
         '<div class="lesson-text">'+l.lesson+'</div>'+
         (tags?'<div class="tags">'+tags+'</div>':'');
       host.appendChild(item);
+    });
+  }
+
+  /* ---------- render: strategie spiegate ---------- */
+  function renderStrats(){
+    const host=$('#strats'); if(!host) return; host.innerHTML='';
+    (DATA.strategies||[]).forEach(s=>{
+      const card=el('div','strat-card');
+      card.innerHTML =
+        '<h3>'+s.nome+'</h3>'+
+        '<p class="s-cosa">'+s.cosa+'</p>'+
+        '<div class="s-row"><span class="s-k">Entra</span><span>'+s.entra+'</span></div>'+
+        '<div class="s-row"><span class="s-k">Esce</span><span>'+s.esce+'</span></div>'+
+        '<div class="s-row"><span class="s-k">Rischio</span><span>'+s.rischio+'</span></div>';
+      host.appendChild(card);
+    });
+  }
+
+  /* ---------- render: mini-chart posizioni aperte ---------- */
+  function posChartSVG(p){
+    const pts=p.chart; if(!pts||pts.length<2) return null;
+    const W=520,H=180,L=10,R=64,T=14,B=26, n=pts.length;
+    const prices=pts.map(q=>q[1]);
+    let lo=Math.min(...prices,p.entry_px,p.stop_px,p.target_px);
+    let hi=Math.max(...prices,p.entry_px,p.stop_px,p.target_px);
+    const padY=(hi-lo)*0.06||1; lo-=padY; hi+=padY;
+    const X=i=>L+(W-L-R)*i/(n-1), Y=v=>T+(H-T-B)*(1-(v-lo)/(hi-lo));
+    const fmt=v=>v>=1000?v.toFixed(0):v>=10?v.toFixed(2):v.toFixed(4);
+    let ei=pts.findIndex(q=>q[0]>=p.opened_at); if(ei<0) ei=0;
+    const path=pts.map((q,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(q[1]).toFixed(1)).join(' ');
+    const hline=(v,color,dash,label)=>(
+      '<line x1="'+L+'" y1="'+Y(v).toFixed(1)+'" x2="'+(W-R)+'" y2="'+Y(v).toFixed(1)+'" stroke="'+color+'" stroke-width="1" stroke-dasharray="'+dash+'" opacity=".85"/>'+
+      '<text x="'+(W-R+6)+'" y="'+(Y(v)+3.5).toFixed(1)+'" fill="'+color+'" font-size="9.5" font-family="var(--mono)">'+label+' '+fmt(v)+'</text>');
+    const lastY=Y(prices[n-1]), lastPx=prices[n-1];
+    return '<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="andamento '+p.symbol+'">'+
+      hline(p.target_px,'var(--green)','5 4','TP')+
+      hline(p.stop_px,'var(--red)','5 4','SL')+
+      hline(p.entry_px,'var(--amber)','2 3','IN')+
+      '<line x1="'+X(ei).toFixed(1)+'" y1="'+T+'" x2="'+X(ei).toFixed(1)+'" y2="'+(H-B)+'" stroke="var(--amber)" stroke-width="1" stroke-dasharray="2 3" opacity=".6"/>'+
+      '<path d="'+path+'" fill="none" stroke="var(--blue)" stroke-width="1.6"/>'+
+      '<circle cx="'+X(ei).toFixed(1)+'" cy="'+Y(pts[ei][1]).toFixed(1)+'" r="3.5" fill="var(--amber)"/>'+
+      '<circle cx="'+X(n-1).toFixed(1)+'" cy="'+lastY.toFixed(1)+'" r="3" fill="var(--blue)"/>'+
+      '<text x="'+X(ei).toFixed(1)+'" y="'+(H-B+13)+'" fill="var(--amber)" font-size="9.5" font-family="var(--mono)" text-anchor="middle">apertura '+p.opened_at.slice(5)+'</text>'+
+      '<text x="'+(W-R+6)+'" y="'+(lastY+(lastY<Y(p.entry_px)?-6:12)).toFixed(1)+'" fill="var(--blue)" font-size="9.5" font-family="var(--mono)">ora '+fmt(lastPx)+'</text>'+
+      '</svg>';
+  }
+  function renderPosCharts(){
+    const host=$('#pos-charts'); if(!host) return; host.innerHTML='';
+    (DATA.accounts||[]).forEach(a=>{
+      (a.positions||[]).forEach(p=>{
+        const svg=posChartSVG(p); if(!svg) return;
+        const pnlPct=(p.direction==='long'?1:-1)*((p.chart[p.chart.length-1][1]/p.entry_px)-1)*100;
+        const card=el('div','pchart');
+        card.innerHTML =
+          '<div class="pc-head"><span class="pc-sym">'+p.symbol+'</span>'+
+            '<span class="side '+p.direction+'">'+(p.direction==='long'?'▲ long':'▼ short')+'</span>'+
+            '<span class="acct-pill">'+a.label+'</span>'+
+            '<span class="pc-meta '+(pnlPct>=0?'pos':'neg')+'">'+(pnlPct>=0?'+':'')+pnlPct.toFixed(2)+'%</span></div>'+
+          svg+
+          '<div class="pc-legend">'+
+            '<span><span class="sw" style="background:var(--amber)"></span>ingresso</span>'+
+            '<span><span class="sw" style="background:var(--green)"></span>target (TP)</span>'+
+            '<span><span class="sw" style="background:var(--red)"></span>stop (SL)</span></div>';
+        host.appendChild(card);
+      });
+    });
+  }
+
+  /* ---------- render: news events ---------- */
+  const TOPIC_IT={crypto:'Crypto', fed_macro:'Fed / Macro', commodities:'Commodities', equities:'Azionario', geopolitics:'Geopolitica'};
+  function renderEvents(){
+    const body=$('#events-body'); if(!body) return; body.innerHTML='';
+    (DATA.news_events||[]).forEach(e=>{
+      const tone=e.tone==null?null:e.tone;
+      const tr=el('tr');
+      tr.innerHTML =
+        '<td class="muted-cell num">'+fmtTs(e.ts)+'</td>'+
+        '<td style="text-align:left"><span class="acct-pill">'+(TOPIC_IT[e.topic]||e.topic)+'</span></td>'+
+        '<td>'+NF2.format(e.z)+'σ</td>'+
+        '<td class="'+(tone>0?'pos':tone<0?'neg':'')+'">'+(tone==null?'—':(tone>0?'+':'')+NF2.format(tone))+'</td>';
+      body.appendChild(tr);
     });
   }
 
@@ -905,6 +1040,9 @@ footer .foot-mark b{ color:var(--amber); }
     renderFeed();
     renderLessons();
     renderTree();
+    renderEvents();
+    renderStrats();
+    renderPosCharts();
   }
   boot();
 

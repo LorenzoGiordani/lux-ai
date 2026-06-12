@@ -91,4 +91,29 @@ def news_headlines(max_age_h: int = 36) -> list[dict]:
                     out.append({"source": source, "ts": str(ts), "title": title})
         except Exception:
             continue
-    return sorted(out, key=lambda x: x["ts"], reverse=True)
+    out = sorted(out, key=lambda x: x["ts"], reverse=True)
+    _archive_headlines(out)
+    return out
+
+
+def _archive_headlines(items: list[dict]) -> None:
+    """Archivio point-in-time append-only (anti-lookahead per backtest futuri).
+    fetched_at = quando NOI abbiamo visto il titolo; dedup su (source, title)."""
+    import hashlib
+    import json
+    from pathlib import Path
+
+    path = Path(__file__).resolve().parent.parent / "data" / "news" / "live_archive.jsonl"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    seen = set()
+    if path.exists():
+        with path.open() as f:
+            seen = {json.loads(line)["id"] for line in f if line.strip()}
+    fetched_at = str(datetime.now(timezone.utc))
+    with path.open("a") as f:
+        for it in items:
+            hid = hashlib.sha1(f"{it['source']}|{it['title']}".encode()).hexdigest()[:16]
+            if hid in seen:
+                continue
+            f.write(json.dumps({"id": hid, "fetched_at": fetched_at, **it},
+                               ensure_ascii=False) + "\n")

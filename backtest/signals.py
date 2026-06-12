@@ -5,7 +5,8 @@ Ogni segnale: f(data, **params) -> pd.Series di {-1, 0, +1} allineata a
 data["candles"] (indice 0..n-1). Il segno è la *lettura* del segnale
 (es. +1 = crowding long), la direzione del trade la decide la strategia.
 
-data: {"candles": df, "funding": df|None (ts, rate 8h), "flow": df|None (ts, volume, taker_buy)}
+data: {"candles": df, "funding": df|None (ts, rate 8h), "flow": df|None (ts, volume, taker_buy),
+       "news_events": df|None (ts, topic, z, tone — burst GDELT, vedi backtest/events.py)}
 """
 
 import numpy as np
@@ -94,6 +95,26 @@ def volume_surge(data, lookback_h: int = 168, pct: float = 90) -> pd.Series:
     return pd.Series(np.where(rank >= pct, 1, 0), index=c.index)
 
 
+def news_event(data, topics: str = "crypto", max_age_h: int = 24, min_z: float = 3.0) -> pd.Series:
+    """+1 = evento news (burst GDELT) a tono positivo nelle ultime max_age_h,
+    -1 = tono negativo. Leading per costruzione: il burst È il catalizzatore.
+    Seguire la reazione o farne il fade lo decide la strategia (direction)."""
+    c = data["candles"]
+    ev = data.get("news_events")
+    if ev is None or ev.empty:
+        return pd.Series(0, index=c.index)
+    wanted = [t.strip() for t in topics.split(",")]
+    ev = ev[ev["topic"].isin(wanted) & (ev["z"] >= min_z)].sort_values("ts")
+    if ev.empty:
+        return pd.Series(0, index=c.index)
+    ev = ev.assign(ev_ts=ev["ts"], ev_tone=ev["tone"])
+    merged = pd.merge_asof(c[["ts"]], ev[["ts", "ev_ts", "ev_tone"]], on="ts", direction="backward")
+    age_ok = (merged["ts"] - merged["ev_ts"]) <= pd.Timedelta(hours=max_age_h)
+    out = np.where(age_ok & (merged["ev_tone"] > 0), 1,
+                   np.where(age_ok & (merged["ev_tone"] < 0), -1, 0))
+    return pd.Series(out, index=c.index)
+
+
 SIGNALS = {
     "funding_percentile": funding_percentile,
     "range_breakout": range_breakout,
@@ -102,4 +123,5 @@ SIGNALS = {
     "tsmom": tsmom,
     "vwap_zscore": vwap_zscore,
     "volume_surge": volume_surge,
+    "news_event": news_event,
 }

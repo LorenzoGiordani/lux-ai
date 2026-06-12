@@ -26,7 +26,8 @@ def main() -> None:
     candles = pd.read_parquet(f"data/candles/{symbol}.parquet").tail(months * 30 * 24).reset_index(drop=True)
     data = {"candles": candles,
             "funding": read(f"data/funding/{symbol}.parquet"),
-            "flow": read(f"data/flow/{symbol}.parquet")}
+            "flow": read(f"data/flow/{symbol}.parquet"),
+            "news_events": read("data/news/gdelt_events.parquet")}
 
     spec = load(spec_path)
     strat, sigs = compile_strategy(spec, data)

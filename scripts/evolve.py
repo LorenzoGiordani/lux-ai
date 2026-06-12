@@ -128,6 +128,8 @@ def load_data(symbol: str, months: int) -> dict:
     for kind in ("funding", "flow"):
         p = Path(f"data/{kind}/{symbol}.parquet")
         data[kind] = pd.read_parquet(p) if p.exists() else None
+    ev = Path("data/news/gdelt_events.parquet")
+    data["news_events"] = pd.read_parquet(ev) if ev.exists() else None
     return data
 
 
