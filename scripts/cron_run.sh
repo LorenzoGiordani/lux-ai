@@ -19,3 +19,10 @@ if command -v claude >/dev/null 2>&1; then
 fi
 
 "$UV" run scripts/dashboard.py
+
+# auto-pubblica journal e dashboard su GitHub (repo privata)
+git add paper/ dashboard/index.html 2>/dev/null
+if ! git diff --cached --quiet; then
+    git commit -q -m "chore: paper run $(date -u '+%Y-%m-%d %H:%M') UTC [auto]"
+    git push -q origin main || true
+fi
