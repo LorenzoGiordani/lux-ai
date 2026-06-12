@@ -1,11 +1,12 @@
-"""Dashboard statica — la piattaforma "ricerca in pubblico" v1.
+"""Dashboard VETRO — inietta i dati reali nel template di design.
 
-Genera dashboard/index.html dai journal: equity, posizioni, decisioni con tesi,
-lezioni, lineage evolutivo. Zero processi residenti, pronta per Cloudflare Pages.
+Il markup vive in dashboard/template.html (handoff da Claude Design, non
+toccarlo per cambiare i dati): qui si costruisce SOLO il blocco JSON
+(<script id="data">) dallo stato reale e si scrive dashboard/index.html.
 """
 
-import html
 import json
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -13,40 +14,14 @@ from pathlib import Path
 import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
+TEMPLATE = ROOT / "dashboard/template.html"
 OUT = ROOT / "dashboard/index.html"
 
-CSS = """
-:root{--bg:#0b0e14;--card:#131722;--line:#222838;--txt:#dde3ee;--mut:#7d8590;
---green:#3fb950;--red:#f85149;--amber:#d29922;--blue:#58a6ff;--accent:#7c6df0}
-*{box-sizing:border-box}body{font:15px/1.5 -apple-system,'Segoe UI',sans-serif;
-background:var(--bg);color:var(--txt);margin:0;padding:0 0 4rem}
-.wrap{max-width:1100px;margin:0 auto;padding:0 1.2rem}
-header{position:sticky;top:0;background:rgba(11,14,20,.92);backdrop-filter:blur(8px);
-border-bottom:1px solid var(--line);padding:.9rem 0;margin-bottom:1.6rem;z-index:9}
-header .wrap{display:flex;justify-content:space-between;align-items:baseline}
-h1{font-size:1.15rem;margin:0}h1 span{color:var(--accent)}
-.ts{color:var(--mut);font-size:.8rem}
-h2{font-size:1rem;margin:2rem 0 .8rem;color:var(--blue);text-transform:uppercase;
-letter-spacing:.08em;font-weight:600}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1.1rem}
-.card .k{color:var(--mut);font-size:.75rem;text-transform:uppercase;letter-spacing:.06em}
-.card .v{font-size:1.6rem;font-weight:700;margin-top:.2rem}
-.card .s{font-size:.8rem;color:var(--mut);margin-top:.3rem}
-.pos .v{font-size:1.15rem}
-table{border-collapse:collapse;width:100%;font-size:.83rem;background:var(--card);
-border-radius:12px;overflow:hidden}
-td,th{border-bottom:1px solid var(--line);padding:.55rem .7rem;text-align:left;vertical-align:top}
-th{background:#1a1f2e;color:var(--mut);font-size:.72rem;text-transform:uppercase;letter-spacing:.05em}
-tr:last-child td{border-bottom:none}
-.up{color:var(--green)}.down{color:var(--red)}.muted{color:var(--mut)}
-.badge{display:inline-block;padding:.1rem .55rem;border-radius:99px;font-size:.72rem;font-weight:600}
-.b-green{background:#12261a;color:var(--green)}.b-red{background:#2d1416;color:var(--red)}
-.b-amber{background:#2b2210;color:var(--amber)}.b-blue{background:#101c2e;color:var(--blue)}
-.b-grey{background:#1c212e;color:var(--mut)}
-.chart{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem;margin:.6rem 0}
-.note{color:var(--mut);font-size:.8rem;margin:.4rem 0 0}
-"""
+ACCOUNT_META = {
+    "agents-v1": {"label": "Agenti LLM", "tag": "pipeline decide"},
+    "tsmom-v1": {"label": "TSMOM challenger", "tag": "sistematico multi-asset"},
+    "funding-squeeze-breakout-g2-g1-g2": {"label": "Funding-squeeze", "tag": "segnali crypto"},
+}
 
 
 def jsonl(path: Path) -> list[dict]:
@@ -55,127 +30,79 @@ def jsonl(path: Path) -> list[dict]:
     return [json.loads(l) for l in path.read_text().splitlines() if l.strip()]
 
 
-def badge(text: str, kind: str) -> str:
-    return f"<span class='badge b-{kind}'>{html.escape(str(text))}</span>"
+def ts_short(s: str) -> str:
+    """Qualsiasi timestamp → 'YYYY-MM-DD HH:MM' (il JS del template lo richiede)."""
+    s = str(s).replace("T", " ")
+    return s[:16]
 
 
-def fmt_px(v) -> str:
-    try:
-        return f"{float(v):,.4g}"
-    except (TypeError, ValueError):
-        return str(v)
+def clean_symbol(s: str) -> str:
+    return str(s).removeprefix("xyz_")
 
 
-def chart(points: list[tuple[str, float]], w: int = 1040, h: int = 200) -> str:
-    if len(points) < 2:
-        return "<div class='chart muted'>equity curve: in costruzione (servono più heartbeat)</div>"
-    vals = [p[1] for p in points]
-    lo, hi = min(vals), max(vals)
-    pad = (hi - lo) * 0.15 or 1
-    lo, hi = lo - pad, hi + pad
-    xs = [40 + i * (w - 60) / (len(vals) - 1) for i in range(len(vals))]
-    ys = [h - 24 - (v - lo) / (hi - lo) * (h - 44) for v in vals]
-    pts = " ".join(f"{x:.1f},{y:.1f}" for x, y in zip(xs, ys))
-    color = "var(--green)" if vals[-1] >= vals[0] else "var(--red)"
-    grid, labels = [], []
-    for frac in (0, .5, 1):
-        v = lo + (hi - lo) * frac
-        y = h - 24 - frac * (h - 44)
-        grid.append(f'<line x1="40" y1="{y:.0f}" x2="{w-20}" y2="{y:.0f}" stroke="#222838" stroke-width="1"/>')
-        labels.append(f'<text x="36" y="{y+4:.0f}" fill="#7d8590" font-size="10" text-anchor="end">{v:,.0f}</text>')
-    t0, t1 = points[0][0][:10], points[-1][0][:16]
-    area = f'<polygon points="40,{h-24} {pts} {xs[-1]:.0f},{h-24}" fill="{color}" opacity="0.07"/>'
-    return (f"<div class='chart'><svg viewBox='0 0 {w} {h}' width='100%'>"
-            + "".join(grid) + area
-            + f'<polyline fill="none" stroke="{color}" stroke-width="2" points="{pts}"/>'
-            + "".join(labels)
-            + f'<text x="40" y="{h-6}" fill="#7d8590" font-size="10">{t0}</text>'
-            + f'<text x="{w-20}" y="{h-6}" fill="#7d8590" font-size="10" text-anchor="end">{t1} UTC</text>'
-            + "</svg></div>")
-
-
-def table(rows: list[list[str]], cols: list[str]) -> str:
-    if not rows:
-        return "<p class='muted'>— ancora niente —</p>"
-    head = "".join(f"<th>{c}</th>" for c in cols)
-    body = "".join("<tr>" + "".join(f"<td>{c}</td>" for c in r) + "</tr>" for r in rows)
-    return f"<table><tr>{head}</tr>{body}</table>"
-
-
-def pnl_cell(v) -> str:
-    try:
-        f = float(v)
-        return f"<span class='{'up' if f >= 0 else 'down'}'>{f:+,.2f}$</span>"
-    except (TypeError, ValueError):
-        return ""
-
-
-def main() -> None:
+def build_data() -> dict:
     state = json.loads((ROOT / "paper/state.json").read_text()) if (ROOT / "paper/state.json").exists() else {}
     journal = jsonl(ROOT / "paper/journal.jsonl")
     decisions = jsonl(ROOT / "paper/decisions.jsonl")
     lessons = jsonl(ROOT / "paper/lessons.jsonl")
 
-    body = []
-
-    # ── account cards + equity charts
+    accounts = []
     for sid, st in state.items():
+        meta = ACCOUNT_META.get(sid, {"label": sid, "tag": ""})
         closes = [e for e in journal if e.get("type") == "close" and e.get("strategy") == sid]
-        pnl = sum(e.get("pnl_usd", 0) for e in closes)
-        wins = sum(1 for e in closes if e.get("pnl_usd", 0) > 0)
-        beats = [(e["logged_at"], e["equity"]) for e in journal
+        curve = [[ts_short(e["logged_at"]), round(e["equity"], 2)] for e in journal
                  if e.get("type") == "heartbeat" and e.get("strategy") == sid]
-        npos = len(st.get("positions", {}))
-        kind = "blue" if sid == "agents-v1" else "amber"
-        body.append(f"<h2>{html.escape(sid)} {badge('agenti LLM' if sid == 'agents-v1' else 'challenger segnali', kind)}</h2>")
-        body.append("<div class='cards'>"
-                    f"<div class='card'><div class='k'>Equity (paper)</div><div class='v'>{st['equity']:,.2f}$</div>"
-                    f"<div class='s'>start 10.000$ fittizi · prezzi reali</div></div>"
-                    f"<div class='card'><div class='k'>P&L realizzato</div><div class='v'>{pnl_cell(pnl)}</div>"
-                    f"<div class='s'>{len(closes)} trade chiusi · win {wins}/{len(closes) or 1}</div></div>"
-                    f"<div class='card'><div class='k'>Posizioni aperte</div><div class='v'>{npos}</div>"
-                    f"<div class='s'>{', '.join(st.get('positions', {})) or '—'}</div></div></div>")
-        body.append(chart(beats))
+        accounts.append({
+            "id": sid, "label": meta["label"], "tag": meta["tag"],
+            "equity": round(st["equity"], 2),
+            "pnl_realized": round(sum(e.get("pnl_usd", 0) for e in closes), 2),
+            "trades_closed": len(closes),
+            "wins": sum(1 for e in closes if e.get("pnl_usd", 0) > 0),
+            "equity_curve": curve,
+            "positions": [{
+                "symbol": clean_symbol(s), "direction": p["direction"],
+                "entry_px": round(p["entry_px"], 6), "size_usd": round(p["size_usd"], 2),
+                "stop_px": round(p["stop_px"], 6), "target_px": round(p["target_px"], 6),
+                "opened_at": ts_short(p["opened_at"]),
+            } for s, p in st.get("positions", {}).items()],
+        })
 
-        pos_rows = []
-        for s, p in st.get("positions", {}).items():
-            d = p.get("direction", "")
-            pos_rows.append([html.escape(s), badge(d, "green" if d == "long" else "red"),
-                             fmt_px(p.get("entry_px")), f"{p.get('size_usd', 0):,.0f}$",
-                             fmt_px(p.get("stop_px")), fmt_px(p.get("target_px")),
-                             f"<span class='muted'>{str(p.get('opened_at', ''))[:16]}</span>"])
-        body.append("<h3>Posizioni aperte</h3>" if pos_rows else "")
-        if pos_rows:
-            body.append(table(pos_rows, ["asset", "lato", "entry", "size", "stop", "target", "aperta"]))
-        if closes:
-            cl_rows = [[str(e.get("ts", ""))[:16], html.escape(str(e.get("symbol"))),
-                        badge(e.get("reason"), "grey"), fmt_px(e.get("exit_px")), pnl_cell(e.get("pnl_usd"))]
-                       for e in closes[-8:][::-1]]
-            body.append("<h3>Ultimi trade chiusi</h3>" + table(cl_rows, ["chiuso", "asset", "uscita", "prezzo", "p&l"]))
+    dec_out = []
+    for d in decisions:
+        if d.get("stage") != "final":
+            continue
+        p = d.get("proposal", {})
+        if p.get("action") != "trade":
+            continue
+        risk = d.get("risk", {})
+        sym = clean_symbol(p.get("symbol", ""))
+        # esito: primo close di agents-v1 sullo stesso simbolo dopo la decisione
+        outcome = {"closed": False}
+        for e in journal:
+            if (e.get("type") == "close" and e.get("strategy") == "agents-v1"
+                    and clean_symbol(e.get("symbol", "")) == sym
+                    and e.get("logged_at", "") > d.get("logged_at", "")):
+                outcome = {"closed": True, "reason": e.get("reason"),
+                           "pnl_usd": round(e.get("pnl_usd", 0), 2)}
+                break
+        rec = {
+            "ts": ts_short(d.get("logged_at", "")), "symbol": sym,
+            "direction": p.get("direction"), "account": "agents-v1",
+            "risk_verdict": risk.get("verdict", "approve"),
+            "thesis": p.get("thesis", ""), "invalidation": p.get("invalidation", ""),
+            "outcome": outcome,
+        }
+        if risk.get("size_multiplier") not in (None, 1, 1.0):
+            rec["size_multiplier"] = risk["size_multiplier"]
+        dec_out.append(rec)
+    dec_out.reverse()  # cronologico inverso
 
-    # ── decisioni pipeline
-    dec_rows = []
-    for d in [d for d in decisions if d.get("stage") == "final"][-12:][::-1]:
-        p, r = d.get("proposal", {}), d.get("risk", {})
-        v = r.get("verdict", "")
-        dec_rows.append([str(d.get("logged_at", ""))[:16], html.escape(str(p.get("symbol"))),
-                         badge(p.get("direction"), "green" if p.get("direction") == "long" else "red"),
-                         badge(v, "green" if v == "approve" else "amber" if v == "reduce" else "red"),
-                         f"<div>{html.escape(str(p.get('thesis', ''))[:300])}</div>"
-                         f"<div class='note'>invalidazione: {html.escape(str(p.get('invalidation', ''))[:160])}</div>"])
-    body.append("<h2>Decisioni della pipeline {}</h2>".format(badge("tesi pubbliche", "blue"))
-                + table(dec_rows, ["quando", "asset", "lato", "risk", "tesi"]))
+    les_out = [{
+        "ts": ts_short(l.get("logged_at", "")), "scope": clean_symbol(l.get("symbol", "")),
+        "verdict": l.get("verdict", ""), "lesson": l.get("lesson", ""), "tags": l.get("tags", []),
+    } for l in lessons][::-1]
 
-    # ── lezioni
-    les_rows = [[str(l.get("logged_at", ""))[:16], html.escape(str(l.get("symbol"))),
-                 badge(l.get("verdict"), "red" if l.get("verdict") in ("thesis_wrong", "execution_issue") else "green"),
-                 html.escape(str(l.get("lesson", "")))]
-                for l in lessons[-12:][::-1]]
-    body.append("<h2>Lezioni apprese {}</h2>".format(badge("reflection loop", "blue"))
-                + table(les_rows, ["quando", "ambito", "verdetto", "lezione"]))
-
-    # ── lineage
-    lin_rows = []
+    lineage = []
     files = sorted(ROOT.glob("strategies/*.yaml")) + sorted(ROOT.glob("strategies/generated/*.yaml"))
     for f in files:
         if "candidates" in f.name:
@@ -183,25 +110,26 @@ def main() -> None:
         s = yaml.safe_load(f.read_text())
         bt = next(iter(s.get("backtest", {}).values()), {})
         agg = bt.get("aggregate") or bt.get("metrics") or {}
-        sharpe = agg.get("mean_sharpe", agg.get("sharpe"))
-        status = s.get("status", "?")
-        lin_rows.append([html.escape(s["id"]), html.escape(str(s.get("parent") or "—")),
-                         badge(status, {"champion": "green", "challenger": "amber"}.get(status, "grey")),
-                         (f"<span class='{'up' if sharpe and sharpe > 0 else 'down'}'>{sharpe:.2f}</span>" if sharpe is not None else "—"),
-                         f"<span class='muted'>{html.escape(str(s.get('evolution', {}).get('notes', ''))[:150])}</span>"])
-    body.append("<h2>Evoluzione strategie {}</h2>".format(badge("lineage", "blue"))
-                + table(lin_rows, ["strategia", "parent", "status", "sharpe", "mutazione"]))
+        sharpe = agg.get("mean_sharpe", agg.get("sharpe", 0)) or 0
+        lineage.append({"id": s["id"], "parent": s.get("parent"),
+                        "status": s.get("status", "candidate"), "sharpe": round(float(sharpe), 2),
+                        "note": s.get("evolution", {}).get("notes", "")[:160]})
 
-    now = datetime.now(timezone.utc)
-    page = (f"<!doctype html><html lang='it'><meta charset='utf-8'>"
-            f"<meta name='viewport' content='width=device-width,initial-scale=1'>"
-            f"<title>DeFi AI Vault — live research</title><style>{CSS}</style>"
-            f"<header><div class='wrap'><h1><span>◆</span> DeFi AI Vault <span class='muted'>· ricerca in pubblico</span></h1>"
-            f"<div class='ts'>aggiornato {now:%Y-%m-%d %H:%M} UTC · paper trading: balance fittizio, dati e prezzi reali</div></div></header>"
-            f"<div class='wrap'>{''.join(body)}</div></html>")
-    OUT.parent.mkdir(exist_ok=True)
-    OUT.write_text(page)
-    print(f"dashboard → {OUT}")
+    return {
+        "updated_utc": f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M}",
+        "accounts": accounts, "decisions": dec_out, "lessons": les_out, "lineage": lineage,
+    }
+
+
+def main() -> None:
+    data = build_data()
+    html = TEMPLATE.read_text()
+    block = f'<script id="data" type="application/json">\n{json.dumps(data, ensure_ascii=False, indent=1)}\n</script>'
+    out, n = re.subn(r'<script id="data" type="application/json">.*?</script>', block, html, flags=re.DOTALL)
+    if n != 1:
+        sys.exit("ERRORE: blocco #data non trovato nel template")
+    OUT.write_text(out)
+    print(f"dashboard VETRO → {OUT}")
 
 
 if __name__ == "__main__":

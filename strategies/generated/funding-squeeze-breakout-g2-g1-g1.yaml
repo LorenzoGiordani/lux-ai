@@ -44,7 +44,7 @@ risk:
   risk_per_trade_pct: 1.0
   max_concurrent_positions: 3
 parent: funding-squeeze-breakout-g2-g1
-status: candidate
+status: retired
 created: '2026-06-11'
 backtest:
   basket_6m:

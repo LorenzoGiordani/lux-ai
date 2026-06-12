@@ -1,6 +1,6 @@
 id: vwap-reversion-v1
 parent: null
-status: candidate
+status: retired
 created: 2026-06-12
 thesis: >
   Estensioni oltre 2 sigma dal VWAP settimanale senza partecipazione anomala
