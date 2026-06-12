@@ -2,5 +2,10 @@
  "funding-squeeze-breakout-g2-g1-g2": {
   "equity": 10000.0,
   "positions": {}
+ },
+ "agents-v1": {
+  "equity": 9948.43862299,
+  "positions": {},
+  "last_decision_ts": "2026-06-11T21:46:51.843010+00:00"
  }
 }

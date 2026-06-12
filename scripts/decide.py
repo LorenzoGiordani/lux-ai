@@ -52,8 +52,9 @@ ROLES = {
         "possibile (asset specifico, catalizzatori, posizionamento). Sii aggressivo ma onesto sui rischi. Max 150 parole."
     ),
     "strategist": (
-        "Sei lo Strategist. Hai il brief e il dibattito bull/bear. Decidi: UN trade o nessuno "
-        "(nessun trade è una decisione rispettabile). Rispondi SOLO con JSON: "
+        "Sei lo Strategist. Hai il brief, il dibattito bull/bear e le LEZIONI dal journal "
+        "(post-mortem di trade passati): rispettale o motiva esplicitamente perché non si applicano. "
+        "Decidi: UN trade o nessuno (nessun trade è una decisione rispettabile). Rispondi SOLO con JSON: "
         '{"action": "trade"|"no_trade", "symbol": str, "direction": "long"|"short", '
         '"leverage": float, "risk_pct": float, "stop_pct": float, "target_r": float, '
         '"time_stop_h": int, "thesis": str (3-4 frasi, falsificabile), "invalidation": str (cosa la smentisce)}'
@@ -111,7 +112,19 @@ def build_context(symbols: list[str]) -> dict:
         "ts": datetime.now(timezone.utc).isoformat(),
         "assets": assets,
         "news": news_headlines()[:25],
+        "lessons": recall_lessons(symbols),
     }
+
+
+def recall_lessons(symbols: list[str], k: int = 10) -> list[dict]:
+    """Lezioni dal journal: prima quelle sugli stessi simboli, poi le più recenti."""
+    path = ROOT / "paper/lessons.jsonl"
+    if not path.exists():
+        return []
+    rows = [json.loads(l) for l in path.read_text().splitlines() if l.strip()]
+    rows.sort(key=lambda r: (r.get("symbol") in symbols, r.get("logged_at", "")), reverse=True)
+    return [{"symbol": r.get("symbol"), "verdict": r.get("verdict"),
+             "lesson": r.get("lesson"), "tags": r.get("tags", [])} for r in rows[:k]]
 
 
 def hard_check(p: dict, open_positions: int = 0) -> list[str]:
@@ -144,7 +157,9 @@ def log_decision(record: dict) -> None:
 
 def render_pack(ctx: dict) -> str:
     parts = [f"# Contesto mercato {ctx['ts']}\n## Asset\n{json.dumps(ctx['assets'], indent=1)}",
-             "## News (timestampate)\n" + "\n".join(f"- [{n['ts'][:16]}] {n['title']}" for n in ctx["news"])]
+             "## News (timestampate)\n" + "\n".join(f"- [{n['ts'][:16]}] {n['title']}" for n in ctx["news"]),
+             "## Lezioni dal journal\n" + ("\n".join(
+                 f"- [{l['verdict']}] {l['symbol']}: {l['lesson']}" for l in ctx["lessons"]) or "(nessuna ancora)")]
     for role, prompt in ROLES.items():
         parts.append(f"\n=== RUOLO: {role.upper()} ===\n{prompt}")
     return "\n".join(parts)

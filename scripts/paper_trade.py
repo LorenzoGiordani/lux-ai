@@ -12,45 +12,22 @@ Stesse assunzioni dell'engine: fee taker 4.5bps, slippage 2bps.
 
 import json
 import sys
-import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
-import requests
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from backtest.engine import DEFAULT_SLIPPAGE, HL_TAKER_FEE
 from backtest.signals import SIGNALS
 from backtest.strategy import _direction, _eval_rule, load
+from pipeline.live import fetch_live
 
-FAPI = "https://fapi.binance.com"
 ROOT = Path(__file__).resolve().parent.parent  # indipendente dal cwd (cron)
 STATE_FILE = ROOT / "paper/state.json"
 JOURNAL = ROOT / "paper/journal.jsonl"
 LOOKBACK_H = 1000  # copre il lookback massimo dei segnali (336+48)
-
-
-def fetch_live(symbol: str) -> dict:
-    pair = f"{symbol}USDT"
-    kl = requests.get(f"{FAPI}/fapi/v1/klines", params={
-        "symbol": pair, "interval": "1h", "limit": min(LOOKBACK_H, 1000)}, timeout=30).json()
-    candles = pd.DataFrame({
-        "ts": pd.to_datetime([k[0] for k in kl], unit="ms", utc=True),
-        "open": [float(k[1]) for k in kl], "high": [float(k[2]) for k in kl],
-        "low": [float(k[3]) for k in kl], "close": [float(k[4]) for k in kl],
-        "volume": [float(k[5]) for k in kl]})
-    flow = pd.DataFrame({"ts": candles.ts, "volume": candles.volume,
-                         "taker_buy": [float(k[9]) for k in kl]})
-    fr = requests.get(f"{FAPI}/fapi/v1/fundingRate", params={
-        "symbol": pair, "limit": 1000}, timeout=30).json()
-    funding = pd.DataFrame({
-        "ts": pd.to_datetime([r["fundingTime"] for r in fr], unit="ms", utc=True),
-        "rate": [float(r["fundingRate"]) for r in fr]})
-    time.sleep(0.1)
-    # ultima candela è in corso → si decide sull'ultima CHIUSA
-    return {"candles": candles.iloc[:-1].reset_index(drop=True), "flow": flow, "funding": funding}
 
 
 def log_event(event: dict) -> None:
@@ -59,14 +36,14 @@ def log_event(event: dict) -> None:
         f.write(json.dumps(event, default=str) + "\n")
 
 
-def update_position(pos: dict, candles: pd.DataFrame, spec: dict, equity: float) -> tuple[dict | None, float]:
+def update_position(pos: dict, candles: pd.DataFrame, time_stop_h: int, equity: float) -> tuple[dict | None, float]:
     """Controlla stop/target/time-stop sulle candele successive all'ultimo check."""
     new = candles[candles.ts > pd.Timestamp(pos["checked_until"])]
     sign = 1 if pos["direction"] == "long" else -1
     for _, row in new.iterrows():
         hit_stop = (row.low <= pos["stop_px"]) if sign > 0 else (row.high >= pos["stop_px"])
         hit_target = (row.high >= pos["target_px"]) if sign > 0 else (row.low <= pos["target_px"])
-        expired = (row.ts - pd.Timestamp(pos["opened_at"])) >= timedelta(hours=spec["exit"]["time_stop_h"])
+        expired = (row.ts - pd.Timestamp(pos["opened_at"])) >= timedelta(hours=time_stop_h)
         reason, px = None, None
         if hit_stop:  # conservativo: stop prima del target nella stessa candela
             reason, px = "stopped", pos["stop_px"] * (1 - sign * DEFAULT_SLIPPAGE)
@@ -136,7 +113,7 @@ def main() -> None:
             continue
         pos = st["positions"].get(symbol)
         if pos:
-            pos, st["equity"] = update_position(pos, data["candles"], spec, st["equity"])
+            pos, st["equity"] = update_position(pos, data["candles"], spec["exit"]["time_stop_h"], st["equity"])
             if pos:
                 st["positions"][symbol] = pos
             else:
