@@ -15,7 +15,7 @@
     "stop_px": 0.717128397,
     "target_px": 0.900225009,
     "opened_at": "2026-06-13 08:00:00+00:00",
-    "checked_until": "2026-06-13 08:00:00+00:00",
+    "checked_until": "2026-06-13 09:00:00+00:00",
     "time_stop_h": 48,
     "thesis": "SUI \u00e8 l'unico asset del basket con vol_compression attivo \u2014 segnale tecnico che aggiunge il timing mancante alle pure tesi di funding; la lezione ZEC (stopped -$50 su funding squeeze senza trigger tecnico, 2026-06-12) insegna esattamente questo. Funding a -2.7% APR con prezzo +7.5% 7d significa che i corti pagano carry su un asset che li sta gi\u00e0 battendo. L'espansione di volatilit\u00e0 post-compressione in contesto di funding short crea asimmetria long: il catalizzatore non deve essere macro, basta l'esaurimento della pressione ribassista intra-giornaliera. SOL ha funding pi\u00f9 estremo ma zero segnale tecnico \u2014 stesso pattern del ZEC long fallito, scartato per lo stesso motivo.",
     "invalidation": "Chiusura 4h sotto $0.715 (rottura della base di consolidamento post-compressione) o funding che normalizza sopra -1% APR senza espansione del prezzo entro 24h: tesi di squeeze e espansione entrambe falsificate.",
@@ -36,7 +36,7 @@
     "stop_px": 65576.042168,
     "target_px": 55487.420296000004,
     "opened_at": "2026-06-12 07:00:00+00:00",
-    "checked_until": "2026-06-13 08:00:00+00:00"
+    "checked_until": "2026-06-13 09:00:00+00:00"
    },
    "ETH": {
     "strategy": "tsmom-v1",
@@ -47,7 +47,7 @@
     "stop_px": 1727.3128683200002,
     "target_px": 1461.57242704,
     "opened_at": "2026-06-12 07:00:00+00:00",
-    "checked_until": "2026-06-13 08:00:00+00:00"
+    "checked_until": "2026-06-13 09:00:00+00:00"
    },
    "xyz_GOLD": {
     "strategy": "tsmom-v1",
