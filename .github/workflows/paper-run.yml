@@ -28,11 +28,9 @@ jobs:
       - name: dati COT CFTC (settimanali)
         run: uv run scripts/fetch_cot.py || true
 
-      - name: challenger funding-squeeze
-        run: uv run scripts/paper_trade.py strategies/generated/funding-squeeze-breakout-g2-g1-g2.yaml BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV
-
-      - name: challenger tsmom
-        run: uv run scripts/paper_trade.py strategies/tsmom-v1.yaml BTC,ETH,xyz_GOLD,xyz_CL,xyz_BRENTOIL,xyz_SILVER,xyz_SP500,xyz_MU
+      # trada dinamicamente tutte le strategie attive (champion + challenger)
+      - name: paper trading strategie attive
+        run: uv run scripts/paper_all.py
 
       - name: executor agenti
         run: uv run scripts/agents_paper.py
@@ -45,6 +43,19 @@ jobs:
           uv run scripts/review.py || true
           uv run scripts/decide.py BTC,ETH,SOL,SUI,ZEC || true
           uv run scripts/agents_paper.py || true
+
+      # LOOP EVOLUTIVO — settimanale (lunedì): promuove su paper, poi genera nuovi challenger.
+      # Promote prima (sulla performance accumulata), poi evolve il champion aggiornato.
+      - name: loop evolutivo (promote + evolve)
+        if: env.CLAUDE_CODE_OAUTH_TOKEN != '' && github.event_name == 'schedule'
+        run: |
+          if [ "$(date -u +%u)" = "1" ] && [ "$(date -u +%H)" = "00" ]; then
+            command -v claude >/dev/null || npm install -g @anthropic-ai/claude-code
+            uv run scripts/promote.py || true
+            uv run scripts/evolve_auto.py || true
+          else
+            echo "loop evolutivo: salta (gira lun 00:xx UTC)"
+          fi
 
       - name: dashboard
         run: uv run scripts/dashboard.py
@@ -59,7 +70,7 @@ jobs:
         run: |
           git config user.name "lux-ai-cron"
           git config user.email "actions@users.noreply.github.com"
-          git add paper/ dashboard/index.html data/news/
+          git add paper/ dashboard/index.html data/news/ strategies/
           if ! git diff --cached --quiet; then
             git commit -m "chore: paper run $(date -u '+%Y-%m-%d %H:%M') UTC [actions]"
             for i in 1 2 3; do

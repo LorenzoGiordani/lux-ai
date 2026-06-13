@@ -2,41 +2,43 @@ id: tsmom-v1
 parent: null
 status: challenger
 created: 2026-06-12
-thesis: >
-  Time-series momentum (Moskowitz-Ooi-Pedersen): il segno del ritorno passato
-  predice il ritorno futuro, su ogni asset class — l'edge istituzionale più
-  documentato. Adattato a 1h: concordanza 7g+30g, posizionale con stop largo.
-  Falsificata se: su basket misto crypto+commodities+index non batte
-  buy-and-hold risk-adjusted su 6 mesi.
+thesis: 'Time-series momentum (Moskowitz-Ooi-Pedersen): il segno del ritorno passato
+  predice il ritorno futuro, su ogni asset class — l''edge istituzionale più documentato.
+  Adattato a 1h: concordanza 7g+30g, posizionale con stop largo. Falsificata se: su
+  basket misto crypto+commodities+index non batte buy-and-hold risk-adjusted su 6
+  mesi.
 
+  '
 universe:
   selection: top_liquidity
   max_assets: 12
-  kinds: [perp]
-
+  kinds:
+  - perp
 timeframe: 1h
 decision_every_h: 4
-
 signals:
-  - name: tsmom
-    params: {short_h: 168, long_h: 720}
-
+- name: tsmom
+  params:
+    short_h: 168
+    long_h: 720
 entry:
   rule: tsmom
   direction: follow:tsmom
-
 exit:
   stop_pct: 4.0
   target_r: 3.0
   time_stop_h: 240
-
 risk:
   max_leverage: 2
   risk_per_trade_pct: 1.0
   max_concurrent_positions: 3
-
 evolution:
-  mutable: [signals, entry, exit, universe.max_assets, decision_every_h]
-  notes: "TSMOM canonico adattato: orizzonti 7g/30g, exit posizionali (10 giorni)."
-
+  mutable:
+  - signals
+  - entry
+  - exit
+  - universe.max_assets
+  - decision_every_h
+  notes: 'TSMOM canonico adattato: orizzonti 7g/30g, exit posizionali (10 giorni).'
 backtest: {}
+paper_symbols: BTC,ETH,xyz_GOLD,xyz_CL,xyz_BRENTOIL,xyz_SILVER,xyz_SP500,xyz_MU

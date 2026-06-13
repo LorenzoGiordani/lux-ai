@@ -287,3 +287,4 @@ backtest:
           stopped: 4
           closed: 3
           target: 2
+paper_symbols: BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV

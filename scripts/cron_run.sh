@@ -16,10 +16,8 @@ echo "=== cron run $(date -u '+%Y-%m-%d %H:%M') UTC ==="
 
 stage() { echo "--- $1 [$(date -u '+%H:%M:%S')]"; }
 
-stage "challenger funding-squeeze"
-"$UV" run scripts/paper_trade.py strategies/generated/funding-squeeze-breakout-g2-g1-g2.yaml BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV
-stage "challenger tsmom"
-"$UV" run scripts/paper_trade.py strategies/tsmom-v1.yaml BTC,ETH,xyz_GOLD,xyz_CL,xyz_BRENTOIL,xyz_SILVER,xyz_SP500,xyz_MU
+stage "paper trading strategie attive"
+"$UV" run scripts/paper_all.py
 stage "executor agenti"
 "$UV" run scripts/agents_paper.py
 
