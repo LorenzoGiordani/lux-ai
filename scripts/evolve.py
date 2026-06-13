@@ -31,6 +31,7 @@ import yaml
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from backtest.engine import Backtest
 from backtest.metrics import compute
+from backtest.stats import deflated_sharpe, sharpe_moments
 from backtest.signals import SIGNALS
 from backtest.strategy import compile_strategy, load
 from backtest.walkforward import evaluate
@@ -76,7 +77,7 @@ def ask_claude(prompt: str) -> dict:
     return json.loads(result)
 
 
-def eval_spec(spec: dict, data: dict) -> dict:
+def eval_spec(spec: dict, data: dict) -> tuple[dict, pd.Series]:
     strat, _ = compile_strategy(spec, data)
     bt = Backtest(data["candles"], max_leverage=spec["risk"]["max_leverage"])
     equity = bt.run(strat)
@@ -84,12 +85,16 @@ def eval_spec(spec: dict, data: dict) -> dict:
     ev = evaluate(equity, data["candles"])
     exits = pd.Series([t["reason"] for t in bt.trades]).value_counts().to_dict() if bt.trades else {}
     res = {"metrics": m, "regimes": ev["regimes"], "consistency": ev["consistency"], "exits": exits}
-    return json.loads(json.dumps(res, default=float))  # via i tipi numpy (rompono yaml.safe_dump)
+    rets = equity.set_index("ts").equity.pct_change().dropna()
+    return json.loads(json.dumps(res, default=float)), rets  # json: via i tipi numpy
 
 
 def eval_basket(spec: dict, datasets: dict) -> dict:
-    """Valuta su tutti i simboli; aggregato = media delle metriche chiave."""
-    per_symbol = {sym: eval_spec(spec, d) for sym, d in datasets.items()}
+    """Valuta su tutti i simboli; aggregato = media delle metriche chiave.
+    'basket_rets' (ritorni orari medi cross-asset, non serializzato) serve al DSR."""
+    evals = {sym: eval_spec(spec, d) for sym, d in datasets.items()}
+    per_symbol = {sym: r for sym, (r, _) in evals.items()}
+    basket_rets = pd.concat([rets for _, rets in evals.values()], axis=1).mean(axis=1).dropna()
     ms = [r["metrics"] for r in per_symbol.values()]
     folds_pos = sum(int(r["consistency"].split("/")[0]) for r in per_symbol.values())
     folds_tot = sum(int(r["consistency"].split("/")[1].split()[0]) for r in per_symbol.values())
@@ -101,7 +106,7 @@ def eval_basket(spec: dict, datasets: dict) -> dict:
         "folds": f"{folds_pos}/{folds_tot}",
         "positive_symbols": f"{sum(1 for m in ms if m['total_return'] > 0)}/{len(ms)}",
     }
-    return {"aggregate": agg, "per_symbol": per_symbol}
+    return {"aggregate": agg, "per_symbol": per_symbol, "basket_rets": basket_rets}
 
 
 def validate(spec: dict, parent: dict, idx: int) -> dict:
@@ -164,24 +169,37 @@ Proponi {n} mutazioni in YAML (schema identico al parent). Obiettivo: robustezza
         specs = [yaml.safe_load(c["yaml"]) for c in ask_claude(prompt)["candidates"]]
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+    # K per il DSR: tutti i candidati storici della cartella + questo run + parent
+    n_prior = len([f for f in OUT_DIR.glob("*.yaml") if "candidates" not in f.name])
     rows = []
     for i, cand in enumerate(specs, 1):
         try:
             spec = validate(cand, parent, i)
             res = eval_basket(spec, datasets)
+            rets = res.pop("basket_rets")  # non serializzabile, serve solo al DSR
             spec["backtest"] = {f"basket_{months}m": res}
-            out = OUT_DIR / f"{spec['id']}.yaml"
-            out.write_text(yaml.safe_dump(spec, sort_keys=False, allow_unicode=True))
-            rows.append((spec["id"], res["aggregate"]))
+            rows.append((spec, res["aggregate"], rets))
         except Exception as e:
             print(f"candidato {i} scartato: {e}", file=sys.stderr)
 
+    # gate anti-overfitting: DSR contro il max Sharpe atteso dal rumore su K prove
+    trial_srs = [sharpe_moments(r)["sr"] for _, _, r in rows]
+    k_trials = n_prior + len(rows) + 1
+    for spec, agg, rets in rows:
+        d = deflated_sharpe(rets, k_trials, trial_srs)
+        agg["dsr"] = round(d["dsr"], 3)
+        agg["dsr_sr0_ann"] = d["sr0_ann"]
+        out = OUT_DIR / f"{spec['id']}.yaml"
+        out.write_text(yaml.safe_dump(spec, sort_keys=False, allow_unicode=True))
+
     rows.sort(key=lambda r: r[1]["mean_sharpe"], reverse=True)
-    print(f"\nLeaderboard (vs parent mean sharpe {pa['mean_sharpe']:.2f}, mean ret {pa['mean_return']:+.2%}):")
-    for sid, a in rows:
-        print(f"  {sid:<38} sharpe {a['mean_sharpe']:6.2f} | ret {a['mean_return']:+7.2%} | "
-              f"worstDD {a['worst_drawdown']:7.2%} | trades {a['total_trades']:>3} | "
-              f"fold {a['folds']} | asset+ {a['positive_symbols']}")
+    print(f"\nLeaderboard (vs parent mean sharpe {pa['mean_sharpe']:.2f}, mean ret {pa['mean_return']:+.2%}; "
+          f"gate: DSR ≥ 0.95 su K={k_trials} prove):")
+    for spec, a, _ in rows:
+        gate = "✓ GATE" if a["dsr"] >= 0.95 else "✗"
+        print(f"  {spec['id']:<38} sharpe {a['mean_sharpe']:6.2f} | DSR {a['dsr']:.2f} {gate} | "
+              f"ret {a['mean_return']:+7.2%} | worstDD {a['worst_drawdown']:7.2%} | "
+              f"trades {a['total_trades']:>3} | fold {a['folds']} | asset+ {a['positive_symbols']}")
 
 
 
