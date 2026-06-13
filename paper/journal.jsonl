@@ -58,3 +58,7 @@
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 9947.84, "open_positions": 1, "logged_at": "2026-06-13T09:20:06.733310+00:00"}
 {"type": "heartbeat", "strategy": "tsmom-v1", "equity": 9996.63, "open_positions": 3, "logged_at": "2026-06-13T09:30:46.971169+00:00"}
 {"type": "heartbeat", "strategy": "funding-squeeze-breakout-g2-g1-g2", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-13T09:30:56.429614+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-v1", "equity": 9996.63, "open_positions": 3, "logged_at": "2026-06-13T09:36:16.545891+00:00"}
+{"type": "heartbeat", "strategy": "funding-squeeze-breakout-g2-g1-g2", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-13T09:36:28.202040+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 9947.84, "open_positions": 1, "logged_at": "2026-06-13T09:36:30.430555+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 9947.84, "open_positions": 1, "logged_at": "2026-06-13T09:38:58.260984+00:00"}
