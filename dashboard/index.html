@@ -528,7 +528,7 @@ footer .foot-mark b{ color:var(--amber); }
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-13 13:28",
+ "updated_utc": "2026-06-13 13:30",
  "accounts": [
   {
    "id": "funding-squeeze-breakout-g2-g1-g2",
@@ -2326,8 +2326,8 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "id": "tsmom-conservative-v1",
-   "label": "tsmom-conservative-v1",
-   "tag": "",
+   "label": "TSMOM conservativo",
+   "tag": "difensivo multi-asset",
    "equity": 9997.84,
    "pnl_realized": 0,
    "trades_closed": 0,
@@ -2960,9 +2960,9 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "GOLD",
    "direction": "short",
    "account": "tsmom-conservative-v1",
-   "account_label": "tsmom-conservative-v1",
+   "account_label": "TSMOM conservativo",
    "risk_verdict": "sistema",
-   "thesis": "Il sistema «tsmom-conservative-v1» ha aperto short su GOLD: tendenza concorde su settimana e mese.",
+   "thesis": "Il sistema «Segui la tendenza — versione prudente» ha aperto short su GOLD: tendenza concorde su settimana e mese.",
    "entry_px": 4231.053522,
    "size_usd": 2400.0,
    "invalidation": "esce da sola se il prezzo va contro del 2.5% (stop), se raggiunge l'obiettivo (target) o se passa troppo tempo",
@@ -2975,9 +2975,9 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "CL",
    "direction": "short",
    "account": "tsmom-conservative-v1",
-   "account_label": "tsmom-conservative-v1",
+   "account_label": "TSMOM conservativo",
    "risk_verdict": "sistema",
-   "thesis": "Il sistema «tsmom-conservative-v1» ha aperto short su CL: tendenza concorde su settimana e mese.",
+   "thesis": "Il sistema «Segui la tendenza — versione prudente» ha aperto short su CL: tendenza concorde su settimana e mese.",
    "entry_px": 84.283143,
    "size_usd": 2399.74,
    "invalidation": "esce da sola se il prezzo va contro del 2.5% (stop), se raggiunge l'obiettivo (target) o se passa troppo tempo",
@@ -3397,11 +3397,11 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "id": "tsmom-conservative-v1",
-   "nome": "tsmom-conservative-v1",
-   "cosa": "Profilo di rischio difensivo sullo stesso edge TSMOM (vincente): leva 1x, stop stretto, meno posizioni concorrenti. Tesi: rinunciare a parte del rendimento per un drawdown nettamente minore migliora lo Sharpe. Falsificata se lo Sharpe non sale rispetto a tsmom-v1.",
-   "entra": "segnali: tsmom",
-   "esce": "stop 2.5%, target 3.0R, tempo max 240h",
-   "rischio": "leva max 1x, 0.6% a rischio per operazione",
+   "nome": "Segui la tendenza — versione prudente",
+   "cosa": "Lo stesso motore del «segui la tendenza», ma con il piede leggero sull'acceleratore: nessuna leva, stop più stretto e meno posizioni aperte insieme. L'idea è rinunciare a un po' di guadagno potenziale per subire cali molto più contenuti — e ottenere così un rendimento più stabile nel tempo.",
+   "entra": "la direzione dell'ultima settimana e dell'ultimo mese concordano (entrambe su, o entrambe giù)",
+   "esce": "stop ravvicinato, obiettivo raggiunto o troppo tempo senza risultato",
+   "rischio": "nessuna leva (1x), massimo 0,6% del capitale a rischio per operazione, al più 2 posizioni insieme",
    "status": "challenger",
    "asset_class": "multi-asset",
    "risk_profile": "conservativo"
@@ -3439,7 +3439,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-conservative-v1",
-   "account_label": "tsmom-conservative-v1",
+   "account_label": "TSMOM conservativo",
    "symbol": "GOLD",
    "direction": "short",
    "entry_px": 4231.053522,
@@ -3457,7 +3457,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-conservative-v1",
-   "account_label": "tsmom-conservative-v1",
+   "account_label": "TSMOM conservativo",
    "symbol": "CL",
    "direction": "short",
    "entry_px": 84.283143,

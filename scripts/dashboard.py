@@ -21,6 +21,7 @@ ACCOUNT_META = {
     "agents-v1": {"label": "Agenti LLM", "tag": "pipeline decide"},
     "tsmom-v1": {"label": "TSMOM challenger", "tag": "sistematico multi-asset"},
     "funding-squeeze-breakout-g2-g1-g2": {"label": "Funding-squeeze", "tag": "segnali crypto"},
+    "tsmom-conservative-v1": {"label": "TSMOM conservativo", "tag": "difensivo multi-asset"},
 }
 
 # Spiegazioni in linguaggio semplice — sezione "Le strategie" + "perché"
@@ -45,6 +46,16 @@ STRATEGY_INFO = {
         "entra": "affollamento estremo da un lato + prezzo che rompe il range con volumi alti, dopo una fase di calma",
         "esce": "stop, target o tempo massimo scaduto",
         "rischio": "massimo 1% del capitale a rischio per operazione, leva non oltre 2x",
+    },
+    "tsmom-conservative-v1": {
+        "nome": "Segui la tendenza — versione prudente",
+        "cosa": "Lo stesso motore del «segui la tendenza», ma con il piede leggero sull'acceleratore: "
+                "nessuna leva, stop più stretto e meno posizioni aperte insieme. L'idea è rinunciare a "
+                "un po' di guadagno potenziale per subire cali molto più contenuti — e ottenere così un "
+                "rendimento più stabile nel tempo.",
+        "entra": "la direzione dell'ultima settimana e dell'ultimo mese concordano (entrambe su, o entrambe giù)",
+        "esce": "stop ravvicinato, obiettivo raggiunto o troppo tempo senza risultato",
+        "rischio": "nessuna leva (1x), massimo 0,6% del capitale a rischio per operazione, al più 2 posizioni insieme",
     },
     "agents-v1": {
         "nome": "Il desk degli agenti AI",
