@@ -22,9 +22,17 @@ RSS_FEEDS = {
 
 def fetch_live(symbol: str, lookback_h: int = 1000) -> dict:
     """Candele 1h chiuse + taker flow + funding — stesso formato del backtest.
-    Simboli xyz_* (commodities/stock/index) → yfinance, niente flow/funding."""
+    Simboli xyz_* (commodities/stock/index) → yfinance, niente flow/funding.
+    Binance geo-blocca i runner cloud (US) → fallback Hyperliquid (globale)."""
     if symbol.startswith("xyz_"):
         return _fetch_yf(symbol)
+    try:
+        return _fetch_binance(symbol, lookback_h)
+    except Exception:
+        return _fetch_hl(symbol, lookback_h)
+
+
+def _fetch_binance(symbol: str, lookback_h: int) -> dict:
     pair = f"{symbol}USDT"
     kl = requests.get(f"{FAPI}/fapi/v1/klines", params={
         "symbol": pair, "interval": "1h", "limit": min(lookback_h, 1000)}, timeout=30).json()
@@ -43,6 +51,35 @@ def fetch_live(symbol: str, lookback_h: int = 1000) -> dict:
     time.sleep(0.1)
     # ultima candela è in corso → si decide sull'ultima CHIUSA
     return {"candles": candles.iloc[:-1].reset_index(drop=True), "flow": flow, "funding": funding}
+
+
+HL_INFO = "https://api.hyperliquid.xyz/info"
+
+
+def _fetch_hl(symbol: str, lookback_h: int) -> dict:
+    """Hyperliquid public info API: candele + funding. Niente taker flow
+    (il segnale taker_flow resta neutro — degradazione esplicita, non errore)."""
+    end_ms = int(time.time() * 1000)
+    start_ms = end_ms - min(lookback_h, 5000) * 3_600_000
+    kl = requests.post(HL_INFO, json={"type": "candleSnapshot", "req": {
+        "coin": symbol, "interval": "1h", "startTime": start_ms, "endTime": end_ms}},
+        timeout=30).json()
+    candles = pd.DataFrame({
+        "ts": pd.to_datetime([k["t"] for k in kl], unit="ms", utc=True),
+        "open": [float(k["o"]) for k in kl], "high": [float(k["h"]) for k in kl],
+        "low": [float(k["l"]) for k in kl], "close": [float(k["c"]) for k in kl],
+        "volume": [float(k["v"]) for k in kl]})
+    funding = None
+    try:
+        fr = requests.post(HL_INFO, json={"type": "fundingHistory", "coin": symbol,
+                                          "startTime": start_ms}, timeout=30).json()
+        if fr:
+            funding = pd.DataFrame({
+                "ts": pd.to_datetime([f["time"] for f in fr], unit="ms", utc=True),
+                "rate": [float(f["fundingRate"]) for f in fr]})
+    except Exception:
+        pass
+    return {"candles": candles.iloc[:-1].reset_index(drop=True), "flow": None, "funding": funding}
 
 
 def _fetch_yf(symbol: str) -> dict:
