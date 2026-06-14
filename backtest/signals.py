@@ -279,6 +279,43 @@ def oi_buildup(data, lookback_h: int = 168, pct: float = 80) -> pd.Series:
     return pd.Series(np.where(rank >= pct, 1, 0), index=c.index)
 
 
+_CZ_CACHE: dict = {}
+
+
+def _coinalyze_load(symbol: str):
+    """Liquidazioni/OI giornaliere Coinalyze, data/coinalyze/<COIN>.parquet.
+    Lazy + memoizzato. None se assente (asset non-crypto) → segnale neutro."""
+    if symbol in _CZ_CACHE:
+        return _CZ_CACHE[symbol]
+    from pathlib import Path
+    p = Path(f"data/coinalyze/{symbol}.parquet")
+    df = _CZ_CACHE[symbol] = (pd.read_parquet(p) if p.exists() else None)
+    return df
+
+
+def liq_imbalance(data, lookback_d: int = 21, extreme_pct: float = 80) -> pd.Series:
+    """Sbilancio liquidazioni (Coinalyze, multi-exchange). imbalance = (short_liq -
+    long_liq)/(tot): >0 = short liquidati in massa (pressione rialzista/squeeze),
+    <0 = long liquidati (flush ribassista/capitolazione). +1 quando lo sbilancio è a
+    un estremo rialzista vs storia recente, -1 estremo ribassista. La DIREZIONE del
+    trade (segui lo squeeze vs fada il flush) la sceglie la strategia. Daily forward-
+    fillato sulle candele via merge_asof backward (anti-lookahead). Neutro senza cache."""
+    c = data["candles"]
+    cache = _coinalyze_load(data.get("symbol")) if data.get("symbol") else None
+    if cache is None or cache.empty:
+        return pd.Series(0, index=c.index)
+    d = cache.sort_values("ts").copy()
+    tot = (d["liq_long"] + d["liq_short"]).replace(0, np.nan)
+    d["imb"] = (d["liq_short"] - d["liq_long"]) / tot
+    pct = d["imb"].rolling(lookback_d, min_periods=max(5, lookback_d // 3)).rank(pct=True) * 100
+    d["sig"] = np.where(pct >= extreme_pct, 1, np.where(pct <= 100 - extreme_pct, -1, 0))
+    norm = lambda s: pd.to_datetime(s, utc=True).astype("datetime64[ns, UTC]")
+    left = pd.DataFrame({"ts": norm(c["ts"])})
+    right = pd.DataFrame({"ts": norm(d["ts"]), "sig": d["sig"]}).sort_values("ts")
+    sig = pd.merge_asof(left, right, on="ts", direction="backward")["sig"]
+    return pd.Series(sig.fillna(0).to_numpy(), index=c.index)
+
+
 SIGNALS = {
     "funding_percentile": funding_percentile,
     "range_breakout": range_breakout,
@@ -294,4 +331,5 @@ SIGNALS = {
     "hmm_regime": hmm_regime,
     "smart_money_ratio": smart_money_ratio,
     "oi_buildup": oi_buildup,
+    "liq_imbalance": liq_imbalance,
 }

@@ -223,6 +223,42 @@ SEEDS = [
         "exit": {"stop_pct": 2.5, "target_r": 3.0, "time_stop_h": 240},
         "risk": {"max_leverage": 1, "risk_per_trade_pct": 0.6, "max_concurrent_positions": 3},
     },
+    # --- A/B LIQUIDAZIONI reali (Coinalyze gratis, daily, basket crypto) — l'edge ortogonale ---
+    {
+        "id": "liq-momentum-v1", "family": "liq-momentum",
+        "symbols": CRYPTO,
+        "thesis": "Segui lo squeeze: quando vengono liquidati in massa gli SHORT (pressione "
+                  "rialzista) vai long, quando i LONG vai short. Tesi momentum: le cascate di "
+                  "liquidazione continuano nella stessa direzione. Falsificata se non batte B&H.",
+        "signals": [{"name": "liq_imbalance", "params": {"lookback_d": 21, "extreme_pct": 80}}],
+        "entry": {"rule": "liq_imbalance", "direction": "follow:liq_imbalance"},
+        "exit": {"stop_pct": 2.5, "target_r": 3.0, "time_stop_h": 240},
+        "risk": {"max_leverage": 1, "risk_per_trade_pct": 0.6, "max_concurrent_positions": 3},
+    },
+    {
+        "id": "liq-contrarian-v1", "family": "liq-contrarian",
+        "symbols": CRYPTO,
+        "thesis": "Fada il flush: quando i LONG vengono liquidati in massa (capitolazione) compra, "
+                  "quando gli SHORT vendi. Tesi mean-reversion: le liquidazioni estreme segnano "
+                  "esaurimento, il prezzo rimbalza. Falsificata se non batte buy-and-hold.",
+        "signals": [{"name": "liq_imbalance", "params": {"lookback_d": 21, "extreme_pct": 80}}],
+        "entry": {"rule": "liq_imbalance", "direction": "contrarian:liq_imbalance"},
+        "exit": {"stop_pct": 2.5, "target_r": 3.0, "time_stop_h": 240},
+        "risk": {"max_leverage": 1, "risk_per_trade_pct": 0.6, "max_concurrent_positions": 3},
+    },
+    {
+        "id": "tsmom-liq-v1", "family": "tsmom-liq",
+        "symbols": CRYPTO,
+        "thesis": "Trend confermato dalle liquidazioni: entra solo quando TSMOM e lo sbilancio "
+                  "liquidazioni CONCORDANO sulla direzione (signal_vote). Tesi: la pressione da "
+                  "liquidazione nella direzione del trend lo rafforza. Falsificata se non migliora "
+                  "vs tsmom-crypto-base-v1.",
+        "signals": [{"name": "tsmom", "params": {"short_h": 168, "long_h": 720}},
+                    {"name": "liq_imbalance", "params": {"lookback_d": 21, "extreme_pct": 75}}],
+        "entry": {"rule": "tsmom AND liq_imbalance", "direction": "signal_vote"},
+        "exit": {"stop_pct": 2.5, "target_r": 3.0, "time_stop_h": 240},
+        "risk": {"max_leverage": 1, "risk_per_trade_pct": 0.6, "max_concurrent_positions": 2},
+    },
 ]
 
 
