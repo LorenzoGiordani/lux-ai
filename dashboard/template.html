@@ -1204,7 +1204,37 @@ footer .foot-mark b{ color:var(--amber); }
     }));
     applyPrices(out,'binance');
   }
+  // ---- base chart fresca e densa da HL (candele fini scelte per età posizione) ----
+  function pickInterval(spanH){
+    if(spanH<=8)   return '1m';
+    if(spanH<=24)  return '5m';
+    if(spanH<=96)  return '15m';
+    if(spanH<=360) return '1h';
+    return '4h';
+  }
+  async function loadChartBases(){
+    const bySym={};
+    POS.forEach(rec=>{ (bySym[rec.p.symbol]=bySym[rec.p.symbol]||[]).push(rec.p); });
+    await Promise.all(Object.keys(bySym).map(async s=>{
+      const ps=bySym[s];
+      const oldest=ps.reduce((m,p)=> p.opened_at<m?p.opened_at:m, ps[0].opened_at);
+      const openMs=Date.parse(oldest.replace(' ','T')+'Z'); if(!openMs) return;
+      const now=Date.now(), startMs=openMs-12*3600000;          // buffer 12h pre-apertura
+      const intv=pickInterval((now-openMs)/3600000+12);
+      try{
+        const r=await fetch('https://api.hyperliquid.xyz/info',{method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({type:'candleSnapshot',req:{coin:s,interval:intv,startTime:startMs,endTime:now}})});
+        if(!r.ok) return; const kl=await r.json();
+        if(!Array.isArray(kl)||kl.length<3) return;
+        const series=kl.map(k=>[new Date(k.t).toISOString().slice(0,16).replace('T',' '), parseFloat(k.c)]);
+        ps.forEach(p=>{ p.chart=series; });                      // base aggiornata e fitta
+        POS.filter(rec=>rec.p.symbol===s).forEach(paintPos);
+      }catch(e){ /* tiene la base statica del run 4h */ }
+    }));
+  }
   function startLive(){
+    loadChartBases();
     connectHL();
     setInterval(repaintLive, 2000);
     setInterval(()=>{ if(!wsAlive) pollBinance(); }, 12000);
@@ -1342,7 +1372,7 @@ footer .foot-mark b{ color:var(--amber); }
       if(!m) return;
       const fresh=JSON.parse(m[1]);
       if(!fresh.updated_utc || fresh.updated_utc===DATA.updated_utc) return;  // niente di nuovo
-      DATA=fresh; setHeaderTs(); renderAll(); updateAccountsLive();
+      DATA=fresh; setHeaderTs(); renderAll(); loadChartBases(); updateAccountsLive();
     }catch(e){ /* riprova al giro dopo */ }
   }
 
