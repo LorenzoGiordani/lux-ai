@@ -93,3 +93,8 @@
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 9947.08, "open_positions": 2, "logged_at": "2026-06-14T00:11:56.303891+00:00"}
 {"type": "skip", "strategy": "agents-v1", "symbol": "SOL", "reason": "posizione esistente o max concorrenti", "logged_at": "2026-06-14T00:15:30.735270+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 9947.08, "open_positions": 2, "logged_at": "2026-06-14T00:15:30.735657+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-v1", "equity": 9996.63, "open_positions": 3, "logged_at": "2026-06-14T00:54:16.757335+00:00"}
+{"type": "heartbeat", "strategy": "funding-squeeze-breakout-g2-g1-g2", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-14T00:54:30.271617+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-conservative-v1", "equity": 9997.84, "open_positions": 2, "logged_at": "2026-06-14T00:54:35.385990+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 9947.08, "open_positions": 2, "logged_at": "2026-06-14T00:54:37.873685+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 9947.08, "open_positions": 2, "logged_at": "2026-06-14T00:56:28.315982+00:00"}
