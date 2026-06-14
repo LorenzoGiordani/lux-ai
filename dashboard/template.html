@@ -263,6 +263,8 @@ table.pos-tbl{ width:100%; border-collapse:collapse; min-width:760px; }
 .open-flag .d{ width:6px; height:6px; border-radius:50%; background:var(--amber); }
 
 /* ---------- posizioni unificate (sintetica + espansa) ---------- */
+.live-stamp{ display:flex; align-items:center; gap:7px; margin-top:8px; font-family:var(--mono);
+  font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--green); min-height:14px; }
 .pos-list{ display:grid; grid-template-columns:repeat(auto-fill,minmax(420px,1fr)); gap:16px; }
 @media(max-width:560px){ .pos-list{ grid-template-columns:1fr; } }
 .pcard{ border:1px solid var(--line); border-radius:var(--r); background:var(--bg-2); overflow:hidden;
@@ -444,6 +446,7 @@ footer .foot-mark b{ color:var(--amber); }
       <span class="kicker">03 · Posizioni aperte</span>
       <h2>Esposizione corrente</h2>
       <p class="note">Una scheda per operazione: andamento del prezzo e posizione insieme, P&amp;L aggiornato in tempo reale. <b>Stop</b> = uscita automatica che limita la perdita; <b>target</b> = obiettivo di profitto. Tocca <b>Dettaglio</b> per i numeri completi.</p>
+      <div class="live-stamp" id="pos-live"></div>
     </div>
     <div class="pos-list" id="positions-body"></div>
   </section>
@@ -913,8 +916,9 @@ footer .foot-mark b{ color:var(--amber); }
   }
 
   /* ---------- render: accounts ---------- */
+  const ACCTS=[];   // {a, equityEl, deltaEl} per update live
   function renderAccounts(){
-    const host=$('#accounts'); host.innerHTML='';
+    const host=$('#accounts'); host.innerHTML=''; ACCTS.length=0;
     (DATA.accounts||[]).forEach(a=>{
       ACCT_SHORT[a.id]=a.label;
       const card=el('div','acct');
@@ -926,8 +930,8 @@ footer .foot-mark b{ color:var(--amber); }
           '<div class="acct-id num">'+a.id+'</div>'+
         '</div><span class="tag">'+(a.tag||'')+'</span></div>'+
         '<div class="equity-row">'+
-          '<span class="equity num">'+NF2.format(a.equity)+' <span class="cur">$</span></span>'+
-          '<span class="delta-chip '+chipOf(wr)+'">'+signedUsd(wr)+' · '+pctSigned(wrPct)+'</span>'+
+          '<span class="equity num" data-eq>'+NF2.format(a.equity)+' <span class="cur">$</span></span>'+
+          '<span class="delta-chip '+chipOf(wr)+'" data-delta>'+signedUsd(wr)+' · '+pctSigned(wrPct)+'</span>'+
         '</div>'+
         '<div class="metrics">'+
           '<div class="metric"><div class="l">P&amp;L realizzato</div><div class="v '+clsOf(a.pnl_realized)+'">'+signedUsd(a.pnl_realized)+'</div></div>'+
@@ -938,12 +942,31 @@ footer .foot-mark b{ color:var(--amber); }
       host.appendChild(card);
       const wrap=card.querySelector('.chart-wrap');
       if(a.equity_curve && a.equity_curve.length>1) registerChart(wrap, a.equity_curve);
+      ACCTS.push({a, equityEl:card.querySelector('[data-eq]'), deltaEl:card.querySelector('[data-delta]')});
+    });
+  }
+  // equity live = snapshot + variazione mark-to-market delle posizioni con prezzo live
+  function snapPx(p){ return (p.chart&&p.chart.length)?p.chart[p.chart.length-1][1]:p.entry_px; }
+  function updateAccountsLive(){
+    ACCTS.forEach(({a,equityEl,deltaEl})=>{
+      let delta=0, any=false;
+      (a.positions||[]).forEach(p=>{
+        const lv=LIVE[p.symbol]; if(!lv||!lv.ok) return;
+        const dir=p.direction==='long'?1:-1;
+        delta += dir*(lv.px-snapPx(p))/p.entry_px*p.size_usd; any=true;
+      });
+      if(!any) return;
+      const eq=a.equity+delta, wr=eq-10000;
+      equityEl.innerHTML=NF2.format(eq)+' <span class="cur">$</span>';
+      deltaEl.className='delta-chip '+chipOf(wr);
+      deltaEl.textContent=signedUsd(wr)+' · '+pctSigned(wr/10000*100);
     });
   }
 
   /* ---------- render: posizioni unificate (sintetica + espansa, live) ---------- */
   const POS=[];                 // {p, acct, card, dir, baseLast}
   const LIVE={};                // symbol -> {px, ts, ok}
+  const LIVEHIST={};            // symbol -> [[hh:mm:ss, px], ...] accumulati nella sessione
   function posPnl(p, last){
     const dir=p.direction==='long'?1:-1;
     const pct=dir*((last/p.entry_px)-1)*100;
@@ -1010,8 +1033,9 @@ footer .foot-mark b{ color:var(--amber); }
   function paintPos(rec){
     const {p}=rec;
     const live=LIVE[p.symbol];
+    const tail=LIVEHIST[p.symbol]||null;
     const last=(live&&live.ok)?live.px:(p.chart&&p.chart.length?p.chart[p.chart.length-1][1]:p.entry_px);
-    rec.chartHost.innerHTML = posChartSVG(p, live&&live.ok?live.px:null) || '<p class="note" style="padding:8px 6px">grafico non disponibile</p>';
+    rec.chartHost.innerHTML = posChartSVG(p, tail) || '<p class="note" style="padding:8px 6px">grafico non disponibile</p>';
     const {pct,usd}=posPnl(p,last);
     const cls=pct>0?'pos':pct<0?'neg':'flat';
     rec.pnlEl.className='pcard-pnl '+cls;
@@ -1094,9 +1118,9 @@ footer .foot-mark b{ color:var(--amber); }
   }
 
   /* ---------- render: mini-chart posizioni aperte ---------- */
-  function posChartSVG(p, livePx){
+  function posChartSVG(p, liveTail){
     let pts=p.chart; if(!pts||pts.length<2) return null;
-    if(livePx!=null){ pts=pts.concat([['live', livePx]]); }  // punto live in coda
+    if(liveTail&&liveTail.length){ pts=pts.concat(liveTail); }  // punti live accumulati in coda
     const W=520,H=180,L=10,R=64,T=14,B=26, n=pts.length;
     const prices=pts.map(q=>q[1]);
     let lo=Math.min(...prices,p.entry_px,p.stop_px,p.target_px);
@@ -1127,20 +1151,30 @@ footer .foot-mark b{ color:var(--amber); }
   const BINANCE={BTC:'BTCUSDT',ETH:'ETHUSDT',SOL:'SOLUSDT',XRP:'XRPUSDT',SUI:'SUIUSDT',
     NEAR:'NEARUSDT',WLD:'WLDUSDT',ZEC:'ZECUSDT',CRV:'CRVUSDT',BNB:'BNBUSDT',
     DOGE:'DOGEUSDT',AVAX:'AVAXUSDT',LINK:'LINKUSDT',ADA:'ADAUSDT',ARB:'ARBUSDT',OP:'OPUSDT'};
+  function hms(){ const d=new Date(); return d.toTimeString().slice(0,8); }
   async function pollLive(){
     const syms=[...new Set(POS.map(r=>r.p.symbol))].filter(s=>BINANCE[s]);
     if(!syms.length) return;
+    const t=hms();
     await Promise.all(syms.map(async s=>{
       try{
         const r=await fetch('https://api.binance.com/api/v3/ticker/price?symbol='+BINANCE[s],{cache:'no-store'});
         if(!r.ok) throw 0;
         const j=await r.json(); const v=parseFloat(j.price);
-        if(isFinite(v)&&v>0) LIVE[s]={px:v, ok:true};
+        if(isFinite(v)&&v>0){
+          LIVE[s]={px:v, ok:true};
+          (LIVEHIST[s]=LIVEHIST[s]||[]).push([t, v]);
+          if(LIVEHIST[s].length>180) LIVEHIST[s].shift();  // tetto memoria
+        }
       }catch(e){ /* lascia statico */ }
     }));
     POS.forEach(rec=>{ if(LIVE[rec.p.symbol]) paintPos(rec); });
+    updateAccountsLive();
+    const live=Object.values(LIVE).filter(v=>v.ok).length;
+    const stamp=$('#pos-live');
+    if(stamp) stamp.innerHTML=live?'<span class="live-dot"></span>live · '+live+' asset · '+t:'';
   }
-  function startLive(){ pollLive(); setInterval(pollLive, 15000); }
+  function startLive(){ pollLive(); setInterval(pollLive, 10000); }
 
   /* ---------- render: trading book ---------- */
   function fmtDur(h){
