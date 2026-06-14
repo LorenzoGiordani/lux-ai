@@ -156,6 +156,24 @@ SEEDS = [
         "exit": {"stop_pct": 2.5, "target_r": 3.0, "time_stop_h": 240},
         "risk": {"max_leverage": 1, "risk_per_trade_pct": 0.6, "max_concurrent_positions": 2},
     },
+    {
+        # Filtro di regime HMM (metodo Jim Simons, da studio canale Moon Dev): TSMOM
+        # conservativo che entra SOLO quando l'HMM classifica il regime come "trending".
+        # Affronta il problema dimostrato (il chop uccide il trend) con un detector più
+        # principiato di vol_compression (che è fallito in tsmom-volgate). Richiede la
+        # cache: scripts/precompute_hmm.py. Senza cache hmm_regime≡0 → 0 trade (vuoto esplicito).
+        "id": "tsmom-hmm-v1", "family": "tsmom-hmm",
+        "symbols": "BTC,ETH,xyz_GOLD,xyz_CL,xyz_BRENTOIL,xyz_SILVER,xyz_SP500,xyz_MU",
+        "thesis": "Filtro di regime HMM sul TSMOM: entra solo nei regimi 'trending' rilevati da "
+                  "un Hidden Markov Model sui ritorni (metodo Renaissance). Tesi: tenere le entrate "
+                  "fuori dal chop alza il DSR vs tsmom-conservative-v1 (0.54 / 1.70). Falsificata se "
+                  "non migliora DSR/Sharpe.",
+        "signals": [{"name": "tsmom", "params": {"short_h": 168, "long_h": 720}},
+                    {"name": "hmm_regime", "params": {}}],
+        "entry": {"rule": "tsmom AND hmm_regime", "direction": "follow:tsmom"},
+        "exit": {"stop_pct": 2.5, "target_r": 3.0, "time_stop_h": 240},
+        "risk": {"max_leverage": 1, "risk_per_trade_pct": 0.6, "max_concurrent_positions": 2},
+    },
 ]
 
 

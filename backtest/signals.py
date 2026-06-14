@@ -194,6 +194,39 @@ def kronos_vol(data, horizon_h: int = 24, hi_pct: float = 70, window_h: int = 72
     return pd.Series(np.where(rank >= hi_pct, 1, 0), index=c.index)
 
 
+_HMM_CACHE: dict = {}
+
+
+def _hmm_load(symbol: str):
+    """Cache regime HMM precomputata: data/hmm/<SYMBOL>.parquet (ts, regime).
+    Lazy + memoizzata. None se assente → il segnale degrada a neutro."""
+    if symbol in _HMM_CACHE:
+        return _HMM_CACHE[symbol]
+    from pathlib import Path
+    p = Path(f"data/hmm/{symbol}.parquet")
+    df = pd.read_parquet(p) if p.exists() else None
+    _HMM_CACHE[symbol] = df
+    return df
+
+
+def hmm_regime(data) -> pd.Series:
+    """+1 = regime 'trending' rilevato da un Hidden Markov Model (metodo Jim Simons/
+    Renaissance: stati nascosti dai ritorni). 0 = chop/range. Filtro NON direzionale,
+    pensato in AND col trend per evitare il chop (dove il TSMOM whipsagga). Walk-forward
+    nel precompute = anti-lookahead; legge la cache data/hmm/<sym>.parquet, neutro se
+    assente. merge_asof backward: ogni candela usa solo l'etichetta di regime a ts ≤ t."""
+    c = data["candles"]
+    sym = data.get("symbol")
+    cache = _hmm_load(sym) if sym else None
+    if cache is None or cache.empty:
+        return pd.Series(0, index=c.index)
+    norm = lambda s: pd.to_datetime(s, utc=True).astype("datetime64[ns, UTC]")
+    left = pd.DataFrame({"ts": norm(c["ts"])})
+    right = pd.DataFrame({"ts": norm(cache["ts"]), "regime": cache["regime"].astype(float)}).sort_values("ts")
+    reg = pd.merge_asof(left, right, on="ts", direction="backward")["regime"]
+    return pd.Series(np.where(reg >= 0.5, 1, 0), index=c.index)
+
+
 SIGNALS = {
     "funding_percentile": funding_percentile,
     "range_breakout": range_breakout,
@@ -206,4 +239,5 @@ SIGNALS = {
     "cot_percentile": cot_percentile,
     "kronos_forecast": kronos_forecast,
     "kronos_vol": kronos_vol,
+    "hmm_regime": hmm_regime,
 }

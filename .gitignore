@@ -12,3 +12,6 @@ logs/
 
 # cache forecast Kronos (regenerabile via precompute_kronos.py)
 data/kronos/
+
+# cache regime HMM (regenerabile via precompute_hmm.py)
+data/hmm/
