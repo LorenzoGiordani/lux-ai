@@ -6,3 +6,6 @@ __pycache__/
 .firecrawl/
 logs/
 .claude/
+
+# Kronos repo vendored (modello, non versionare)
+.kronos/

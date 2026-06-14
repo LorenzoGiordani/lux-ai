@@ -105,6 +105,26 @@ SEEDS = [
         "exit": {"stop_pct": 2.5, "target_r": 3.0, "time_stop_h": 240},
         "risk": {"max_leverage": 1, "risk_per_trade_pct": 0.6, "max_concurrent_positions": 3},
     },
+    {
+        # A/B Kronos: gemello esatto di tsmom-conservative-v1 + gate forecast Kronos.
+        # rule "tsmom AND kronos_forecast" + direction "signal_vote" => entra SOLO quando
+        # trend e forecast Kronos CONCORDANO sulla direzione (somma=0 se discordano → niente trade).
+        # Confronto vs tsmom-conservative-v1 (Sharpe 1.70, DSR 0.40) isola l'effetto Kronos.
+        # Richiede la cache: scripts/precompute_kronos.py. Senza cache il segnale è neutro
+        # (kronos≡0) => nessuna entrata: il vuoto è esplicito, non un falso positivo.
+        "id": "tsmom-kronos-v1", "family": "tsmom-kronos",
+        "symbols": "BTC,ETH,xyz_GOLD,xyz_CL,xyz_BRENTOIL,xyz_SILVER,xyz_SP500,xyz_MU",
+        "thesis": "A/B del segnale Kronos (foundation model OHLCV, leading non lagging): stesso "
+                  "TSMOM conservativo, ma l'ingresso richiede che anche il forecast Kronos concordi "
+                  "sulla direzione del trend. Tesi: un secondo segnale leading indipendente alza il "
+                  "DSR filtrando i falsi trend. Falsificata se DSR/Sharpe non superano "
+                  "tsmom-conservative-v1 (0.40 / 1.70).",
+        "signals": [{"name": "tsmom", "params": {"short_h": 168, "long_h": 720}},
+                    {"name": "kronos_forecast", "params": {"horizon_h": 24, "min_move_pct": 0.5}}],
+        "entry": {"rule": "tsmom AND kronos_forecast", "direction": "signal_vote"},
+        "exit": {"stop_pct": 2.5, "target_r": 3.0, "time_stop_h": 240},
+        "risk": {"max_leverage": 1, "risk_per_trade_pct": 0.6, "max_concurrent_positions": 2},
+    },
 ]
 
 

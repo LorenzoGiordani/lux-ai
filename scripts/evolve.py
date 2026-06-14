@@ -134,7 +134,7 @@ def validate(spec: dict, parent: dict, idx: int) -> dict:
 
 def load_data(symbol: str, months: int) -> dict:
     candles = pd.read_parquet(f"data/candles/{symbol}.parquet").tail(months * 30 * 24).reset_index(drop=True)
-    data = {"candles": candles}
+    data = {"candles": candles, "symbol": symbol}
     for kind in ("funding", "flow"):
         p = Path(f"data/{kind}/{symbol}.parquet")
         data[kind] = pd.read_parquet(p) if p.exists() else None

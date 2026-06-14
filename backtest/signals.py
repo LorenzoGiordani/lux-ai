@@ -140,6 +140,42 @@ def cot_percentile(data, lookback_w: int = 26, extreme_pct: float = 85) -> pd.Se
     return pd.Series(out, index=c.index)
 
 
+_KRONOS_CACHE: dict = {}
+
+
+def _kronos_load(symbol: str):
+    """Cache forecast precomputata: data/kronos/<SYMBOL>.parquet (ts, ret_pred).
+    Lazy + memoizzata. None se assente → il segnale degrada a neutro."""
+    if symbol in _KRONOS_CACHE:
+        return _KRONOS_CACHE[symbol]
+    from pathlib import Path
+    p = Path(f"data/kronos/{symbol}.parquet")
+    df = pd.read_parquet(p) if p.exists() else None
+    _KRONOS_CACHE[symbol] = df
+    return df
+
+
+def kronos_forecast(data, horizon_h: int = 24, min_move_pct: float = 1.0) -> pd.Series:
+    """+1/-1 = il forecast Kronos prevede salita/discesa oltre `min_move_pct`
+    sull'orizzonte `horizon_h`. Segnale LEADING strutturale (foundation model
+    OHLCV, non lagging). Legge la cache precomputata offline (niente torch nel
+    backtest); se la cache manca o non c'è il simbolo → neutro, niente errore.
+    Anti-lookahead: merge_asof backward, ogni candela usa solo forecast a ts ≤ t."""
+    c = data["candles"]
+    sym = data.get("symbol")
+    cache = _kronos_load(sym) if sym else None
+    if cache is None or cache.empty:
+        return pd.Series(0, index=c.index)
+    col = "ret_pred" if "ret_pred" in cache.columns else cache.columns[-1]
+    norm = lambda s: pd.to_datetime(s, utc=True).astype("datetime64[ns, UTC]")
+    left = pd.DataFrame({"ts": norm(c["ts"])})
+    right = pd.DataFrame({"ts": norm(cache["ts"]), col: cache[col].astype(float)}).sort_values("ts")
+    ret = pd.merge_asof(left, right, on="ts", direction="backward")[col]
+    thr = min_move_pct / 100.0
+    out = np.where(ret >= thr, 1, np.where(ret <= -thr, -1, 0))
+    return pd.Series(out, index=c.index)
+
+
 SIGNALS = {
     "funding_percentile": funding_percentile,
     "range_breakout": range_breakout,
@@ -150,4 +186,5 @@ SIGNALS = {
     "volume_surge": volume_surge,
     "news_event": news_event,
     "cot_percentile": cot_percentile,
+    "kronos_forecast": kronos_forecast,
 }
