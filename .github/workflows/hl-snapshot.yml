@@ -1,0 +1,40 @@
+name: hl-snapshot
+
+# Forward-collection storico OI/funding Hyperliquid (lo storico che HL non dà gratis).
+# Ogni ora, anche a Mac spento. Nessun segreto: solo API pubblica HL.
+# I dati raccolti NON sono rigenerabili → vanno versionati (data/hl_oi/).
+on:
+  schedule:
+    - cron: "5 * * * *"   # ogni ora al minuto :05
+  workflow_dispatch:
+
+concurrency:
+  group: hl-snapshot
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+
+      - name: snapshot OI/funding HL
+        run: uv run scripts/collect_hl_snapshot.py
+
+      - name: commit
+        run: |
+          git config user.name "hl-snapshot-cron"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/hl_oi/
+          if ! git diff --cached --quiet; then
+            git commit -m "data: hl oi snapshot $(date -u '+%Y-%m-%d %H:%M') UTC [actions]"
+            for i in 1 2 3; do
+              git pull --rebase -X theirs origin main && git push origin main && break
+              sleep 5
+            done
+          fi

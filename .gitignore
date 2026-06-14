@@ -1,5 +1,7 @@
 data/*
 !data/news/
+# forward-collection OI/funding HL: dati NON rigenerabili, vanno versionati
+!data/hl_oi/
 .venv/
 __pycache__/
 .env
