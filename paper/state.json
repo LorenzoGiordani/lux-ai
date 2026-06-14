@@ -15,7 +15,7 @@
     "stop_px": 0.717128397,
     "target_px": 0.900225009,
     "opened_at": "2026-06-13 08:00:00+00:00",
-    "checked_until": "2026-06-13 20:00:00+00:00",
+    "checked_until": "2026-06-13 23:00:00+00:00",
     "time_stop_h": 48,
     "thesis": "SUI \u00e8 l'unico asset del basket con vol_compression attivo \u2014 segnale tecnico che aggiunge il timing mancante alle pure tesi di funding; la lezione ZEC (stopped -$50 su funding squeeze senza trigger tecnico, 2026-06-12) insegna esattamente questo. Funding a -2.7% APR con prezzo +7.5% 7d significa che i corti pagano carry su un asset che li sta gi\u00e0 battendo. L'espansione di volatilit\u00e0 post-compressione in contesto di funding short crea asimmetria long: il catalizzatore non deve essere macro, basta l'esaurimento della pressione ribassista intra-giornaliera. SOL ha funding pi\u00f9 estremo ma zero segnale tecnico \u2014 stesso pattern del ZEC long fallito, scartato per lo stesso motivo.",
     "invalidation": "Chiusura 4h sotto $0.715 (rottura della base di consolidamento post-compressione) o funding che normalizza sopra -1% APR senza espansione del prezzo entro 24h: tesi di squeeze e espansione entrambe falsificate.",
@@ -30,14 +30,14 @@
     "stop_px": 65.02004540879999,
     "target_px": 75.493985778,
     "opened_at": "2026-06-13 13:00:00+00:00",
-    "checked_until": "2026-06-13 20:00:00+00:00",
+    "checked_until": "2026-06-13 23:00:00+00:00",
     "time_stop_h": 96,
     "thesis": "SOL \u00e8 l'unico asset del paniere con regime bull confermato e funding negativo simultaneo (-1.56% apr): i derivati sono strutturalmente corti mentre lo spot outperforma il paniere a 7 giorni (+9% vs BTC +5.5%), creando un meccanismo di squeeze lento che alimenta il trend. La tesi \u00e8 falsificabile: se il funding sale verso positivo in 24h significa che i short si sono coperti e il motore del trade si esaurisce. Il pullback ZEC viene scartato perch\u00e9 le lesson interne segnalano timing sistematicamente avverso su ZEC e il vol_compression su un asset con funding positivo offre payoff asimmetrico sfavorevole in chop macro. Assenza di vol_compression su SOL suggerisce trend ordinato, non esplosione casuale di direzione.",
     "invalidation": "Funding SOL torna positivo (>+0.3% apr su rolling 24h) indicando capitolazione degli short; oppure chiusura H4 confermata sotto $65.00 che invalida il supporto strutturale e il regime bull locale.",
     "decision_ts": "2026-06-13T14:24:22.346727+00:00"
    }
   },
-  "last_decision_ts": "2026-06-13T14:24:22.346727+00:00"
+  "last_decision_ts": "2026-06-14T00:15:28.760919+00:00"
  },
  "tsmom-v1": {
   "equity": 9996.625378,
@@ -51,7 +51,7 @@
     "stop_px": 65576.042168,
     "target_px": 55487.420296000004,
     "opened_at": "2026-06-12 07:00:00+00:00",
-    "checked_until": "2026-06-13 20:00:00+00:00"
+    "checked_until": "2026-06-13 23:00:00+00:00"
    },
    "ETH": {
     "strategy": "tsmom-v1",
@@ -62,7 +62,7 @@
     "stop_px": 1727.3128683200002,
     "target_px": 1461.57242704,
     "opened_at": "2026-06-12 07:00:00+00:00",
-    "checked_until": "2026-06-13 20:00:00+00:00"
+    "checked_until": "2026-06-13 23:00:00+00:00"
    },
    "xyz_GOLD": {
     "strategy": "tsmom-v1",
