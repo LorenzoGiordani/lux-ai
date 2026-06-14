@@ -316,6 +316,27 @@ def liq_imbalance(data, lookback_d: int = 21, extreme_pct: float = 80) -> pd.Ser
     return pd.Series(sig.fillna(0).to_numpy(), index=c.index)
 
 
+def oi_trend(data, lookback_d: int = 3, price_lb_h: int = 72, min_oi_chg_pct: float = 1.0) -> pd.Series:
+    """OI-confirmed momentum (Coinalyze, OI multi-exchange). Prezzo e open interest
+    nella stessa direzione = NUOVI soldi entrano, il trend ha carburante → +1 (prezzo↑
+    & OI↑) / -1 (prezzo↓ & OI↑). OI in CALO mentre il prezzo si muove = covering/
+    deleverage, niente carburante → 0 (neutro). Ortogonale al prezzo puro: misura il
+    FLUSSO di posizionamento, non il movimento. Daily forward-fillato sulle candele via
+    merge_asof backward (anti-lookahead). Neutro senza cache (asset non-crypto)."""
+    c = data["candles"]
+    cache = _coinalyze_load(data.get("symbol")) if data.get("symbol") else None
+    if cache is None or cache.empty:
+        return pd.Series(0, index=c.index)
+    d = cache.sort_values("ts").copy()
+    d["oi_up"] = (d["oi"].pct_change(lookback_d) > min_oi_chg_pct / 100).astype(int)
+    norm = lambda s: pd.to_datetime(s, utc=True).astype("datetime64[ns, UTC]")
+    left = pd.DataFrame({"ts": norm(c["ts"])})
+    right = pd.DataFrame({"ts": norm(d["ts"]), "oi_up": d["oi_up"]}).sort_values("ts")
+    oi_up = pd.merge_asof(left, right, on="ts", direction="backward")["oi_up"].fillna(0).to_numpy()
+    price_dir = np.sign(c["close"].pct_change(price_lb_h).to_numpy())
+    return pd.Series(np.where(oi_up == 1, price_dir, 0), index=c.index).fillna(0)
+
+
 SIGNALS = {
     "funding_percentile": funding_percentile,
     "range_breakout": range_breakout,
@@ -332,4 +353,5 @@ SIGNALS = {
     "smart_money_ratio": smart_money_ratio,
     "oi_buildup": oi_buildup,
     "liq_imbalance": liq_imbalance,
+    "oi_trend": oi_trend,
 }

@@ -259,6 +259,61 @@ SEEDS = [
         "exit": {"stop_pct": 2.5, "target_r": 3.0, "time_stop_h": 240},
         "risk": {"max_leverage": 1, "risk_per_trade_pct": 0.6, "max_concurrent_positions": 2},
     },
+    # --- A/B OPEN INTEREST (Coinalyze gratis, multi-exchange) — nuovo edge candidato ---
+    {
+        "id": "oi-trend-v1", "family": "oi-trend",
+        "symbols": CRYPTO,
+        "thesis": "OI-confirmed momentum: entra nella direzione del prezzo SOLO quando "
+                  "l'open interest multi-exchange sale (nuovi soldi = carburante). OI in "
+                  "calo → covering/deleverage, nessuna conviction → stai fuori. Tesi: il "
+                  "flusso di posizionamento filtra i trend veri dai rimbalzi senza fondo. "
+                  "Falsificata se non batte buy-and-hold risk-adjusted.",
+        "signals": [{"name": "oi_trend", "params": {"lookback_d": 3, "price_lb_h": 72, "min_oi_chg_pct": 1.0}}],
+        "entry": {"rule": "oi_trend", "direction": "follow:oi_trend"},
+        "exit": {"stop_pct": 2.5, "target_r": 3.0, "time_stop_h": 240},
+        "risk": {"max_leverage": 1, "risk_per_trade_pct": 0.6, "max_concurrent_positions": 3},
+    },
+    {
+        "id": "tsmom-oi-v1", "family": "tsmom-oi",
+        "symbols": CRYPTO,
+        "thesis": "Trend confermato dall'OI: entra solo quando TSMOM e l'OI-confirmed "
+                  "momentum CONCORDANO (signal_vote). Tesi: l'espansione di open interest "
+                  "nella direzione del trend = nuovi soldi che lo spingono, non solo "
+                  "inerzia di prezzo. Falsificata se non migliora vs tsmom-crypto-base-v1.",
+        "signals": [{"name": "tsmom", "params": {"short_h": 168, "long_h": 720}},
+                    {"name": "oi_trend", "params": {"lookback_d": 3, "price_lb_h": 72, "min_oi_chg_pct": 1.0}}],
+        "entry": {"rule": "tsmom AND oi_trend", "direction": "signal_vote"},
+        "exit": {"stop_pct": 2.5, "target_r": 3.0, "time_stop_h": 240},
+        "risk": {"max_leverage": 1, "risk_per_trade_pct": 0.6, "max_concurrent_positions": 2},
+    },
+    {
+        "id": "tsmom-oi-gate-v1", "family": "tsmom-oi-gate",
+        "symbols": CRYPTO,
+        "thesis": "OI come GATE direzionless (non vote): entra sul trend TSMOM solo quando "
+                  "l'OI è in espansione (oi_trend attivo), direzione presa dal solo tsmom. "
+                  "Tesi: l'espansione di open interest conferma che dietro il trend ci sono "
+                  "nuovi soldi, filtrando i trend senza partecipazione. Falsificata se DSR/"
+                  "Sharpe non superano tsmom-crypto-base-v1.",
+        "signals": [{"name": "tsmom", "params": {"short_h": 168, "long_h": 720}},
+                    {"name": "oi_trend", "params": {"lookback_d": 3, "price_lb_h": 72, "min_oi_chg_pct": 1.0}}],
+        "entry": {"rule": "tsmom AND oi_trend", "direction": "follow:tsmom"},
+        "exit": {"stop_pct": 2.5, "target_r": 3.0, "time_stop_h": 240},
+        "risk": {"max_leverage": 1, "risk_per_trade_pct": 0.6, "max_concurrent_positions": 3},
+    },
+    {
+        "id": "liq-oi-v1", "family": "liq-oi",
+        "symbols": CRYPTO,
+        "thesis": "Doppia conferma del posizionamento: squeeze da liquidazioni E "
+                  "espansione OI concordi (signal_vote). Tesi: le due fonti free di "
+                  "positioning flow (liquidazioni + open interest, entrambe Coinalyze) "
+                  "insieme isolano gli squeeze con vero carburante dietro. Falsificata se "
+                  "non migliora vs tsmom-liq-v1 (l'edge già validato).",
+        "signals": [{"name": "liq_imbalance", "params": {"lookback_d": 21, "extreme_pct": 75}},
+                    {"name": "oi_trend", "params": {"lookback_d": 3, "price_lb_h": 72, "min_oi_chg_pct": 1.0}}],
+        "entry": {"rule": "liq_imbalance AND oi_trend", "direction": "signal_vote"},
+        "exit": {"stop_pct": 2.5, "target_r": 3.0, "time_stop_h": 240},
+        "risk": {"max_leverage": 1, "risk_per_trade_pct": 0.6, "max_concurrent_positions": 2},
+    },
 ]
 
 
