@@ -117,6 +117,7 @@ def main() -> None:
     for symbol in symbols:
         try:
             data = fetch_live(symbol)
+            data["symbol"] = symbol  # serve ai segnali cache-reader (liq/kronos/hmm/smart-money)
             data["news_events"] = news_events
             cot = ROOT / f"data/cot/{symbol}.parquet"
             data["cot"] = pd.read_parquet(cot) if cot.exists() else None

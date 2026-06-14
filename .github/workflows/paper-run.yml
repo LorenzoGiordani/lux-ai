@@ -21,12 +21,18 @@ jobs:
       CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      COINALYZE_API_KEY: ${{ secrets.COINALYZE_API_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
 
       - name: dati COT CFTC (settimanali)
         run: uv run scripts/fetch_cot.py || true
+
+      # liquidazioni reali per il segnale liq_imbalance (challenger tsmom-liq). Gira solo col secret.
+      - name: liquidazioni Coinalyze
+        if: env.COINALYZE_API_KEY != ''
+        run: uv run scripts/fetch_coinalyze.py --symbols BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV --months 7 || true
 
       # trada dinamicamente tutte le strategie attive (champion + challenger)
       - name: paper trading strategie attive
