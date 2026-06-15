@@ -244,3 +244,11 @@
 {"type": "heartbeat", "strategy": "tsmom-liq-v1", "equity": 10165.1, "open_positions": 1, "logged_at": "2026-06-15T20:15:58.473873+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10335.85, "open_positions": 1, "logged_at": "2026-06-15T20:15:59.880511+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10335.85, "open_positions": 1, "logged_at": "2026-06-15T20:19:51.585291+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-v1", "equity": 9688.43, "open_positions": 3, "logged_at": "2026-06-15T21:15:41.155917+00:00"}
+{"type": "heartbeat", "strategy": "funding-squeeze-breakout-g2-g1-g2", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-15T21:15:50.353953+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-conservative-v1", "equity": 9935.2, "open_positions": 2, "logged_at": "2026-06-15T21:15:53.880354+00:00"}
+{"type": "open", "strategy": "tsmom-liq-v1", "symbol": "WLD", "direction": "long", "entry_px": 0.59636925, "size_usd": 2439.62, "stop_px": 0.58146001875, "target_px": 0.6410969437499999, "opened_at": "2026-06-15 20:00:00+00:00", "checked_until": "2026-06-15 20:00:00+00:00", "thesis": "tsmom AND liq_imbalance \u2192 signal_vote", "signals_last": {"tsmom": 1, "liq_imbalance": 1}, "logged_at": "2026-06-15T21:16:01.477580+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-liq-v1", "equity": 10164.01, "open_positions": 2, "logged_at": "2026-06-15T21:16:03.380193+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10335.85, "open_positions": 1, "logged_at": "2026-06-15T21:16:04.346334+00:00"}
+{"type": "skip", "strategy": "agents-v1", "symbol": "SOL", "reason": "posizione esistente o max concorrenti", "logged_at": "2026-06-15T21:18:38.129849+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10335.85, "open_positions": 1, "logged_at": "2026-06-15T21:18:38.130222+00:00"}
