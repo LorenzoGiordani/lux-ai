@@ -73,6 +73,13 @@ def main() -> None:
         except Exception as e:
             print(f"  {s}: target fallito ({e})", file=sys.stderr)
 
+    # 0) pulizia: SL/TP orfani su coin senza posizione aperta (es. SL scattato tra le run)
+    for s in symbols:
+        if s not in current:
+            canc = ex.cancel_open_orders(s)
+            if canc:
+                print(f"  CLEAN {s}: {len(canc)} ordini trigger orfani cancellati")
+
     # 1) chiudi posizioni che non corrispondono più al target
     for coin, szi in current.items():
         cur_sign = 1 if szi > 0 else -1

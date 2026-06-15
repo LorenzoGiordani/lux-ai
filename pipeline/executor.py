@@ -117,14 +117,25 @@ class Executor:
         self.log({**intent, "status": "filled", "order": o, "sl_order": sl})
         return intent
 
+    def cancel_open_orders(self, coin: str) -> list:
+        """Cancella i trigger reduce-only ancora appesi (SL/TP orfani) per coin.
+        Su HL gli ordini trigger NON si auto-cancellano alla chiusura della posizione."""
+        if self.dry_run or not self.address:
+            return []
+        cancels = [{"coin": o["coin"], "oid": o["oid"]}
+                   for o in self.info.open_orders(self.address) if o["coin"] == coin]
+        if cancels:
+            self.exchange.bulk_cancel(cancels)
+        return cancels
+
     def close_position(self, coin: str) -> dict:
         intent = {"type": "close", "coin": coin}
         if self.dry_run:
             self.log({**intent, "status": "dry_run"})
             return intent
-        self.exchange.bulk_cancel([])  # no-op placeholder; gli SL reduce-only restano coperti dal close
         r = self.exchange.market_close(coin)
-        self.log({**intent, "status": "closed", "order": r})
+        canceled = self.cancel_open_orders(coin)  # rimuove SL/TP orfani dopo la chiusura
+        self.log({**intent, "status": "closed", "order": r, "canceled": canceled})
         return intent
 
     def _reject(self, coin: str, reason: str) -> dict:
