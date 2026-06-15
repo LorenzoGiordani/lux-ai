@@ -83,7 +83,8 @@ def main() -> None:
         except Exception as e:
             print(f"  {symbol}: fetch fallito ({e})", file=sys.stderr)
             continue
-        pos, st["equity"] = update_position(pos, data["candles"], pos["time_stop_h"], st["equity"])
+        pos, st["equity"] = update_position(pos, data["candles"], pos["time_stop_h"],
+                                            st["equity"], data.get("forming"))
         if pos:
             st["positions"][symbol] = pos
         else:

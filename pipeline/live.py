@@ -49,8 +49,10 @@ def _fetch_binance(symbol: str, lookback_h: int) -> dict:
         "ts": pd.to_datetime([r["fundingTime"] for r in fr], unit="ms", utc=True),
         "rate": [float(r["fundingRate"]) for r in fr]})
     time.sleep(0.1)
-    # ultima candela è in corso → si decide sull'ultima CHIUSA
-    return {"candles": candles.iloc[:-1].reset_index(drop=True), "flow": flow, "funding": funding}
+    # ultima candela è in corso → i SEGNALI si decidono sull'ultima CHIUSA;
+    # "forming" (la barra in corso) serve solo per le USCITE stop/target intrabar
+    return {"candles": candles.iloc[:-1].reset_index(drop=True),
+            "forming": candles.iloc[-1], "flow": flow, "funding": funding}
 
 
 HL_INFO = "https://api.hyperliquid.xyz/info"
@@ -79,7 +81,8 @@ def _fetch_hl(symbol: str, lookback_h: int) -> dict:
                 "rate": [float(f["fundingRate"]) for f in fr]})
     except Exception:
         pass
-    return {"candles": candles.iloc[:-1].reset_index(drop=True), "flow": None, "funding": funding}
+    return {"candles": candles.iloc[:-1].reset_index(drop=True),
+            "forming": candles.iloc[-1], "flow": None, "funding": funding}
 
 
 def _fetch_yf(symbol: str) -> dict:
@@ -93,7 +96,8 @@ def _fetch_yf(symbol: str) -> dict:
     df = from_yfinance(symbol.removeprefix("xyz_"), start)
     if df is None or df.empty:
         raise RuntimeError(f"yfinance vuoto per {symbol}")
-    return {"candles": df.iloc[:-1].reset_index(drop=True), "flow": None, "funding": None}
+    return {"candles": df.iloc[:-1].reset_index(drop=True),
+            "forming": df.iloc[-1], "flow": None, "funding": None}
 
 
 def open_interest_24h(symbol: str) -> dict | None:

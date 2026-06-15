@@ -36,11 +36,18 @@ def log_event(event: dict) -> None:
         f.write(json.dumps(event, default=str) + "\n")
 
 
-def update_position(pos: dict, candles: pd.DataFrame, time_stop_h: int, equity: float) -> tuple[dict | None, float]:
-    """Controlla stop/target/time-stop sulle candele successive all'ultimo check."""
+def update_position(pos: dict, candles: pd.DataFrame, time_stop_h: int, equity: float,
+                    forming=None) -> tuple[dict | None, float]:
+    """Controlla stop/target/time-stop sulle candele chiuse dall'ultimo check.
+    `forming` (barra in corso) viene valutata anche lei per far scattare stop/target
+    INTRABAR come un vero ordine exchange, ma NON avanza checked_until: alla sua
+    chiusura sarà rivalutata completa (l'high/low parziale non sovrascrive il finale)."""
     new = candles[candles.ts > pd.Timestamp(pos["checked_until"])]
     sign = 1 if pos["direction"] == "long" else -1
-    for _, row in new.iterrows():
+    bars = [row for _, row in new.iterrows()]
+    if forming is not None:
+        bars.append(forming)
+    for row in bars:
         hit_stop = (row.low <= pos["stop_px"]) if sign > 0 else (row.high >= pos["stop_px"])
         hit_target = (row.high >= pos["target_px"]) if sign > 0 else (row.low <= pos["target_px"])
         expired = (row.ts - pd.Timestamp(pos["opened_at"])) >= timedelta(hours=time_stop_h)
@@ -127,7 +134,8 @@ def main() -> None:
         pos = st["positions"].get(symbol)
         closed_this_run = False
         if pos:
-            pos, st["equity"] = update_position(pos, data["candles"], spec["exit"]["time_stop_h"], st["equity"])
+            pos, st["equity"] = update_position(pos, data["candles"], spec["exit"]["time_stop_h"],
+                                                st["equity"], data.get("forming"))
             if pos:
                 st["positions"][symbol] = pos
             else:
