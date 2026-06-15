@@ -169,3 +169,12 @@
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 9946.69, "open_positions": 3, "logged_at": "2026-06-15T05:28:47.731668+00:00"}
 {"type": "skip", "strategy": "agents-v1", "symbol": "SOL/USD", "reason": "posizione esistente o max concorrenti", "logged_at": "2026-06-15T05:33:48.194866+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 9946.69, "open_positions": 3, "logged_at": "2026-06-15T05:33:48.195275+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-v1", "equity": 9791.14, "open_positions": 3, "logged_at": "2026-06-15T12:40:41.305405+00:00"}
+{"type": "heartbeat", "strategy": "funding-squeeze-breakout-g2-g1-g2", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-15T12:40:53.476241+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-conservative-v1", "equity": 9935.2, "open_positions": 2, "logged_at": "2026-06-15T12:40:57.606606+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-liq-v1", "equity": 10112.47, "open_positions": 2, "logged_at": "2026-06-15T12:41:07.945667+00:00"}
+{"type": "close", "strategy": "agents-v1", "symbol": "SUI", "reason": "time_stop", "exit_px": 0.795260916, "pnl_usd": 55.66, "equity": 10002.36, "ts": "2026-06-15 08:00:00+00:00", "logged_at": "2026-06-15T12:41:09.407216+00:00"}
+{"type": "close", "strategy": "agents-v1", "symbol": "ZEC", "reason": "target", "exit_px": 498.45848006166, "pnl_usd": 148.62, "equity": 10150.98, "ts": "2026-06-15 06:00:00+00:00", "logged_at": "2026-06-15T12:41:11.099212+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10150.98, "open_positions": 1, "logged_at": "2026-06-15T12:41:11.100282+00:00"}
+{"type": "skip", "strategy": "agents-v1", "symbol": "SOL", "reason": "posizione esistente o max concorrenti", "logged_at": "2026-06-15T12:44:34.099483+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10150.98, "open_positions": 1, "logged_at": "2026-06-15T12:44:34.099886+00:00"}
