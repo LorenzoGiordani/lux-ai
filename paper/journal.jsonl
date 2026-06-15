@@ -184,3 +184,12 @@
 {"type": "heartbeat", "strategy": "tsmom-liq-v1", "equity": 10112.47, "open_positions": 2, "logged_at": "2026-06-15T13:29:02.532568+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10150.98, "open_positions": 1, "logged_at": "2026-06-15T13:29:03.909362+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10150.98, "open_positions": 1, "logged_at": "2026-06-15T13:32:21.736997+00:00"}
+{"type": "close", "strategy": "tsmom-v1", "symbol": "xyz_GOLD", "reason": "stopped", "exit_px": 4373.615723492864, "pnl_usd": -101.62, "equity": 9689.52, "ts": "2026-06-15 13:00:00+00:00", "logged_at": "2026-06-15T14:15:40.694381+00:00"}
+{"type": "open", "strategy": "tsmom-v1", "symbol": "xyz_SILVER", "direction": "short", "entry_px": 71.09078235626221, "size_usd": 2422.38, "stop_px": 73.9344136505127, "target_px": 62.559888473510746, "opened_at": "2026-06-15 13:00:00+00:00", "checked_until": "2026-06-15 13:00:00+00:00", "thesis": "tsmom \u2192 follow:tsmom", "signals_last": {"tsmom": -1}, "logged_at": "2026-06-15T14:15:41.473963+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-v1", "equity": 9688.43, "open_positions": 3, "logged_at": "2026-06-15T14:15:41.921388+00:00"}
+{"type": "heartbeat", "strategy": "funding-squeeze-breakout-g2-g1-g2", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-15T14:15:50.370613+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-conservative-v1", "equity": 9935.2, "open_positions": 2, "logged_at": "2026-06-15T14:15:53.746005+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-liq-v1", "equity": 10112.47, "open_positions": 2, "logged_at": "2026-06-15T14:16:01.609815+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10150.98, "open_positions": 1, "logged_at": "2026-06-15T14:16:02.603091+00:00"}
+{"type": "skip", "strategy": "agents-v1", "symbol": "SOL", "reason": "posizione esistente o max concorrenti", "logged_at": "2026-06-15T14:19:24.351545+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10150.98, "open_positions": 1, "logged_at": "2026-06-15T14:19:24.351849+00:00"}
