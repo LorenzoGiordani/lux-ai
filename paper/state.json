@@ -15,7 +15,7 @@
     "stop_px": 65.02004540879999,
     "target_px": 75.493985778,
     "opened_at": "2026-06-13 13:00:00+00:00",
-    "checked_until": "2026-06-15 14:00:00+00:00",
+    "checked_until": "2026-06-15 15:00:00+00:00",
     "time_stop_h": 96,
     "thesis": "SOL \u00e8 l'unico asset del paniere con regime bull confermato e funding negativo simultaneo (-1.56% apr): i derivati sono strutturalmente corti mentre lo spot outperforma il paniere a 7 giorni (+9% vs BTC +5.5%), creando un meccanismo di squeeze lento che alimenta il trend. La tesi \u00e8 falsificabile: se il funding sale verso positivo in 24h significa che i short si sono coperti e il motore del trade si esaurisce. Il pullback ZEC viene scartato perch\u00e9 le lesson interne segnalano timing sistematicamente avverso su ZEC e il vol_compression su un asset con funding positivo offre payoff asimmetrico sfavorevole in chop macro. Assenza di vol_compression su SOL suggerisce trend ordinato, non esplosione casuale di direzione.",
     "invalidation": "Funding SOL torna positivo (>+0.3% apr su rolling 24h) indicando capitolazione degli short; oppure chiusura H4 confermata sotto $65.00 che invalida il supporto strutturale e il regime bull locale.",
@@ -36,7 +36,7 @@
     "stop_px": 84.02558898144531,
     "target_px": 71.09857529199219,
     "opened_at": "2026-06-15 00:00:00+00:00",
-    "checked_until": "2026-06-15 14:00:00+00:00"
+    "checked_until": "2026-06-15 15:00:00+00:00"
    },
    "xyz_BRENTOIL": {
     "strategy": "tsmom-v1",
@@ -47,7 +47,7 @@
     "stop_px": 87.1033723494873,
     "target_px": 73.70285352648926,
     "opened_at": "2026-06-15 00:00:00+00:00",
-    "checked_until": "2026-06-15 14:00:00+00:00"
+    "checked_until": "2026-06-15 15:00:00+00:00"
    },
    "xyz_SILVER": {
     "strategy": "tsmom-v1",
@@ -58,7 +58,7 @@
     "stop_px": 73.9344136505127,
     "target_px": 62.559888473510746,
     "opened_at": "2026-06-15 13:00:00+00:00",
-    "checked_until": "2026-06-15 14:00:00+00:00"
+    "checked_until": "2026-06-15 15:00:00+00:00"
    }
   }
  },
@@ -74,7 +74,7 @@
     "stop_px": 86.39022162742614,
     "target_px": 77.9619073223114,
     "opened_at": "2026-06-12 19:00:00+00:00",
-    "checked_until": "2026-06-15 14:00:00+00:00"
+    "checked_until": "2026-06-15 15:00:00+00:00"
    },
    "xyz_GOLD": {
     "strategy": "tsmom-conservative-v1",
@@ -85,24 +85,13 @@
     "stop_px": 4457.3458525,
     "target_px": 4022.4828425000005,
     "opened_at": "2026-06-15 04:00:00+00:00",
-    "checked_until": "2026-06-15 14:00:00+00:00"
+    "checked_until": "2026-06-15 15:00:00+00:00"
    }
   }
  },
  "tsmom-liq-v1": {
-  "equity": 10112.4681434,
+  "equity": 10291.8062076,
   "positions": {
-   "NEAR": {
-    "strategy": "tsmom-liq-v1",
-    "symbol": "NEAR",
-    "direction": "long",
-    "entry_px": 2.3664732,
-    "size_usd": 2427.52,
-    "stop_px": 2.3073113700000003,
-    "target_px": 2.54395869,
-    "opened_at": "2026-06-15 04:00:00+00:00",
-    "checked_until": "2026-06-15 14:00:00+00:00"
-   },
    "WLD": {
     "strategy": "tsmom-liq-v1",
     "symbol": "WLD",
@@ -112,7 +101,18 @@
     "stop_px": 0.580045986,
     "target_px": 0.639537882,
     "opened_at": "2026-06-15 04:00:00+00:00",
-    "checked_until": "2026-06-15 14:00:00+00:00"
+    "checked_until": "2026-06-15 15:00:00+00:00"
+   },
+   "ZEC": {
+    "strategy": "tsmom-liq-v1",
+    "symbol": "ZEC",
+    "direction": "long",
+    "entry_px": 535.367052,
+    "size_usd": 2470.3,
+    "stop_px": 521.9828756999999,
+    "target_px": 575.5195808999999,
+    "opened_at": "2026-06-15 15:00:00+00:00",
+    "checked_until": "2026-06-15 15:00:00+00:00"
    }
   }
  }
