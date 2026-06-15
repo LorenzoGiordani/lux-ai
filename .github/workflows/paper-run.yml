@@ -1,10 +1,9 @@
 name: paper-run
 
 # Run 24/7 in cloud: ogni ora anche a Mac spento. Paper trading, nessun segreto.
-# Orario = risoluzione delle candele del backtest → stop/target rilevati alla barra.
+# Trigger orario via Cloudflare Worker (lux-paper-cron) → workflow_dispatch: lo
+# scheduler nativo GitHub saltava le run su repo privato. Worker = clock affidabile.
 on:
-  schedule:
-    - cron: "10 * * * *"
   workflow_dispatch:
 
 concurrency:
