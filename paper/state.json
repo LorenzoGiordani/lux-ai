@@ -15,7 +15,7 @@
     "stop_px": 71.88862985099999,
     "target_px": 83.7446080725,
     "opened_at": "2026-06-15 17:00:00+00:00",
-    "checked_until": "2026-06-15 20:00:00+00:00",
+    "checked_until": "2026-06-15 21:00:00+00:00",
     "time_stop_h": 12,
     "thesis": "SOL presenta la confluenza pi\u00f9 difendibile del basket: volume_surge=1 certifica che il +11.8% \u00e8 strutturale e non rumore retail, mentre il funding negativo (\u20130.25% APR) in bull regime confermato replica esattamente il pattern documentato nelle lezioni \u2014 i corti stanno finanziando il rialzo spot, non resistendo. Il disallineamento derivati/spot \u00e8 il carburante meccanico per la continuazione: quando il funding comprime verso neutro, il rally accelera per auto-liquidazione. ZEC \u00e8 escluso perch\u00e9 il funding gi\u00e0 positivo e crescente (+1.37%) segnala crowding avanzato \u2014 il momento ottimale di ingresso \u00e8 passato; SOL \u00e8 ancora pre-squeeze.",
     "invalidation": "Volume non conferma nelle prossime 4\u20136h (il volume_surge decade senza follow-through), oppure BTC chop degenera in correzione trascinando il basket sotto i supporti recenti, oppure il funding SOL flette verso positivo prima di toccare il target (segnale che gli short hanno gi\u00e0 coperto e il carburante \u00e8 esaurito).",
@@ -36,7 +36,7 @@
     "stop_px": 84.02558898144531,
     "target_px": 71.09857529199219,
     "opened_at": "2026-06-15 00:00:00+00:00",
-    "checked_until": "2026-06-15 19:00:00+00:00"
+    "checked_until": "2026-06-15 20:00:00+00:00"
    },
    "xyz_BRENTOIL": {
     "strategy": "tsmom-v1",
@@ -47,7 +47,7 @@
     "stop_px": 87.1033723494873,
     "target_px": 73.70285352648926,
     "opened_at": "2026-06-15 00:00:00+00:00",
-    "checked_until": "2026-06-15 19:00:00+00:00"
+    "checked_until": "2026-06-15 20:00:00+00:00"
    },
    "xyz_SILVER": {
     "strategy": "tsmom-v1",
@@ -58,7 +58,7 @@
     "stop_px": 73.9344136505127,
     "target_px": 62.559888473510746,
     "opened_at": "2026-06-15 13:00:00+00:00",
-    "checked_until": "2026-06-15 19:00:00+00:00"
+    "checked_until": "2026-06-15 20:00:00+00:00"
    }
   }
  },
@@ -74,7 +74,7 @@
     "stop_px": 86.39022162742614,
     "target_px": 77.9619073223114,
     "opened_at": "2026-06-12 19:00:00+00:00",
-    "checked_until": "2026-06-15 19:00:00+00:00"
+    "checked_until": "2026-06-15 20:00:00+00:00"
    },
    "xyz_GOLD": {
     "strategy": "tsmom-conservative-v1",
@@ -85,7 +85,7 @@
     "stop_px": 4457.3458525,
     "target_px": 4022.4828425000005,
     "opened_at": "2026-06-15 04:00:00+00:00",
-    "checked_until": "2026-06-15 19:00:00+00:00"
+    "checked_until": "2026-06-15 20:00:00+00:00"
    }
   }
  },
@@ -101,7 +101,7 @@
     "stop_px": 2.4224818995,
     "target_px": 2.6709415815,
     "opened_at": "2026-06-15 16:00:00+00:00",
-    "checked_until": "2026-06-15 20:00:00+00:00"
+    "checked_until": "2026-06-15 21:00:00+00:00"
    },
    "WLD": {
     "strategy": "tsmom-liq-v1",
@@ -112,7 +112,7 @@
     "stop_px": 0.58146001875,
     "target_px": 0.6410969437499999,
     "opened_at": "2026-06-15 20:00:00+00:00",
-    "checked_until": "2026-06-15 20:00:00+00:00"
+    "checked_until": "2026-06-15 21:00:00+00:00"
    }
   }
  }
