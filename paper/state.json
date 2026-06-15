@@ -6,7 +6,7 @@
  "agents-v1": {
   "equity": 10336.364374983743,
   "positions": {},
-  "last_decision_ts": "2026-06-15T15:18:51.734438+00:00"
+  "last_decision_ts": "2026-06-15T17:46:26.194061+00:00"
  },
  "tsmom-v1": {
   "equity": 9688.431079720001,
@@ -74,7 +74,7 @@
   }
  },
  "tsmom-liq-v1": {
-  "equity": 10229.55938135,
+  "equity": 10228.45459085,
   "positions": {
    "ZEC": {
     "strategy": "tsmom-liq-v1",
@@ -85,6 +85,17 @@
     "stop_px": 521.9828756999999,
     "target_px": 575.5195808999999,
     "opened_at": "2026-06-15 15:00:00+00:00",
+    "checked_until": "2026-06-15 16:00:00+00:00"
+   },
+   "NEAR": {
+    "strategy": "tsmom-liq-v1",
+    "symbol": "NEAR",
+    "direction": "long",
+    "entry_px": 2.48459682,
+    "size_usd": 2455.09,
+    "stop_px": 2.4224818995,
+    "target_px": 2.6709415815,
+    "opened_at": "2026-06-15 16:00:00+00:00",
     "checked_until": "2026-06-15 16:00:00+00:00"
    }
   }
