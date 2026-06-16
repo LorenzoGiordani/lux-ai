@@ -600,7 +600,7 @@ footer .foot-mark b{ color:var(--amber); }
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-16 03:19",
+ "updated_utc": "2026-06-16 04:18",
  "accounts": [
   {
    "id": "funding-squeeze-breakout-g2-g1-g2",
@@ -821,6 +821,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-16 03:15",
+     10000.0
+    ],
+    [
+     "2026-06-16 04:15",
      10000.0
     ]
    ],
@@ -1194,6 +1198,14 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-16 03:19",
      10335.59
+    ],
+    [
+     "2026-06-16 04:15",
+     10335.59
+    ],
+    [
+     "2026-06-16 04:18",
+     10335.59
     ]
    ],
    "positions": [
@@ -1533,6 +1545,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-16 02:00",
        72.99
+      ],
+      [
+       "2026-06-16 03:00",
+       73.707
       ]
      ]
     },
@@ -1836,6 +1852,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-16 02:00",
        519.8
+      ],
+      [
+       "2026-06-16 03:00",
+       528.6
       ]
      ]
     }
@@ -2045,6 +2065,10 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-16 03:15",
      9688.43
+    ],
+    [
+     "2026-06-16 04:15",
+     9688.43
     ]
    ],
    "positions": [
@@ -2251,7 +2275,7 @@ footer .foot-mark b{ color:var(--amber); }
       ],
       [
        "2026-06-16 02:00",
-       80.720001
+       80.849998
       ]
      ]
     },
@@ -2458,7 +2482,7 @@ footer .foot-mark b{ color:var(--amber); }
       ],
       [
        "2026-06-16 02:00",
-       82.989998
+       83.199997
       ]
      ]
     },
@@ -2613,7 +2637,7 @@ footer .foot-mark b{ color:var(--amber); }
       ],
       [
        "2026-06-16 02:00",
-       69.589996
+       69.220001
       ]
      ]
     }
@@ -2758,6 +2782,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-16 03:15",
+     9935.2
+    ],
+    [
+     "2026-06-16 04:15",
      9935.2
     ]
    ],
@@ -3169,7 +3197,7 @@ footer .foot-mark b{ color:var(--amber); }
       ],
       [
        "2026-06-16 02:00",
-       80.720001
+       80.849998
       ]
      ]
     },
@@ -3360,7 +3388,7 @@ footer .foot-mark b{ color:var(--amber); }
       ],
       [
        "2026-06-16 02:00",
-       4339.700195
+       4330.700195
       ]
      ]
     }
@@ -3461,6 +3489,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-16 03:16",
+     10099.95
+    ],
+    [
+     "2026-06-16 04:15",
      10099.95
     ]
    ],
@@ -3789,6 +3821,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-16 02:00",
        0.59744
+      ],
+      [
+       "2026-06-16 03:00",
+       0.60349
       ]
      ]
     },
@@ -4108,6 +4144,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-16 02:00",
        519.8
+      ],
+      [
+       "2026-06-16 03:00",
+       528.6
       ]
      ]
     }
@@ -4115,6 +4155,19 @@ footer .foot-mark b{ color:var(--amber); }
   }
  ],
  "decisions": [
+  {
+   "ts": "2026-06-16 04:18",
+   "symbol": "SOL/USDT:USDT",
+   "direction": "long",
+   "account": "agents-v1",
+   "risk_verdict": "reduce",
+   "thesis": "SOL è l'unico asset del basket con tre condizioni simultane da playbook: regime bull confermato, vwap_zscore attivo e funding strutturalmente negativo (-2.1% APR). Il funding negativo significa che il mercato paga i long per tenere la posizione mentre i corti accumulati fungono da carburante per squeeze progressivo — pattern identificato come il più ripetibile nelle lessons. Lo spot già sovraperforma il basket (+11.7% 7d), segnale di domanda strutturale reale e non rumore intraday. Il taker ratio neutro (0.50) non contraddice il setup: in assenza di conviction aggregata, gli asset con regime confermato dominano per selezione, e il macro risk-off post-BOJ favorisce rotazione verso SOL rispetto agli alt senza segnale (SUI, ETH senza struttura). La tesi è falsificata dall'andamento del funding, non dal prezzo: un flip verso positivo segnala che il vantaggio strutturale è esaurito.",
+   "invalidation": "Funding SOL perpetual flip verso positivo (>+1.0% APR su qualsiasi exchange major) oppure chiusura 4h sotto il vwap attivo — in entrambi i casi uscita immediata senza attendere il time stop. Triple witching venerdì: il time stop a 36h garantisce chiusura prima dell'apertura europea di venerdì, eliminando l'esposizione al pinning e agli spike di volatilità intraday legati alla scadenza.",
+   "outcome": {
+    "closed": false
+   },
+   "size_multiplier": 0.7
+  },
   {
    "ts": "2026-06-16 03:19",
    "symbol": "ZEC",
