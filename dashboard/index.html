@@ -600,7 +600,7 @@ footer .foot-mark b{ color:var(--amber); }
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-16 18:16",
+ "updated_utc": "2026-06-16 19:18",
  "accounts": [
   {
    "id": "funding-squeeze-breakout-g2-g1-g2",
@@ -881,6 +881,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-16 18:15",
+     10000.0
+    ],
+    [
+     "2026-06-16 19:16",
      10000.0
     ]
    ],
@@ -1374,6 +1378,14 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-16 18:16",
      10281.82
+    ],
+    [
+     "2026-06-16 19:16",
+     10281.82
+    ],
+    [
+     "2026-06-16 19:18",
+     10281.82
     ]
    ],
    "positions": [
@@ -1725,6 +1737,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-16 17:00",
        73.646
+      ],
+      [
+       "2026-06-16 18:00",
+       73.962
       ]
      ]
     }
@@ -1994,6 +2010,10 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-16 18:15",
      9688.43
+    ],
+    [
+     "2026-06-16 19:15",
+     9688.43
     ]
    ],
    "positions": [
@@ -2261,6 +2281,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-16 17:00",
        75.07
+      ],
+      [
+       "2026-06-16 18:00",
+       75.650002
       ]
      ]
     },
@@ -2528,6 +2552,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-16 17:00",
        78.860001
+      ],
+      [
+       "2026-06-16 18:00",
+       79.279999
       ]
      ]
     },
@@ -2743,6 +2771,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-16 17:00",
        70.339996
+      ],
+      [
+       "2026-06-16 18:00",
+       70.415001
       ]
      ]
     }
@@ -2947,6 +2979,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-16 18:15",
+     10112.56
+    ],
+    [
+     "2026-06-16 19:16",
      10112.56
     ]
    ],
@@ -3199,6 +3235,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-16 17:00",
        4361.5
+      ],
+      [
+       "2026-06-16 18:00",
+       4360.0
       ]
      ]
     },
@@ -3382,6 +3422,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-16 17:00",
        78.860001
+      ],
+      [
+       "2026-06-16 18:00",
+       79.279999
       ]
      ]
     }
@@ -3542,6 +3586,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-16 18:16",
+     9786.09
+    ],
+    [
+     "2026-06-16 19:16",
      9786.09
     ]
    ],
@@ -3854,6 +3902,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-16 17:00",
        0.66452
+      ],
+      [
+       "2026-06-16 18:00",
+       0.6641
       ]
      ]
     },
@@ -4161,6 +4213,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-16 17:00",
        0.23791
+      ],
+      [
+       "2026-06-16 18:00",
+       0.24037
       ]
      ]
     }
@@ -4168,6 +4224,18 @@ footer .foot-mark b{ color:var(--amber); }
   }
  ],
  "decisions": [
+  {
+   "ts": "2026-06-16 19:18",
+   "symbol": "SOL",
+   "direction": "long",
+   "account": "agents-v1",
+   "risk_verdict": "approve",
+   "thesis": "Funding -1.26% APR su SOL replica esattamente il pattern 'thesis_right' delle lezioni: shorts pagano per mantenere posizione su un asset che sovraperforma il basket (+13.34% 7d) in regime spot bull confermato. Il threshold -1% APR è la soglia storica di squeeze meccanico lento — non ancora avvenuto. La tesi è falsificabile: se nelle prossime 4h il gradient del funding non migliora (resta sotto -1.5% senza movimento spot), il setup diventa hedging strutturale, non squeeze. Bear ETH scartato: narrative leak richiede timing su correzione cognitiva del mercato, troppo speculativo; ZEC scartato per lezioni esplicitamente negative su crowding.",
+   "invalidation": "BTC rompe $64k (flush correlazione), oppure SOL non regge $71.50 nella prossima candela 4h (conferma debolezza spot che invalida il regime), oppure funding gradient si deteriora sotto -2% APR senza recupero prezzo (segnala hedging spot/perp, non squeeze imminente).",
+   "outcome": {
+    "closed": false
+   }
+  },
   {
    "ts": "2026-06-16 16:19",
    "symbol": "SOL",
