@@ -19,6 +19,7 @@ jobs:
     timeout-minutes: 8
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       COINALYZE_API_KEY: ${{ secrets.COINALYZE_API_KEY }}
     steps:
       - uses: actions/checkout@v4

@@ -9,7 +9,7 @@
 //
 // Secret richiesto: GH_PAT — PAT fine-grained con permesso Actions: write sul repo.
 
-const REPO = "LorenzoGiordani/defi-ai-vault";
+const REPO = "LorenzoGiordani/lux-ai"; // repo rinominato da defi-ai-vault
 const HOURLY_CRON = "10 * * * *";
 
 async function dispatch(env, workflow) {
