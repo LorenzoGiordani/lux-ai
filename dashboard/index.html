@@ -565,6 +565,9 @@ footer .foot-mark b{ color:var(--amber); }
       <span class="ll-item"><span class="sw" style="background:var(--text-4)"></span>ritirata</span>
     </div>
     <div class="tree" id="tree"></div>
+    <h3 style="font-family:var(--serif);margin:26px 0 10px">Promozioni &amp; retrocessioni</h3>
+    <p class="note" style="margin-bottom:10px">Evoluzione sul campo: a ogni run il sistema promuove gli sfidanti che battono il campione e ritira i perdenti — in automatico, sulla performance paper.</p>
+    <div id="lifecycle"></div>
   </section>
 
   <!-- EVENTI NEWS -->
@@ -611,7 +614,7 @@ footer .foot-mark b{ color:var(--amber); }
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-17 21:19",
+ "updated_utc": "2026-06-17 21:26",
  "accounts": [
   {
    "id": "funding-squeeze-breakout-g2-g1-g2",
@@ -999,7 +1002,7 @@ footer .foot-mark b{ color:var(--amber); }
      10000.0
     ],
     [
-     "2026-06-17 21:15",
+     "2026-06-17 21:25",
      10000.0
     ]
    ],
@@ -1703,11 +1706,11 @@ footer .foot-mark b{ color:var(--amber); }
      10226.79
     ],
     [
-     "2026-06-17 21:15",
+     "2026-06-17 21:25",
      10226.79
     ],
     [
-     "2026-06-17 21:19",
+     "2026-06-17 21:26",
      10226.79
     ]
    ],
@@ -2806,7 +2809,7 @@ footer .foot-mark b{ color:var(--amber); }
      9688.43
     ],
     [
-     "2026-06-17 21:15",
+     "2026-06-17 21:25",
      9688.43
     ]
    ],
@@ -4168,7 +4171,7 @@ footer .foot-mark b{ color:var(--amber); }
      10112.56
     ],
     [
-     "2026-06-17 21:15",
+     "2026-06-17 21:25",
      10112.56
     ]
    ],
@@ -5071,7 +5074,7 @@ footer .foot-mark b{ color:var(--amber); }
      9838.1
     ],
     [
-     "2026-06-17 21:15",
+     "2026-06-17 21:25",
      9838.1
     ]
    ],
@@ -6733,6 +6736,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": null,
    "status": "retired",
    "sharpe": 0.0,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
    "note": "v1 manuale — baseline per il loop evolutivo"
   },
   {
@@ -6740,6 +6747,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": null,
    "status": "challenger",
    "sharpe": 0.0,
+   "sharpe_r": -127203.259,
+   "n_closed": 3,
+   "mean_r": -1.016,
+   "pnl_paper": -304.89,
    "note": "TSMOM canonico adattato: orizzonti 7g/30g, exit posizionali (10 giorni)."
   },
   {
@@ -6747,6 +6758,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": null,
    "status": "retired",
    "sharpe": 0.0,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
    "note": "v1: fade puro dell'estensione VWAP. Variante futura: AND NOT volume_surge quando il registry supporterà la negazione."
   },
   {
@@ -6754,6 +6769,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": null,
    "status": "candidate",
    "sharpe": -0.1,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
    "note": "seed di ricerca"
   },
   {
@@ -6761,6 +6780,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": null,
    "status": "candidate",
    "sharpe": 0.43,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
    "note": "seed di ricerca"
   },
   {
@@ -6768,6 +6791,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": null,
    "status": "candidate",
    "sharpe": 0.33,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
    "note": "seed di ricerca"
   },
   {
@@ -6775,6 +6802,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": "funding-squeeze-breakout-v1",
    "status": "candidate",
    "sharpe": -2.22,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
    "note": "Sostituito filtro funding con vol_compression: attacca direttamente la perdita nel chop. Funding filtrava il crowding ma non la qualità del breakout."
   },
   {
@@ -6782,6 +6813,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": "funding-squeeze-breakout-g2-g1",
    "status": "retired",
    "sharpe": -0.41,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
    "note": "g2-g1 con estremo 95/336h invece di 92/168h."
   },
   {
@@ -6789,6 +6824,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": "funding-squeeze-breakout-g2-g1",
    "status": "challenger",
    "sharpe": -0.09,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
    "note": "g2-g1 con gate più permissivo (pct 45)."
   },
   {
@@ -6796,6 +6835,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": "funding-squeeze-breakout-g2-g1",
    "status": "retired",
    "sharpe": -0.11,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
    "note": "g2-g1 con exit più pazienti (2R / 48h)."
   },
   {
@@ -6803,6 +6846,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": "funding-squeeze-breakout-g2",
    "status": "retired",
    "sharpe": -0.13,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
    "note": "Gate vol_compression (pct 30, più permissivo del default per non strozzare le entry già rare). Resto identico al parent g2."
   },
   {
@@ -6810,6 +6857,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": "funding-squeeze-breakout-g2",
    "status": "retired",
    "sharpe": -0.2,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
    "note": "Estremo più profondo (97 su finestra 2 settimane). Ipotesi: la coda della distribuzione del funding è dove vive l'edge del fade."
   },
   {
@@ -6817,6 +6868,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": "funding-squeeze-breakout-g2",
    "status": "retired",
    "sharpe": -1.09,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
    "note": "Solo exit mutate: scalp asimmetrico. Stop 1.5 / target 1.5% / 12h. Riduce l'esposizione al rischio trend che ha ucciso SOL."
   },
   {
@@ -6824,6 +6879,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": "funding-squeeze-breakout-g2",
    "status": "retired",
    "sharpe": -0.53,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
    "note": "Tolto funding, fade diretto del flow in compressione. Test di ablazione: se rende come g2, il funding non serviva."
   },
   {
@@ -6831,6 +6890,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": "funding-squeeze-breakout-v1",
    "status": "candidate",
    "sharpe": -0.81,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
    "note": "Inversione completa: da trend-following a mean-reversion sul crowding. Stop stretto e time_stop corto: la tesi di esaurimento o si realizza subito o è sbagliata"
   },
   {
@@ -6838,6 +6901,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": "funding-squeeze-breakout-v1",
    "status": "candidate",
    "sharpe": 0.14,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
    "note": "Stessa tesi del parent, esecuzione ricalibrata sul breakdown delle uscite (15 stop / 5 target). Selettività su (range più lungo, volume più alto), tolleranza al"
   },
   {
@@ -6845,6 +6912,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": "funding-squeeze-breakout-v1",
    "status": "candidate",
    "sharpe": -0.19,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
    "note": "Funding sostituito da conferma di flusso (più entry, conferma più pertinente). Volume mult abbassato a 1.5 perché taker_flow già filtra la partecipazione. Targe"
   },
   {
@@ -6852,6 +6923,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": null,
    "status": "candidate",
    "sharpe": 1.56,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
    "note": "seed di ricerca"
   },
   {
@@ -6859,6 +6934,10 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": null,
    "status": "challenger",
    "sharpe": 1.7,
+   "sharpe_r": 0.487,
+   "n_closed": 2,
+   "mean_r": 0.974,
+   "pnl_paper": 116.89,
    "note": "seed di ricerca"
   },
   {
@@ -6866,9 +6945,14 @@ footer .foot-mark b{ color:var(--amber); }
    "parent": null,
    "status": "challenger",
    "sharpe": 0.0,
+   "sharpe_r": -0.371,
+   "n_closed": 14,
+   "mean_r": -0.169,
+   "pnl_paper": -146.74,
    "note": "seed di ricerca"
   }
  ],
+ "lifecycle": [],
  "news_events": [
   {
    "ts": "2026-06-12 10:45",
@@ -8399,10 +8483,12 @@ footer .foot-mark b{ color:var(--amber); }
       const champ = n.status==='champion' ? ' champion' : '';
       const sh = n.sharpe;
       const shCls = clsOf(sh);
+      const paper = (n.n_closed)?'<span class="sharpe"><span class="sl">paper</span><span class="'+clsOf(n.mean_r||0)+'">'+n.n_closed+'t · '+(n.pnl_paper>=0?'+':'')+NF0.format(n.pnl_paper||0)+'$</span></span>':'';
       return '<div class="node-row'+champ+'">'+
         '<span class="node-id num">'+n.id+'</span>'+
         '<span class="status '+n.status+'">'+(STATUS_IT[n.status]||n.status)+'</span>'+
         '<span class="sharpe"><span class="sl">Sharpe</span><span class="'+shCls+'">'+(sh>0?'+':sh<0?'−':'')+NF2.format(Math.abs(sh))+'</span></span>'+
+        paper+
         '<span class="node-note">'+(n.note||'')+'</span>'+
       '</div>';
     }
@@ -8415,19 +8501,37 @@ footer .foot-mark b{ color:var(--amber); }
     }
     host.innerHTML=build('__root');
   }
+  // feed eventi del ciclo di vita: promozioni / retrocessioni automatiche (evoluzione sul campo)
+  const EV_IT={promote:'promossa a champion', retire:'ritirata', dethrone:'spodestata'};
+  function renderLifecycle(){
+    const host=$('#lifecycle'); if(!host) return;
+    const evs=DATA.lifecycle||[];
+    if(!evs.length){ host.innerHTML='<p class="note">Nessuna promozione/retrocessione ancora — scattano in automatico al superamento dei gate (trade chiusi sufficienti, edge battuto).</p>'; return; }
+    host.innerHTML=evs.map(e=>{
+      const cls=e.event==='promote'?'pos':'neg';
+      return '<div style="display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;padding:9px 0;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12px">'+
+        '<span class="num" style="color:var(--text-3)">'+(e.ts||'')+'</span>'+
+        '<span class="node-id num">'+(e.strategy||'')+'</span>'+
+        '<span class="status '+(e.event==='promote'?'champion':'retired')+'">'+(EV_IT[e.event]||e.event)+'</span>'+
+        (e.by?'<span style="color:var(--text-3)">da '+e.by+'</span>':'')+
+        (e.sharpe_r!=null?'<span class="'+cls+'">sharpe '+NF2.format(e.sharpe_r)+'</span>':'')+
+        (e.n_closed!=null?'<span style="color:var(--text-3)">'+e.n_closed+' trade</span>':'')+
+      '</div>';
+    }).join('');
+  }
 
   function setHeaderTs(){
     $('#updated-ts').textContent = (DATA.updated_utc||'—');
-    if(DATA.updated_utc){  // prossimo run: cron cloud ogni 4h al minuto :10 UTC
+    if(DATA.updated_utc){  // prossimo run: cron cloud ogni ora al minuto :10 UTC
       const now=new Date();
-      const next=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate(),
-        Math.floor(now.getUTCHours()/4)*4+4, 10));
+      const h=now.getUTCMinutes()<10?now.getUTCHours():now.getUTCHours()+1;
+      const next=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate(),h,10));
       $('#next-run').textContent='~'+String(next.getUTCHours()).padStart(2,'0')+':10 UTC';
     }
   }
   function renderAll(){
     renderSummary(); renderAccounts(); renderPositions(); renderFeed(); renderLessons();
-    renderTree(); renderEvents(); renderStrats(); renderBook();
+    renderTree(); renderLifecycle(); renderEvents(); renderStrats(); renderBook();
   }
   // ricarica i dati pipeline (eventi/decisioni/trade chiusi) senza reload pagina
   async function refreshData(){
