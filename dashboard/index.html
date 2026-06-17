@@ -475,6 +475,16 @@ footer .foot-mark b{ color:var(--amber); }
     <div class="strat-grid" id="strats"></div>
   </section>
 
+  <!-- DETTAGLIO STRATEGIA (raggiunta cliccando una strategia) -->
+  <section id="strategia">
+    <div class="sec-head">
+      <a href="#strategie" class="back-link">← Tutte le strategie</a>
+      <span class="kicker">Dettaglio strategia</span>
+      <h2 id="sd-title">—</h2>
+    </div>
+    <div id="strat-detail"></div>
+  </section>
+
   <!-- POSIZIONI -->
   <section id="posizioni">
     <div class="sec-head">
@@ -600,7 +610,7 @@ footer .foot-mark b{ color:var(--amber); }
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-17 15:18",
+ "updated_utc": "2026-06-17 16:06",
  "accounts": [
   {
    "id": "funding-squeeze-breakout-g2-g1-g2",
@@ -1981,6 +1991,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-17 14:00",
        0.78815
+      ],
+      [
+       "2026-06-17 15:00",
+       0.80506
       ]
      ]
     },
@@ -2328,6 +2342,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-17 14:00",
        483.1
+      ],
+      [
+       "2026-06-17 15:00",
+       492.76
       ]
      ]
     },
@@ -2655,6 +2673,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-17 14:00",
        72.349
+      ],
+      [
+       "2026-06-17 15:00",
+       73.8
       ]
      ]
     }
@@ -5516,6 +5538,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-17 14:00",
        0.24009
+      ],
+      [
+       "2026-06-17 15:00",
+       0.24385
       ]
      ]
     }
@@ -8462,9 +8488,76 @@ footer .foot-mark b{ color:var(--amber); }
         '<p class="s-cosa">'+s.cosa+'</p>'+
         '<div class="s-row"><span class="s-k">Entra</span><span>'+s.entra+'</span></div>'+
         '<div class="s-row"><span class="s-k">Esce</span><span>'+s.esce+'</span></div>'+
-        '<div class="s-row"><span class="s-k">Rischio</span><span>'+s.rischio+'</span></div>';
+        '<div class="s-row"><span class="s-k">Rischio</span><span>'+s.rischio+'</span></div>'+
+        '<div class="s-row" style="margin-top:8px"><span class="s-k">'+(s.id||'')+'</span><span style="color:var(--amber)">Dettaglio →</span></div>';
+      card.style.cursor='pointer';
+      card.onclick=()=>{ location.hash='#strategia?id='+encodeURIComponent(s.id); };
       host.appendChild(card);
     });
+  }
+  // ---------- dettaglio singola strategia ----------
+  function renderStrategyDetail(id){
+    const host=$('#strat-detail'); if(!host) return;
+    const s=(DATA.strategies||[]).find(x=>x.id===id);
+    const a=(DATA.accounts||[]).find(x=>x.id===id);
+    const trades=(DATA.tradebook||[]).filter(t=>t.strategy===id);
+    const title=$('#sd-title'); if(title) title.textContent=s?s.nome:(a?a.label:id);
+    if(!s&&!a){ host.innerHTML='<p class="note">Strategia non trovata.</p>'; return; }
+    const ST_IT={champion:'campione',challenger:'sfidante',live:'attiva',candidate:'candidata',retired:'ritirata'};
+    let html='';
+    // scheda spiegazione
+    if(s){
+      html+='<div class="strat-card" style="cursor:default;margin-bottom:18px">'+
+        '<div class="s-head"><h3>'+s.nome+'</h3>'+(s.status?'<span class="s-stat '+s.status+'">'+(ST_IT[s.status]||s.status)+'</span>':'')+'</div>'+
+        (s.cosa?'<p class="s-cosa">'+s.cosa+'</p>':'')+
+        (s.entra?'<div class="s-row"><span class="s-k">Entra</span><span>'+s.entra+'</span></div>':'')+
+        (s.esce?'<div class="s-row"><span class="s-k">Esce</span><span>'+s.esce+'</span></div>':'')+
+        (s.rischio?'<div class="s-row"><span class="s-k">Rischio</span><span>'+s.rischio+'</span></div>':'')+
+        '</div>';
+    }
+    // scheda conto (equity + metriche + curva)
+    if(a){
+      const wr=a.equity-10000;
+      html+='<div class="acct" style="margin-bottom:18px"><div class="acct-top"><div>'+
+        '<div class="acct-name">'+a.label+'</div><div class="acct-id num">'+a.id+'</div></div>'+
+        '<span class="tag">'+(a.tag||'')+'</span></div>'+
+        '<div class="equity-row"><span class="equity num">'+NF2.format(a.equity)+' <span class="cur">$</span></span>'+
+        '<span class="delta-chip '+chipOf(wr)+'">'+signedUsd(wr)+' · '+pctSigned(wr/10000*100)+'</span></div>'+
+        '<div class="metrics">'+
+          '<div class="metric"><div class="l">P&amp;L realizzato</div><div class="v '+clsOf(a.pnl_realized)+'">'+signedUsd(a.pnl_realized)+'</div></div>'+
+          '<div class="metric"><div class="l">Posizioni aperte</div><div class="v">'+(a.positions?a.positions.length:0)+'</div></div>'+
+          '<div class="metric"><div class="l">Chiusi · vinti</div><div class="v">'+(a.trades_closed||0)+' · '+(a.wins||0)+'</div></div>'+
+        '</div><div class="chart-wrap" data-sd-curve><div class="chart-tip"></div></div></div>';
+    }
+    // posizioni aperte della strategia
+    if(a&&a.positions&&a.positions.length){
+      html+='<h3 style="font-family:var(--serif);margin:6px 0 10px">Posizioni aperte</h3><div class="pos-list">';
+      a.positions.forEach((p,i)=>{ html+='<div class="pcard" data-sd-pos="'+i+'">'+
+        '<div class="pcard-head"><span class="s-tick">'+p.symbol+'</span>'+
+        '<span class="side '+p.direction+'">'+(p.direction==='long'?'▲ long':'▼ short')+'</span></div>'+
+        '<div data-sd-chart="'+i+'"></div></div>'; });
+      html+='</div>';
+    }
+    // trade della strategia
+    html+='<h3 style="font-family:var(--serif);margin:18px 0 10px">Operazioni ('+trades.length+')</h3>';
+    if(trades.length){
+      html+='<div class="table-scroll"><table class="pos-tbl"><thead><tr>'+
+        '<th>Aperta</th><th>Chiusa</th><th>Asset</th><th>Lato</th><th>Entry</th><th>Exit</th><th>P&amp;L</th><th>R</th><th>Uscita</th></tr></thead><tbody>';
+      trades.forEach(t=>{ html+='<tr>'+
+        '<td class="muted-cell num">'+fmtTs(t.opened_at)+'</td>'+
+        '<td class="muted-cell num">'+(t.closed_at?fmtTs(t.closed_at):'<span class="open-flag"><span class="d"></span>aperta</span>')+'</td>'+
+        '<td><span class="s-tick">'+t.symbol+'</span></td>'+
+        '<td><span class="side '+t.direction+'">'+(t.direction==='long'?'▲ long':'▼ short')+'</span></td>'+
+        '<td>'+px(t.entry_px)+'</td><td>'+(t.exit_px!=null?px(t.exit_px):'—')+'</td>'+
+        '<td class="'+(t.pnl_usd>0?'pos':t.pnl_usd<0?'neg':'')+'">'+(t.pnl_usd!=null?signedUsd(t.pnl_usd):'—')+'</td>'+
+        '<td class="'+(t.r_mult>0?'pos':t.r_mult<0?'neg':'')+'">'+(t.r_mult!=null?(t.r_mult>0?'+':'')+NF2.format(t.r_mult)+'R':'—')+'</td>'+
+        '<td class="muted-cell">'+(REASON_IT[t.reason]||t.reason||'—')+'</td></tr>'; });
+      html+='</tbody></table></div>';
+    } else { html+='<p class="note">Nessuna operazione ancora.</p>'; }
+    host.innerHTML=html;
+    // curva equity + mini-chart posizioni
+    if(a&&a.equity_curve&&a.equity_curve.length>1){ const w=host.querySelector('[data-sd-curve]'); if(w) registerChart(w, a.equity_curve); }
+    if(a&&a.positions){ a.positions.forEach((p,i)=>{ const slot=host.querySelector('[data-sd-chart="'+i+'"]'); if(slot){ const svg=posChartSVG(p,null); if(svg) slot.innerHTML=svg; } }); }
   }
 
   /* ---------- render: mini-chart posizioni aperte ---------- */
@@ -8732,12 +8825,19 @@ footer .foot-mark b{ color:var(--amber); }
 
   /* ---------- boot ---------- */
   // router a pagine: una scheda = una vista. Eventi rimosso dalla nav.
-  const ROUTES=['stato','strategie','posizioni','decisioni','book','lezioni','evoluzione'];
+  const ROUTES=['stato','strategie','strategia','posizioni','decisioni','book','lezioni','evoluzione'];
   function showRoute(){
-    let id=(location.hash||'#stato').replace('#','').split('?')[0];
+    const raw=(location.hash||'#stato').replace('#','');
+    let id=raw.split('?')[0];
     if(!ROUTES.includes(id)) id='stato';
+    if(id==='strategia'){
+      const q=new URLSearchParams(raw.split('?')[1]||'');
+      renderStrategyDetail(q.get('id')||'');
+    }
     document.querySelectorAll('main > section').forEach(s=>{ s.style.display=(s.id===id)?'':'none'; });
-    document.querySelectorAll('.secnav a').forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+id));
+    // 'strategia' non ha voce di nav: evidenzia Strategie
+    const navId=(id==='strategia')?'strategie':id;
+    document.querySelectorAll('.secnav a').forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+navId));
     window.scrollTo(0,0);
   }
   function boot(){
