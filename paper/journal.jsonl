@@ -488,3 +488,9 @@
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10279.35, "open_positions": 2, "logged_at": "2026-06-17T07:16:06.634939+00:00"}
 {"type": "skip", "strategy": "agents-v1", "symbol": "ZEC", "reason": "posizione esistente o max concorrenti", "logged_at": "2026-06-17T07:18:58.699414+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10279.35, "open_positions": 2, "logged_at": "2026-06-17T07:18:58.699817+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-v1", "equity": 9688.43, "open_positions": 3, "logged_at": "2026-06-17T08:15:37.602477+00:00"}
+{"type": "heartbeat", "strategy": "funding-squeeze-breakout-g2-g1-g2", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-17T08:15:49.808149+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-conservative-v1", "equity": 10112.56, "open_positions": 2, "logged_at": "2026-06-17T08:15:54.512674+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-liq-v1", "equity": 9959.64, "open_positions": 2, "logged_at": "2026-06-17T08:16:06.460375+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10279.35, "open_positions": 2, "logged_at": "2026-06-17T08:16:08.370362+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10279.35, "open_positions": 2, "logged_at": "2026-06-17T08:19:29.804592+00:00"}

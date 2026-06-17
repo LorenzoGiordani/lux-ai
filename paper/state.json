@@ -15,7 +15,7 @@
     "stop_px": 0.7730270745,
     "target_px": 0.91542679875,
     "opened_at": "2026-06-17 01:00:00+00:00",
-    "checked_until": "2026-06-17 06:00:00+00:00",
+    "checked_until": "2026-06-17 07:00:00+00:00",
     "time_stop_h": 24,
     "thesis": "SUI \u00e8 l'unico asset del basket con segnale quantitativo attivo (vwap_zscore=1), confermato da regime bull e forza relativa intraday di +2.8% \u2014 la pi\u00f9 alta nelle ultime 24h. Il funding a +1.37% APR indica posizionamento long fresco e non overextension: la domanda reale non ha ancora esaurito i venditori strutturali, lasciando spazio verso $0.90\u20130.93 prima di incontrare resistenza significativa. SOL ha il pattern lessons-validated (thesis_right) ma zero segnali attivi oggi; le regole impongono il registry, non il pattern discrezionale, quindi SUI prevale.",
     "invalidation": "Chiusura oraria sotto VWAP giornaliero con volume \u2265 media delle ultime 4h; BTC che rompe $63k innescando risk-off generalizzato sul basket; funding SUI che vira negativo prima del target (segnale di unwinding long); assenza di follow-through con espansione di volume entro 8h dall'ingresso.",
@@ -30,14 +30,14 @@
     "stop_px": 537.0410703,
     "target_px": 447.53422525,
     "opened_at": "2026-06-17 03:00:00+00:00",
-    "checked_until": "2026-06-17 06:00:00+00:00",
+    "checked_until": "2026-06-17 07:00:00+00:00",
     "time_stop_h": 48,
     "thesis": "ZEC ha completato un rally di +17.8% in 7 giorni senza catalizzatore fondamentale identificabile, e oggi registra il primo pullback significativo (-3.2%) con funding ancora positivo (+1.37% APR): i longs non capitolano nonostante il prezzo scenda, segnale classico di distribuzione per esaurimento. Il pattern \u00e8 documentato nelle lezioni del journal come configurazione ad alto tasso di mean reversion (-15/20%). SOL \u00e8 il setup long preferito ma manca di segnale attivo \u2014 entrare ora sarebbe speculazione cieca; ZEC short \u00e8 invece il trade con il miglior allineamento storico tra regime, struttura di funding e pattern di price action. Size ridotta (0.75%) e leva bassa (2x) compensano il rischio di slippage su asset illiquido.",
     "invalidation": "Prezzo ZEC recupera e chiude sopra il massimo degli ultimi 7 giorni, oppure il funding rate scende sotto zero (segnale che i longs stanno capitolando e la pressione sell \u00e8 gi\u00e0 esaurita) \u2014 in entrambi i casi la tesi di distribuzione/esaurimento decade e si chiude immediatamente.",
     "decision_ts": "2026-06-17T04:19:06.130356+00:00"
    }
   },
-  "last_decision_ts": "2026-06-17T07:18:56.963085+00:00"
+  "last_decision_ts": "2026-06-17T08:19:27.814887+00:00"
  },
  "tsmom-v1": {
   "equity": 9688.431079720001,
@@ -51,7 +51,7 @@
     "stop_px": 84.02558898144531,
     "target_px": 71.09857529199219,
     "opened_at": "2026-06-15 00:00:00+00:00",
-    "checked_until": "2026-06-17 06:00:00+00:00"
+    "checked_until": "2026-06-17 07:00:00+00:00"
    },
    "xyz_BRENTOIL": {
     "strategy": "tsmom-v1",
@@ -62,7 +62,7 @@
     "stop_px": 87.1033723494873,
     "target_px": 73.70285352648926,
     "opened_at": "2026-06-15 00:00:00+00:00",
-    "checked_until": "2026-06-17 06:00:00+00:00"
+    "checked_until": "2026-06-17 07:00:00+00:00"
    },
    "xyz_SILVER": {
     "strategy": "tsmom-v1",
@@ -73,7 +73,7 @@
     "stop_px": 73.9344136505127,
     "target_px": 62.559888473510746,
     "opened_at": "2026-06-15 13:00:00+00:00",
-    "checked_until": "2026-06-17 06:00:00+00:00"
+    "checked_until": "2026-06-17 07:00:00+00:00"
    }
   }
  },
@@ -89,7 +89,7 @@
     "stop_px": 4457.3458525,
     "target_px": 4022.4828425000005,
     "opened_at": "2026-06-15 04:00:00+00:00",
-    "checked_until": "2026-06-17 06:00:00+00:00"
+    "checked_until": "2026-06-17 07:00:00+00:00"
    },
    "xyz_BRENTOIL": {
     "strategy": "tsmom-conservative-v1",
@@ -100,7 +100,7 @@
     "stop_px": 83.89996946468352,
     "target_px": 75.71460659008027,
     "opened_at": "2026-06-16 07:00:00+00:00",
-    "checked_until": "2026-06-17 06:00:00+00:00"
+    "checked_until": "2026-06-17 07:00:00+00:00"
    }
   }
  },
@@ -116,7 +116,7 @@
     "stop_px": 0.23095543185,
     "target_px": 0.25464316845,
     "opened_at": "2026-06-16 16:00:00+00:00",
-    "checked_until": "2026-06-17 06:00:00+00:00"
+    "checked_until": "2026-06-17 07:00:00+00:00"
    },
    "WLD": {
     "strategy": "tsmom-liq-v1",
@@ -127,7 +127,7 @@
     "stop_px": 0.6607921319999999,
     "target_px": 0.7285656839999999,
     "opened_at": "2026-06-16 20:00:00+00:00",
-    "checked_until": "2026-06-17 06:00:00+00:00"
+    "checked_until": "2026-06-17 07:00:00+00:00"
    }
   }
  }
