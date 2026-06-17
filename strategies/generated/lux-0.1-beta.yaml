@@ -1,0 +1,62 @@
+id: lux-0.1-beta
+parent: tsmom-liq-v1
+status: challenger
+created: '2026-06-17'
+thesis: >
+  Flagship LUX 0.1 (BETA, rischio spinto). Confluenza di tutto ciò che abbiamo
+  validato finora: l'unico edge ortogonale robusto è il trend confermato dalle
+  liquidazioni reali (tsmom AND liq_imbalance, 100% celle griglia battono il
+  baseline, 7/9 coin positivi). A questo aggiungiamo il forecast del foundation
+  model Kronos nel VOTO direzionale (non come gate, per non strozzare le entry)
+  e un veto sugli eventi news (l'event-study ha falsificato il tono come predittore
+  di direzione, ma la volatilità attorno ai burst è reale → sospendi nuove entrate).
+  Rischio deliberatamente aggressivo: leva fino a 3x, 5% a rischio per trade,
+  fino a 4 posizioni concorrenti, target asimmetrico 4R. È una BETA: punta a
+  massimizzare il rendimento sull'edge provato accettando drawdown maggiori.
+  Falsificata se: non batte tsmom-liq-v1 sul rendimento risk-adjusted (Sharpe_r)
+  in paper, o se il drawdown rende l'equity instabile.
+universe:
+  selection: explicit
+  max_assets: 9
+  kinds:
+  - mixed
+timeframe: 1h
+decision_every_h: 4
+signals:
+- name: tsmom
+  params:
+    short_h: 168
+    long_h: 720
+- name: liq_imbalance
+  params:
+    lookback_d: 21
+    extreme_pct: 75
+- name: kronos_forecast
+  params:
+    horizon_h: 24
+    min_move_pct: 1.0
+- name: news_event
+  params:
+    topics: crypto
+    max_age_h: 24
+    min_z: 3.0
+entry:
+  rule: tsmom AND liq_imbalance
+  direction: signal_vote
+  veto: news_event
+exit:
+  stop_pct: 2.5
+  target_r: 4.0
+  time_stop_h: 240
+risk:
+  max_leverage: 3
+  risk_per_trade_pct: 5.0
+  max_concurrent_positions: 4
+evolution:
+  mutable:
+  - signals
+  - entry
+  - exit
+  notes: 'LUX 0.1 BETA — confluenza tsmom+liq (edge provato) con voto Kronos e veto news, rischio spinto.'
+backtest: {}
+paper_symbols: BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV
