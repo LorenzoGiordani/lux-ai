@@ -280,6 +280,7 @@ def build_data() -> dict:
         "verdict": l.get("verdict", ""), "lesson": l.get("lesson", ""), "tags": l.get("tags", []),
     } for l in lessons][::-1]
 
+    from backtest.lifecycle import paper_stats
     lineage = []
     files = sorted(ROOT.glob("strategies/*.yaml")) + sorted(ROOT.glob("strategies/generated/*.yaml"))
     for f in files:
@@ -289,9 +290,30 @@ def build_data() -> dict:
         bt = next(iter(s.get("backtest", {}).values()), {})
         agg = bt.get("aggregate") or bt.get("metrics") or {}
         sharpe = agg.get("mean_sharpe", agg.get("sharpe", 0)) or 0
+        try:
+            ps = paper_stats(s["id"])
+        except Exception:
+            ps = {}
         lineage.append({"id": s["id"], "parent": s.get("parent"),
                         "status": s.get("status", "candidate"), "sharpe": round(float(sharpe), 2),
+                        "sharpe_r": ps.get("sharpe_r"), "n_closed": ps.get("n_closed"),
+                        "mean_r": ps.get("mean_r"), "pnl_paper": ps.get("total_pnl"),
                         "note": s.get("evolution", {}).get("notes", "")[:160]})
+
+    # eventi del ciclo di vita (promote/retire/dethrone) — l'evoluzione "sul campo"
+    lifecycle = []
+    lc_path = ROOT / "paper" / "lifecycle.jsonl"
+    if lc_path.exists():
+        for l in lc_path.read_text().splitlines()[-50:]:
+            if not l.strip():
+                continue
+            e = json.loads(l)
+            st = e.get("stats", {}) or {}
+            lifecycle.append({"event": e.get("event"), "strategy": e.get("strategy"),
+                              "family": e.get("family"), "by": e.get("by"),
+                              "sharpe_r": st.get("sharpe_r"), "n_closed": st.get("n_closed"),
+                              "ts": ts_short(e.get("logged_at", ""))})
+        lifecycle = lifecycle[::-1]
 
     events = []
     ev_path = ROOT / "data/news/gdelt_events.parquet"
@@ -355,6 +377,7 @@ def build_data() -> dict:
     return {
         "updated_utc": f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M}",
         "accounts": accounts, "decisions": dec_out, "lessons": les_out, "lineage": lineage,
+        "lifecycle": lifecycle,
         "news_events": events, "strategies": strategies, "tradebook": book,
     }
 

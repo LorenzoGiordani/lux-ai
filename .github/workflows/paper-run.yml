@@ -50,17 +50,20 @@ jobs:
           uv run scripts/decide.py BTC,ETH,SOL,SUI,ZEC || true
           uv run scripts/agents_paper.py || true
 
-      # LOOP EVOLUTIVO — settimanale (lunedì): promuove su paper, poi genera nuovi challenger.
-      # Promote prima (sulla performance accumulata), poi evolve il champion aggiornato.
-      - name: loop evolutivo (promote + evolve)
-        if: env.CLAUDE_CODE_OAUTH_TOKEN != '' && github.event_name == 'schedule'
+      # EVOLUZIONE SUL CAMPO — promozione/retrocessione AD OGNI RUN (cheap, LLM-free,
+      # gate conservativi: no-op finché non ci sono abbastanza trade chiusi).
+      - name: promote/retire continuo
+        run: uv run scripts/promote.py || true
+
+      # GENERAZIONE nuovi challenger — settimanale (lun 00:xx UTC), serve l'LLM ed è pesante.
+      - name: evolve (genera challenger)
+        if: env.CLAUDE_CODE_OAUTH_TOKEN != ''
         run: |
           if [ "$(date -u +%u)" = "1" ] && [ "$(date -u +%H)" = "00" ]; then
             command -v claude >/dev/null || npm install -g @anthropic-ai/claude-code
-            uv run scripts/promote.py || true
             uv run scripts/evolve_auto.py || true
           else
-            echo "loop evolutivo: salta (gira lun 00:xx UTC)"
+            echo "evolve: salta (gira lun 00:xx UTC)"
           fi
 
       - name: dashboard
