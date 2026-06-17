@@ -4,23 +4,8 @@
   "positions": {}
  },
  "agents-v1": {
-  "equity": 10278.858936084382,
+  "equity": 10226.791900884382,
   "positions": {
-   "SUI": {
-    "strategy": "agents-v1",
-    "symbol": "SUI",
-    "direction": "long",
-    "entry_px": 0.81371271,
-    "size_usd": 1028.18,
-    "stop_px": 0.7730270745,
-    "target_px": 0.91542679875,
-    "opened_at": "2026-06-17 01:00:00+00:00",
-    "checked_until": "2026-06-17 18:00:00+00:00",
-    "time_stop_h": 24,
-    "thesis": "SUI \u00e8 l'unico asset del basket con segnale quantitativo attivo (vwap_zscore=1), confermato da regime bull e forza relativa intraday di +2.8% \u2014 la pi\u00f9 alta nelle ultime 24h. Il funding a +1.37% APR indica posizionamento long fresco e non overextension: la domanda reale non ha ancora esaurito i venditori strutturali, lasciando spazio verso $0.90\u20130.93 prima di incontrare resistenza significativa. SOL ha il pattern lessons-validated (thesis_right) ma zero segnali attivi oggi; le regole impongono il registry, non il pattern discrezionale, quindi SUI prevale.",
-    "invalidation": "Chiusura oraria sotto VWAP giornaliero con volume \u2265 media delle ultime 4h; BTC che rompe $63k innescando risk-off generalizzato sul basket; funding SUI che vira negativo prima del target (segnale di unwinding long); assenza di follow-through con espansione di volume entro 8h dall'ingresso.",
-    "decision_ts": "2026-06-17T02:19:02.150833+00:00"
-   },
    "ZEC": {
     "strategy": "agents-v1",
     "symbol": "ZEC",

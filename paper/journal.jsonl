@@ -568,3 +568,4 @@
 {"type": "heartbeat", "strategy": "tsmom-liq-v1", "equity": 9898.34, "open_positions": 1, "logged_at": "2026-06-17T19:16:09.431770+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10278.86, "open_positions": 3, "logged_at": "2026-06-17T19:16:12.033562+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10278.86, "open_positions": 3, "logged_at": "2026-06-17T19:16:27.283946+00:00"}
+{"type": "close", "strategy": "agents-v1", "symbol": "SUI", "reason": "stopped", "exit_px": 0.7728724690851, "pnl_usd": -52.07, "equity": 10226.79, "ts": "2026-06-17 19:00:00+00:00", "logged_at": "2026-06-17T19:43:14.674323+00:00"}
