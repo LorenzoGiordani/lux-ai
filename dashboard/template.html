@@ -462,7 +462,15 @@ footer .foot-mark b{ color:var(--amber); }
       <p class="note">Balance fittizio, prezzi reali di mercato. La pipeline di agenti decide; il TSMOM sistematico fa da challenger.</p>
     </div>
     <div class="portfolio" id="portfolio"></div>
+    <div id="portfolio-kpi" style="margin-bottom:16px"></div>
+    <div id="portfolio-curve" style="margin-bottom:18px"></div>
+    <h3 style="font-family:var(--serif);margin:8px 0 10px">Rischio &amp; esposizione</h3>
+    <div id="risk-panel" style="margin-bottom:20px"></div>
+    <h3 style="font-family:var(--serif);margin:8px 0 10px">I conti</h3>
     <div class="accounts" id="accounts"></div>
+    <h3 style="font-family:var(--serif);margin:24px 0 6px">Confluenza segnali · LUX</h3>
+    <p class="note" style="margin-bottom:10px">Stato live dei 5 segnali ortogonali per asset. Confluenza = i 3 core (TSMOM·LIQ·KRONOS) attivi e concordi → setup ad alta convinzione.</p>
+    <div id="signals-matrix"></div>
   </section>
 
   <!-- STRATEGIE SPIEGATE -->
@@ -516,6 +524,7 @@ footer .foot-mark b{ color:var(--amber); }
     </div>
     <div class="book-filters" id="book-filters"></div>
     <div class="book-stats" id="book-stats"></div>
+    <div id="book-analytics"></div>
     <div class="table-scroll">
       <table class="pos-tbl">
         <thead>
@@ -1240,6 +1249,8 @@ footer .foot-mark b{ color:var(--amber); }
         '<div class="s-row"><span class="s-k">Entra</span><span>'+s.entra+'</span></div>'+
         '<div class="s-row"><span class="s-k">Esce</span><span>'+s.esce+'</span></div>'+
         '<div class="s-row"><span class="s-k">Rischio</span><span>'+s.rischio+'</span></div>'+
+        ((s.stats&&s.stats.n_closed)?'<div class="s-row" style="margin-top:6px"><span class="s-k">Paper</span><span class="num">'+
+          s.stats.n_closed+'t · WR '+Math.round((s.stats.win_rate||0)*100)+'% · <span class="'+clsOf(s.stats.total_pnl||0)+'">'+signedUsd(s.stats.total_pnl||0)+'</span></span></div>':'')+
         '<div class="s-row" style="margin-top:8px"><span class="s-k">'+(s.id||'')+'</span><span style="color:var(--amber)">Dettaglio →</span></div>';
       card.style.cursor='pointer';
       card.onclick=()=>{ location.hash='#strategia?id='+encodeURIComponent(s.id); };
@@ -1376,6 +1387,7 @@ footer .foot-mark b{ color:var(--amber); }
     POS.forEach(rec=>{ if(LIVE[rec.p.symbol]) paintPos(rec); });
     updateAccountsLive();
     updatePosSummary();
+    renderRiskPanel();
     const live=Object.values(LIVE).filter(v=>v.ok).length;
     const stamp=$('#pos-live');
     if(stamp) stamp.innerHTML=live?'<span class="live-dot"></span>live · '+live+' asset · '+t+' · '+(lastSrc||'—'):'';
@@ -1577,9 +1589,121 @@ footer .foot-mark b{ color:var(--amber); }
       $('#next-run').textContent='~'+String(next.getUTCHours()).padStart(2,'0')+':10 UTC';
     }
   }
+  /* ---------- analytics: portafoglio, rischio, segnali, book ---------- */
+  function closedTrades(){ return (DATA.tradebook||[]).filter(t=>t.status==='closed' && t.pnl_usd!=null); }
+  const kpiTile=(l,v,cls)=>'<div class="metric"><div class="l">'+l+'</div><div class="v '+(cls||'')+'">'+v+'</div></div>';
+
+  function renderPortfolioKpi(){
+    const host=$('#portfolio-kpi'); if(!host) return;
+    const cl=closedTrades(); if(!cl.length){ host.innerHTML=''; return; }
+    const pnl=cl.reduce((s,t)=>s+t.pnl_usd,0);
+    const wins=cl.filter(t=>t.pnl_usd>0), losses=cl.filter(t=>t.pnl_usd<0);
+    const gw=wins.reduce((s,t)=>s+t.pnl_usd,0), gl=Math.abs(losses.reduce((s,t)=>s+t.pnl_usd,0));
+    const pf=gl>0?gw/gl:(gw>0?Infinity:0);
+    const rs=cl.map(t=>t.r_mult).filter(v=>v!=null);
+    const avgR=rs.length?rs.reduce((s,v)=>s+v,0)/rs.length:0;
+    const seq=cl.slice().sort((a,b)=>(a.closed_at||'').localeCompare(b.closed_at||''));
+    let cum=0,peak=0,maxdd=0; seq.forEach(t=>{ cum+=t.pnl_usd; peak=Math.max(peak,cum); maxdd=Math.min(maxdd,cum-peak); });
+    host.innerHTML='<div class="metrics" style="grid-template-columns:repeat(6,1fr)">'+
+      kpiTile('P&L realizzato', signedUsd(pnl), clsOf(pnl))+
+      kpiTile('Win rate', Math.round(wins.length/cl.length*100)+'%')+
+      kpiTile('Profit factor', pf===Infinity?'∞':NF2.format(pf))+
+      kpiTile('Avg R', (avgR>=0?'+':'')+NF2.format(avgR)+'R', clsOf(avgR))+
+      kpiTile('Max drawdown', signedUsd(maxdd), maxdd<0?'neg':'')+
+      kpiTile('Trade chiusi', cl.length)+'</div>';
+  }
+
+  function renderPortfolioCurve(){
+    const host=$('#portfolio-curve'); if(!host) return;
+    const cl=closedTrades().slice().sort((a,b)=>(a.closed_at||'').localeCompare(b.closed_at||''));
+    if(cl.length<2){ host.innerHTML=''; return; }
+    let cum=0; const pts=[0]; cl.forEach(t=>{ cum+=t.pnl_usd; pts.push(cum); });
+    const W=920,H=180,L=10,R=72,T=14,B=14,n=pts.length;
+    let lo=Math.min(0,...pts),hi=Math.max(0,...pts); const pad=(hi-lo)*0.08||1; lo-=pad;hi+=pad;
+    const X=i=>L+(W-L-R)*i/(n-1), Y=v=>T+(H-T-B)*(1-(v-lo)/(hi-lo));
+    const path=pts.map((v,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)).join(' ');
+    const area=path+' L'+X(n-1).toFixed(1)+' '+Y(lo).toFixed(1)+' L'+X(0).toFixed(1)+' '+Y(lo).toFixed(1)+' Z';
+    const col=cum>=0?'var(--green)':'var(--red)';
+    host.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;display:block" aria-label="P&L cumulato">'+
+      '<path d="'+area+'" fill="'+(cum>=0?'var(--green-wash)':'var(--red-wash)')+'"/>'+
+      '<line x1="'+L+'" y1="'+Y(0).toFixed(1)+'" x2="'+(W-R)+'" y2="'+Y(0).toFixed(1)+'" stroke="var(--line-2)" stroke-dasharray="3 3"/>'+
+      '<path d="'+path+'" fill="none" stroke="'+col+'" stroke-width="1.7"/>'+
+      '<text x="'+(W-R+6)+'" y="'+(Y(cum)+3).toFixed(1)+'" fill="'+col+'" font-size="10.5" font-family="var(--mono)">'+signedUsd(cum)+'</text>'+
+      '<text x="'+L+'" y="'+(H-2)+'" fill="var(--text-4)" font-size="9" font-family="var(--mono)">P&amp;L cumulato · '+(n-1)+' trade</text></svg>';
+  }
+
+  function renderRiskPanel(){
+    const host=$('#risk-panel'); if(!host) return;
+    const accs=DATA.accounts||[];
+    let gross=0,net=0,equity=0; const byAsset={}; const dist=[];
+    accs.forEach(a=>{ equity+=a.equity||0;
+      (a.positions||[]).forEach(p=>{
+        const lv=LIVE[p.symbol]; const last=(lv&&lv.ok)?lv.px:snapPx(p);
+        const dir=p.direction==='long'?1:-1;
+        gross+=p.size_usd; net+=dir*p.size_usd; byAsset[p.symbol]=(byAsset[p.symbol]||0)+p.size_usd;
+        dist.push({sym:p.symbol, label:a.label, dir:p.direction, live:!!(lv&&lv.ok),
+          dStop:Math.abs(last/p.stop_px-1)*100, dTgt:Math.abs(p.target_px/last-1)*100});
+      });
+    });
+    if(!dist.length){ host.innerHTML='<p class="note">Nessuna esposizione: flat su tutti i conti.</p>'; return; }
+    const grossX=equity?gross/equity:0, netX=equity?net/equity:0;
+    const topAsset=Object.entries(byAsset).sort((a,b)=>b[1]-a[1])[0];
+    let html='<div class="metrics" style="grid-template-columns:repeat(4,1fr)">'+
+      kpiTile('Esposizione lorda', NF0.format(gross)+' $ · '+NF2.format(grossX)+'×')+
+      kpiTile('Esposizione netta', signedUsd(net)+' · '+(netX>=0?'+':'')+NF2.format(netX)+'×', clsOf(net))+
+      kpiTile('Posizioni', dist.length)+
+      kpiTile('Asset più pesante', topAsset?topAsset[0]+' '+Math.round(topAsset[1]/gross*100)+'%':'—')+'</div>';
+    // distanza da stop/target live
+    dist.sort((a,b)=>a.dStop-b.dStop);
+    html+='<div style="margin-top:12px;font-family:var(--mono);font-size:12px">'+
+      '<div style="color:var(--text-3);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">Distanza da stop / target'+(dist.some(d=>d.live)?' <span class="live-dot"></span>live':'')+'</div>'+
+      dist.map(d=>{
+        const warn=d.dStop<1.0; // vicino allo stop
+        return '<div style="display:flex;gap:12px;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--line)">'+
+          '<span class="s-tick" style="min-width:54px">'+d.sym+'</span>'+
+          '<span class="side '+d.dir+'" style="font-size:9px">'+(d.dir==='long'?'▲':'▼')+'</span>'+
+          '<span class="'+(warn?'neg':'')+'">stop '+d.dStop.toFixed(2)+'%</span>'+
+          '<span class="pos" style="opacity:.8">target '+d.dTgt.toFixed(2)+'%</span></div>';
+      }).join('')+'</div>';
+    host.innerHTML=html;
+  }
+
+  function renderSignalsMatrix(){
+    const host=$('#signals-matrix'); if(!host) return;
+    const rows=DATA.signals_matrix||[]; if(!rows.length){ host.innerHTML='<p class="note">Matrice non disponibile.</p>'; return; }
+    const cols=['tsmom','liq_imbalance','kronos_forecast','smart_money_ratio','oi_trend'];
+    const lab={tsmom:'TSMOM',liq_imbalance:'LIQ',kronos_forecast:'KRONOS',smart_money_ratio:'SMART$',oi_trend:'OI'};
+    const cell=v=>{ const bg=v>0?'var(--green-wash)':v<0?'var(--red-wash)':'transparent';
+      const c=v>0?'var(--green)':v<0?'var(--red)':'var(--text-4)'; const t=v>0?'▲':v<0?'▼':'·';
+      return '<td style="text-align:center;background:'+bg+';color:'+c+'">'+t+'</td>'; };
+    let h='<div class="table-scroll"><table class="pos-tbl"><thead><tr><th>Asset</th>'+
+      cols.map(c=>'<th>'+lab[c]+'</th>').join('')+'<th>Confluenza</th></tr></thead><tbody>';
+    rows.forEach(r=>{ h+='<tr><td><span class="s-tick">'+r.symbol+'</span></td>'+cols.map(c=>cell(r.signals[c])).join('')+
+      '<td style="text-align:center">'+(r.aligned?'<span class="status champion">'+(r.direction==='long'?'▲ LONG':'▼ SHORT')+'</span>':'<span style="color:var(--text-4)">—</span>')+'</td></tr>'; });
+    host.innerHTML=h+'</tbody></table></div>';
+  }
+
+  function renderBookAnalytics(){
+    const host=$('#book-analytics'); if(!host) return;
+    const cl=closedTrades(); if(!cl.length){ host.innerHTML=''; return; }
+    const buckets=[{l:'≤-2',min:-1e9,max:-2},{l:'-2:-1',min:-2,max:-1},{l:'-1:0',min:-1,max:0},{l:'0:1',min:0,max:1},{l:'1:2',min:1,max:2},{l:'2:3',min:2,max:3},{l:'≥3',min:3,max:1e9}];
+    const rs=cl.map(t=>t.r_mult).filter(v=>v!=null);
+    const counts=buckets.map(b=>rs.filter(v=>v>b.min&&v<=b.max).length);
+    const maxc=Math.max(1,...counts);
+    const hist='<div style="display:flex;gap:6px;align-items:flex-end;height:96px;margin-top:6px">'+buckets.map((b,i)=>
+      '<div style="flex:1;text-align:center"><div style="height:'+Math.round(counts[i]/maxc*78)+'px;background:'+(b.max<=0?'var(--red)':'var(--green)')+';opacity:.7;border-radius:2px 2px 0 0"></div>'+
+      '<div style="font-family:var(--mono);font-size:10px;margin-top:3px">'+counts[i]+'</div>'+
+      '<div style="font-family:var(--mono);font-size:8.5px;color:var(--text-3)">'+b.l+'R</div></div>').join('')+'</div>';
+    const byReason={}; cl.forEach(t=>{ const r=t.reason||'?'; (byReason[r]=byReason[r]||{n:0,pnl:0}); byReason[r].n++; byReason[r].pnl+=t.pnl_usd; });
+    const reasons='<div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-family:var(--mono);font-size:12px">'+
+      Object.entries(byReason).map(([r,v])=>'<span style="color:var(--text-3)">'+(REASON_IT[r]||r)+': <b style="color:var(--text-1)">'+v.n+'</b> · <span class="'+clsOf(v.pnl)+'">'+signedUsd(v.pnl)+'</span></span>').join('')+'</div>';
+    host.innerHTML='<h3 style="font-family:var(--serif);margin:18px 0 4px">Distribuzione esiti (R) &amp; motivo uscita</h3>'+hist+reasons;
+  }
+
   function renderAll(){
     renderSummary(); renderAccounts(); renderPositions(); renderFeed(); renderLessons();
     renderTree(); renderLifecycle(); renderEvents(); renderStrats(); renderBook();
+    renderPortfolioKpi(); renderPortfolioCurve(); renderRiskPanel(); renderSignalsMatrix(); renderBookAnalytics();
   }
   // ricarica i dati pipeline (eventi/decisioni/trade chiusi) senza reload pagina
   async function refreshData(){

@@ -127,7 +127,7 @@ def build_strategies(state: dict) -> list[dict]:
     curata se disponibile (STRATEGY_INFO) altrimenti derivata dalla tesi nello YAML.
     Auto-include i nuovi ceppi e quelli che il loop evolutivo promuoverà."""
     sys.path.insert(0, str(ROOT))
-    from backtest.lifecycle import active_specs, paper_symbols
+    from backtest.lifecycle import active_specs, paper_stats, paper_symbols
     out = []
     seen = set()
     for path, spec in active_specs():
@@ -152,12 +152,43 @@ def build_strategies(state: dict) -> list[dict]:
         entry["status"] = spec.get("status", "challenger")
         entry["asset_class"] = asset_class(syms)
         entry["risk_profile"] = risk_profile(spec.get("risk", {}))
+        try:
+            ps = paper_stats(sid)
+            entry["stats"] = {k: ps.get(k) for k in
+                              ("n_closed", "sharpe_r", "mean_r", "win_rate", "total_pnl")}
+        except Exception:
+            entry["stats"] = {}
         out.append(entry)
     # agents-v1 non è un file YAML: aggiungilo se attivo in paper
     if "agents-v1" in state and "agents-v1" not in seen:
         out.append({"id": "agents-v1", **STRATEGY_INFO["agents-v1"],
                     "status": "live", "asset_class": "crypto", "risk_profile": "bilanciato"})
     return out
+
+
+LUX_MATRIX_SIGNALS = ["tsmom", "liq_imbalance", "kronos_forecast", "smart_money_ratio", "oi_trend"]
+LUX_MATRIX_CORE = ["tsmom", "liq_imbalance", "kronos_forecast"]
+
+
+def signals_matrix(symbols: list[str]) -> list[dict]:
+    """Stato live dei segnali LUX per asset + confluenza (aligned). Trasparenza dell'edge."""
+    from backtest.signals import SIGNALS
+    from pipeline.live import fetch_live
+    rows = []
+    for s in symbols:
+        if s.startswith("xyz_"):
+            continue
+        try:
+            d = fetch_live(s)
+            d["symbol"] = s
+            vals = {n: int(SIGNALS[n](d).iloc[-1]) for n in LUX_MATRIX_SIGNALS}
+        except Exception:
+            continue
+        core = [vals[n] for n in LUX_MATRIX_CORE]
+        aligned = all(v != 0 for v in core) and len({v > 0 for v in core}) == 1
+        rows.append({"symbol": s, "signals": vals, "aligned": aligned,
+                     "direction": ("long" if core[0] > 0 else "short") if aligned else "—"})
+    return rows
 
 
 def chart_series(symbol: str, opened_at: str, pre_h: int = 72) -> list | None:
@@ -378,6 +409,7 @@ def build_data() -> dict:
         "updated_utc": f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M}",
         "accounts": accounts, "decisions": dec_out, "lessons": les_out, "lineage": lineage,
         "lifecycle": lifecycle,
+        "signals_matrix": signals_matrix("BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV".split(",")),
         "news_events": events, "strategies": strategies, "tradebook": book,
     }
 
