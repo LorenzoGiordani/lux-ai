@@ -582,3 +582,4 @@
 {"type": "heartbeat", "strategy": "tsmom-liq-v1", "equity": 9838.1, "open_positions": 0, "logged_at": "2026-06-17T21:25:23.953943+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10226.79, "open_positions": 2, "logged_at": "2026-06-17T21:25:25.729425+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10226.79, "open_positions": 2, "logged_at": "2026-06-17T21:26:37.392051+00:00"}
+{"type": "close", "strategy": "agents-v1", "symbol": "ZEC", "reason": "target", "exit_px": 447.62373209505, "pnl_usd": 95.91, "equity": 10322.7, "ts": "2026-06-18 15:00:00+00:00", "logged_at": "2026-06-18T15:58:12.302207+00:00"}

@@ -462,7 +462,15 @@ footer .foot-mark b{ color:var(--amber); }
       <p class="note">Balance fittizio, prezzi reali di mercato. La pipeline di agenti decide; il TSMOM sistematico fa da challenger.</p>
     </div>
     <div class="portfolio" id="portfolio"></div>
+    <div id="portfolio-kpi" style="margin-bottom:16px"></div>
+    <div id="portfolio-curve" style="margin-bottom:18px"></div>
+    <h3 style="font-family:var(--serif);margin:8px 0 10px">Rischio &amp; esposizione</h3>
+    <div id="risk-panel" style="margin-bottom:20px"></div>
+    <h3 style="font-family:var(--serif);margin:8px 0 10px">I conti</h3>
     <div class="accounts" id="accounts"></div>
+    <h3 style="font-family:var(--serif);margin:24px 0 6px">Confluenza segnali · LUX</h3>
+    <p class="note" style="margin-bottom:10px">Stato live dei 5 segnali ortogonali per asset. Confluenza = i 3 core (TSMOM·LIQ·KRONOS) attivi e concordi → setup ad alta convinzione.</p>
+    <div id="signals-matrix"></div>
   </section>
 
   <!-- STRATEGIE SPIEGATE -->
@@ -516,6 +524,7 @@ footer .foot-mark b{ color:var(--amber); }
     </div>
     <div class="book-filters" id="book-filters"></div>
     <div class="book-stats" id="book-stats"></div>
+    <div id="book-analytics"></div>
     <div class="table-scroll">
       <table class="pos-tbl">
         <thead>
@@ -614,7 +623,7 @@ footer .foot-mark b{ color:var(--amber); }
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-17 21:26",
+ "updated_utc": "2026-06-18 15:58",
  "accounts": [
   {
    "id": "funding-squeeze-breakout-g2-g1-g2",
@@ -1012,10 +1021,10 @@ footer .foot-mark b{ color:var(--amber); }
    "id": "agents-v1",
    "label": "Agenti LLM",
    "tag": "pipeline decide",
-   "equity": 10226.79,
-   "pnl_realized": 231.69,
-   "trades_closed": 8,
-   "wins": 3,
+   "equity": 10322.7,
+   "pnl_realized": 327.6,
+   "trades_closed": 9,
+   "wins": 4,
    "equity_curve": [
     [
      "2026-06-11 21:50",
@@ -1716,377 +1725,6 @@ footer .foot-mark b{ color:var(--amber); }
    ],
    "positions": [
     {
-     "symbol": "ZEC",
-     "direction": "short",
-     "entry_px": 511.467686,
-     "size_usd": 771.1,
-     "stop_px": 537.04107,
-     "target_px": 447.534225,
-     "opened_at": "2026-06-17 03:00",
-     "chart": [
-      [
-       "2026-06-14 03:00",
-       423.98
-      ],
-      [
-       "2026-06-14 04:00",
-       424.22
-      ],
-      [
-       "2026-06-14 05:00",
-       424.44
-      ],
-      [
-       "2026-06-14 06:00",
-       423.69
-      ],
-      [
-       "2026-06-14 07:00",
-       427.46
-      ],
-      [
-       "2026-06-14 08:00",
-       425.82
-      ],
-      [
-       "2026-06-14 09:00",
-       427.16
-      ],
-      [
-       "2026-06-14 10:00",
-       423.1
-      ],
-      [
-       "2026-06-14 11:00",
-       421.38
-      ],
-      [
-       "2026-06-14 12:00",
-       416.7
-      ],
-      [
-       "2026-06-14 13:00",
-       426.22
-      ],
-      [
-       "2026-06-14 14:00",
-       424.57
-      ],
-      [
-       "2026-06-14 15:00",
-       422.37
-      ],
-      [
-       "2026-06-14 16:00",
-       420.08
-      ],
-      [
-       "2026-06-14 17:00",
-       422.51
-      ],
-      [
-       "2026-06-14 18:00",
-       423.4
-      ],
-      [
-       "2026-06-14 19:00",
-       425.69
-      ],
-      [
-       "2026-06-14 20:00",
-       426.36
-      ],
-      [
-       "2026-06-14 21:00",
-       459.14
-      ],
-      [
-       "2026-06-14 22:00",
-       467.26
-      ],
-      [
-       "2026-06-14 23:00",
-       472.65
-      ],
-      [
-       "2026-06-15 00:00",
-       473.32
-      ],
-      [
-       "2026-06-15 01:00",
-       469.28
-      ],
-      [
-       "2026-06-15 02:00",
-       486.63
-      ],
-      [
-       "2026-06-15 03:00",
-       486.77
-      ],
-      [
-       "2026-06-15 04:00",
-       485.92
-      ],
-      [
-       "2026-06-15 05:00",
-       490.21
-      ],
-      [
-       "2026-06-15 06:00",
-       496.74
-      ],
-      [
-       "2026-06-15 07:00",
-       492.78
-      ],
-      [
-       "2026-06-15 08:00",
-       492.63
-      ],
-      [
-       "2026-06-15 09:00",
-       494.55
-      ],
-      [
-       "2026-06-15 10:00",
-       508.08
-      ],
-      [
-       "2026-06-15 11:00",
-       534.81
-      ],
-      [
-       "2026-06-15 12:00",
-       533.52
-      ],
-      [
-       "2026-06-15 13:00",
-       530.52
-      ],
-      [
-       "2026-06-15 14:00",
-       532.98
-      ],
-      [
-       "2026-06-15 15:00",
-       535.26
-      ],
-      [
-       "2026-06-15 16:00",
-       531.15
-      ],
-      [
-       "2026-06-15 17:00",
-       528.04
-      ],
-      [
-       "2026-06-15 18:00",
-       528.37
-      ],
-      [
-       "2026-06-15 19:00",
-       523.51
-      ],
-      [
-       "2026-06-15 20:00",
-       517.82
-      ],
-      [
-       "2026-06-15 21:00",
-       519.84
-      ],
-      [
-       "2026-06-15 22:00",
-       516.42
-      ],
-      [
-       "2026-06-15 23:00",
-       518.92
-      ],
-      [
-       "2026-06-16 00:00",
-       513.12
-      ],
-      [
-       "2026-06-16 01:00",
-       512.61
-      ],
-      [
-       "2026-06-16 02:00",
-       519.8
-      ],
-      [
-       "2026-06-16 03:00",
-       528.6
-      ],
-      [
-       "2026-06-16 04:00",
-       523.16
-      ],
-      [
-       "2026-06-16 05:00",
-       522.6
-      ],
-      [
-       "2026-06-16 06:00",
-       523.47
-      ],
-      [
-       "2026-06-16 07:00",
-       525.35
-      ],
-      [
-       "2026-06-16 08:00",
-       532.68
-      ],
-      [
-       "2026-06-16 09:00",
-       522.1
-      ],
-      [
-       "2026-06-16 10:00",
-       517.64
-      ],
-      [
-       "2026-06-16 11:00",
-       515.15
-      ],
-      [
-       "2026-06-16 12:00",
-       512.89
-      ],
-      [
-       "2026-06-16 13:00",
-       505.5
-      ],
-      [
-       "2026-06-16 14:00",
-       494.14
-      ],
-      [
-       "2026-06-16 15:00",
-       497.76
-      ],
-      [
-       "2026-06-16 16:00",
-       505.34
-      ],
-      [
-       "2026-06-16 17:00",
-       506.29
-      ],
-      [
-       "2026-06-16 18:00",
-       502.15
-      ],
-      [
-       "2026-06-16 19:00",
-       497.05
-      ],
-      [
-       "2026-06-16 20:00",
-       502.85
-      ],
-      [
-       "2026-06-16 21:00",
-       506.8
-      ],
-      [
-       "2026-06-16 22:00",
-       508.62
-      ],
-      [
-       "2026-06-16 23:00",
-       505.52
-      ],
-      [
-       "2026-06-17 00:00",
-       505.5
-      ],
-      [
-       "2026-06-17 01:00",
-       509.12
-      ],
-      [
-       "2026-06-17 02:00",
-       505.63
-      ],
-      [
-       "2026-06-17 03:00",
-       511.57
-      ],
-      [
-       "2026-06-17 04:00",
-       513.45
-      ],
-      [
-       "2026-06-17 05:00",
-       514.35
-      ],
-      [
-       "2026-06-17 06:00",
-       511.8
-      ],
-      [
-       "2026-06-17 07:00",
-       509.93
-      ],
-      [
-       "2026-06-17 08:00",
-       505.8
-      ],
-      [
-       "2026-06-17 09:00",
-       512.27
-      ],
-      [
-       "2026-06-17 10:00",
-       507.06
-      ],
-      [
-       "2026-06-17 11:00",
-       488.89
-      ],
-      [
-       "2026-06-17 12:00",
-       485.23
-      ],
-      [
-       "2026-06-17 13:00",
-       482.06
-      ],
-      [
-       "2026-06-17 14:00",
-       483.1
-      ],
-      [
-       "2026-06-17 15:00",
-       492.76
-      ],
-      [
-       "2026-06-17 16:00",
-       493.69
-      ],
-      [
-       "2026-06-17 17:00",
-       498.79
-      ],
-      [
-       "2026-06-17 18:00",
-       497.94
-      ],
-      [
-       "2026-06-17 19:00",
-       480.77
-      ],
-      [
-       "2026-06-17 20:00",
-       485.25
-      ]
-     ]
-    },
-    {
      "symbol": "SOL",
      "direction": "long",
      "entry_px": 72.321461,
@@ -2434,6 +2072,78 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-17 20:00",
        72.169
+      ],
+      [
+       "2026-06-17 21:00",
+       71.567
+      ],
+      [
+       "2026-06-17 22:00",
+       71.66
+      ],
+      [
+       "2026-06-17 23:00",
+       72.006
+      ],
+      [
+       "2026-06-18 00:00",
+       72.19
+      ],
+      [
+       "2026-06-18 01:00",
+       72.182
+      ],
+      [
+       "2026-06-18 02:00",
+       72.485
+      ],
+      [
+       "2026-06-18 03:00",
+       71.608
+      ],
+      [
+       "2026-06-18 04:00",
+       71.023
+      ],
+      [
+       "2026-06-18 05:00",
+       71.078
+      ],
+      [
+       "2026-06-18 06:00",
+       71.306
+      ],
+      [
+       "2026-06-18 07:00",
+       71.733
+      ],
+      [
+       "2026-06-18 08:00",
+       71.838
+      ],
+      [
+       "2026-06-18 09:00",
+       71.811
+      ],
+      [
+       "2026-06-18 10:00",
+       71.375
+      ],
+      [
+       "2026-06-18 11:00",
+       70.9
+      ],
+      [
+       "2026-06-18 12:00",
+       71.529
+      ],
+      [
+       "2026-06-18 13:00",
+       70.991
+      ],
+      [
+       "2026-06-18 14:00",
+       71.042
       ]
      ]
     }
@@ -3178,6 +2888,78 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-17 19:00",
        75.309998
+      ],
+      [
+       "2026-06-17 20:00",
+       75.010002
+      ],
+      [
+       "2026-06-17 22:00",
+       75.379997
+      ],
+      [
+       "2026-06-17 23:00",
+       75.32
+      ],
+      [
+       "2026-06-18 00:00",
+       75.300003
+      ],
+      [
+       "2026-06-18 01:00",
+       74.800003
+      ],
+      [
+       "2026-06-18 02:00",
+       74.800003
+      ],
+      [
+       "2026-06-18 03:00",
+       74.540001
+      ],
+      [
+       "2026-06-18 04:00",
+       74.120003
+      ],
+      [
+       "2026-06-18 05:00",
+       74.040001
+      ],
+      [
+       "2026-06-18 06:00",
+       74.199997
+      ],
+      [
+       "2026-06-18 07:00",
+       74.339996
+      ],
+      [
+       "2026-06-18 08:00",
+       73.980003
+      ],
+      [
+       "2026-06-18 09:00",
+       73.739998
+      ],
+      [
+       "2026-06-18 10:00",
+       74.629997
+      ],
+      [
+       "2026-06-18 11:00",
+       74.720001
+      ],
+      [
+       "2026-06-18 12:00",
+       74.440002
+      ],
+      [
+       "2026-06-18 13:00",
+       73.199997
+      ],
+      [
+       "2026-06-18 14:00",
+       73.300003
       ]
      ]
     },
@@ -3545,6 +3327,78 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-17 19:00",
        78.889999
+      ],
+      [
+       "2026-06-17 20:00",
+       78.690002
+      ],
+      [
+       "2026-06-17 22:00",
+       79.019997
+      ],
+      [
+       "2026-06-17 23:00",
+       78.980003
+      ],
+      [
+       "2026-06-18 00:00",
+       78.879997
+      ],
+      [
+       "2026-06-18 01:00",
+       78.360001
+      ],
+      [
+       "2026-06-18 02:00",
+       78.57
+      ],
+      [
+       "2026-06-18 03:00",
+       78.209999
+      ],
+      [
+       "2026-06-18 04:00",
+       77.779999
+      ],
+      [
+       "2026-06-18 05:00",
+       77.739998
+      ],
+      [
+       "2026-06-18 06:00",
+       77.849998
+      ],
+      [
+       "2026-06-18 07:00",
+       78.050003
+      ],
+      [
+       "2026-06-18 08:00",
+       77.709999
+      ],
+      [
+       "2026-06-18 09:00",
+       77.720001
+      ],
+      [
+       "2026-06-18 10:00",
+       78.510002
+      ],
+      [
+       "2026-06-18 11:00",
+       78.610001
+      ],
+      [
+       "2026-06-18 12:00",
+       78.440002
+      ],
+      [
+       "2026-06-18 13:00",
+       77.080002
+      ],
+      [
+       "2026-06-18 14:00",
+       77.080002
       ]
      ]
     },
@@ -3860,6 +3714,78 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-17 19:00",
        67.099998
+      ],
+      [
+       "2026-06-17 20:00",
+       67.959999
+      ],
+      [
+       "2026-06-17 22:00",
+       68.040001
+      ],
+      [
+       "2026-06-17 23:00",
+       68.449997
+      ],
+      [
+       "2026-06-18 00:00",
+       69.235001
+      ],
+      [
+       "2026-06-18 01:00",
+       69.459999
+      ],
+      [
+       "2026-06-18 02:00",
+       68.910004
+      ],
+      [
+       "2026-06-18 03:00",
+       69.279999
+      ],
+      [
+       "2026-06-18 04:00",
+       69.055
+      ],
+      [
+       "2026-06-18 05:00",
+       68.875
+      ],
+      [
+       "2026-06-18 06:00",
+       68.934998
+      ],
+      [
+       "2026-06-18 07:00",
+       68.525002
+      ],
+      [
+       "2026-06-18 08:00",
+       68.120003
+      ],
+      [
+       "2026-06-18 09:00",
+       68.489998
+      ],
+      [
+       "2026-06-18 10:00",
+       67.834999
+      ],
+      [
+       "2026-06-18 11:00",
+       66.875
+      ],
+      [
+       "2026-06-18 12:00",
+       66.555
+      ],
+      [
+       "2026-06-18 13:00",
+       67.019997
+      ],
+      [
+       "2026-06-18 14:00",
+       66.580002
       ]
      ]
     }
@@ -4524,6 +4450,78 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-17 19:00",
        4254.299805
+      ],
+      [
+       "2026-06-17 20:00",
+       4276.299805
+      ],
+      [
+       "2026-06-17 22:00",
+       4285.799805
+      ],
+      [
+       "2026-06-17 23:00",
+       4297.200195
+      ],
+      [
+       "2026-06-18 00:00",
+       4328.0
+      ],
+      [
+       "2026-06-18 01:00",
+       4337.700195
+      ],
+      [
+       "2026-06-18 02:00",
+       4331.0
+      ],
+      [
+       "2026-06-18 03:00",
+       4339.600098
+      ],
+      [
+       "2026-06-18 04:00",
+       4336.0
+      ],
+      [
+       "2026-06-18 05:00",
+       4328.0
+      ],
+      [
+       "2026-06-18 06:00",
+       4326.600098
+      ],
+      [
+       "2026-06-18 07:00",
+       4308.399902
+      ],
+      [
+       "2026-06-18 08:00",
+       4285.899902
+      ],
+      [
+       "2026-06-18 09:00",
+       4287.700195
+      ],
+      [
+       "2026-06-18 10:00",
+       4273.899902
+      ],
+      [
+       "2026-06-18 11:00",
+       4260.600098
+      ],
+      [
+       "2026-06-18 12:00",
+       4265.100098
+      ],
+      [
+       "2026-06-18 13:00",
+       4275.5
+      ],
+      [
+       "2026-06-18 14:00",
+       4271.700195
       ]
      ]
     },
@@ -4807,6 +4805,78 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-17 19:00",
        78.889999
+      ],
+      [
+       "2026-06-17 20:00",
+       78.690002
+      ],
+      [
+       "2026-06-17 22:00",
+       79.019997
+      ],
+      [
+       "2026-06-17 23:00",
+       78.980003
+      ],
+      [
+       "2026-06-18 00:00",
+       78.879997
+      ],
+      [
+       "2026-06-18 01:00",
+       78.360001
+      ],
+      [
+       "2026-06-18 02:00",
+       78.57
+      ],
+      [
+       "2026-06-18 03:00",
+       78.209999
+      ],
+      [
+       "2026-06-18 04:00",
+       77.779999
+      ],
+      [
+       "2026-06-18 05:00",
+       77.739998
+      ],
+      [
+       "2026-06-18 06:00",
+       77.849998
+      ],
+      [
+       "2026-06-18 07:00",
+       78.050003
+      ],
+      [
+       "2026-06-18 08:00",
+       77.709999
+      ],
+      [
+       "2026-06-18 09:00",
+       77.720001
+      ],
+      [
+       "2026-06-18 10:00",
+       78.510002
+      ],
+      [
+       "2026-06-18 11:00",
+       78.610001
+      ],
+      [
+       "2026-06-18 12:00",
+       78.440002
+      ],
+      [
+       "2026-06-18 13:00",
+       77.080002
+      ],
+      [
+       "2026-06-18 14:00",
+       77.080002
       ]
      ]
     }
@@ -5129,7 +5199,9 @@ footer .foot-mark b{ color:var(--amber); }
    "thesis": "ZEC presenta la confluenza più rara del basket: bull regime confermato + segnale vol_compression attivo + funding -6.87% APR, configurazione esplicitamente validata dalla lezione archiviata come setup asimmetrico ad alta probabilità. Gli short stanno pagando un costo annualizzato estremo per mantenere posizione: ogni movimento rialzista anche moderato innesca chiusure meccaniche a cascata che auto-amplificano il move. La vol compression segnala energia accumulata pronta al rilascio direzionale — storicamente risolve entro 24-72h. Il macro risk-on e il sentiment istituzionale costruttivo riducono il rischio di capitolazione sell-side che potrebbe alimentare ulteriori short.",
    "invalidation": "Prezzo scende oltre il 5% dall'entry (stop meccanico), oppure la vol compression si risolve al ribasso con espansione di volume (breakout short confermato), oppure il funding si normalizza verso 0% APR senza apprezzamento di prezzo — segnalerebbe che gli short stanno coprendo in perdita ma senza squeeze genuino, tesi falsificata.",
    "outcome": {
-    "closed": false
+    "closed": true,
+    "reason": "target",
+    "pnl_usd": 95.91
    },
    "size_multiplier": 0.6
   },
@@ -5168,7 +5240,9 @@ footer .foot-mark b{ color:var(--amber); }
    "thesis": "Vol_compression in regime bull è l'unico segnale attivo sul basket: storicamente questo pattern ha bias espansivo long quando il funding è neutro, perché esclude il crowding da leva che genera false breakout. Il pullback –5% intraday avviene senza liquidazioni forzate (APR ~0%), segnalando profit-taking spot meccanico, non inversione strutturale. Leverage 1x e risk_pct 0.8 assorbono l'illiquidità di ZEC e l'incertezza macro pre-Warsh senza esporre il portfolio a tail-risk asimmetrico. La tesi è falsificata se ZEC non recupera i $495 entro 24h dal discorso Warsh o se BTC scende sotto $62K spegnendo il risk-on di base.",
    "invalidation": "Warsh hawkish esplicito + BTC < $62K + ZEC incapace di rimontare $480 nelle prime 4h post-speech; oppure ZEC tocca $456 (stop –6.5%) prima del catalizzatore.",
    "outcome": {
-    "closed": false
+    "closed": true,
+    "reason": "target",
+    "pnl_usd": 95.91
    },
    "size_multiplier": 0.6
   },
@@ -5181,7 +5255,9 @@ footer .foot-mark b{ color:var(--amber); }
    "thesis": "ZEC è l'unico asset del basket con segnale quantitativo attivo (vol_compression=1) in regime bull confermato — pattern validato internamente come pre-espansione direzionale, non inversione. Il funding negativo a –1.59% APR (sotto soglia –1%) implica che gli shorts pagano carry per tenere posizione contro un trend rialzista: ogni movimento al rialzo genera pressione meccanica di squeeze senza necessità di acquirenti aggiuntivi. Il pullback intraday –2% con taker ratio 0.5 e assenza di sell pressure strutturale è respiro tecnico in consolidazione, non distribuzione; il posizionamento è pulito e il carry favorisce i long. Un tono Fed neutro o dovish entro 24h riattiva il risk-on esattamente mentre ZEC è in massima tensione da volatilità compressa — leverage 2x e risk 0.5% rispettano l'illiquidità dell'asset e l'overextension +20% 7d.",
    "invalidation": "Prezzo chiude sotto $465 su candle H4 (8.5% dall'entry ~$507); oppure funding torna positivo indicando uscita degli shorts senza squeeze materializzato; oppure taker sell ratio supera 0.60 nelle prossime 4h confermando distribuzione attiva; oppure Fed sorpresa hawkish esplicita con spike del DXY > +0.8%.",
    "outcome": {
-    "closed": false
+    "closed": true,
+    "reason": "target",
+    "pnl_usd": 95.91
    }
   },
   {
@@ -5232,7 +5308,9 @@ footer .foot-mark b{ color:var(--amber); }
    "thesis": "ZEC è l'unico asset con segnale quantitativo attivo (vol_compression) nel basket, in regime bull confermato. Il pullback 24h (–2.2%) su volume compresso è consolidazione classica post-estensione, non distribuzione: il regime non è cambiato e il coil è il setup storicamente validato nelle lessons. Il contesto macro risk-on (accordo USA-Iran, rotazione altcoin in atto) amplifica la probabilità di continuazione. Il sizing minimo (0.5% risk, 2x leva) e il time-stop pre-Fed a 16h gestiscono esplicitamente il rischio di hawkish surprise, dove ZEC — meno liquida — subirebbe l'impatto maggiore.",
    "invalidation": "Rottura e chiusura sotto $487 (minimo di consolidazione 24h, –5% dall'entry), oppure taker ratio ZEC che scende sotto 0.35 segnalando distribuzione attiva, oppure funding che diventa negativo indicando inversione di sentiment; qualsiasi notizia di delisting accelerato su exchange tier-1 invalida la tesi strutturalmente indipendentemente dal prezzo.",
    "outcome": {
-    "closed": false
+    "closed": true,
+    "reason": "target",
+    "pnl_usd": 95.91
    },
    "size_multiplier": 0.6
   },
@@ -5271,7 +5349,9 @@ footer .foot-mark b{ color:var(--amber); }
    "thesis": "ZEC ha completato un rally di +17.8% in 7 giorni senza catalizzatore fondamentale identificabile, e oggi registra il primo pullback significativo (-3.2%) con funding ancora positivo (+1.37% APR): i longs non capitolano nonostante il prezzo scenda, segnale classico di distribuzione per esaurimento. Il pattern è documentato nelle lezioni del journal come configurazione ad alto tasso di mean reversion (-15/20%). SOL è il setup long preferito ma manca di segnale attivo — entrare ora sarebbe speculazione cieca; ZEC short è invece il trade con il miglior allineamento storico tra regime, struttura di funding e pattern di price action. Size ridotta (0.75%) e leva bassa (2x) compensano il rischio di slippage su asset illiquido.",
    "invalidation": "Prezzo ZEC recupera e chiude sopra il massimo degli ultimi 7 giorni, oppure il funding rate scende sotto zero (segnale che i longs stanno capitolando e la pressione sell è già esaurita) — in entrambi i casi la tesi di distribuzione/esaurimento decade e si chiude immediatamente.",
    "outcome": {
-    "closed": false
+    "closed": true,
+    "reason": "target",
+    "pnl_usd": 95.91
    },
    "size_multiplier": 0.5
   },
@@ -6919,6 +6999,17 @@ footer .foot-mark b{ color:var(--amber); }
    "note": "Funding sostituito da conferma di flusso (più entry, conferma più pertinente). Volume mult abbassato a 1.5 perché taker_flow già filtra la partecipazione. Targe"
   },
   {
+   "id": "lux-0.1-beta",
+   "parent": "tsmom-liq-v1",
+   "status": "challenger",
+   "sharpe": 0.0,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
+   "note": "LUX 0.1 BETA — tripla confluenza ortogonale (tsmom+liq+kronos), voto a 5 segnali, veto news. Flagship unica."
+  },
+  {
    "id": "tsmom-aggressive-v1",
    "parent": null,
    "status": "candidate",
@@ -6953,6 +7044,116 @@ footer .foot-mark b{ color:var(--amber); }
   }
  ],
  "lifecycle": [],
+ "signals_matrix": [
+  {
+   "symbol": "BTC",
+   "signals": {
+    "tsmom": 0,
+    "liq_imbalance": 0,
+    "kronos_forecast": 0,
+    "smart_money_ratio": 0,
+    "oi_trend": 0
+   },
+   "aligned": false,
+   "direction": "—"
+  },
+  {
+   "symbol": "ETH",
+   "signals": {
+    "tsmom": 0,
+    "liq_imbalance": 0,
+    "kronos_forecast": 0,
+    "smart_money_ratio": 0,
+    "oi_trend": 0
+   },
+   "aligned": false,
+   "direction": "—"
+  },
+  {
+   "symbol": "SOL",
+   "signals": {
+    "tsmom": 0,
+    "liq_imbalance": 0,
+    "kronos_forecast": 0,
+    "smart_money_ratio": 0,
+    "oi_trend": 0
+   },
+   "aligned": false,
+   "direction": "—"
+  },
+  {
+   "symbol": "XRP",
+   "signals": {
+    "tsmom": 0,
+    "liq_imbalance": 0,
+    "kronos_forecast": 0,
+    "smart_money_ratio": 0,
+    "oi_trend": 0
+   },
+   "aligned": false,
+   "direction": "—"
+  },
+  {
+   "symbol": "SUI",
+   "signals": {
+    "tsmom": -1,
+    "liq_imbalance": 0,
+    "kronos_forecast": 0,
+    "smart_money_ratio": 0,
+    "oi_trend": 0
+   },
+   "aligned": false,
+   "direction": "—"
+  },
+  {
+   "symbol": "NEAR",
+   "signals": {
+    "tsmom": 1,
+    "liq_imbalance": 0,
+    "kronos_forecast": 0,
+    "smart_money_ratio": 0,
+    "oi_trend": 0
+   },
+   "aligned": false,
+   "direction": "—"
+  },
+  {
+   "symbol": "WLD",
+   "signals": {
+    "tsmom": 1,
+    "liq_imbalance": 0,
+    "kronos_forecast": 0,
+    "smart_money_ratio": 0,
+    "oi_trend": 0
+   },
+   "aligned": false,
+   "direction": "—"
+  },
+  {
+   "symbol": "ZEC",
+   "signals": {
+    "tsmom": 0,
+    "liq_imbalance": 0,
+    "kronos_forecast": 0,
+    "smart_money_ratio": 0,
+    "oi_trend": 0
+   },
+   "aligned": false,
+   "direction": "—"
+  },
+  {
+   "symbol": "CRV",
+   "signals": {
+    "tsmom": -1,
+    "liq_imbalance": 0,
+    "kronos_forecast": 0,
+    "smart_money_ratio": 0,
+    "oi_trend": 0
+   },
+   "aligned": false,
+   "direction": "—"
+  }
+ ],
  "news_events": [
   {
    "ts": "2026-06-12 10:45",
@@ -7055,7 +7256,14 @@ footer .foot-mark b{ color:var(--amber); }
    "rischio": "massimo 1% del capitale a rischio per operazione, leva non oltre 2x",
    "status": "challenger",
    "asset_class": "multi-asset",
-   "risk_profile": "bilanciato"
+   "risk_profile": "bilanciato",
+   "stats": {
+    "n_closed": 3,
+    "sharpe_r": -127203.259,
+    "mean_r": -1.016,
+    "win_rate": 0.0,
+    "total_pnl": -304.89
+   }
   },
   {
    "id": "funding-squeeze-breakout-g2-g1-g2",
@@ -7066,7 +7274,32 @@ footer .foot-mark b{ color:var(--amber); }
    "rischio": "massimo 1% del capitale a rischio per operazione, leva non oltre 2x",
    "status": "challenger",
    "asset_class": "crypto",
-   "risk_profile": "bilanciato"
+   "risk_profile": "bilanciato",
+   "stats": {
+    "n_closed": 0,
+    "sharpe_r": 0.0,
+    "mean_r": 0.0,
+    "win_rate": 0.0,
+    "total_pnl": 0.0
+   }
+  },
+  {
+   "id": "lux-0.1-beta",
+   "nome": "lux-0.1-beta",
+   "cosa": "LUX 0.1 BETA — la flagship: distillazione del meglio appreso finora. Entra solo su TRIPLA CONFLUENZA ORTOGONALE — trend (tsmom) + liquidazioni reali Coinalyze (liq_imbalance, l'unico edge robusto provato) + forecast del foundation model Kronos. Tre fonti indipendenti (prezzo, flu…",
+   "entra": "segnali: tsmom, liq_imbalance, kronos_forecast, smart_money_ratio, oi_trend, news_event",
+   "esce": "stop 2.5%, target 3.0R, tempo max 240h",
+   "rischio": "leva max 3x, 2.0% a rischio per operazione",
+   "status": "challenger",
+   "asset_class": "crypto",
+   "risk_profile": "aggressivo",
+   "stats": {
+    "n_closed": 0,
+    "sharpe_r": 0.0,
+    "mean_r": 0.0,
+    "win_rate": 0.0,
+    "total_pnl": 0.0
+   }
   },
   {
    "id": "tsmom-conservative-v1",
@@ -7077,7 +7310,14 @@ footer .foot-mark b{ color:var(--amber); }
    "rischio": "nessuna leva (1x), massimo 0,6% del capitale a rischio per operazione, al più 2 posizioni insieme",
    "status": "challenger",
    "asset_class": "multi-asset",
-   "risk_profile": "conservativo"
+   "risk_profile": "conservativo",
+   "stats": {
+    "n_closed": 2,
+    "sharpe_r": 0.487,
+    "mean_r": 0.974,
+    "win_rate": 0.5,
+    "total_pnl": 116.89
+   }
   },
   {
    "id": "tsmom-liq-v1",
@@ -7088,7 +7328,14 @@ footer .foot-mark b{ color:var(--amber); }
    "rischio": "leva max 1x, 0.6% a rischio per operazione",
    "status": "challenger",
    "asset_class": "crypto",
-   "risk_profile": "conservativo"
+   "risk_profile": "conservativo",
+   "stats": {
+    "n_closed": 14,
+    "sharpe_r": -0.371,
+    "mean_r": -0.169,
+    "win_rate": 0.214,
+    "total_pnl": -146.74
+   }
   },
   {
    "id": "agents-v1",
@@ -7127,17 +7374,17 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "ZEC",
    "direction": "short",
    "entry_px": 511.467686,
-   "exit_px": null,
+   "exit_px": 447.623732,
    "size_usd": 771.1,
-   "pnl_usd": null,
-   "pnl_pct": null,
+   "pnl_usd": 95.91,
+   "pnl_pct": 12.48,
    "risk_usd": 38.56,
-   "r_mult": null,
+   "r_mult": 2.49,
    "opened_at": "2026-06-17 03:00",
-   "closed_at": null,
-   "duration_h": null,
-   "reason": "",
-   "status": "open"
+   "closed_at": "2026-06-18 15:00",
+   "duration_h": 36.0,
+   "reason": "target",
+   "status": "closed"
   },
   {
    "strategy": "agents-v1",
@@ -8192,6 +8439,8 @@ footer .foot-mark b{ color:var(--amber); }
         '<div class="s-row"><span class="s-k">Entra</span><span>'+s.entra+'</span></div>'+
         '<div class="s-row"><span class="s-k">Esce</span><span>'+s.esce+'</span></div>'+
         '<div class="s-row"><span class="s-k">Rischio</span><span>'+s.rischio+'</span></div>'+
+        ((s.stats&&s.stats.n_closed)?'<div class="s-row" style="margin-top:6px"><span class="s-k">Paper</span><span class="num">'+
+          s.stats.n_closed+'t · WR '+Math.round((s.stats.win_rate||0)*100)+'% · <span class="'+clsOf(s.stats.total_pnl||0)+'">'+signedUsd(s.stats.total_pnl||0)+'</span></span></div>':'')+
         '<div class="s-row" style="margin-top:8px"><span class="s-k">'+(s.id||'')+'</span><span style="color:var(--amber)">Dettaglio →</span></div>';
       card.style.cursor='pointer';
       card.onclick=()=>{ location.hash='#strategia?id='+encodeURIComponent(s.id); };
@@ -8328,6 +8577,7 @@ footer .foot-mark b{ color:var(--amber); }
     POS.forEach(rec=>{ if(LIVE[rec.p.symbol]) paintPos(rec); });
     updateAccountsLive();
     updatePosSummary();
+    renderRiskPanel();
     const live=Object.values(LIVE).filter(v=>v.ok).length;
     const stamp=$('#pos-live');
     if(stamp) stamp.innerHTML=live?'<span class="live-dot"></span>live · '+live+' asset · '+t+' · '+(lastSrc||'—'):'';
@@ -8529,9 +8779,121 @@ footer .foot-mark b{ color:var(--amber); }
       $('#next-run').textContent='~'+String(next.getUTCHours()).padStart(2,'0')+':10 UTC';
     }
   }
+  /* ---------- analytics: portafoglio, rischio, segnali, book ---------- */
+  function closedTrades(){ return (DATA.tradebook||[]).filter(t=>t.status==='closed' && t.pnl_usd!=null); }
+  const kpiTile=(l,v,cls)=>'<div class="metric"><div class="l">'+l+'</div><div class="v '+(cls||'')+'">'+v+'</div></div>';
+
+  function renderPortfolioKpi(){
+    const host=$('#portfolio-kpi'); if(!host) return;
+    const cl=closedTrades(); if(!cl.length){ host.innerHTML=''; return; }
+    const pnl=cl.reduce((s,t)=>s+t.pnl_usd,0);
+    const wins=cl.filter(t=>t.pnl_usd>0), losses=cl.filter(t=>t.pnl_usd<0);
+    const gw=wins.reduce((s,t)=>s+t.pnl_usd,0), gl=Math.abs(losses.reduce((s,t)=>s+t.pnl_usd,0));
+    const pf=gl>0?gw/gl:(gw>0?Infinity:0);
+    const rs=cl.map(t=>t.r_mult).filter(v=>v!=null);
+    const avgR=rs.length?rs.reduce((s,v)=>s+v,0)/rs.length:0;
+    const seq=cl.slice().sort((a,b)=>(a.closed_at||'').localeCompare(b.closed_at||''));
+    let cum=0,peak=0,maxdd=0; seq.forEach(t=>{ cum+=t.pnl_usd; peak=Math.max(peak,cum); maxdd=Math.min(maxdd,cum-peak); });
+    host.innerHTML='<div class="metrics" style="grid-template-columns:repeat(6,1fr)">'+
+      kpiTile('P&L realizzato', signedUsd(pnl), clsOf(pnl))+
+      kpiTile('Win rate', Math.round(wins.length/cl.length*100)+'%')+
+      kpiTile('Profit factor', pf===Infinity?'∞':NF2.format(pf))+
+      kpiTile('Avg R', (avgR>=0?'+':'')+NF2.format(avgR)+'R', clsOf(avgR))+
+      kpiTile('Max drawdown', signedUsd(maxdd), maxdd<0?'neg':'')+
+      kpiTile('Trade chiusi', cl.length)+'</div>';
+  }
+
+  function renderPortfolioCurve(){
+    const host=$('#portfolio-curve'); if(!host) return;
+    const cl=closedTrades().slice().sort((a,b)=>(a.closed_at||'').localeCompare(b.closed_at||''));
+    if(cl.length<2){ host.innerHTML=''; return; }
+    let cum=0; const pts=[0]; cl.forEach(t=>{ cum+=t.pnl_usd; pts.push(cum); });
+    const W=920,H=180,L=10,R=72,T=14,B=14,n=pts.length;
+    let lo=Math.min(0,...pts),hi=Math.max(0,...pts); const pad=(hi-lo)*0.08||1; lo-=pad;hi+=pad;
+    const X=i=>L+(W-L-R)*i/(n-1), Y=v=>T+(H-T-B)*(1-(v-lo)/(hi-lo));
+    const path=pts.map((v,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)).join(' ');
+    const area=path+' L'+X(n-1).toFixed(1)+' '+Y(lo).toFixed(1)+' L'+X(0).toFixed(1)+' '+Y(lo).toFixed(1)+' Z';
+    const col=cum>=0?'var(--green)':'var(--red)';
+    host.innerHTML='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;display:block" aria-label="P&L cumulato">'+
+      '<path d="'+area+'" fill="'+(cum>=0?'var(--green-wash)':'var(--red-wash)')+'"/>'+
+      '<line x1="'+L+'" y1="'+Y(0).toFixed(1)+'" x2="'+(W-R)+'" y2="'+Y(0).toFixed(1)+'" stroke="var(--line-2)" stroke-dasharray="3 3"/>'+
+      '<path d="'+path+'" fill="none" stroke="'+col+'" stroke-width="1.7"/>'+
+      '<text x="'+(W-R+6)+'" y="'+(Y(cum)+3).toFixed(1)+'" fill="'+col+'" font-size="10.5" font-family="var(--mono)">'+signedUsd(cum)+'</text>'+
+      '<text x="'+L+'" y="'+(H-2)+'" fill="var(--text-4)" font-size="9" font-family="var(--mono)">P&amp;L cumulato · '+(n-1)+' trade</text></svg>';
+  }
+
+  function renderRiskPanel(){
+    const host=$('#risk-panel'); if(!host) return;
+    const accs=DATA.accounts||[];
+    let gross=0,net=0,equity=0; const byAsset={}; const dist=[];
+    accs.forEach(a=>{ equity+=a.equity||0;
+      (a.positions||[]).forEach(p=>{
+        const lv=LIVE[p.symbol]; const last=(lv&&lv.ok)?lv.px:snapPx(p);
+        const dir=p.direction==='long'?1:-1;
+        gross+=p.size_usd; net+=dir*p.size_usd; byAsset[p.symbol]=(byAsset[p.symbol]||0)+p.size_usd;
+        dist.push({sym:p.symbol, label:a.label, dir:p.direction, live:!!(lv&&lv.ok),
+          dStop:Math.abs(last/p.stop_px-1)*100, dTgt:Math.abs(p.target_px/last-1)*100});
+      });
+    });
+    if(!dist.length){ host.innerHTML='<p class="note">Nessuna esposizione: flat su tutti i conti.</p>'; return; }
+    const grossX=equity?gross/equity:0, netX=equity?net/equity:0;
+    const topAsset=Object.entries(byAsset).sort((a,b)=>b[1]-a[1])[0];
+    let html='<div class="metrics" style="grid-template-columns:repeat(4,1fr)">'+
+      kpiTile('Esposizione lorda', NF0.format(gross)+' $ · '+NF2.format(grossX)+'×')+
+      kpiTile('Esposizione netta', signedUsd(net)+' · '+(netX>=0?'+':'')+NF2.format(netX)+'×', clsOf(net))+
+      kpiTile('Posizioni', dist.length)+
+      kpiTile('Asset più pesante', topAsset?topAsset[0]+' '+Math.round(topAsset[1]/gross*100)+'%':'—')+'</div>';
+    // distanza da stop/target live
+    dist.sort((a,b)=>a.dStop-b.dStop);
+    html+='<div style="margin-top:12px;font-family:var(--mono);font-size:12px">'+
+      '<div style="color:var(--text-3);font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">Distanza da stop / target'+(dist.some(d=>d.live)?' <span class="live-dot"></span>live':'')+'</div>'+
+      dist.map(d=>{
+        const warn=d.dStop<1.0; // vicino allo stop
+        return '<div style="display:flex;gap:12px;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--line)">'+
+          '<span class="s-tick" style="min-width:54px">'+d.sym+'</span>'+
+          '<span class="side '+d.dir+'" style="font-size:9px">'+(d.dir==='long'?'▲':'▼')+'</span>'+
+          '<span class="'+(warn?'neg':'')+'">stop '+d.dStop.toFixed(2)+'%</span>'+
+          '<span class="pos" style="opacity:.8">target '+d.dTgt.toFixed(2)+'%</span></div>';
+      }).join('')+'</div>';
+    host.innerHTML=html;
+  }
+
+  function renderSignalsMatrix(){
+    const host=$('#signals-matrix'); if(!host) return;
+    const rows=DATA.signals_matrix||[]; if(!rows.length){ host.innerHTML='<p class="note">Matrice non disponibile.</p>'; return; }
+    const cols=['tsmom','liq_imbalance','kronos_forecast','smart_money_ratio','oi_trend'];
+    const lab={tsmom:'TSMOM',liq_imbalance:'LIQ',kronos_forecast:'KRONOS',smart_money_ratio:'SMART$',oi_trend:'OI'};
+    const cell=v=>{ const bg=v>0?'var(--green-wash)':v<0?'var(--red-wash)':'transparent';
+      const c=v>0?'var(--green)':v<0?'var(--red)':'var(--text-4)'; const t=v>0?'▲':v<0?'▼':'·';
+      return '<td style="text-align:center;background:'+bg+';color:'+c+'">'+t+'</td>'; };
+    let h='<div class="table-scroll"><table class="pos-tbl"><thead><tr><th>Asset</th>'+
+      cols.map(c=>'<th>'+lab[c]+'</th>').join('')+'<th>Confluenza</th></tr></thead><tbody>';
+    rows.forEach(r=>{ h+='<tr><td><span class="s-tick">'+r.symbol+'</span></td>'+cols.map(c=>cell(r.signals[c])).join('')+
+      '<td style="text-align:center">'+(r.aligned?'<span class="status champion">'+(r.direction==='long'?'▲ LONG':'▼ SHORT')+'</span>':'<span style="color:var(--text-4)">—</span>')+'</td></tr>'; });
+    host.innerHTML=h+'</tbody></table></div>';
+  }
+
+  function renderBookAnalytics(){
+    const host=$('#book-analytics'); if(!host) return;
+    const cl=closedTrades(); if(!cl.length){ host.innerHTML=''; return; }
+    const buckets=[{l:'≤-2',min:-1e9,max:-2},{l:'-2:-1',min:-2,max:-1},{l:'-1:0',min:-1,max:0},{l:'0:1',min:0,max:1},{l:'1:2',min:1,max:2},{l:'2:3',min:2,max:3},{l:'≥3',min:3,max:1e9}];
+    const rs=cl.map(t=>t.r_mult).filter(v=>v!=null);
+    const counts=buckets.map(b=>rs.filter(v=>v>b.min&&v<=b.max).length);
+    const maxc=Math.max(1,...counts);
+    const hist='<div style="display:flex;gap:6px;align-items:flex-end;height:96px;margin-top:6px">'+buckets.map((b,i)=>
+      '<div style="flex:1;text-align:center"><div style="height:'+Math.round(counts[i]/maxc*78)+'px;background:'+(b.max<=0?'var(--red)':'var(--green)')+';opacity:.7;border-radius:2px 2px 0 0"></div>'+
+      '<div style="font-family:var(--mono);font-size:10px;margin-top:3px">'+counts[i]+'</div>'+
+      '<div style="font-family:var(--mono);font-size:8.5px;color:var(--text-3)">'+b.l+'R</div></div>').join('')+'</div>';
+    const byReason={}; cl.forEach(t=>{ const r=t.reason||'?'; (byReason[r]=byReason[r]||{n:0,pnl:0}); byReason[r].n++; byReason[r].pnl+=t.pnl_usd; });
+    const reasons='<div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-family:var(--mono);font-size:12px">'+
+      Object.entries(byReason).map(([r,v])=>'<span style="color:var(--text-3)">'+(REASON_IT[r]||r)+': <b style="color:var(--text-1)">'+v.n+'</b> · <span class="'+clsOf(v.pnl)+'">'+signedUsd(v.pnl)+'</span></span>').join('')+'</div>';
+    host.innerHTML='<h3 style="font-family:var(--serif);margin:18px 0 4px">Distribuzione esiti (R) &amp; motivo uscita</h3>'+hist+reasons;
+  }
+
   function renderAll(){
     renderSummary(); renderAccounts(); renderPositions(); renderFeed(); renderLessons();
     renderTree(); renderLifecycle(); renderEvents(); renderStrats(); renderBook();
+    renderPortfolioKpi(); renderPortfolioCurve(); renderRiskPanel(); renderSignalsMatrix(); renderBookAnalytics();
   }
   // ricarica i dati pipeline (eventi/decisioni/trade chiusi) senza reload pagina
   async function refreshData(){
