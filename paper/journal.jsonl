@@ -583,3 +583,11 @@
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10226.79, "open_positions": 2, "logged_at": "2026-06-17T21:25:25.729425+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10226.79, "open_positions": 2, "logged_at": "2026-06-17T21:26:37.392051+00:00"}
 {"type": "close", "strategy": "agents-v1", "symbol": "ZEC", "reason": "target", "exit_px": 447.62373209505, "pnl_usd": 95.91, "equity": 10322.7, "ts": "2026-06-18 15:00:00+00:00", "logged_at": "2026-06-18T15:58:12.302207+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-v1", "equity": 9688.43, "open_positions": 3, "logged_at": "2026-06-18T17:15:40.993769+00:00"}
+{"type": "heartbeat", "strategy": "funding-squeeze-breakout-g2-g1-g2", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-18T17:15:50.452449+00:00"}
+{"type": "heartbeat", "strategy": "lux-0.1-beta", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-18T17:36:58.672080+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-conservative-v1", "equity": 10112.56, "open_positions": 2, "logged_at": "2026-06-18T17:37:02.426898+00:00"}
+{"type": "open", "strategy": "tsmom-liq-v1", "symbol": "SUI", "direction": "short", "entry_px": 0.717196532, "size_usd": 2361.14, "stop_px": 0.7351264452999999, "target_px": 0.6634067921, "opened_at": "2026-06-18 16:00:00+00:00", "checked_until": "2026-06-18 16:00:00+00:00", "thesis": "tsmom AND liq_imbalance \u2192 signal_vote", "signals_last": {"tsmom": -1, "liq_imbalance": -1}, "logged_at": "2026-06-18T17:37:07.328884+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-liq-v1", "equity": 9837.04, "open_positions": 1, "logged_at": "2026-06-18T17:37:10.381859+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10322.7, "open_positions": 1, "logged_at": "2026-06-18T17:37:11.356140+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10322.7, "open_positions": 1, "logged_at": "2026-06-18T17:37:25.763180+00:00"}
