@@ -421,6 +421,15 @@ footer .foot-mark b{ color:var(--amber); }
   .updated{ font-size:10px; }
 }
 
+/* pannelli analytics: collassa le griglie larghe su mobile */
+@media(max-width:680px){
+  #portfolio-kpi .metrics, #risk-panel .metrics{ grid-template-columns:repeat(2,1fr)!important; }
+}
+#change-banner{ display:none; }
+#change-banner.show{ display:flex; gap:14px; align-items:center; flex-wrap:wrap;
+  border:1px solid var(--amber-dim); background:var(--amber-wash); border-radius:var(--r);
+  padding:10px 14px; margin:16px 0 0; font-family:var(--mono); font-size:12px; }
+#change-banner .cb-x{ margin-left:auto; cursor:pointer; color:var(--text-3); }
 @media (prefers-reduced-motion: reduce){
   *{ animation:none !important; transition:none !important; }
   .eq-line{ stroke-dashoffset:0 !important; }
@@ -453,6 +462,9 @@ footer .foot-mark b{ color:var(--amber); }
 </nav>
 
 <main class="wrap">
+
+  <div id="change-banner"></div>
+
 
   <!-- HERO / STATO -->
   <section id="stato">
@@ -623,7 +635,7 @@ footer .foot-mark b{ color:var(--amber); }
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-18 17:37",
+ "updated_utc": "2026-06-18 22:38",
  "accounts": [
   {
    "id": "funding-squeeze-breakout-g2-g1-g2",
@@ -1016,6 +1028,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-18 17:15",
+     10000.0
+    ],
+    [
+     "2026-06-18 22:33",
      10000.0
     ]
    ],
@@ -1733,6 +1749,14 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-18 17:37",
      10322.7
+    ],
+    [
+     "2026-06-18 22:35",
+     10322.7
+    ],
+    [
+     "2026-06-18 22:38",
+     10322.7
     ]
    ],
    "positions": [
@@ -2164,6 +2188,26 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-18 16:00",
        69.015
+      ],
+      [
+       "2026-06-18 17:00",
+       68.604
+      ],
+      [
+       "2026-06-18 18:00",
+       68.64
+      ],
+      [
+       "2026-06-18 19:00",
+       69.339
+      ],
+      [
+       "2026-06-18 20:00",
+       69.783
+      ],
+      [
+       "2026-06-18 21:00",
+       69.538
       ]
      ]
     }
@@ -2544,6 +2588,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-18 17:15",
+     9688.43
+    ],
+    [
+     "2026-06-18 22:32",
      9688.43
     ]
    ],
@@ -2992,6 +3040,22 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-18 16:00",
        74.279999
+      ],
+      [
+       "2026-06-18 17:00",
+       74.519997
+      ],
+      [
+       "2026-06-18 18:00",
+       75.629997
+      ],
+      [
+       "2026-06-18 19:00",
+       75.730003
+      ],
+      [
+       "2026-06-18 20:00",
+       75.519997
       ]
      ]
     },
@@ -3439,6 +3503,22 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-18 16:00",
        78.120003
+      ],
+      [
+       "2026-06-18 17:00",
+       78.309998
+      ],
+      [
+       "2026-06-18 18:00",
+       79.470001
+      ],
+      [
+       "2026-06-18 19:00",
+       79.610001
+      ],
+      [
+       "2026-06-18 20:00",
+       79.440002
       ]
      ]
     },
@@ -3834,6 +3914,22 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-18 16:00",
        66.205002
+      ],
+      [
+       "2026-06-18 17:00",
+       66.224998
+      ],
+      [
+       "2026-06-18 18:00",
+       65.955002
+      ],
+      [
+       "2026-06-18 19:00",
+       65.864998
+      ],
+      [
+       "2026-06-18 20:00",
+       65.775002
       ]
      ]
     }
@@ -4150,6 +4246,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-18 17:37",
+     10112.56
+    ],
+    [
+     "2026-06-18 22:35",
      10112.56
     ]
    ],
@@ -4582,6 +4682,22 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-18 16:00",
        4238.700195
+      ],
+      [
+       "2026-06-18 17:00",
+       4249.5
+      ],
+      [
+       "2026-06-18 18:00",
+       4237.700195
+      ],
+      [
+       "2026-06-18 19:00",
+       4236.200195
+      ],
+      [
+       "2026-06-18 20:00",
+       4227.899902
       ]
      ]
     },
@@ -4945,6 +5061,22 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-18 16:00",
        78.120003
+      ],
+      [
+       "2026-06-18 17:00",
+       78.309998
+      ],
+      [
+       "2026-06-18 18:00",
+       79.470001
+      ],
+      [
+       "2026-06-18 19:00",
+       79.610001
+      ],
+      [
+       "2026-06-18 20:00",
+       79.440002
       ]
      ]
     }
@@ -4954,7 +5086,7 @@ footer .foot-mark b{ color:var(--amber); }
    "id": "tsmom-liq-v1",
    "label": "tsmom-liq-v1",
    "tag": "",
-   "equity": 9837.04,
+   "equity": 9835.97,
    "pnl_realized": -146.74,
    "trades_closed": 14,
    "wins": 3,
@@ -5218,6 +5350,10 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-18 17:37",
      9837.04
+    ],
+    [
+     "2026-06-18 22:35",
+     9835.97
     ]
    ],
    "positions": [
@@ -5521,6 +5657,329 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-18 16:00",
        0.71734
+      ],
+      [
+       "2026-06-18 17:00",
+       0.71417
+      ],
+      [
+       "2026-06-18 18:00",
+       0.71852
+      ],
+      [
+       "2026-06-18 19:00",
+       0.71984
+      ],
+      [
+       "2026-06-18 20:00",
+       0.72447
+      ],
+      [
+       "2026-06-18 21:00",
+       0.72267
+      ]
+     ]
+    },
+    {
+     "symbol": "BTC",
+     "direction": "short",
+     "entry_px": 62932.411,
+     "size_usd": 2360.89,
+     "stop_px": 64505.721275,
+     "target_px": 58212.480175,
+     "opened_at": "2026-06-18 21:00",
+     "chart": [
+      [
+       "2026-06-15 21:00",
+       66338.0
+      ],
+      [
+       "2026-06-15 22:00",
+       66167.0
+      ],
+      [
+       "2026-06-15 23:00",
+       66294.0
+      ],
+      [
+       "2026-06-16 00:00",
+       66215.0
+      ],
+      [
+       "2026-06-16 01:00",
+       66314.0
+      ],
+      [
+       "2026-06-16 02:00",
+       65710.0
+      ],
+      [
+       "2026-06-16 03:00",
+       66128.0
+      ],
+      [
+       "2026-06-16 04:00",
+       65807.0
+      ],
+      [
+       "2026-06-16 05:00",
+       66032.0
+      ],
+      [
+       "2026-06-16 06:00",
+       66408.0
+      ],
+      [
+       "2026-06-16 07:00",
+       66343.0
+      ],
+      [
+       "2026-06-16 08:00",
+       66858.0
+      ],
+      [
+       "2026-06-16 09:00",
+       66482.0
+      ],
+      [
+       "2026-06-16 10:00",
+       66481.0
+      ],
+      [
+       "2026-06-16 11:00",
+       66456.0
+      ],
+      [
+       "2026-06-16 12:00",
+       66397.0
+      ],
+      [
+       "2026-06-16 13:00",
+       66019.0
+      ],
+      [
+       "2026-06-16 14:00",
+       65624.0
+      ],
+      [
+       "2026-06-16 15:00",
+       65851.0
+      ],
+      [
+       "2026-06-16 16:00",
+       65732.0
+      ],
+      [
+       "2026-06-16 17:00",
+       65958.0
+      ],
+      [
+       "2026-06-16 18:00",
+       65822.0
+      ],
+      [
+       "2026-06-16 19:00",
+       65642.0
+      ],
+      [
+       "2026-06-16 20:00",
+       65834.0
+      ],
+      [
+       "2026-06-16 21:00",
+       65749.0
+      ],
+      [
+       "2026-06-16 22:00",
+       65748.0
+      ],
+      [
+       "2026-06-16 23:00",
+       65639.0
+      ],
+      [
+       "2026-06-17 00:00",
+       65682.0
+      ],
+      [
+       "2026-06-17 01:00",
+       65913.0
+      ],
+      [
+       "2026-06-17 02:00",
+       65882.0
+      ],
+      [
+       "2026-06-17 03:00",
+       65822.0
+      ],
+      [
+       "2026-06-17 04:00",
+       65858.0
+      ],
+      [
+       "2026-06-17 05:00",
+       65813.0
+      ],
+      [
+       "2026-06-17 06:00",
+       65595.0
+      ],
+      [
+       "2026-06-17 07:00",
+       65511.0
+      ],
+      [
+       "2026-06-17 08:00",
+       64896.0
+      ],
+      [
+       "2026-06-17 09:00",
+       64886.0
+      ],
+      [
+       "2026-06-17 10:00",
+       64782.0
+      ],
+      [
+       "2026-06-17 11:00",
+       64796.0
+      ],
+      [
+       "2026-06-17 12:00",
+       65033.0
+      ],
+      [
+       "2026-06-17 13:00",
+       65271.0
+      ],
+      [
+       "2026-06-17 14:00",
+       65085.0
+      ],
+      [
+       "2026-06-17 15:00",
+       65731.0
+      ],
+      [
+       "2026-06-17 16:00",
+       65833.0
+      ],
+      [
+       "2026-06-17 17:00",
+       66050.0
+      ],
+      [
+       "2026-06-17 18:00",
+       65493.0
+      ],
+      [
+       "2026-06-17 19:00",
+       64287.0
+      ],
+      [
+       "2026-06-17 20:00",
+       64386.0
+      ],
+      [
+       "2026-06-17 21:00",
+       64227.0
+      ],
+      [
+       "2026-06-17 22:00",
+       64264.0
+      ],
+      [
+       "2026-06-17 23:00",
+       64470.0
+      ],
+      [
+       "2026-06-18 00:00",
+       64431.0
+      ],
+      [
+       "2026-06-18 01:00",
+       64513.0
+      ],
+      [
+       "2026-06-18 02:00",
+       64651.0
+      ],
+      [
+       "2026-06-18 03:00",
+       64247.0
+      ],
+      [
+       "2026-06-18 04:00",
+       63852.0
+      ],
+      [
+       "2026-06-18 05:00",
+       63961.0
+      ],
+      [
+       "2026-06-18 06:00",
+       64053.0
+      ],
+      [
+       "2026-06-18 07:00",
+       64476.0
+      ],
+      [
+       "2026-06-18 08:00",
+       64362.0
+      ],
+      [
+       "2026-06-18 09:00",
+       64162.0
+      ],
+      [
+       "2026-06-18 10:00",
+       64061.0
+      ],
+      [
+       "2026-06-18 11:00",
+       63952.0
+      ],
+      [
+       "2026-06-18 12:00",
+       64348.0
+      ],
+      [
+       "2026-06-18 13:00",
+       63945.0
+      ],
+      [
+       "2026-06-18 14:00",
+       63777.0
+      ],
+      [
+       "2026-06-18 15:00",
+       62339.0
+      ],
+      [
+       "2026-06-18 16:00",
+       62663.0
+      ],
+      [
+       "2026-06-18 17:00",
+       62580.0
+      ],
+      [
+       "2026-06-18 18:00",
+       62674.0
+      ],
+      [
+       "2026-06-18 19:00",
+       62917.0
+      ],
+      [
+       "2026-06-18 20:00",
+       63069.0
+      ],
+      [
+       "2026-06-18 21:00",
+       62945.0
       ]
      ]
     }
@@ -5538,12 +5997,31 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-18 17:36",
      10000.0
+    ],
+    [
+     "2026-06-18 22:34",
+     10000.0
     ]
    ],
    "positions": []
   }
  ],
  "decisions": [
+  {
+   "ts": "2026-06-18 21:00",
+   "symbol": "BTC",
+   "direction": "short",
+   "account": "tsmom-liq-v1",
+   "account_label": "tsmom-liq-v1",
+   "risk_verdict": "sistema",
+   "thesis": "Il sistema «tsmom-liq-v1» ha aperto short su BTC: tendenza concorde su settimana e mese, liq_imbalance.",
+   "entry_px": 62932.411,
+   "size_usd": 2360.89,
+   "invalidation": "esce da sola se il prezzo va contro del 2.5% (stop), se raggiunge l'obiettivo (target) o se passa troppo tempo",
+   "outcome": {
+    "closed": false
+   }
+  },
   {
    "ts": "2026-06-18 16:00",
    "symbol": "SUI",
@@ -5565,6 +6043,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "CINQUE DIFETTI STRUTTURALI. (1) CARRY IRRILEVANTE: -1.82% APR / 8760h * 24h * 2x = +0.010% carry sull'orizzonte del time-stop. Il vantaggio di funding vantato nella tesi è letteralmente due centesimi su un'operazione da 100$; non è un P&L driver, è flavor narrativo usato per giustificare un'entrata su tesi debole. (2) MACRO REGIME CHANGE NON FALSIFICATO: la tesi liquida il FOMC Warsh come 'compres",
    "thesis": "Il funding negativo strutturale (-1.82% APR) remunera il long ogni ora che i bear mantengono posizione — vantaggio di carry indipendente dalla direzione intraday. Il pullback -2.6% avviene su struttura settimanale intatta (+14%, miglior performer del basket) senza espansione volumetrica ribassista: è compressione di rumore macro, non cambio di regime. La confluenza funding-negativo + bull regime + outperformance relativa è esattamente il pattern ad alto hit-rate identificato nel lesson set; il segnale non è esaurito finché il funding non flipppa positivo. Leva conservativa (2x, 1% rischio) e time-stop a 24h proteggono dal regime chop prolungato.",
    "invalidation": "SOL chiude daily sotto $67 (invalida la struttura settimanale); funding flippa positivo sopra +1% APR (squeeze esaurito, edge carry annullato); BTC rompe $62k in chiusura daily portando correlazione a 1 e azzerando l'outperformance relativa; taker sell ratio si espande sostenuto oltre 0.55 per più di 2 ore consecutive.",
    "outcome": {
@@ -5578,6 +6057,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "approve",
+   "risk_notes": "",
    "thesis": "SOL mantiene il bull regime 7d intatto: il -2.9% intraday post-Warsh è rumore su una tesi multi-giorno, non invalidazione strutturale. Il funding -2.47% APR supera ampiamente la soglia meccanica -1% (lesson agents-v1|SOL 2026-06-16): la pressione di auto-liquidazione è concreta e paga il long. La confluenza regime-bull + funding-negativo-strutturale + outperformance-vs-basket (+12.8% vs +3.8% BTC 7d) replica esattamente il setup agents-v1|SOL 2026-06-15 (thesis_right, +$185). ZEC escluso per crowding post-+14.4% weekly (lesson agents-v1|ZEC 2026-06-16: 'candele estese + tesi riconosce crowding = edge negativo'); ETH short escluso perché regime è chop non bear e la tesi riconosce esplicitamente rischio lateralizzazione settimane.",
    "invalidation": "Funding SOL flip oltre -0.5% APR (squeeze esaurito); oppure daily close SOL sotto $68 (rottura struttura 7d); oppure BTC breakdown sotto $62.000 (invalidazione macro dell'intero basket)",
    "outcome": {
@@ -5590,6 +6070,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tesi strutturalmente onesta — tre fattori indipendenti con threshold journal-validata (-3.78% vs -1% APR), invalidazione operativa definita, R:R accettabile. Approverei su BTC o SOL senza esitazione. Su ZEC emergono tre obiezioni concrete: (1) LIQUIDITÀ DERIVATI: ZEC perp ha OI sistematicamente inferiore a SOL/ETH di uno-due ordini di grandezza su quasi tutti i venue; lo stop a $478 in condizioni ",
    "thesis": "Confluenza tri-fattoriale certificata dalle lessons: bull regime strutturale (+12.7% 7d), vol_compression attiva (spring caricato in trend preesistente), e funding -3.78% APR — materialmente sopra la soglia -1% APR identificata nel journal come setup asimmetrico. Gli shorts costruiti contro un trend rialzista pagano carry crescente; al primo breakout di $500 il deleveraging meccanico alimenta il movimento piuttosto che contrastarlo. Il macro risk-on (Hormuz) aggiunge beta generalizzato senza essere il driver primario.",
    "invalidation": "Chiusura daily sotto $478 (struttura rialzista invalidata) oppure funding che converge verso neutro entro 8h senza breakout direzionale (gli shorts smontano ordinatamente, il carburante squeeze si esaurisce prima della risoluzione della compressione).",
    "outcome": {
@@ -5603,6 +6084,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre difetti materiali nella tesi che non sono nel documento. (1) REGULATORY BLIND SPOT: ZEC è una privacy coin — Binance l'ha delistata nel 2023, Kraken UK e altri seguiti. Il funding negativo estremo (-6.87% APR) potrebbe riflettere hedging strutturale di miner ZEC o arbitrage cash-and-carry, NON short speculativi pronti a coprire. Se gli short sono istituzionali/miner che si coprono sulla produz",
    "thesis": "ZEC presenta la confluenza più rara del basket: bull regime confermato + segnale vol_compression attivo + funding -6.87% APR, configurazione esplicitamente validata dalla lezione archiviata come setup asimmetrico ad alta probabilità. Gli short stanno pagando un costo annualizzato estremo per mantenere posizione: ogni movimento rialzista anche moderato innesca chiusure meccaniche a cascata che auto-amplificano il move. La vol compression segnala energia accumulata pronta al rilascio direzionale — storicamente risolve entro 24-72h. Il macro risk-on e il sentiment istituzionale costruttivo riducono il rischio di capitolazione sell-side che potrebbe alimentare ulteriori short.",
    "invalidation": "Prezzo scende oltre il 5% dall'entry (stop meccanico), oppure la vol compression si risolve al ribasso con espansione di volume (breakout short confermato), oppure il funding si normalizza verso 0% APR senza apprezzamento di prezzo — segnalerebbe che gli short stanno coprendo in perdita ma senza squeeze genuino, tesi falsificata.",
    "outcome": {
@@ -5618,6 +6100,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tesi strutturalmente valida ma tre difetti materiali ne riducono la convinzione. (1) EVENT RISK SOVRAPPOSTO: Warsh/Fed cade dentro la finestra 36h — un comunicato hawkish su 'delayed cuts' (già prezzato dal beat retail sales) comprime crypto risk-on indiscriminatamente; ZEC, bassa capitalizzazione e liquidità ridotta, assorbe gli outflow peggio di BTC/SOL e il time-stop potrebbe scattare prima del",
    "thesis": "ZEC è l'unico asset del basket con segnale attivo (vol_compression=1) in regime bull confermato: la molla è carica. Il funding a –6.97% APR rappresenta un crowded short costruito contro il trend strutturale — ogni long su perp riceve carry mentre i short lo pagano, creando pressione di chiusura time-decay. Il pullback intraday del –4.6% è il prezzo d'ingresso, non la negazione della tesi: avviene su struttura rialzista intatta senza cambio di regime. La lezione storica del desk ('vol compression in bull regime è setup asimmetrico') si applica direttamente — non ci sono ragioni per derogarla.",
    "invalidation": "Funding ZEC perp torna positivo (short squeeze completato, longs ora pagano carry); oppure il prezzo chiude sotto il minimo della compressione (-5% dallo strike) prima dell'espansione; oppure cambio di regime da bull a chop/bear sul timeframe 4h.",
    "outcome": {
@@ -5631,6 +6114,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Quattro difetti strutturali che riducono il conviction. (1) TIMING RISK EVENTO: la proposta entra PRIMA della risoluzione del discorso Warsh — il principale driver macro della sessione è ancora pendente. Entrare in un asset beta-alto come ZEC prima di un evento Fed binario non è 'catturare l'asimmetria', è esporsi al rischio di tail event non prezzato. La regola corretta sarebbe attendere la reazi",
    "thesis": "ZEC è l'unico asset con convergenza di tre segnali indipendenti su regime bull confermato: vol_compression + volume_surge + funding –2.97% APR. Il funding negativo crea asimmetria strutturale attiva ora — i short finanziano la posizione long ogni ora, riducendo il costo di attesa del trigger. La lesson interna thesis_right valida esplicitamente vol_compression in bull regime come pattern con edge storico. Il pullback –5.4% 24h migliora il prezzo di entry senza alterare il regime settimanale, aumentando l'asimmetria risk/reward. La tesi è falsificabile: ZEC deve rompere $510 entro 48h per confermare l'espansione attesa dalla compressione; assenza di breakout = mancanza di edge e time-stop chiude.",
    "invalidation": "Chiusura meccanica sotto $450 (stop –7%); time-stop a 48h senza breakout $510; guidance Warsh hawkish con drawdown BTC >5% nelle 6h successive alla dichiarazione e taker ratio <0.45 su ZEC; segnale vol_compression che si resetta senza espansione direzionale (falso positivo strutturale).",
    "outcome": {
@@ -5644,6 +6128,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tesi leggibile ma poggia su UN solo segnale (vol_compression) senza confluence: nessun breakout confermato, nessun segnale direzionale su flussi spot ZEC. Tre criticità principali. (1) TIMING PRE-EVENTO: entrare long su un alt illiquido PRIMA di un catalizzatore macro binario (Warsh) è asimmetria negativa mascherata — se hawkish, ZEC cede 8–12% prima che lo stop venga eseguito con lo spread che si",
    "thesis": "Vol_compression in regime bull è l'unico segnale attivo sul basket: storicamente questo pattern ha bias espansivo long quando il funding è neutro, perché esclude il crowding da leva che genera false breakout. Il pullback –5% intraday avviene senza liquidazioni forzate (APR ~0%), segnalando profit-taking spot meccanico, non inversione strutturale. Leverage 1x e risk_pct 0.8 assorbono l'illiquidità di ZEC e l'incertezza macro pre-Warsh senza esporre il portfolio a tail-risk asimmetrico. La tesi è falsificata se ZEC non recupera i $495 entro 24h dal discorso Warsh o se BTC scende sotto $62K spegnendo il risk-on di base.",
    "invalidation": "Warsh hawkish esplicito + BTC < $62K + ZEC incapace di rimontare $480 nelle prime 4h post-speech; oppure ZEC tocca $456 (stop –6.5%) prima del catalizzatore.",
    "outcome": {
@@ -5659,6 +6144,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "approve",
+   "risk_notes": "",
    "thesis": "ZEC è l'unico asset del basket con segnale quantitativo attivo (vol_compression=1) in regime bull confermato — pattern validato internamente come pre-espansione direzionale, non inversione. Il funding negativo a –1.59% APR (sotto soglia –1%) implica che gli shorts pagano carry per tenere posizione contro un trend rialzista: ogni movimento al rialzo genera pressione meccanica di squeeze senza necessità di acquirenti aggiuntivi. Il pullback intraday –2% con taker ratio 0.5 e assenza di sell pressure strutturale è respiro tecnico in consolidazione, non distribuzione; il posizionamento è pulito e il carry favorisce i long. Un tono Fed neutro o dovish entro 24h riattiva il risk-on esattamente mentre ZEC è in massima tensione da volatilità compressa — leverage 2x e risk 0.5% rispettano l'illiquidità dell'asset e l'overextension +20% 7d.",
    "invalidation": "Prezzo chiude sotto $465 su candle H4 (8.5% dall'entry ~$507); oppure funding torna positivo indicando uscita degli shorts senza squeeze materializzato; oppure taker sell ratio supera 0.60 nelle prossime 4h confermando distribuzione attiva; oppure Fed sorpresa hawkish esplicita con spike del DXY > +0.8%.",
    "outcome": {
@@ -5673,6 +6159,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tesi meccanicamente valida (lezione 'thesis_right' archivata, invalidazione misurabile), ma tre difetti materiali: (1) FOMC cade dentro il time-stop di 30h — con leva 2x e stop al -4.5%, un surprise hawkish muove SOL 5-8% in minuti e produce gap loss oltre lo stop dichiarato; il rischio non è il trend, è la discontinuità di prezzo sull'evento; (2) il segnale funding è debole: -0.47% APR è rumore, ",
    "thesis": "SOL replica il profilo 'thesis_right' archiviato nel journal: funding negativo (-0.47% APR) in regime bull significa shorts stranded che pagano carry ai long ogni ora mentre il trend li stritola. Il consolidamento intraday pre-FOMC offre entry pulito su struttura già costruttiva (+14% 7d) senza segnali di distribuzione. La rotazione capital da BTC stagnante verso L1 con ecosistema attivo è già in corso e SOL è il beneficiario diretto per momentum puro. Un FOMC neutro o dovish amplifica il beta del setup senza che la tesi dipenda da esso.",
    "invalidation": "Funding SOL flipa a neutro (≥0% APR) indicando capitolazione degli shorts e fine dello squeeze; oppure chiusura di candela 4h sotto -4.5% dall'entry rompendo la struttura di consolidamento intraday.",
    "outcome": {
@@ -5686,6 +6173,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre criticità ordinate per peso. (1) TIMING FOMC INTRADAY — la tesi assume 'neutro-dovish' ma l'annuncio non è ancora avvenuto: stai entrando con 96h di esposizione partendo da massima incertezza intraday. Lesson 5 ha già portato risk_pct a 1%, ma il gate pre-annuncio andrebbe applicato come 'entra DOPO il dato, non prima', non come 'entra prima ma con meno rischio'. Un'entry nelle 2-4h post-FOMC ",
    "thesis": "SOL guida il basket a +13.8% 7d in regime bull confermato; il pullback 24h (-4.1%) è consolidazione nel trend settimanale intatto, non inversione strutturale. Il funding a +1.14% APR è neutro: nessuna euforia, posizionamento non affollato — condizione che rimuove il headwind derivativo e lascia il momentum spot come driver dominante. La rotazione altcoin già in atto (Uniswap +22%) valida il beta-play su L1; post-FOMC neutro-dovish il capitale migra esattamente su asset con momentum pulito e leva bassa. ZEC short è già aperto in portafoglio (parziale hedge FOMC); time_stop 96h corregge il mismatch di lesson 31 (tesi 7d → finestra minima 72-96h), risk_pct 1% applica il gate di rischio pre-annuncio da lesson 5.",
    "invalidation": "Break orario confermato sotto $68 (struttura 7d invalida, -5.9% dall'entry); FOMC hawkish con BTC che cede $62k innescando risk-off indiscriminato sul basket; funding SOL che sale sopra +3% APR nelle prime 48h (euforia/crowding); SOL che sotto-performa il basket su base relativa per 2+ sessioni consecutive post-entry.",
    "outcome": {
@@ -5699,6 +6187,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre veti parziali che non giustificano kill ma impongono dimezzamento. (1) TIMING AVVERSO: si entra leveraged su un alt illiquido nelle 4-8h pre-Fed — il vol_compression è un segnale su regime storico, non su regime intraday; i movimenti violenti pre/post comunicato amplificano il gap-risk esattamente nelle finestre in cui gli stop non si eseguono al prezzo dichiarato. Entrare prima dell'evento si",
    "thesis": "ZEC è l'unico asset con segnale attivo (vol_compression=1) su regime bull primario, con funding −3.89% APR: i short pagano ~4% annuo per restare contro un trend +17.93% settimanale — carry a nostro favore mentre aspettiamo la risoluzione Fed. La confluenza vol_compression + funding negativo profondo + regime bull è il pattern asimmetrico per eccellenza nelle lezioni interne: il breakout quando arriva è direzionale e violent, con la copertura spontanea degli short come primo vettore di liquidità. Il contesto macro (G7/Hormuz, risk-on marginalmente migliorato) rende il Fed dovish lo scenario base, il che accelera la rotazione nelle alt bull-regime. L'edge si falsifica immediatamente se ZEC non regge la base di compressione dopo un esito Fed neutro-dovish.",
    "invalidation": "Rottura confermata sotto $480 post-Fed (regime primario bull invalidato dalla struttura di prezzo) oppure sorpresa Fed hawkish oltre le attese che genera de-risking sistemico sulle alt; in assenza di breakout entro 36h dalla risoluzione Fed in scenario neutro-dovish, il vol_compression si estende senza catalizzatore e la posizione va chiusa al time-stop indipendentemente dal P&L.",
    "outcome": {
@@ -5712,6 +6201,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre difetti strutturali: (1) ENTRY POST-ESTENSIONE: ZEC +19.7% in 7d significa che si entra su un asset che ha già corso, con probabilità di crowding elevata. Il vol_compression è reale ma la distribuzione e la compressione post-estensione sono indistinguibili in tempo reale — il taker ratio a 0.5 (NEUTRO, non bullish) non conferma la lettura 'consolidazione sana'; un ratio 0.35-0.45 sarebbe stato",
    "thesis": "ZEC è l'unico asset con segnale quantitativo attivo (vol_compression) nel basket, in regime bull confermato. Il pullback 24h (–2.2%) su volume compresso è consolidazione classica post-estensione, non distribuzione: il regime non è cambiato e il coil è il setup storicamente validato nelle lessons. Il contesto macro risk-on (accordo USA-Iran, rotazione altcoin in atto) amplifica la probabilità di continuazione. Il sizing minimo (0.5% risk, 2x leva) e il time-stop pre-Fed a 16h gestiscono esplicitamente il rischio di hawkish surprise, dove ZEC — meno liquida — subirebbe l'impatto maggiore.",
    "invalidation": "Rottura e chiusura sotto $487 (minimo di consolidazione 24h, –5% dall'entry), oppure taker ratio ZEC che scende sotto 0.35 segnalando distribuzione attiva, oppure funding che diventa negativo indicando inversione di sentiment; qualsiasi notizia di delisting accelerato su exchange tier-1 invalida la tesi strutturalmente indipendentemente dal prezzo.",
    "outcome": {
@@ -5727,6 +6217,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tesi tecnicamente corretta: vwap_zscore=1 su bull regime è il segnale canonico del sistema e la distinzione SUI/ZEC è ben argomentata. Tuttavia tre vettori di attacco riducono la qualità del setup a questa specifica ora. (1) FOMC day entry: il brief stesso definisce il FOMC 'catalizzatore dominante intraday' — entrare long 1.5x su un altcoin high-beta il giorno stesso del FOMC con uno stop al 3.2%",
    "thesis": "SUI è l'unico asset del basket con segnale attivo (vwap_zscore=1) in regime bull confermato: per le regole del sistema questa combinazione costituisce entry direzionale, non speculazione. La lesson 'regime trasforma pattern neutro in entry direzionale' si applica qui, non a ZEC dove lo stesso principio è contraddetto dal rally già +20% esausto. Il momentum 7d (+8.7%) non è in zona crowding, il funding (+1.37% APR) è moderato, e la rotazione DeFi/L1 post-Hormuz con FOMC atteso neutro/dovish offre vento favorevole a beta alto. Stop sotto VWAP ($0.78) quantifica l'invalidazione tecnica; R/R 3:1 verso $0.88–0.90 è asimmetrico rispetto alla qualità del setup.",
    "invalidation": "Chiusura H4 sotto $0.78 (perdita VWAP zone); FOMC hawkish con guidance esplicita rialzista che inverte il risk-on; BTC breakdown sotto $63k con correlazione altcoin al ribasso generalizzato; vwap_zscore che torna neutro su bar successivo segnalando falso breakout.",
    "outcome": {
@@ -5740,6 +6231,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre difetti strutturali riducono la convinzione senza invalidare il trade. (1) ENTRY SU ESTENSIONE: SOL +14.9% in 7 giorni significa comprare lontano dal supporto — il 3.5% di stop è nominalmente adeguato ma strutturalmente sottile su un asset che ha già corso. Il punto di entry ideale per questo setup era 24-48h fa; oggi si paga il momentum invece di comprarlo. (2) FINESTRA PRE-FOMC PARZIALMENTE ",
    "thesis": "SOL è il setup strutturalmente più pulito del basket: regime bull confermato, rally +14.9% 7d interamente spot-driven con funding quasi zero (+0.0016% APR), assenza di crowding derivato che elimina il rischio di squeeze liquidativo. La confluenza macro (de-escalation Hormuz, stimolo cinese, narrativa DeFi da Uniswap +22%) supporta il momentum indipendentemente dall'esito Fed. Il time-stop a 14h chiude la posizione prima della decisione FOMC (~22:00 UTC): il trade cattura il momentum pre-Fed senza scommettere sul binario di volatilità. ZEC short rigettato: vol_compression in regime bull coincide con la lezione 'regime outlier + compressione = pre-espansione', shorting contro il segnale validato dal sistema è incoerente.",
    "invalidation": "Chiusura oraria sotto -3.5% dall'entry (supporto pre-rally violato); funding SOL supera +0.05% APR segnalando ingresso di leva derivata; time-stop a 14h obbligatorio indipendente dall'esito — nessuna eccezione per Fed surprise.",
    "outcome": {
@@ -5753,6 +6245,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "short",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tesi narrativamente coerente ma strutturalmente fragile su 4 assi critici. (1) REGIME: il brief classifica ZEC come 'bull regime' — short contro regime primario senza segnale di inversione confermato è il difetto più grave; il pullback -3.2% è <20% del rally settimanale, nessuna evidenza di rottura strutturale. (2) SEGNALI QUANTITATIVI: zero segnali attivi su ZEC. L'unico segnale nel basket è vwap",
    "thesis": "ZEC ha completato un rally di +17.8% in 7 giorni senza catalizzatore fondamentale identificabile, e oggi registra il primo pullback significativo (-3.2%) con funding ancora positivo (+1.37% APR): i longs non capitolano nonostante il prezzo scenda, segnale classico di distribuzione per esaurimento. Il pattern è documentato nelle lezioni del journal come configurazione ad alto tasso di mean reversion (-15/20%). SOL è il setup long preferito ma manca di segnale attivo — entrare ora sarebbe speculazione cieca; ZEC short è invece il trade con il miglior allineamento storico tra regime, struttura di funding e pattern di price action. Size ridotta (0.75%) e leva bassa (2x) compensano il rischio di slippage su asset illiquido.",
    "invalidation": "Prezzo ZEC recupera e chiude sopra il massimo degli ultimi 7 giorni, oppure il funding rate scende sotto zero (segnale che i longs stanno capitolando e la pressione sell è già esaurita) — in entrambi i casi la tesi di distribuzione/esaurimento decade e si chiude immediatamente.",
    "outcome": {
@@ -5768,6 +6261,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre difetti strutturali che indeboliscono la tesi senza invalidarla. (1) Funding threshold non raggiunto: la soglia meccanica di squeeze è -1% APR, il livello attuale è -0.76% — il pattern è corretto per direzione ma il carburante non è ancora acceso; comprare in anticipazione di un trigger che potrebbe non materializzarsi nelle 72h è speculazione sul timing, non su un segnale attivo. (2) Nessun e",
    "thesis": "SOL replica il pattern storicamente validato nel journal: regime bull confermato + outperformance spot basket-leading (+15.1% 7d) + funding perp negativo (-0.76% APR). I short nei perp pagano carry ai long, carburante meccanico latente per squeeze al primo impulso direzionale. Il macro risk-on — stimulus CNY 300bln e de-escalation Iran — favorisce asset ad alto beta senza catalyst ribassista crypto-specifico attivo. Il taker flow neutro indica assenza di urgenza immediata, non assenza di direzione: il sizing è ridotto (0.75%) proprio per questo.",
    "invalidation": "Funding SOL vira positivo sopra +0.5% APR (short squeeze esaurito, crowding lato long); oppure rottura e chiusura H4 sotto $70 (struttura bull settimanale compromessa); oppure taker flow ratio scende sotto 0.42 con volume sostenuto (sell-side dominante). ZEC scartato come short: vol_compression in bull regime è lezione journal 'thesis_right' lato long, non short — andare contro la lezione richiede catalizzatore che il brief non fornisce.",
    "outcome": {
@@ -5783,6 +6277,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre difetti strutturali riducono la conviction. (1) FUNDING ANOMALIA: SUI è l'unico asset del basket con funding positivo (+1.37% APR) mentre BTC/ETH/SOL sono tutti negativi o zero. In un mercato con taker ratio 0.50 su tutti i ticker (neutralità completa dei flussi confermata nel brief), un prezzo +2.8% intraday senza volume direzionale corrispondente è segnale di distribuzione isolata, non di do",
    "thesis": "SUI è l'unico asset del basket con segnale quantitativo attivo (vwap_zscore=1), confermato da regime bull e forza relativa intraday di +2.8% — la più alta nelle ultime 24h. Il funding a +1.37% APR indica posizionamento long fresco e non overextension: la domanda reale non ha ancora esaurito i venditori strutturali, lasciando spazio verso $0.90–0.93 prima di incontrare resistenza significativa. SOL ha il pattern lessons-validated (thesis_right) ma zero segnali attivi oggi; le regole impongono il registry, non il pattern discrezionale, quindi SUI prevale.",
    "invalidation": "Chiusura oraria sotto VWAP giornaliero con volume ≥ media delle ultime 4h; BTC che rompe $63k innescando risk-off generalizzato sul basket; funding SUI che vira negativo prima del target (segnale di unwinding long); assenza di follow-through con espansione di volume entro 8h dall'ingresso.",
    "outcome": {
@@ -5798,6 +6293,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "veto",
+   "risk_notes": "Tre difetti fatali convergenti. (1) PRE-SIGNAL ENTRY: la tesi ammette esplicitamente 'entry anticipata rispetto all'attivazione formale del segnale quantitativo' — questo è esattamente il tipo di override discrezionale che il registry backtest/signals.py esiste per prevenire. 'Convergenza qualitativa' è la giustificazione canonica di ogni trade emotivo; il valore della disciplina segnale sta nel n",
    "thesis": "SOL è l'unico asset del basket con tre pilastri simultaneamente allineati: regime bull confermato, outperformance relativa netta (+12.6% 7d vs BTC +6.1%), e funding in traiettoria verso la soglia di squeeze meccanico (-0.75% APR con vettore discendente). La lezione interna consolidata identifica esattamente questa struttura — funding negativo strutturale + spot strength relativa — come precursore di squeeze lento ma prevedibile. Entry anticipata rispetto all'attivazione formale del segnale quantitativo, giustificata dalla convergenza qualitativa e dalla risk policy hard: 0.5% di conto, time stop 24h che taglia l'esposizione prima che il rischio FOMC binario diventi ingestibile. Il brief stesso nomina SOL come 'traiettoria più pulita del basket'. ZEC short scartato: lezione interna avverte su crowding post-estensione, e aprire uno short altcoin in ambiente con 3/5 asset in regime bull è asimmetria sfavorevole.",
    "invalidation": "Chiusura 4h sotto $70.0 (stop meccanico), FOMC hawkish con dollaro bid e risk-off trasversale che rompe il regime settimanale SOL, oppure taker sell ratio che supera stabilmente 0.55 segnalando distribuzione attiva anziché respiro.",
    "outcome": {
@@ -5828,6 +6324,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "approve",
+   "risk_notes": "",
    "thesis": "Funding -1.26% APR su SOL replica esattamente il pattern 'thesis_right' delle lezioni: shorts pagano per mantenere posizione su un asset che sovraperforma il basket (+13.34% 7d) in regime spot bull confermato. Il threshold -1% APR è la soglia storica di squeeze meccanico lento — non ancora avvenuto. La tesi è falsificabile: se nelle prossime 4h il gradient del funding non migliora (resta sotto -1.5% senza movimento spot), il setup diventa hedging strutturale, non squeeze. Bear ETH scartato: narrative leak richiede timing su correzione cognitiva del mercato, troppo speculativo; ZEC scartato per lezioni esplicitamente negative su crowding.",
    "invalidation": "BTC rompe $64k (flush correlazione), oppure SOL non regge $71.50 nella prossima candela 4h (conferma debolezza spot che invalida il regime), oppure funding gradient si deteriora sotto -2% APR senza recupero prezzo (segnala hedging spot/perp, non squeeze imminente).",
    "outcome": {
@@ -5842,6 +6339,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Il funding signal (-1.87% APR > soglia -1%) è il nucleo validato e il punto più forte della tesi. Ma l'adversarial review identifica tre debolezze che giustificano riduzione senza veto. (1) MONOMODALITÀ: il brief dichiara esplicitamente 'tutti i segnali quantitativi risultano a zero — pipeline non popolata in questa finestra'. La tesi è costruita su UN solo segnale quantitativo (funding); momentum",
    "thesis": "Il funding a -1.87% APR supera la soglia -1% della lezione validata in backtest: gli short strutturali finanziano i long spot, creando un costo di carry crescente che meccanicamente comprime le posizioni ribassiste. Il regime bull a 7d e l'outperformance relativa (+13.9%) confermano che il mercato premia il momentum SOL anche in consolidamento macro. La debolezza intraday offre entry migliorata senza rottura del trend settimanale — setup di pullback in trend. Il contesto macro risk-on post-Hormuz favorisce asset ad alto beta come SOL rispetto agli asset chop del basket.",
    "invalidation": "BTC rompe il supporto settimanale e flipping in bear regime; oppure SOL non recupera $70 entro 12h dall'entry, segnalando distribuzione attiva anziché consolidamento; oppure il funding torna positivo, indicando che lo squeeze si è esaurito e la narrativa si è invertita.",
    "outcome": {
@@ -5874,6 +6372,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "La tesi funding_negativo+bull_regime è storicamente validata e rimane l'edge più difendibile del paniere. Tuttavia individuo tre criticità che giustificano una riduzione: (1) CONTRADDIZIONE INTERNA CRITICA — la tesi afferma esplicitamente 'volume_surge odierno = liquidità in ingresso, non distribuzione', ma il brief riporta taker buy ratio 0.50 su SOL (come su tutti gli asset). Un flusso buyer/sel",
    "thesis": "SOL è l'unico asset del paniere con il binomio regime bull confermato + funding negativo strutturale (-1.04% APR): gli short pagano carry ogni ora contro il trend, creando pressione di chiusura meccanica crescente. Il volume_surge odierno segnala liquidità in ingresso — non distribuzione — e conferma che il mercato sta assorbendo l'offerta. Il pattern funding_negativo+bull_regime è esplicitamente validato dalla storia di questo desk e rappresenta l'edge più robusto identificabile oggi. I macro headwinds (import prices, housing miss) possono ritardare il trigger di 24-48h ma non invertono la struttura dei derivati.",
    "invalidation": "Funding SOL torna positivo (shorts già squeezed, edge esaurito); oppure chiusura giornaliera sotto $70.40 (violazione del supporto intraday e perdita del regime bull); oppure il taker buy ratio scende sotto 0.45 indicando pressione sell strutturale.",
    "outcome": {
@@ -5906,6 +6405,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "La tesi meccanica è la più strutturata del basket: funding a −13.4% APR in regime bull 7d è un'anomalia quantificabile e i parametri di rischio (1x leverage, 1% size, stop $475) rispettano la lezione ZEC. Il problema non è il segnale, è l'assenza di conferma dell'attivazione. Tre difetti specifici: (1) Taker flow al 50.0% esatto — nessuna pressione spot che sostenga lo squeeze; il meccanismo del s",
    "thesis": "Il funding a −13.4% APR è l'anomalia meccanica più estrema del basket: i corti pagano i long ogni 8h in un regime 7d ancora intatto, una divergenza derivati/spot che storicamente non regge oltre 2-3 giorni. Il calo intraday di −4.72% non ha rotto la struttura settimanale — coerente con una caccia alla liquidità sotto i massimi piuttosto che con un cambio di regime reale. La lezione ZEC sul crowding è rispettata: leva 1.0 e size al 1% del capitale eliminano il rischio di essere squeezati dalla volatilità stessa dell'asset. Il deal Hormuz abbassa la probabilità di un risk-off macro improvviso che romperebbe il regime bull di supporto alla tesi.",
    "invalidation": "Chiusura daily sotto $475 (rottura del supporto 7d e invalidazione del regime bull); oppure il funding converge verso zero senza corrispondente rialzo di prezzo (assenza dello squeeze meccanico atteso); oppure taker flow si orienta >55% sell per due ore consecutive, segnalando distribuzione spot reale e non semplice pressione derivativa.",
    "outcome": {
@@ -5919,6 +6419,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre falle strutturali che non invalidano ma peggiorano il setup. (1) ENTRY ESTESA: +13.2% 7d significa che il trade migliore era una settimana fa. Comprare forza già espressa senza catalyst fresco è momentum chasing — il R:R effettivo è peggiore di quello nominale 2.5R perché il range di profitto restante si è compresso. (2) GRADIENTE FUNDING AMBIGUO: il brief dice esplicitamente 'da monitorare il",
    "thesis": "SOL replica esattamente il pattern documentato in lessons.jsonl con verdict thesis_right: funding negativo (-0.62% APR) in bull regime confermato, outperformance basket (+13.2% 7d), vwap_zscore=1 — il prezzo non è disancorato dalla liquidità reale. Il carry è strutturalmente favorevole (i short pagano i long) e si autoalimenta se il funding si avvicina a -1%. La rotazione BTC→L1 ancora attiva ha più carburante residuo su SOL che su ETH per capitalizzazione inferiore; il macro stagflazionario riduce il sizing ma non invalida il setup tecnico — leverage conservativo (2x) e risk_pct basso (0.5) ne assorbono l'incertezza.",
    "invalidation": "Funding SOL risale verso 0% o in territorio positivo (short squeeze non si concretizza); rottura sotto il vwap giornaliero con chiusura confermata; BTC perde oltre -5% innescando correlazione risk-off forzata che azzera la rotazione L1; volume_surge si esaurisce senza follow-through direzionale nelle prossime 12h.",
    "outcome": {
@@ -5966,6 +6467,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tesi strutturalmente solida ma tre frizioni riducono la conviction: (1) TIMING — entry dopo +12.5% 7d è inseguimento di momentum già espresso; la relative strength che giustifica la preferenza sull'asset è esattamente il segnale che storicamente si esaurisce nel breve (mean-reversion risk elevato nelle 24h successive a run settimanali >10%); (2) MACRO GIÀ PREZZATO — il riaperto Hormuz e il BOJ hik",
    "thesis": "SOL è l'unico asset del basket con tre segnali confluenti simultanei: regime bull confermato, outperformance relativa più forte (+12.5% 7d vs BTC +5.9%), e funding ai minimi assoluti del basket (0.73% APR) — assenza di crowding long che storicamente precede squeeze lenti senza liquidazioni a cascata sopra. Il macro distensivo (Hormuz riaperto, BOJ decoupling dal risk-off classico) favorisce rotazione verso high-beta L1; il taker flow bilanciato (0.50) indica che il mercato non ha ancora direzionato il posizionamento sulla svolta macro, lasciando spazio a un'espansione non affollata. La combinazione regime-bull/relative-strength/funding-basso è il setup validato internamente come affidabile su SOL. Leva 2x per ridurre esposizione al rischio chop contagioso da BTC/ETH.",
    "invalidation": "Tesi falsificata se: (1) BTC chiude una candela 4h sotto $64k — collasso del macro driver primario; (2) SOL sottoperforma BTC in percentuale su base 24h — perdita della relative strength che giustifica la preferenza sull'asset; (3) funding SOL supera 2.5% APR — crowding in ingresso che distrugge il vantaggio strutturale; (4) prezzo chiude sotto $71 su close H4 — stop tecnico.",
    "outcome": {
@@ -5981,6 +6483,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre obiezioni strutturali che non emergono dalla tesi. (1) POST-MOVE ENTRY: +5.6% 24h prima dell'ingresso significa che tsmom sta confermando un movimento già avvenuto, non anticipandone uno. vwap_zscore=1 su un asset che ha appena fatto +5.6% intraday è quasi tautologico — il segnale è lagging, non predittivo. La 'confluenza' di due indicatori che derivano entrambi dal price action recente non è ",
    "thesis": "ZEC è l'unico asset del basket con doppio segnale quantitativo confluente (tsmom=1 + vwap_zscore=1) su regime bull certificato, condizione non replicata da nessun altro asset oggi. Il rally +5.6% 24h è spot-driven con funding piatto: nessun leverage eccessivo indica carburante direzionale non esausto disponibile per continuation. La lezione su crowded entry è rispettata: stop calibrato su 1×ATR(14) (~$492) invece di percentuale fissa, size 0.5× per alta volatilità. Il bear case ETH è evitato perché shortare un regime chop con funding neutro offre R/R sfavorevole rispetto a seguire il segnale più denso del basket.",
    "invalidation": "vwap_zscore ZEC torna a 0 nelle prossime 2 barre senza target raggiunto; BTC cede $65k con ZEC incapace di reggere $510; funding ZEC supera +5% APR segnalando euforia e inversione imminente.",
    "outcome": {
@@ -5994,6 +6497,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tesi logicamente coerente ma con quattro difetti strutturali. (1) ASSENZA DEL CATALIZZATORE SQUEEZE: la proposta evoca 'squeeze organico' ma il funding è +0.8% APR — longs già posizionati, nessun corto da comprimere. Il setup storico favorevole era alimentato da funding negativo (corti che pagano); qui quella benzina manca, il termine 'squeeze' è fuorviante. (2) TIMING CHASE: SOL +13.3% 7d, +5.8% ",
    "thesis": "SOL è l'unico L1 large-cap in regime BULL con la più netta outperformance cross-sectional del basket (+13.3% 7d vs ETH +7.7% e BTC +6.4% entrambi in CHOP), soddisfacendo il requisito di selezione multi-asset per mean Sharpe. Il funding neutro (+0.8% APR) esclude il crowded-long risk che invece affligge ZEC (+8.1% intraday) e SUI (+1.4% APR), lasciando spazio per squeeze organico. Il contesto macro risk-on post-accordo USA-Iran favorisce rotazione dai chop asset verso i momentum names in regime confermato. La tesi è falsificabile: il regime BULL è il segnale — se SOL non mantiene l'outperformance relativa entro 48h o BTC entra in downtrend (correlazione > 0.8 nel basket), il setup è invalidato.",
    "invalidation": "Chiusura sotto $70 (stop ATR-based ~7%); oppure BTC rompe sotto supporto strutturale annullando l'alpha relativo per correlazione; oppure SOL funding supera +3% APR segnalando posizionamento affollato che ribalta la tesi di squeeze organico.",
    "outcome": {
@@ -6009,6 +6513,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tesi strutturata e falsificabile: funding divergence (0.38% vs 1.37% peer) è un edge reale, stop e invalidation sono misurabili. Approvata nella logica. Riduzione per quattro motivi: (1) TIMING — siamo in June triple witching week; il brief stesso avverte 'volatilità episodica senza trend sostenuto' nelle prossime 72h, che aumenta la probabilità di stop hunt su un'entry già estesa (+11.3% settiman",
    "thesis": "SOL replica il pattern ad alta aspettativa già archiviato nelle lezioni (bull regime + funding basso + vwap_zscore + outperformance spot basket): funding a 0.38% APR vs 1.37% di ETH/SUI segnala posizionamento derivati non affollato, mantenendo asimmetria favorevole al long. Il +11.3% settimanale su basket misto con un solo segnale attivo (vwap_zscore=1) indica che il momentum spot non è ancora stato prezzato nei derivati. La tesi è valida se SOL tiene il regime bull nelle prossime 24h e non registra spike di funding oltre 1% APR. ZEC scartato: doppio segnale ma funding identico a ETH/SUI (1.37%), illiquidità e entry già +6.6% intraday aumentano il costo dell'errore.",
    "invalidation": "SOL rompe e chiude sotto $71.50 (≈-4% da entry, sotto VWAP), oppure funding supera 1.0% APR segnalando affollamento long, oppure BTC scende sotto $63,000 innescando risk-off correlato su tutto il basket.",
    "outcome": {
@@ -6024,6 +6529,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre difetti strutturali, uno narrativo, una alternativa ignorata.\n\n1. TIMING ESTESO, NON FRESCO: +5.4% 1d + 12.3% 7d non è momentum fresco — è momentum già espresso. Il vwap_zscore su asset che ha già percorso 12% settimanale misura deviazione positiva dal VWAP, il che nelle prossime 24-48h aumenta la probabilità di mean-reversion, non di estensione. Fresco era 72h fa. Entriamo tardi su un segnale",
    "thesis": "ZEC è il solo asset del basket con co-attivazione tsmom + vwap_zscore su regime bull confermato: questa doppia confluenza è il filtro regime-outlier che distingue il segnale dal rumore nel nostro framework. Il momentum settimanale (+12.3%) è fresco — il funding neutro-positivo (0.6% APR) conferma assenza di carry esausto, con spazio per estensione. In un contesto macro di rotazione fuori dal beta puro (ETF-BTC in outflow, BOJ hawkish), il capitale opportunistico cerca alpha non-correlato: la narrativa privacy-scarce di ZEC cattura questo flow meglio degli L1 generalisti. Il trade è puro momentum tecnico su asset meno liquido: la size conservativa (1x reale dopo leverage 1.5x su 1% risk) riflette il regime aggregato ancora chop.",
    "invalidation": "Close sotto VWAP entry o tsmom che si disattiva entro le prime 24h — la tesi si basa sulla persistenza del segnale, non sull'innesco. Funding che scivola sotto -1% APR segnala accumulo di short aggressivo che può invertire il momentum. Triple witching venerdì: se al giovedì sera il prezzo non ha esteso di almeno 1R, time-stop attivo senza eccezioni — il catalizzatore esogeno domenica amplifica i movimenti in entrambe le direzioni e non è navigabile con leva aperta.",
    "outcome": {
@@ -6052,6 +6558,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre difetti strutturali che indeboliscono la tesi rispetto a come è presentata. (1) FUNDING SOTTO SOGLIA: la tesi vende il funding negativo come vantaggio, ma -0.76% APR è sotto la soglia -1% che il sistema stesso definisce 'materiale' nelle lezioni. Non è un segnale confermato, è una traiettoria — presentarla come punto di forza è cherry-picking. (2) SIGNAL SINGOLO: SOL ha solo vwap_zscore=1, nes",
    "thesis": "SOL è l'unico large-cap con bull regime confermato, vwap_zscore=1 attivo e funding negativo (–0.76% APR): i short stanno pagando i long, non c'è squeeze invertito in vista. L'outperformance strutturale a 7 giorni (+9.6% vs ETH +4.4%) non è rumore: è rotazione di capitale verso la L1 con momentum più pulito del basket. In contesto di compression pre-catalyst, un asset già in espansione con liquidità large-cap offre il miglior profilo asimmetrico senza violare la lezione crowded-entry (ZEC, non SOL, ha il +15.6% a rischio mean-reversion). Il catalizzatore Iran/BOJ, se positivo, amplifica beta su SOL più che su BTC per via del posizionamento istituzionale più leggero.",
    "invalidation": "Stop close sotto il VWAP daily (–4% da entry) o funding che torna positivo sopra +0.5% APR nelle prossime 6h — segnalerebbe liquidazione del momentum long e inversione del vantaggio strutturale.",
    "outcome": {
@@ -6067,6 +6574,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Thesis structure: solida. Falsificazione operativa (funding flip >+1% APR o chiusura 4h sotto VWAP), R/R 2.5 con stop netto — approvabile in principio. Tre preoccupazioni che giustificano riduzione: (1) ENTRY TIMING ESTESO — SOL è già +11.7% 7d. Il funding negativo e il regime bull erano già presenti durante parte di questo movimento; entrare long dopo una corsa settimanale significa ridurre il ma",
    "thesis": "SOL è l'unico asset del basket con tre condizioni simultane da playbook: regime bull confermato, vwap_zscore attivo e funding strutturalmente negativo (-2.1% APR). Il funding negativo significa che il mercato paga i long per tenere la posizione mentre i corti accumulati fungono da carburante per squeeze progressivo — pattern identificato come il più ripetibile nelle lessons. Lo spot già sovraperforma il basket (+11.7% 7d), segnale di domanda strutturale reale e non rumore intraday. Il taker ratio neutro (0.50) non contraddice il setup: in assenza di conviction aggregata, gli asset con regime confermato dominano per selezione, e il macro risk-off post-BOJ favorisce rotazione verso SOL rispetto agli alt senza segnale (SUI, ETH senza struttura). La tesi è falsificata dall'andamento del funding, non dal prezzo: un flip verso positivo segnala che il vantaggio strutturale è esaurito.",
    "invalidation": "Funding SOL perpetual flip verso positivo (>+1.0% APR su qualsiasi exchange major) oppure chiusura 4h sotto il vwap attivo — in entrambi i casi uscita immediata senza attendere il time stop. Triple witching venerdì: il time stop a 36h garantisce chiusura prima dell'apertura europea di venerdì, eliminando l'esposizione al pinning e agli spike di volatilità intraday legati alla scadenza.",
    "outcome": {
@@ -6097,6 +6605,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre criticità adversariali che impediscono l'approvazione piena. (1) LIQUIDITÀ: ZEC perp ha open interest strutturalmente inferiore al basket — in scenario spike-reversal il mercato può gappare oltre il 4.5% teorico di stop. Con 2x leverage il drawdown realizzato può eccedere il risk budget dichiarato senza possibilità di esecuzione ordinata; questo rischio non è menzionato nella tesi. (2) INVALID",
    "thesis": "ZEC è l'unico asset nel basket con doppia confluenza quantitativa attiva (tsmom=1 + vwap_zscore=1) in regime bull primario — nessun altro asset soddisfa questi criteri simultaneamente. Funding neutro-positivo esclude la top da squeeze retail: i derivati non sono sovraccarichi di leva lunga, il movimento è guidato dallo spot. Size ridotta al 50% rispetta esplicitamente la lesson archivio su ingressi affollati post-candele estese: il rischio di crowding è reale ma gestito dalla posizione conservativa, non ignorato. Invalidazione misurabile entro 24h limita il drawdown temporale nel contesto macro ambivalente.",
    "invalidation": "Azzeramento di tsmom o vwap_zscore entro il time_stop, oppure funding che scende sotto -0.03% APR (smart money che vende in forza), oppure rottura del VWAP giornaliero sotto $497-500 confermata a chiusura di candela 4h.",
    "outcome": {
@@ -6112,6 +6621,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tesi strutturalmente solida e ancorata a un setup esplicitamente validato dalla lesson-base — questo è il punto di forza reale. Tuttavia tre difetti di timing degradano l'edge atteso in misura sufficiente a dimezzare la size: (1) ENTRY RITARDATA: +4% 24h e +12% 7d significano che chi doveva comprare ha comprato; entrare ora è inseguire il movimento, non anticiparlo. Il rapporto rischio/reward teor",
    "thesis": "SOL è in regime bull con funding persistentemente negativo (–0.68% apr): gli short pagano gli long per restare aperti, creando pressione di squeeze lento. Questa struttura esatta — bull regime + funding negativo + outperformance cross-sectional 7d — è l'unico setup esplicitamente validato dalla lesson-base con edge positivo documentato. Il backdrop macro risk-on (beat cinese, de-escalation Hormuz) favorisce rotazione verso L1 ad alto beta. Taker flow neutri (0.50) indicano che il prossimo flusso direzionale troverà short da liquidare, non resistenza long da assorbire.",
    "invalidation": "Funding flip sostenuto >+1.5% apr (squeeze esaurito e positioning ribaltato); oppure chiusura giornaliera sotto $71.30 (stop ATR-calibrato, ~3.5% da entry); oppure spike di volatilità equity da triple witching con correlazione crypto >0.7 e movimento BTC <–3% intraday.",
    "outcome": {
@@ -6127,6 +6637,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre difetti strutturali giustificano la riduzione. (1) ENTRY TIMING: ZEC è già +8.4% 24h e +14.4% 7d — la confluenza segnali si è materializzata al centro di un movimento già esteso, non all'inizio. Il tsmom=1 cattura momentum esistente, ma con un gain così ampio il rischio di comprare l'ultimo terzo del move è alto. La tesi non risponde a: dove si trovava il prezzo quando il segnale si è attivato",
    "thesis": "ZEC è l'unico asset del basket con doppia confluenza segnali registrati (tsmom=1 + vwap_zscore=1) su regime bull confermato: configurazione distinta dal pattern bruciante tsmom+liq_imbalance citato nelle lessons. Il funding a +1.4% APR indica che i derivati non hanno ancora 'caricato' il movimento spot (+14.4% 7d), escludendo la condizione di crowded entry che precede i reversal violenti. Il macro risk-on (riapertura Hormuz, deal Iran) comprime il tail risk ribassista su asset ad alta beta nel breve. La tesi è falsificabile: se il vwap_zscore rientra a zero nelle prossime 12h senza nuovo massimo, il segnale è esaurito e il trade è sbagliato.",
    "invalidation": "Close 4h sotto $495 (perdita VWAP e invalidazione bull regime); oppure funding che supera +3% APR senza nuovo high di prezzo (crowding senza momentum = distribuzione); oppure vwap_zscore che rientra a 0 entro 12h dall'ingresso.",
    "outcome": {
@@ -6140,6 +6651,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre criticità strutturali che degradano il setup rispetto al pattern thesis_right originale. (1) ENTRY EXTENSION: il brief stesso dice 'entry meno estesa di ZEC' come punto di forza, ma SOL è già +10.75% 7d e +3.72% 24h — si entra sul corpo di un move, non alla base del pattern. Il thesis_right validato in lessons è stato entrato in fase compressa, non post-rally. Confrontare con ZEC per relativiz",
    "thesis": "SOL replica quasi esatta del pattern thesis_right già validato in lessons: bull regime confermato + funding strutturalmente negativo (-2.48% APR) + outperformance spot +10.75% 7d contro basket piatto. Il funding negativo è combustibile meccanico — i corti pagano i lunghi ogni ora, generando squeeze lento e sostenibile diverso da un pump speculativo. Entry meno estesa di ZEC (+3.72% 24h vs +9.79%), stop misurabile sotto VWAP locale, leva contenuta a 1.5x per assorbire rumore da triple witching senza farsi stoppar fuori sul noise.",
    "invalidation": "Funding SOL flipa positivo (≥+1% APR) segnalando esaurimento della pressione short; oppure BTC rompe supporto chiave e il taker ratio scende sotto 0.45 con volume in espansione — scenario risk-off di basket che annulla il vantaggio relativo SOL.",
    "outcome": {
@@ -6155,6 +6667,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "approve",
+   "risk_notes": "",
    "thesis": "SOL replica esatta del pattern thesis_right validato in archivio: bull regime + funding negativo strutturale (-2.75% APR) crea asimmetria strutturale dove i shorts pagano ogni ora per tenere posizioni contro un trend spot che non cede. ZEC scartato nonostante segnali superiori: +10.5% in 24h configura crowded entry esplicita — la lezione sul timing di ingresso su alt post-spike si applica direttamente. L'accordo Hormuz, se trasmette risk-on a crypto, colpisce SOL come principal beta L1 con BTC/ETH ancora in chop. Leverage 2x per rispettare la volatilità macro elevata da triple witching questa settimana.",
    "invalidation": "Funding rate SOL flipa in positivo (>+0.5% APR su finestra 4h rolling) — segnala capitolazione degli shorts e collasso della struttura portante. In alternativa: BTC perde supporto chiave con chiusura daily ribassista, innescando beta amplificato su SOL prima del time stop.",
    "outcome": {
@@ -6186,6 +6699,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre problemi strutturali che la tesi razionalizza invece di falsificare. (1) VOLUME_SURGE=0 su +10.5% intraday è un red flag, non un segnale bullish. Un bull move legittimo assorbe sell-side con volume; un move senza volume indica o liquidità sottile (reversal facile) o cascade di stop/liquidazioni — ambedue scenari che aumentano la probabilità di mean-reversion nelle prossime ore. La tesi lo rein",
    "thesis": "Bull regime confermato su SOL con funding +0.047% APR: i derivati non hanno ancora prezzato il +10.5% spot, il carburante è intatto e non siamo in entrata crowded. Outperformance netta vs BTC in giornata macro risk-on suggerisce rotation istituzionale verso L1 ad alta throughput. Il setup 'bull regime + funding basso + basket outperformance' è il più replicabile del desk per le lessons: entry pulita senza spike pre-esistente. Volume_surge zero letto come digest silenzioso, non distribuzione — struttura long preservata.",
    "invalidation": "Funding supera +0.10% APR sostenuto (derivati iniziano a prezzare il move, entry diventa crowded); prezzo chiude un'ora sotto $69 (stop ATR violato); taker_buy scende sotto 0.35 con volume sell-side sostenuto (flusso si inverte contro il move spot).",
    "outcome": {
@@ -6201,6 +6715,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre vulnerabilità strutturali che il brief stesso ammette ma la tesi minimizza. (1) TIMING TARDIVO: +11.50% settimanale è già realizzato. La squeeze si entra all'inizio del regime, non dopo il primo standard deviation move. Il taker ratio 0.50 neutro con rally in corso è coerente con short covering già parzialmente completato — se i pantaloni peggiori sono già stati chiusi, il motore meccanico è i",
    "thesis": "SOL presenta esattamente il pattern documentato nelle lezioni: funding negativo strutturale (-0.11% APR) in regime bull confermato, con shorts che pagano carry meccanicamente ogni ora. Il differenziale settimanale vs BTC (+11.50% vs +4.35%) segnala rotazione attiva di capitale verso beta alto nel contesto risk-on post-accordo USA-Iran. La squeeze ha un timer incorporato: non richiede nuova domanda spot per procedere, basta che gli shorts non chiudano tutti in blocco. Rispetto a ZEC, nessun crowding; rispetto a ETH, asimmetria settimanale superiore e tesi di invalidazione più pulita.",
    "invalidation": "Funding SOL flipa a positivo (>+0.05% APR) — segnale che gli shorts si sono coperti e il vantaggio meccanico è esaurito. In alternativa: taker ratio scende sotto 0.45 con volumi crescenti, oppure chiusura daily sotto VWAP corrente con accelerazione in sell.",
    "outcome": {
@@ -6231,6 +6746,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre debolezze materiali. (1) SEGNALE FUNDING DEBOLE: -0.002% APR è rumore, non squeeze strutturale. Un vero setup funding-squeeze mostra -0.01% / -0.05% APR; a questi livelli stai chiamando 'strutturale' quello che è essenzialmente flat. L'edge meccanico è reale come classe ma il segnale qui è troppo tenue per giustificare la narrazione. (2) CHASE POST-MOVE: entry dopo +11.7% intraday. Il 'squeeze",
    "thesis": "SOL replica il pattern più validato del registry: funding negativo strutturale (-0.002% APR) + outperformance spot crea un edge meccanico dove i short pagano carry per resistere a un rally +11.7% senza che appaiano venditori aggressivi (taker flow 0.50 = silenzio dei seller). Il macro risk-on strutturale (chip rally AMD/Micron, IPO SpaceX) favorisce L1 ad alta beta e la rotazione intraday SOL > BTC > ETH conferma pressione direzionale attiva. Il setup NON è FOMO: funding piatto nonostante il gain giornaliero implica repricing ancora spot-driven, con ampio spazio per rientro posizioni derivate — il prossimo leg arriva quando i short capitolano, non quando i long si affollano. ZEC scartato: +24.8% su thin liquidity senza fundamental identificato è exhaustion classico e tsmom è lagging su spike così verticali; il bear ha ragione sul timing.",
    "invalidation": "Funding SOL flip positivo oltre +0.01% APR (squeeze esaurito, short già capitolati), oppure taker sell flow > 0.55 (venditori aggressivi entrano strutturalmente), oppure chiusura 4h sotto $70.5 (stop -6% da entry, rottura struttura recente).",
    "outcome": {
@@ -6246,6 +6762,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre obiezioni strutturali. (1) TIMING TARDIVO: SOL ha già realizzato +11.8% nelle 24h precedenti all'ingresso. La tesi identifica correttamente il pattern ma lo applica a un'entrata che cattura il potenziale squeeze residuo, non il corpo del movimento. Il target R=2.5 richiede +11.25% di prezzo aggiuntivo da $75.26 — chiedere al mercato di replicare l'intera giornata sopra i massimi è un'ipotesi a",
    "thesis": "SOL presenta la confluenza più difendibile del basket: volume_surge=1 certifica che il +11.8% è strutturale e non rumore retail, mentre il funding negativo (–0.25% APR) in bull regime confermato replica esattamente il pattern documentato nelle lezioni — i corti stanno finanziando il rialzo spot, non resistendo. Il disallineamento derivati/spot è il carburante meccanico per la continuazione: quando il funding comprime verso neutro, il rally accelera per auto-liquidazione. ZEC è escluso perché il funding già positivo e crescente (+1.37%) segnala crowding avanzato — il momento ottimale di ingresso è passato; SOL è ancora pre-squeeze.",
    "invalidation": "Volume non conferma nelle prossime 4–6h (il volume_surge decade senza follow-through), oppure BTC chop degenera in correzione trascinando il basket sotto i supporti recenti, oppure il funding SOL flette verso positivo prima di toccare il target (segnale che gli short hanno già coperto e il carburante è esaurito).",
    "outcome": {
@@ -6261,6 +6778,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre segnali confluenti e funding contenuto sono genuini punti di forza. Tuttavia identifico tre debolezze strutturali che giustificano la riduzione: (1) ENTRATA ESTESA — SOL ha già mosso +11.8% 24h; un range_breakout entry ideale si esegue vicino al livello di rottura, non dopo un'estensione di quella portata. Il rischio di 'buying the move' è reale: il 3R target richiede un ulteriore +15% su un a",
    "thesis": "SOL è l'unico asset del basket con tre segnali tecnici confluenti (range_breakout + volume_surge + vwap_zscore) in regime bull confermato — la combinazione di segnali più pulita disponibile oggi. Funding a +0.60% APR esclude crowding speculativo: la lezione agents-v1|SOL del 15/06 conferma esplicitamente che spot-outperformance vs basket + derivati non affollati creano uno squeeze lento ma prevedibile su SOL. La ZEC short è scartata: le lezioni del 12/06 e del briefing stesso indicano di attendere consolidamento prima di leggere la continuazione su un asset +26% intraday, e il pattern counter-trend è stato falsificato sistematicamente in questo regime. Stop calibrato a 5% per coprire il livello di breakout del range senza cadere nel rumore intraday (lezione ATR-calibration).",
    "invalidation": "Chiusura candela H4 sotto il livello di range breakout (~$71.5) con vwap_zscore che si azzera; oppure funding spike oltre 2% APR (crowding inatteso); oppure BTC daily close sotto $64,000 che attiva correlazione sistemica e invalida il regime di rotazione.",
    "outcome": {
@@ -6274,6 +6792,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "approve",
+   "risk_notes": "",
    "thesis": "SOL è l'unico asset del basket con triplice confluenza tecnica in regime bull confermato: range_breakout certifica la rottura strutturale, volume_surge la autentica come domanda reale e non drift silenzioso, vwap_zscore segnala il repricing del fair value. Il funding a -0.008% APR indica assenza di leva aggressiva — il breakout non è sostenuto da posizioni fragili, riducendo il rischio di liquidazioni a cascata. Il blocco USA ad Anthropic accelera la narrativa AI decentralizzata verso L1 ad alta performance: SOL, con ecosistema DeFi/AI attivo e throughput reale, è il recettore primario di questo flusso narrativo. Sizing conservativo per rispettare l'estensione già maturata (+12% settimanale) e il regime chop di BTC che rimane un rischio sistemico sul basket.",
    "invalidation": "Ritorno del prezzo sotto il range di breakout (~$71-72) su volume sostenuto; BTC in calo >5% che trascina il basket in risk-off generalizzato; volume_surge che si esaurisce senza follow-through nelle prossime 6-8 ore rivelando distribuzione invece di accumulo.",
    "outcome": {
@@ -6305,6 +6824,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tesi strutturalmente onesta: bull regime + volume_surge è la combinazione con il miglior track-record del basket, funding 0.65% genuinamente non crowded, macro coerente. Tre debolezze che impongono size ridotta. (1) TIMING TARDIVO: entrata dopo +9.7% daily — il volume_surge conferma il move passato, non predice il prossimo; la direzionalità potenzialmente esaurita su timeframe intraday. Il prezzo ",
    "thesis": "SOL è l'unico asset del basket con bull regime E volume_surge=1 confermati simultaneamente: il move è accompagnato da partecipazione reale, non markup thin-book. Il funding APR 0.65% esclude crowding — il rialzo non ha consumato upside da short-squeeze. Il contesto macro risk-on (Hormuz, oil giù) favorisce rotazione istituzionale verso high-beta L1, e l'outperformance ETH vs BTC è un leading indicator per SOL. La tesi è falsificabile: se il prezzo chiude sotto VWAP daily (~$70) il regime bull è invalidato e il trade è sbagliato.",
    "invalidation": "Chiusura daily sotto $70 (VWAP daily perso), oppure funding APR > 2% (crowding repentino), oppure reversal macro con oil sopra i livelli pre-accordo Hormuz — qualunque dei tre eventi chiude il trade immediatamente.",
    "outcome": {
@@ -6337,6 +6857,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre criticità materiali che degradano la qualità della tesi. (1) SEGNALE FANTASMA: 'tsmom implicito' non è un segnale confermato dal registry backtest/signals.py — è un'inferenza narrativa, non un edge misurato. La convergenza tri-segnale reclamata è in realtà bi-segnale (range_breakout + volume_surge). Overstating del numero di edge è un difetto strutturale della tesi, non stilistico. (2) INCOERE",
    "thesis": "SOL è l'unico asset del basket in bull regime settimanale con tre segnali convergenti (range_breakout + volume_surge + tsmom implicito): la convergenza multi-segnale in bull regime è l'edge statistico più robusto disponibile oggi. La rotazione beta è attiva — altcoin +5-6pp su BTC — e il funding contenuto esclude sovraffollamento, rendendo disponibile ulteriore squeeze. La lezione ZEC si applica in positivo: in bull regime il vol_compression e il breakout tecnico diventano edge direzionale, non noise; SOL ha la struttura settimanale più pulita del basket (+10.3% a 7d vs BTC +4%). Lo short ZEC viene rifiutato: in bull regime gli short vengono squeezati violentemente, come ammette lo stesso bear advocate, e il +24.5% giornaliero senza catalyst identificato non costituisce tesi falsificabile sufficiente per posizione direzionale ribassista.",
    "invalidation": "SOL chiude una candela daily sotto VWAP giornaliero (circa $71.50) oppure BTC perde $64K con chiusura confermata; in alternativa, funding SOL supera 50 bps APR segnalando sovraffollamento della posizione long.",
    "outcome": {
@@ -6352,6 +6873,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "DIFETTI RILEVATI (in ordine di gravità): (1) TAKER_BUY_RATIO GIÀ A 0.5 — la condizione di invalidazione è 0.45, cioè un singolo candeliere di pressione sell in un mercato con conviction assente (il brief lo conferma su TUTTI gli asset). Si sta aprendo una posizione con il segnale di conviction già borderline, non in forza. (2) ENTRATA IN CODA AL MOVE — SOL +7.5% intraday significa che il R/R ottim",
    "thesis": "SOL è l'unico asset del basket con bull regime + volume_surge senza estensione intraday pericolosa (+7.5% vs ZEC +28%): la combinazione è la più pulita storicamente e non richiede di combattere il momentum. La rotazione alt-L1 è attiva e confermata da TAO +31.9%; SOL è il conduit naturale con liquidità superiore agli altri alt. Funding +0.68% indica posizionamento perp ancora moderato — l'upside non è ancora prezzato nei derivati. ZEC scartato nonostante tsmom=1 perché il +28% intraday pone il timing in zona di exhaustion (lezione ZEC gen-1); short ZEC scartato perché combatte il segnale più forte del basket senza conferma di distribuzione.",
    "invalidation": "BTC rompe al ribasso $65K entro 4h (rotation alt si spegne con il macro), oppure volume SOL nelle prossime 2 candele 1h torna sotto la media 24h preesistente al surge (volume_surge si rivela non sostenuto), oppure taker_buy_ratio su SOL scende sotto 0.45 (conviction assente). In uno qualsiasi di questi casi il setup decade strutturalmente e lo stop fisico a -4% va rispettato senza eccezioni.",
    "outcome": {
@@ -6380,6 +6902,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre controindicazioni concrete che la tesi non risolve pienamente. (1) CONTRADDIZIONE INTERNA: il brief stesso dice i movimenti di basket 'sembrano guidati da short-covering/copertura geopolitica, non da conviction direzionale nuova' e il taker_buy_ratio è piatto a 0.5 su tutto il basket nonostante rialzi significativi — incluso SOL +6.7%. La tesi afferma che il trend 7d distingue SOL dallo short-",
    "thesis": "SOL è l'unico asset del basket con regime bull confermato, volume_surge attivo e funding pulito (+0.88% APR) in combinazione simultanea, senza controindicazioni strutturali o regolamentari. Il trend a 7 giorni (+9%) è una sequenza coerente, non uno spike da short-covering, il che distingue questo setup da ZEC (+26.9% senza catalizzatori on-chain). Il macro risk-on post-accordo US-Iran favorisce naturalmente la rotation verso L1 ad alto beta mentre ETH rimane in chop — SOL cattura quel flusso in modo più pulito. La tesi è falsificabile: se SOL non estende il breakout con volume sostenuto entro il time_stop, il momentum non ha la profondità ipotizzata.",
    "invalidation": "SOL chiude sotto lo swing low delle ultime 4 ore candlestick (stop tecnico); taker_buy_ratio del basket scende sotto 0.45 segnalando inversione del sentiment; BTC perde il livello di range_breakout riportando il regime a bearish; oppure dati macro pre-Fed inducono flight-to-safety che comprime l'intero basket crypto sotto i livelli di apertura giornaliera.",
    "outcome": {
@@ -6395,6 +6918,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre criticità strutturali. (1) TIMING POST-CATALYST: si entra su SOL dopo +3.6% 24h e +8.5% 7d con catalizzatore macro già scontato. Il brief è esplicito: 'taker ratio piatto 0.50, OI silente, nessun volume surge' — comprare la notizia senza conferma di flussi è pagare per momentum già consumato. (2) CONTRADDIZIONE INTERNA SULLA TESI: la thesis cita vwap_zscore attivo come proof of pre-existing st",
    "thesis": "SOL è l'unico asset del basket con regime bull pre-esistente al catalyst macro: il +8.5% 7d precede l'accordo USA-Iran, segnalando forza strutturale e non rimbalzo di notizia. vwap_zscore attivo conferma il prezzo sopra il fair value rolling con outperformance relativa vs ETH e BTC su tutti i timeframe rilevanti. In contesto risk-on che regge, SOL cattura la rotazione da L1 più lenti grazie a beta superiore; la narrativa Firedancer mainnet offre un layer fondamentale che può attirare flussi freschi. La tesi è falsificabile: se il prezzo rompe $66.50 o se il regime macro si inverte, lo setup non è più valido.",
    "invalidation": "Chiusura 4h sotto $66.50 (rottura struttura bull e perdita del range pre-catalyst); oppure reescalazione Trump/Medio Oriente che riporta BTC stabilmente sotto $62k annullando il bid macro; oppure nessun buildup OI nelle prime 24h (assenza di conviction direzionale).",
    "outcome": {
@@ -6408,6 +6932,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tesi strutturalmente onesta ma tre vettori di rischio sono sottopesati: (1) POST-CATALYST ENTRY — il deal US-Iran è già integralmente incorporato nel prezzo al momento della proposta; SOL ha già fatto +8.5% 7d e BTC è ai massimi 2W. Entri dopo il movimento principale, non prima del catalizzatore. Il brief stesso certifica che il risk-on è 'macro-driven, non strutturale' e che taker buy ratio è 0.5",
    "thesis": "SOL è l'unico asset del basket in regime bull confermato con struttura tecnica pulita: VWAP z-score positivo, vol compression in espansione, funding quasi neutro (-0.13% APR) — zero crowding speculativo. Il +8.5% su 7d è costruito su flusso spot/macro, non su leva accumulata, il che rende sostenibile un'ulteriore espansione in contesto risk-on. Con il deal US-Iran che ha rimosso il risk premium macro, la rotazione tende a premiare l'asset con regime più forte del basket. La tesi è falsificata se SOL non supera i massimi a 2 settimane entro le 48h.",
    "invalidation": "SOL non rompe i massimi delle ultime 2 settimane entro il time stop; oppure Warsh/Fed sorprende in senso hawkish e inverte il sentiment risk-on; oppure BTC chiude sotto il VWAP daily su volume significativo. ZEC scartato nonostante regime bull: lesson history segnala esplicitamente 'fade pericoloso' su move estesi, il funding a +1.37% APR indica leva speculativa tardiva, e il rischio headline su privacy coin può muovere ±20% intra-day — profilo asimmetrico sfavorevole.",
    "outcome": {
@@ -6517,6 +7042,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "approve",
+   "risk_notes": "",
    "thesis": "SOL presenta l'unica divergenza strutturale verificabile del basket: funding a -1.36% APR significa che i corti pagano carry positivo ai long ogni ora, mentre il prezzo ha già dimostrato domanda relativa superiore (+3.83% settimanale vs basket +2-3%). La vol_compression universale è uno stato pre-esplosivo che storicamente risolve con un movimento direzionale secco; il posizionamento short su SOL (corti che pagano) funge da carburante aggiuntivo per uno squeeze se il trigger è rialzista. L'edge non è prevedere la direzione macro ma stare dal lato in cui carry e struttura di prezzo convergono con stop definito sotto supporto settimanale.",
    "invalidation": "BTC chiude sotto $62k (risk-off sistemico invalida tesi crypto); SOL viola $63.5 in chiusura 4h; vol_compression non risolve entro 48h (time stop automatico, la tesi richiede accelerazione imminente non lateralità prolungata); funding SOL torna positivo (scomparsa del divergenza strutturale).",
    "outcome": {
@@ -6548,6 +7074,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre difetti strutturali. (1) BTC correlation trap non prezzata: BTC quota $64,600, invalidazione ZEC scatta se BTC rompe $62K — distanza del 3.7%. Se BTC corregge di quel margine, ZEC rompe $405 in contemporanea con alta probabilità; la thesis tratta la 'correlazione forzata' come scenario ipotetico remoto ma è il rischio dominante e imminente, non un tail. Le due invalidazioni convergono nello st",
    "thesis": "ZEC è l'unico asset con regime BULL confermato nel basket — setup TSMOM pulito: momentum 7d (+8.4%) e vol compression coesistono, pattern che in regime trend-following (confermato da tsmom-v1, Sharpe 1.69) precede estensione sequenziale, non esaurimento. Funding positivo non-crowded segnala costruzione di posizionamento, non saturazione crowd. In chop generalizzato su tutto il basket il capitale ruota verso l'unico vettore direzionale: questo è esattamente il contesto in cui TSMOM guadagna 'a strappi'.",
    "invalidation": "Chiusura daily sotto $405 (invalidazione struttura bull dichiarata — lo stop è su questo livello, non stretto, per rispettare la lezione sul stop-placement); correlazione forzata con BTC se rompe $62K al ribasso; oppure spike di volume ribassista ZEC superiore a 2x la media 7d senza catalizzatore identificabile — in tutti e tre i casi la tesi di breakout sequenziale decade e si esce senza eccezioni.",
    "outcome": {
@@ -6563,6 +7090,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "short",
    "account": "agents-v1",
    "risk_verdict": "veto",
+   "risk_notes": "ERRORE MATERIALE NELLA TESI: il funding negativo (-2.1% APR) NON genera carry positivo per lo short — genera carry NEGATIVO. Convenzione standard: funding negativo = shorts pagano longs. Entrare short qui significa pagare 2.1% APR (4.2% APR effective a 2x), non riceverlo. Questo inverte uno dei due pilastri della tesi. CONSEGUENZA DIRETTA: funding negativo segnala crowding short già in atto, non '",
    "thesis": "SUI esibisce underperformance relativa persistente e strutturale: unico asset negativo 24h con mercato in rialzo, +0.2% 7d vs SOL +3.4% — non rumore ma pattern. Il funding negativo (-2.1% APR) genera carry positivo per lo short e segnala che lo smart money è già posizionato bear, senza crowding che giustifichi un reversal. Non è un'entry speculativa su breakout (lesson ZEC: no anticipazione): è un trade strutturale per carry + debolezza relativa in attesa che il regime si sblocchi; qualsiasi evento risk-off usa l'asset più debole come fusibile prioritario. Sizing ridotto a 0.5% risk perché il catalizzatore esterno non è ancora arrivato — il trade vive di carry e struttura, non di timing.",
    "invalidation": "SUI sopra $0.80 chiusura 4h (rottura strutturale rialzista); SOL che accelera oltre $73 trascinando uno squeeze sull'intero L1 basket; annuncio partnership o upgrade maggiore SUI che rompe la narrativa di underperformance persistente.",
    "outcome": {
@@ -6576,6 +7104,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tre difetti materiali. (1) STOP FRAGILITY: 7% stop dentro una vol_compression è sweep target classico — la compressione può espandere 7-10% intraday prima di risolvere, eliminando la posizione prima del trade reale. Il setup consiglia entry post-breakout confermato o stop allargato a 10-11% con size ridotta; altrimenti il rischio è pagare il rumore e poi mancre il move. (2) ATTRIBUZIONE CAUSALE NO",
    "thesis": "ZEC è l'unico asset in bull regime del basket (4/5 in chop): vol_compression su trend rialzista è setup pre-espansione con bias direzionale positivo, non un segnale neutro. Le due lesson specifiche su ZEC riguardano bear regime e stop placement in condizioni opposte — non si applicano alla struttura attuale e vengono esplicitamente scartate. Funding neutro elimina l'overhead di squeeze disordinato; il +12.85% settimanale è price action strutturale, non headline fade come BTC. La thesis bear (fade catalyst) è valida su BTC ma prematurely short su un asset già in tendenza primaria diversa.",
    "invalidation": "Chiusura 4h sotto $395 (minimi pre-rally) invalida la struttura bull e chiude la posizione prima dello stop fisico. Breakout short di vol_compression con volume >1.5x media 7d nelle prime 6h post-entry; oppure BTC rompe $65.500 e trascina correlazione cross-asset — in quel caso la logica del basket cambia e ZEC potrebbe underperform il rally generale invece di guidarlo.",
    "outcome": {
@@ -6591,6 +7120,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tesi strutturale legittima ma con quattro difetti materiali che giustificano taglio. (1) NESSUN SEGNALE ATTIVO: il registry non ha validato entry — la proposta bypassa esplicitamente il requisito backtest/signals.py argomentando 'vantaggio strutturale'. Questo è esattamente il tipo di discretionary storytelling che il sistema è progettato a prevenire. Structural edge ≠ tactical edge: sapere CHE il",
    "thesis": "SOL è in bull regime con funding a -0.94% APR: i short pagano per mantenere posizioni contro il trend primario, generando carry positivo per i long e pressione strutturale di liquidazione progressiva. Il crowd è posizionato contro il trend su un +10.8% settimanale — non è estensione esaurita, è resistenza che alimenta il momentum. Se BTC mantiene $64K il path of least resistance è la chiusura forzata degli short con target statistico $78-82. Sizing ridotto (0.75%) perché nessun segnale è attivo nel registry: il vantaggio è strutturale (regime + carry), non tattico — la tesi cade se il regime si inverte.",
    "invalidation": "BTC chiude sotto $64K su 4h (segnale di inversione contesto macro) OPPURE SOL chiude sotto $64 (perdita supporto strutturale post-Iran): in entrambi i casi il bull regime decade e la tesi perde la sua base causale.",
    "outcome": {
@@ -6604,6 +7134,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tesi strutturalmente coerente ma con tre punti deboli materiali che giustificano riduzione. (1) ENTRY TIMING: SOL ha già corso +10.8% 7d e +3.2% 24h — si entra in momentum chasing su un asset esteso, non su un breakout fresco. Il rischio di essere l'ultimo compratore prima di un pullback tecnico è concreto. (2) RAZIONALIZZAZIONE DEL TAKER FLOW: la tesi liquida il taker flow neutro (0.50) come 'ass",
    "thesis": "SOL è il solo asset del basket con tutte e tre le condizioni TSMOM simultanee: regime bull confermato, momentum 7g reale (+10.8%) e funding negativo (–0.94% APR) — firma di un rally guidato da spot con shorts ancora aperti e paganti carry ai longs. Il regime H1 2026 ha validato empiricamente il TSMOM cross-asset (Sharpe 1.69) e falsificato tre volte la mean-reversion: questa posizione si allinea alla strategia statisticamente dominante, non la sfida. Il taker flow neutro (0.50) non è un veto — è assenza di trigger immediato, non segnale contrario: la struttura meccanica del funding è sufficiente come edge su orizzonte 48h. Rischio principale è BTC chop che trascina SOL in laterale fino allo stop temporale, non inversione direzionale.",
    "invalidation": "Chiusura 1H di SOL sotto $63.5 (rottura supporto strutturale e stop coerente con tesi); OR funding SOL diventa positivo prima di $78 senza progresso (shorts capitolano prima del target, squeeze meccanico svuotato); OR BTC rompe sotto $60k su daily close trascinando risk-off generalizzato.",
    "outcome": {
@@ -6619,6 +7150,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tesi coerente e falsificabile: funding negativo + bull regime è una combinazione legittima. Tre riserve strutturali però abbassano il conviction. (1) ENTRY ESTESA: SOL ha già corso +9% in 7 giorni — si entra su momentum maturo, non su base compressa. Assenza di vol_compression conferma che non c'è energia accumulata: il trade è continuation pura, storicamente win-rate inferiore a breakout da compr",
    "thesis": "SOL è l'unico asset del paniere con regime bull confermato e funding negativo simultaneo (-1.56% apr): i derivati sono strutturalmente corti mentre lo spot outperforma il paniere a 7 giorni (+9% vs BTC +5.5%), creando un meccanismo di squeeze lento che alimenta il trend. La tesi è falsificabile: se il funding sale verso positivo in 24h significa che i short si sono coperti e il motore del trade si esaurisce. Il pullback ZEC viene scartato perché le lesson interne segnalano timing sistematicamente avverso su ZEC e il vol_compression su un asset con funding positivo offre payoff asimmetrico sfavorevole in chop macro. Assenza di vol_compression su SOL suggerisce trend ordinato, non esplosione casuale di direzione.",
    "invalidation": "Funding SOL torna positivo (>+0.3% apr su rolling 24h) indicando capitolazione degli short; oppure chiusura H4 confermata sotto $65.00 che invalida il supporto strutturale e il regime bull locale.",
    "outcome": {
@@ -6634,6 +7166,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tesi la più solida visto recentemente: ZEC lesson applicata correttamente, SOL scartato per lo stesso motivo del fallimento precedente, invalidazione price+funding duale. Tre difetti residui. (1) Vol_compression in regime 'chop universale' risolve in range-extension il 40-50% delle volte, non in breakout — la probabilità di espansione è reale ma non dominante; il time stop a 48h è la vera protezio",
    "thesis": "SUI è l'unico asset del basket con vol_compression attivo — segnale tecnico che aggiunge il timing mancante alle pure tesi di funding; la lezione ZEC (stopped -$50 su funding squeeze senza trigger tecnico, 2026-06-12) insegna esattamente questo. Funding a -2.7% APR con prezzo +7.5% 7d significa che i corti pagano carry su un asset che li sta già battendo. L'espansione di volatilità post-compressione in contesto di funding short crea asimmetria long: il catalizzatore non deve essere macro, basta l'esaurimento della pressione ribassista intra-giornaliera. SOL ha funding più estremo ma zero segnale tecnico — stesso pattern del ZEC long fallito, scartato per lo stesso motivo.",
    "invalidation": "Chiusura 4h sotto $0.715 (rottura della base di consolidamento post-compressione) o funding che normalizza sopra -1% APR senza espansione del prezzo entro 24h: tesi di squeeze e espansione entrambe falsificate.",
    "outcome": {
@@ -6649,6 +7182,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Tesi coerente internamente, ma tre layer di incertezza si sovrappongono e giustificano una size ulteriormente ridotta rispetto alla proposta già conservativa. (1) TSMOM ASSENTE — il sistema è signal-based per mandato; l'entry anticipatoria è esattamente il tipo di deviazione che storicamente precede lo stop-out su timing sbagliato prima che il segnale si materializzi. Il regime + vol_compression s",
    "thesis": "SUI è l'unico asset large-cap con bull regime e vol_compression attivi simultaneamente — combinazione rara nel basket corrente. Funding negativo (-3.2% APR) segnala posizionamento perps non direzionale: ogni catalizzatore breakout genera squeeze anziché assorbimento graduale, asimmetria favorevole al long. Entry anticipatoria rispetto al segnale tsmom (mancante), accettata perché regime + compressione sono segnali registrati sufficienti per una size ridotta; il costo di carry negativo compensa il rischio di timing. Tesi falsificabile: SUI deve risolvere il range al rialzo con espansione di volume entro 36h, altrimenti la compressione è neutrale e non bullish.",
    "invalidation": "Chiusura sostenuta sotto il supporto della vol-compression zone (~$0.724, -4% dall'entry) oppure transizione del regime da bull a chop sul prossimo aggiornamento segnali; in entrambi i casi la tesi decade indipendentemente dal P&L.",
    "outcome": {
@@ -6747,6 +7281,7 @@ footer .foot-mark b{ color:var(--amber); }
    "direction": "long",
    "account": "agents-v1",
    "risk_verdict": "reduce",
+   "risk_notes": "Squeeze != reversal: ZEC in bear 7d -16.7%, lezione gen1-3 = contro-trend su crowding viene travolto. Solo tattico a size dimezzata, time_stop 48h rigoroso.",
    "thesis": "Short crowding estremo su ZEC: funding -39% APR (percentile estremo) con prezzo in rimbalzo +4.9% e OI fermo — gli short pagano carry alto e non hanno capitolato. Lo squeeze ha carburante e il carry paga il long durante l'attesa. Trade di posizionamento, non di trend.",
    "invalidation": "Chiusura 1h sotto 415 (minimo del rimbalzo) o funding che normalizza sopra -10% APR senza progresso del prezzo entro 48h: squeeze fallito, la tesi muore.",
    "outcome": {
@@ -6758,6 +7293,21 @@ footer .foot-mark b{ color:var(--amber); }
   }
  ],
  "lessons": [
+  {
+   "ts": "2026-06-18 22:35",
+   "scope": "ZEC",
+   "verdict": "thesis_right",
+   "lesson": "Su asset illiquidi (ZEC-tier), la combinazione rally >15% senza catalizzatore fondamentale + primo pullback significativo con funding ancora positivo è un segnale di distribuzione ad alta fedeltà: i longs sono intrappolati e non capitolano, il che concentra la pressione sell sul successivo leg down. Il trade ha raggiunto il target (-12.5%) in 36h su 48h disponibili — conferma che il time-stop va calibrato sul tempo di esaurimento del crowding, non sulla volatilità asset. In regime bear o neutro, questo setup (funding positivo + price action negativa) è più affidabile che il fade di momentum puro perché incorpora informazione di positioning.",
+   "tags": [
+    "mean-reversion",
+    "funding-signal",
+    "crowding-exhaustion",
+    "illiquid-asset",
+    "distribution",
+    "short-setup",
+    "thesis-confirmed"
+   ]
+  },
   {
    "ts": "2026-06-17 20:17",
    "scope": "CRV",
@@ -7455,7 +8005,7 @@ footer .foot-mark b{ color:var(--amber); }
   {
    "symbol": "BTC",
    "signals": {
-    "tsmom": 0,
+    "tsmom": -1,
     "liq_imbalance": -1,
     "kronos_forecast": 0,
     "smart_money_ratio": 0,
@@ -7757,6 +8307,24 @@ footer .foot-mark b{ color:var(--amber); }
   }
  ],
  "tradebook": [
+  {
+   "strategy": "tsmom-liq-v1",
+   "account_label": "tsmom-liq-v1",
+   "symbol": "BTC",
+   "direction": "short",
+   "entry_px": 62932.411,
+   "exit_px": null,
+   "size_usd": 2360.89,
+   "pnl_usd": null,
+   "pnl_pct": null,
+   "risk_usd": 59.02,
+   "r_mult": null,
+   "opened_at": "2026-06-18 21:00",
+   "closed_at": null,
+   "duration_h": null,
+   "reason": "",
+   "status": "open"
+  },
   {
    "strategy": "tsmom-liq-v1",
    "account_label": "tsmom-liq-v1",
@@ -8792,7 +9360,7 @@ footer .foot-mark b{ color:var(--amber); }
     rec.pnlEl.className='pcard-pnl '+cls;
     rec.pnlEl.innerHTML=(live&&live.ok?'<span class="live-dot"></span>':'')+(pct>=0?'+':'')+pct.toFixed(2)+'% · '+signedUsd(usd);
     rec.nowEl.className='pcard-now'+(live&&live.ok?'':' stale');
-    rec.nowEl.textContent=(live&&live.ok?'● live ':'ultimo ')+px(last);
+    rec.nowEl.textContent=(live&&live.ok?'● live ':(p.symbol.startsWith('xyz_')?'statico ':'ultimo '))+px(last);
   }
 
   /* ---------- render: decisions feed ---------- */
@@ -8824,6 +9392,7 @@ footer .foot-mark b{ color:var(--amber); }
         '</div>'+
         '<p class="thesis">'+d.thesis+'</p>'+
         '<div class="invalidation"><b>'+(d.risk_verdict==='sistema'?'Quando si chiude':'Cosa la smentisce')+'</b>'+d.invalidation+'</div>'+
+        (d.risk_notes?'<div class="invalidation" style="border-left-color:var(--blue)"><b>Risk Manager</b>'+d.risk_notes+'</div>':'')+
         out;
       host.appendChild(card);
     });
@@ -9315,10 +9884,29 @@ footer .foot-mark b{ color:var(--amber); }
     host.innerHTML='<h3 style="font-family:var(--serif);margin:18px 0 4px">Distribuzione esiti (R) &amp; motivo uscita</h3>'+hist+reasons;
   }
 
+  // banner "cosa è cambiato dall'ultimo accesso" (localStorage)
+  function renderChangeBanner(){
+    const host=$('#change-banner'); if(!host) return;
+    const cur={closed:closedTrades().length, lc:(DATA.lifecycle||[]).length};
+    let prev=null; try{ prev=JSON.parse(localStorage.getItem('lux_seen')||'null'); }catch(e){}
+    if(prev){
+      const dC=cur.closed-prev.closed, dL=cur.lc-prev.lc, parts=[];
+      if(dC>0) parts.push(dC+' trade chiusi');
+      if(dL>0) parts.push(dL+' mosse evolutive');
+      if(parts.length){
+        host.innerHTML='<span>● Dal tuo ultimo accesso: <b>'+parts.join(' · ')+'</b></span><span class="cb-x">✕</span>';
+        host.classList.add('show');
+        host.querySelector('.cb-x').onclick=()=>host.classList.remove('show');
+      }
+    }
+    try{ localStorage.setItem('lux_seen', JSON.stringify(cur)); }catch(e){}
+  }
+
   function renderAll(){
     renderSummary(); renderAccounts(); renderPositions(); renderFeed(); renderLessons();
     renderTree(); renderLifecycle(); renderEvents(); renderStrats(); renderBook();
     renderPortfolioKpi(); renderPortfolioCurve(); renderRiskPanel(); renderSignalsMatrix(); renderBookAnalytics();
+    renderChangeBanner();
   }
   // ricarica i dati pipeline (eventi/decisioni/trade chiusi) senza reload pagina
   async function refreshData(){
