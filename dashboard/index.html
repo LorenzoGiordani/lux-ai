@@ -635,7 +635,7 @@ footer .foot-mark b{ color:var(--amber); }
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-18 22:38",
+ "updated_utc": "2026-06-18 23:17",
  "accounts": [
   {
    "id": "funding-squeeze-breakout-g2-g1-g2",
@@ -1757,6 +1757,14 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-18 22:38",
      10322.7
+    ],
+    [
+     "2026-06-18 23:17",
+     10322.7
+    ],
+    [
+     "2026-06-18 23:17",
+     10322.7
     ]
    ],
    "positions": [
@@ -2208,6 +2216,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-18 21:00",
        69.538
+      ],
+      [
+       "2026-06-18 22:00",
+       69.49
       ]
      ]
     }
@@ -2592,6 +2604,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-18 22:32",
+     9688.43
+    ],
+    [
+     "2026-06-18 23:15",
      9688.43
     ]
    ],
@@ -3056,6 +3072,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-18 20:00",
        75.519997
+      ],
+      [
+       "2026-06-18 22:00",
+       75.379997
       ]
      ]
     },
@@ -3930,6 +3950,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-18 20:00",
        65.775002
+      ],
+      [
+       "2026-06-18 22:00",
+       65.745003
       ]
      ]
     }
@@ -4250,6 +4274,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-18 22:35",
+     10112.56
+    ],
+    [
+     "2026-06-18 23:17",
      10112.56
     ]
    ],
@@ -4698,6 +4726,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-18 20:00",
        4227.899902
+      ],
+      [
+       "2026-06-18 22:00",
+       4225.899902
       ]
      ]
     },
@@ -5354,6 +5386,10 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-18 22:35",
      9835.97
+    ],
+    [
+     "2026-06-18 23:17",
+     9835.97
     ]
    ],
    "positions": [
@@ -5677,6 +5713,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-18 21:00",
        0.72267
+      ],
+      [
+       "2026-06-18 22:00",
+       0.72474
       ]
      ]
     },
@@ -5980,6 +6020,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-18 21:00",
        62945.0
+      ],
+      [
+       "2026-06-18 22:00",
+       62862.0
       ]
      ]
     }
@@ -6000,6 +6044,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-18 22:34",
+     10000.0
+    ],
+    [
+     "2026-06-18 23:17",
      10000.0
     ]
    ],
@@ -7859,7 +7907,7 @@ footer .foot-mark b{ color:var(--amber); }
   {
    "id": "funding-squeeze-breakout-g2-g1-g2",
    "parent": "funding-squeeze-breakout-g2-g1",
-   "status": "challenger",
+   "status": "retired",
    "sharpe": -0.09,
    "sharpe_r": 0.0,
    "n_closed": 0,
@@ -8000,7 +8048,17 @@ footer .foot-mark b{ color:var(--amber); }
    "note": "seed di ricerca"
   }
  ],
- "lifecycle": [],
+ "lifecycle": [
+  {
+   "event": "retire",
+   "strategy": "funding-squeeze-breakout-g2-g1-g2",
+   "family": "funding-squeeze-breakout",
+   "by": null,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "ts": "2026-06-18 22:33"
+  }
+ ],
  "signals_matrix": [
   {
    "symbol": "BTC",
@@ -8220,24 +8278,6 @@ footer .foot-mark b{ color:var(--amber); }
     "mean_r": -1.016,
     "win_rate": 0.0,
     "total_pnl": -304.89
-   }
-  },
-  {
-   "id": "funding-squeeze-breakout-g2-g1-g2",
-   "nome": "Caccia allo squeeze (crypto)",
-   "cosa": "Quando troppi trader scommettono tutti dallo stesso lato — si vede dal “funding”, il costo di mantenere aperte le posizioni — e il prezzo rompe il suo intervallo dopo una fase calma, chi è dal lato sbagliato è costretto a chiudere in fretta. Quelle chiusure forzate spingono il prezzo: la strategia cavalca proprio quell'onda.",
-   "entra": "affollamento estremo da un lato + prezzo che rompe il range con volumi alti, dopo una fase di calma",
-   "esce": "stop, target o tempo massimo scaduto",
-   "rischio": "massimo 1% del capitale a rischio per operazione, leva non oltre 2x",
-   "status": "challenger",
-   "asset_class": "crypto",
-   "risk_profile": "bilanciato",
-   "stats": {
-    "n_closed": 0,
-    "sharpe_r": 0.0,
-    "mean_r": 0.0,
-    "win_rate": 0.0,
-    "total_pnl": 0.0
    }
   },
   {
