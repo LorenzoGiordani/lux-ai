@@ -635,7 +635,7 @@ footer .foot-mark b{ color:var(--amber); }
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-19 05:20",
+ "updated_utc": "2026-06-19 06:19",
  "accounts": [
   {
    "id": "funding-squeeze-breakout-g2-g1-g2",
@@ -1813,6 +1813,14 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-19 05:20",
      10322.7
+    ],
+    [
+     "2026-06-19 06:17",
+     10322.7
+    ],
+    [
+     "2026-06-19 06:19",
+     10322.7
     ]
    ],
    "positions": [
@@ -2292,6 +2300,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-19 04:00",
        68.287
+      ],
+      [
+       "2026-06-19 05:00",
+       68.662
       ]
      ]
     }
@@ -2704,6 +2716,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-19 05:16",
+     9688.43
+    ],
+    [
+     "2026-06-19 06:15",
      9688.43
     ]
    ],
@@ -4451,6 +4467,10 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-19 05:17",
      10112.56
+    ],
+    [
+     "2026-06-19 06:17",
+     10112.56
     ]
    ],
    "positions": [
@@ -5622,6 +5642,10 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-19 05:17",
      9835.97
+    ],
+    [
+     "2026-06-19 06:17",
+     9835.97
     ]
    ],
    "positions": [
@@ -5973,6 +5997,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-19 04:00",
        0.70841
+      ],
+      [
+       "2026-06-19 05:00",
+       0.71425
       ]
      ]
     },
@@ -6304,6 +6332,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-19 04:00",
        62432.0
+      ],
+      [
+       "2026-06-19 05:00",
+       62708.0
       ]
      ]
     }
@@ -6353,12 +6385,29 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-19 05:17",
      10000.0
+    ],
+    [
+     "2026-06-19 06:17",
+     10000.0
     ]
    ],
    "positions": []
   }
  ],
  "decisions": [
+  {
+   "ts": "2026-06-19 06:19",
+   "symbol": "ZEC/USDT",
+   "direction": "short",
+   "account": "agents-v1",
+   "risk_verdict": "approve",
+   "risk_notes": "",
+   "thesis": "Pattern di distribuzione classico su illiquido: rally +6% senza catalizzatore fondamentale seguito da primo leg down oggi (-2.88%), con funding 1.37% APR ancora positivo — longs intrappolati finanziano il carry short. La lezione desk marcata thesis_right identifica esattamente questa struttura come segnale ad alta fedeltà; nessun altro asset del basket replica la combinazione price-action negativa + funding positivo + assenza di catalyst. L'assenza di lux_confluence abbassa la convinzione sistemica: per questo leverage è 1.5x e risk_pct 0.5 — metà del normale — e il trade si invalida in 48h se il secondo leg non si materializza. Il macro risk-off (Iran, petrolio, regime chop basket) comprime l'appetite per altcoin illiquidi e rimuove il principale scenario di reversal.",
+   "invalidation": "Chiusura daily sopra $51 (recupero del rally peak, squeeze confermato); oppure funding che si comprime a zero senza ulteriore price weakness (capitolazione longs senza breakdown = short squeeze imminente); oppure catalyst fondamentale ZEC-specifico (reversal regulatory su privacy coins, listing major exchange); oppure taker buy ratio ZEC che sale sopra 0.55 con volume anomalo (domanda genuina, non distribuzione).",
+   "outcome": {
+    "closed": false
+   }
+  },
   {
    "ts": "2026-06-18 21:00",
    "symbol": "BTC",
