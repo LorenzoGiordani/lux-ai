@@ -15,7 +15,7 @@
     "stop_px": 67.258959102,
     "target_px": 87.508968294,
     "opened_at": "2026-06-17 08:00:00+00:00",
-    "checked_until": "2026-06-19 03:00:00+00:00",
+    "checked_until": "2026-06-19 04:00:00+00:00",
     "time_stop_h": 96,
     "thesis": "SOL guida il basket a +13.8% 7d in regime bull confermato; il pullback 24h (-4.1%) \u00e8 consolidazione nel trend settimanale intatto, non inversione strutturale. Il funding a +1.14% APR \u00e8 neutro: nessuna euforia, posizionamento non affollato \u2014 condizione che rimuove il headwind derivativo e lascia il momentum spot come driver dominante. La rotazione altcoin gi\u00e0 in atto (Uniswap +22%) valida il beta-play su L1; post-FOMC neutro-dovish il capitale migra esattamente su asset con momentum pulito e leva bassa. ZEC short \u00e8 gi\u00e0 aperto in portafoglio (parziale hedge FOMC); time_stop 96h corregge il mismatch di lesson 31 (tesi 7d \u2192 finestra minima 72-96h), risk_pct 1% applica il gate di rischio pre-annuncio da lesson 5.",
     "invalidation": "Break orario confermato sotto $68 (struttura 7d invalida, -5.9% dall'entry); FOMC hawkish con BTC che cede $62k innescando risk-off indiscriminato sul basket; funding SOL che sale sopra +3% APR nelle prime 48h (euforia/crowding); SOL che sotto-performa il basket su base relativa per 2+ sessioni consecutive post-entry.",
@@ -101,7 +101,7 @@
     "stop_px": 0.7351264452999999,
     "target_px": 0.6634067921,
     "opened_at": "2026-06-18 16:00:00+00:00",
-    "checked_until": "2026-06-19 03:00:00+00:00"
+    "checked_until": "2026-06-19 04:00:00+00:00"
    },
    "BTC": {
     "strategy": "tsmom-liq-v1",
@@ -112,7 +112,7 @@
     "stop_px": 64505.721274999996,
     "target_px": 58212.480175000004,
     "opened_at": "2026-06-18 21:00:00+00:00",
-    "checked_until": "2026-06-19 03:00:00+00:00"
+    "checked_until": "2026-06-19 04:00:00+00:00"
    }
   }
  },
