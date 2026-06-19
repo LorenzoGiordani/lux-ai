@@ -115,9 +115,9 @@ def main() -> None:
     news_events = None
     if any(s["name"] == "news_event" for s in spec.get("signals", [])):
         try:
-            from pipeline.gdelt import news_events_live
-            news_events = news_events_live()
-            print(f"  news events live: {0 if news_events is None else len(news_events)}")
+            from pipeline.gdelt import news_events_cached
+            news_events = news_events_cached()   # memoizzato: 1 fetch/run condiviso, no 429 storm
+            print(f"  news events (cache): {0 if news_events is None else len(news_events)}")
         except Exception as e:
             print(f"  news events fetch fallito ({e})", file=sys.stderr)
 

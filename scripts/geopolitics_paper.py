@@ -62,10 +62,10 @@ def active_bursts(params: dict) -> list[dict]:
     max_age_h = int(params.get("max_age_h", 48))
     ev = None
     try:
-        from pipeline.gdelt import news_events_live
-        ev = news_events_live(days=max(14, max_age_h // 24 + 2), min_z=min_z)
+        from pipeline.gdelt import news_events_cached
+        ev = news_events_cached(days=max(14, max_age_h // 24 + 2))   # cache condivisa col loop paper
     except Exception as e:
-        print(f"  gdelt live fallito ({e}), ripiego sul parquet", file=sys.stderr)
+        print(f"  gdelt cache fallita ({e}), ripiego sul parquet", file=sys.stderr)
     if (ev is None or ev.empty) and EVENTS_PARQUET.exists():
         ev = pd.read_parquet(EVENTS_PARQUET)
     if ev is None or ev.empty:

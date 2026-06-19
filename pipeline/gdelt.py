@@ -8,6 +8,7 @@ news_event in paper/live trading.
 
 import time
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 import pandas as pd
 import requests
@@ -103,3 +104,22 @@ def news_events_live(days: int = 14, min_z: float = 3.0) -> pd.DataFrame | None:
                         "tone": float(df.loc[i, "tone"]) if "tone" in df else None})
             last = ts
     return pd.DataFrame(out).sort_values("ts").reset_index(drop=True) if out else None
+
+
+_CACHE = Path(__file__).resolve().parent.parent / "data" / "news" / "gdelt_live.parquet"
+CACHE_TTL_MIN = 60
+
+
+def news_events_cached(days: int = 14, ttl_min: int = CACHE_TTL_MIN) -> pd.DataFrame | None:
+    """news_events_live memoizzato su file (TTL). Collassa le N chiamate di un cron
+    run (una per ogni strategia con news_event + il desk geo) in UN solo fetch GDELT
+    → elimina la tempesta di 429. Cache a min_z=2.0: i chiamanti filtrano alla loro
+    soglia. Garantisce esattamente 1 fetch live per finestra TTL (anche se il fetch
+    degrada a vuoto su 429: meglio sopprimere il gate ≤1h che martellare GDELT)."""
+    if _CACHE.exists() and (time.time() - _CACHE.stat().st_mtime) < ttl_min * 60:
+        df = pd.read_parquet(_CACHE)
+        return df if not df.empty else None
+    ev = news_events_live(days=days, min_z=2.0)
+    _CACHE.parent.mkdir(parents=True, exist_ok=True)
+    (ev if ev is not None else pd.DataFrame(columns=["ts", "topic", "z", "tone"])).to_parquet(_CACHE, index=False)
+    return ev
