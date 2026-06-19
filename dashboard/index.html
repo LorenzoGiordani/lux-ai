@@ -635,7 +635,7 @@ footer .foot-mark b{ color:var(--amber); }
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-19 18:21",
+ "updated_utc": "2026-06-19 19:18",
  "accounts": [
   {
    "id": "funding-squeeze-breakout-g2-g1-g2",
@@ -1917,6 +1917,14 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-19 18:21",
      10322.3
+    ],
+    [
+     "2026-06-19 19:16",
+     10322.3
+    ],
+    [
+     "2026-06-19 19:18",
+     10322.3
     ]
    ],
    "positions": [
@@ -2448,6 +2456,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-19 17:00",
        69.302
+      ],
+      [
+       "2026-06-19 18:00",
+       69.026
       ]
      ]
     },
@@ -2759,6 +2771,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-19 17:00",
        457.33
+      ],
+      [
+       "2026-06-19 18:00",
+       454.03
       ]
      ]
     }
@@ -3223,6 +3239,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-19 18:15",
+     9688.43
+    ],
+    [
+     "2026-06-19 19:15",
      9688.43
     ]
    ],
@@ -5022,6 +5042,10 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-19 18:15",
      10112.56
+    ],
+    [
+     "2026-06-19 19:15",
+     10112.56
     ]
    ],
    "positions": [
@@ -6245,6 +6269,10 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-19 18:15",
      9835.97
+    ],
+    [
+     "2026-06-19 19:15",
+     9835.97
     ]
    ],
    "positions": [
@@ -6648,6 +6676,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-19 17:00",
        0.71353
+      ],
+      [
+       "2026-06-19 18:00",
+       0.71003
       ]
      ]
     },
@@ -7031,6 +7063,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-19 17:00",
        63180.0
+      ],
+      [
+       "2026-06-19 18:00",
+       63083.0
       ]
      ]
     }
@@ -7132,6 +7168,10 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-19 18:15",
      10000.0
+    ],
+    [
+     "2026-06-19 19:15",
+     10000.0
     ]
    ],
    "positions": []
@@ -7162,6 +7202,20 @@ footer .foot-mark b{ color:var(--amber); }
   }
  ],
  "decisions": [
+  {
+   "ts": "2026-06-19 19:18",
+   "symbol": "ZEC/USDT",
+   "direction": "long",
+   "account": "agents-v1",
+   "risk_verdict": "reduce",
+   "risk_notes": "Tesi coerente e falsificabile — questo non è in discussione. Il veto sarebbe ingiustificato: 0.5% risk + 2x leverage è già posizionamento da bassa convinzione, e il carry negativo a -2.14% APR è reale, non costruito. Tuttavia tre difetti strutturali impongono riduzione ulteriore. (1) CHASING RISK — il segnale val_compression è documentato, ma si attiva DOPO un +9.89% 7d: stai comprando la compress",
+   "thesis": "ZEC è l'unico asset in regime bull nel basket con vol_compression attiva e funding negativo (−2.14% APR) che genera carry favorevole ai long ogni ora che gli short restano aperti; la convergenza di regime, compressione e carry su un singolo asset in contesto di chop diffuso segnala accumulazione selettiva, non rumore. La lezione interna ZEC thesis_right valida esplicitamente questo schema — è il setup documentato, non un'analogia. Nessun lux_confluence allineato impone size dimezzata (0.5% risk) e leverage minimo: la convinzione è media, non alta, e il rally +10% 7d giustifica cautela sull'entry. La tesi si risolve rialzista se la vol compression si espande nei prossimi 48h con funding che rimane negativo; si falsifica con rottura strutturale sotto $435.",
+   "invalidation": "Chiusura daily sotto $435 (breakdown struttura bull, stop meccanico); oppure funding che supera 0% APR prima del target (carry edge rimosso, squeeze esaurito — uscita discrezionale anticipata).",
+   "outcome": {
+    "closed": false
+   },
+   "size_multiplier": 0.7
+  },
   {
    "ts": "2026-06-19 18:21",
    "symbol": "ZEC",
