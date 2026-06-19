@@ -28,6 +28,9 @@ if command -v claude >/dev/null 2>&1; then
     stage "pipeline decide"
     "$UV" run scripts/decide.py BTC,ETH,SOL,SUI,ZEC || true
     "$UV" run scripts/agents_paper.py || true    # esegui subito l'eventuale decisione
+    # desk geopolitico: gated su burst GDELT, chiama l'LLM solo se il gate è aperto
+    stage "geopolitics desk"
+    "$UV" run scripts/geopolitics_paper.py || true
 fi
 
 stage "brain"

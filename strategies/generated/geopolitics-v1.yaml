@@ -1,0 +1,53 @@
+id: geopolitics-v1
+parent: null
+status: challenger          # paper trading dati live, ma via runner desk (engine: desk)
+engine: desk                # NON meccanica: la esegue scripts/geopolitics_paper.py,
+                            #   non il loop a segnali (active_specs la salta). La
+                            #   direzione esce dal RAGIONAMENTO LLM, non da una regola.
+created: '2026-06-19'
+thesis: >
+  Layer LLM cross-asset gated sugli eventi geopolitici. news_event(geopolitics)
+  — burst GDELT su war/sanctions/conflict/military — fa da TRIGGER: solo quando
+  scoppia un catalizzatore il desk ragiona. L'edge non è il sentiment (tone
+  falsificato come predittore, event study 2026-06-13, tone_hit 0.38<0.50) ma
+  l'interpretazione del CANALE DI TRASMISSIONE: guerra/sanzioni → energia (oil,
+  natgas), risk-off → safe-haven (gold) e deleveraging crypto. Il desk sceglie
+  asset e direzione dal nesso causale, non dal segno del tono.
+  Falsificata se: i trade gated-su-geopolitica NON battono il buy&hold cross-asset
+  sullo stesso periodo → il catalizzatore non aggiunge edge sopra il drift.
+
+universe:
+  selection: explicit
+  max_assets: 6
+  kinds: [mixed]            # commodities (xyz_*) + crypto: dove la geopolitica trasmette per primo
+paper_symbols: xyz_CL,xyz_BRENTOIL,xyz_GOLD,xyz_NATGAS,BTC,ETH
+
+timeframe: 1h
+decision_every_h: 4         # campionamento; ma di fatto decide SOLO se il gate è attivo
+
+signals:
+  - name: news_event        # GATE (non direzionale): apre la finestra di decisione
+    params: {topics: geopolitics, max_age_h: 48, min_z: 3.0}
+
+entry:
+  rule: news_event          # trigger: burst geopolitico attivo
+  direction: llm_desk       # direzione + asset dal ragionamento del desk (vedi engine: desk)
+
+exit:                       # default proposti al desk; la proposta LLM li affina per trade
+  stop_pct: 3.0
+  target_r: 2.0
+  time_stop_h: 96           # le tesi geopolitiche maturano in giorni, non ore
+
+risk:                       # IMMUTABILE — entro gli hard limit del codice
+  max_leverage: 2
+  risk_per_trade_pct: 1.0
+  max_concurrent_positions: 2
+
+evolution:
+  mutable: [signals, exit, universe]
+  notes: >
+    v1 — gate news_event(geopolitics) + desk LLM cross-asset. Prima strategia
+    engine:desk. Possibili mutazioni: soglia min_z del burst, finestra max_age_h,
+    universo (aggiungere indici/FX), default di exit.
+
+backtest: {}

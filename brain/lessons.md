@@ -2,7 +2,7 @@
 
 [[README|← Brain index]]
 
-_34 lezioni, clusterizzate per tag._
+_35 lezioni, clusterizzate per tag._
 
 ## #3:1_rr
 
@@ -126,6 +126,10 @@ _34 lezioni, clusterizzate per tag._
 
 - [[agents-v1]] · **thesis_wrong** (ZEC): Doppia confluenza tsmom+vwap_zscore su candele già estese segna esaurimento, non continuazione: quando la tesi stessa riconosce il crowding e risponde solo con size ridotta, il segnale qualitativo deve essere invertito. Crowding consapevole + momentum tardivo post-rally = peso contrarian implicito ignorato. La size al 50% mitiga la perdita ma non cambia il segno dell'edge atteso. Regola generale: se la tesi contiene 'il rischio X è reale ma lo gestisco con Y', X è probabilmente la causa principale del fallimento e Y è razionalizzazione.
 
+## #crowding-exhaustion
+
+- [[agents-v1]] · **thesis_right** (ZEC): Su asset illiquidi (ZEC-tier), la combinazione rally >15% senza catalizzatore fondamentale + primo pullback significativo con funding ancora positivo è un segnale di distribuzione ad alta fedeltà: i longs sono intrappolati e non capitolano, il che concentra la pressione sell sul successivo leg down. Il trade ha raggiunto il target (-12.5%) in 36h su 48h disponibili — conferma che il time-stop va calibrato sul tempo di esaurimento del crowding, non sulla volatilità asset. In regime bear o neutro, questo setup (funding positivo + price action negativa) è più affidabile che il fade di momentum puro perché incorpora informazione di positioning.
+
 ## #crowding-peak
 
 - [[tsmom-liq-v1]] · **thesis_wrong** (ZEC): In fasi di downtrend strutturale su altcoin ad alta beta (ZEC), segnali tsmom+liq_imbalance rialzisti catturano spesso picchi di crowding long piuttosto che momentum genuino: il segnale si accende quando tutti sono già entrati, non quando inizia la spinta. Richiedere un regime-filter esplicito (es. BTC price > MA20 o rolling-Sharpe basket > 0) prima di approvare long su tsmom in altcoin.
@@ -161,6 +165,10 @@ _34 lezioni, clusterizzate per tag._
 ## #derivatives_confluence
 
 - [[agents-v1]] · **thesis_right** (SOL): Funding negativo strutturale su asset con regime bull confermato e outperformance spot vs paniere crea uno squeeze lento ma prevedibile: i derivati fungono da carburante direzionale anziché da resistenza. La confluenza funding-negativo + spot-outperformance-vs-basket è un setup ad alto valore con invalidazione netta e misurabile (funding flip), replicabile su qualsiasi perpetual liquido indipendentemente dall'asset specifico.
+
+## #distribution
+
+- [[agents-v1]] · **thesis_right** (ZEC): Su asset illiquidi (ZEC-tier), la combinazione rally >15% senza catalizzatore fondamentale + primo pullback significativo con funding ancora positivo è un segnale di distribuzione ad alta fedeltà: i longs sono intrappolati e non capitolano, il che concentra la pressione sell sul successivo leg down. Il trade ha raggiunto il target (-12.5%) in 36h su 48h disponibili — conferma che il time-stop va calibrato sul tempo di esaurimento del crowding, non sulla volatilità asset. In regime bear o neutro, questo setup (funding positivo + price action negativa) è più affidabile che il fade di momentum puro perché incorpora informazione di positioning.
 
 ## #diversification
 
@@ -220,6 +228,10 @@ _34 lezioni, clusterizzate per tag._
 
 - [[tsmom-liq-v1]] · **thesis_right** (NEAR): Quando tsmom e liq_imbalance convergono entrambi a +1 (signal_vote pieno), il trade ha sufficiente conviction per giustificare R:R ≥ 3:1 con target fisso: uscire anticipatamente o ridurre il target per 'sicurezza' sarebbe stato un errore atteso-negativo. La confluenza momentum + order-flow su alt-L1 genera move intraday completi — non scalare out prima del target.
 
+## #funding-signal
+
+- [[agents-v1]] · **thesis_right** (ZEC): Su asset illiquidi (ZEC-tier), la combinazione rally >15% senza catalizzatore fondamentale + primo pullback significativo con funding ancora positivo è un segnale di distribuzione ad alta fedeltà: i longs sono intrappolati e non capitolano, il che concentra la pressione sell sul successivo leg down. Il trade ha raggiunto il target (-12.5%) in 36h su 48h disponibili — conferma che il time-stop va calibrato sul tempo di esaurimento del crowding, non sulla volatilità asset. In regime bear o neutro, questo setup (funding positivo + price action negativa) è più affidabile che il fade di momentum puro perché incorpora informazione di positioning.
+
 ## #funding_squeeze
 
 - [[agents-v1]] · **execution_issue** (SUI): Vol_compression + funding-squeeze long su L1 altcoin consegna tipicamente 3-7% di reversion intra-giornaliera, non 18%: quando il catalizzatore è 'esaurimento pressione ribassista' (non breakout macro), il target deve essere calibrato sulla magnitudine attesa dello squeeze (R:R compresso ma alta probabilità) e il time_stop deve essere proporzionato — 48h è coerente con la tesi, ma abbinarlo a un target x3 crea un'asimmetria impossibile: il trade chiude a time_stop catturando solo il 30% del premio atteso. Separare il sizing del target in base al tipo di driver: squeeze → target 5-8%, breakout strutturale → target 15%+.
@@ -245,6 +257,10 @@ _34 lezioni, clusterizzate per tag._
 ## #illiquid-altcoin
 
 - [[tsmom-liq-v1]] · **execution_issue** (WLD): Su token illiquidi ad alta volatilità (WLD-class), uno stop fisso al 2.5% rientra nel rumore di breve periodo: il trade è stato stoppato in 12h su movimento di ~1.7bp dal close. Gli stop devono essere calibrati sull'ATR dell'asset specifico (minimo 1×ATR daily), non su una percentuale flat derivata da asset più liquidi come BTC/ETH — altrimenti il segnale corretto viene annullato da volatilità casuale prima che la tesi possa esprimersi.
+
+## #illiquid-asset
+
+- [[agents-v1]] · **thesis_right** (ZEC): Su asset illiquidi (ZEC-tier), la combinazione rally >15% senza catalizzatore fondamentale + primo pullback significativo con funding ancora positivo è un segnale di distribuzione ad alta fedeltà: i longs sono intrappolati e non capitolano, il che concentra la pressione sell sul successivo leg down. Il trade ha raggiunto il target (-12.5%) in 36h su 48h disponibili — conferma che il time-stop va calibrato sul tempo di esaurimento del crowding, non sulla volatilità asset. In regime bear o neutro, questo setup (funding positivo + price action negativa) è più affidabile che il fade di momentum puro perché incorpora informazione di positioning.
 
 ## #intraday_momentum
 
@@ -289,6 +305,7 @@ _34 lezioni, clusterizzate per tag._
 ## #mean-reversion
 
 - [[vwap-reversion-v1]] · **thesis_wrong** (basket): Fade dell'estensione VWAP falsificato 7/7 asset (crypto+commodities+stock): le estensioni oltre 2 sigma IN QUESTO regime sono trend, non esaurimenti. Terza falsificazione consecutiva di tesi mean-reversion (dopo scalp-exit e flow-fade): il regime 2026 H1 premia il trend following, punisce il contrarian.
+- [[agents-v1]] · **thesis_right** (ZEC): Su asset illiquidi (ZEC-tier), la combinazione rally >15% senza catalizzatore fondamentale + primo pullback significativo con funding ancora positivo è un segnale di distribuzione ad alta fedeltà: i longs sono intrappolati e non capitolano, il che concentra la pressione sell sul successivo leg down. Il trade ha raggiunto il target (-12.5%) in 36h su 48h disponibili — conferma che il time-stop va calibrato sul tempo di esaurimento del crowding, non sulla volatilità asset. In regime bear o neutro, questo setup (funding positivo + price action negativa) è più affidabile che il fade di momentum puro perché incorpora informazione di positioning.
 
 ## #min-hold-bars
 
@@ -413,6 +430,10 @@ _34 lezioni, clusterizzate per tag._
 - [[tsmom-v1]] · **thesis_wrong** (xyz_GOLD): Un segnale tsmom=-1 su un asset con forte tailwind macro (oro in regime risk-off / dollaro debole) ha edge vicino a zero: il momentum di breve periodo è rumore rispetto al flusso dominante. I segnali tsmom short su safe-haven richiedono un filtro regime (es. dollaro in trend rialzista O risk appetite positivo) prima di entrare — senza conferma macro, il fade è contro la corrente più forte.
 - [[tsmom-conservative-v1]] · **thesis_right** (xyz_CL): Un segnale tsmom = -1 su futures energetici liquidi in trend ribassista porta il prezzo al target 3:1 entro 3-5 sessioni; non intervenire discrezionalmente sul target meccanico — l'edge della strategia si realizza lasciando girare il winner fino al livello stabilito.
 
+## #short-setup
+
+- [[agents-v1]] · **thesis_right** (ZEC): Su asset illiquidi (ZEC-tier), la combinazione rally >15% senza catalizzatore fondamentale + primo pullback significativo con funding ancora positivo è un segnale di distribuzione ad alta fedeltà: i longs sono intrappolati e non capitolano, il che concentra la pressione sell sul successivo leg down. Il trade ha raggiunto il target (-12.5%) in 36h su 48h disponibili — conferma che il time-stop va calibrato sul tempo di esaurimento del crowding, non sulla volatilità asset. In regime bear o neutro, questo setup (funding positivo + price action negativa) è più affidabile che il fade di momentum puro perché incorpora informazione di positioning.
+
 ## #short_squeeze
 
 - [[agents-v1]] · **thesis_right** (SOL): Funding negativo strutturale su asset con regime bull confermato e outperformance spot vs paniere crea uno squeeze lento ma prevedibile: i derivati fungono da carburante direzionale anziché da resistenza. La confluenza funding-negativo + spot-outperformance-vs-basket è un setup ad alto valore con invalidazione netta e misurabile (funding flip), replicabile su qualsiasi perpetual liquido indipendentemente dall'asset specifico.
@@ -484,6 +505,10 @@ _34 lezioni, clusterizzate per tag._
 ## #target_miscalibration
 
 - [[agents-v1]] · **execution_issue** (SUI): Vol_compression + funding-squeeze long su L1 altcoin consegna tipicamente 3-7% di reversion intra-giornaliera, non 18%: quando il catalizzatore è 'esaurimento pressione ribassista' (non breakout macro), il target deve essere calibrato sulla magnitudine attesa dello squeeze (R:R compresso ma alta probabilità) e il time_stop deve essere proporzionato — 48h è coerente con la tesi, ma abbinarlo a un target x3 crea un'asimmetria impossibile: il trade chiude a time_stop catturando solo il 30% del premio atteso. Separare il sizing del target in base al tipo di driver: squeeze → target 5-8%, breakout strutturale → target 15%+.
+
+## #thesis-confirmed
+
+- [[agents-v1]] · **thesis_right** (ZEC): Su asset illiquidi (ZEC-tier), la combinazione rally >15% senza catalizzatore fondamentale + primo pullback significativo con funding ancora positivo è un segnale di distribuzione ad alta fedeltà: i longs sono intrappolati e non capitolano, il che concentra la pressione sell sul successivo leg down. Il trade ha raggiunto il target (-12.5%) in 36h su 48h disponibili — conferma che il time-stop va calibrato sul tempo di esaurimento del crowding, non sulla volatilità asset. In regime bear o neutro, questo setup (funding positivo + price action negativa) è più affidabile che il fade di momentum puro perché incorpora informazione di positioning.
 
 ## #thesis-self-contradiction
 

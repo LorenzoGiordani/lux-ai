@@ -134,5 +134,10 @@
  "lux-0.1-beta": {
   "equity": 10000.0,
   "positions": {}
+ },
+ "geopolitics-v1": {
+  "equity": 10000.0,
+  "positions": {},
+  "last_decision_ts": ""
  }
 }

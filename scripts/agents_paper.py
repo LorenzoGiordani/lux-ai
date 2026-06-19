@@ -32,6 +32,8 @@ def pending_decisions(after_ts: str) -> list[dict]:
         d = json.loads(line)
         if d.get("stage") != "final" or d.get("logged_at", "") <= after_ts:
             continue
+        if d.get("strategy", ACCOUNT) != ACCOUNT:   # ignora decisioni di altri desk (es. geopolitics-v1)
+            continue
         p = d.get("proposal", {})
         risk = d.get("risk", {})
         if p.get("action") != "trade" or risk.get("verdict") not in ("approve", "reduce"):

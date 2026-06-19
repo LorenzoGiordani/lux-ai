@@ -10,7 +10,7 @@ _Definizioni stabili in `scripts/brain_gen.py` (GLOSSARY). Colonna 'in uso' = st
 | `funding_percentile` | Percentile del funding rate su lookback (es. 168h). Estremo = crowding di un lato del book; carburante per squeeze. | [[funding-squeeze-breakout-g2]] [[funding-squeeze-breakout-g2-g1]] [[funding-squeeze-breakout-g2-g1-g1]] [[funding-squeeze-breakout-g2-g1-g2]] [[funding-squeeze-breakout-g2-g1-g3]] [[funding-squeeze-breakout-g2-g2]] [[funding-squeeze-breakout-g2-g3]] [[funding-squeeze-breakout-g3]] [[funding-squeeze-breakout-v1]] [[tmp-g2]] [[tmp-g3]] |
 | `kronos_forecast` | Forecast del foundation model Kronos su serie OHLCV. Segnale predittivo, non reattivo. | [[lux-0.1-beta]] |
 | `liq_imbalance` | Sbilanciamento delle liquidazioni (long vs short). Spike = potenziale cascata/squeeze. | [[lux-0.1-beta]] [[tsmom-liq-v1]] |
-| `news_event` | Trigger event-driven da feed GDELT. Catalizzatore macro/narrativa, non tecnico. | [[lux-0.1-beta]] |
+| `news_event` | Trigger event-driven da feed GDELT. Catalizzatore macro/narrativa, non tecnico. | [[geopolitics-v1]] [[lux-0.1-beta]] |
 | `oi_trend` | Trend dell'open interest. OI fermo su prezzo che sale = short non capitolati (carburante squeeze). | [[lux-0.1-beta]] |
 | `range_breakout` | Rottura di un range multi-day con conferma di volume. Direzione = quella del breakout. | [[funding-squeeze-breakout-g1]] [[funding-squeeze-breakout-g3]] [[funding-squeeze-breakout-g4]] [[funding-squeeze-breakout-v1]] [[tmp-g1]] [[tmp-g3]] [[tmp-g4]] |
 | `smart_money_ratio` | Rapporto posizionamento large vs retail. Proxy di flusso informato. | [[lux-0.1-beta]] |

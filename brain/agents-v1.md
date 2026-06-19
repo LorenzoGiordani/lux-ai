@@ -9,16 +9,17 @@
 
 ## Performance (paper)
 
-- equity: $10,322.70
+- equity: $10,322.30
 - trade chiusi: 9 · win rate: 44%
 - PnL totale: $327.60
-- posizioni aperte ora: 1
+- posizioni aperte ora: 2
 
 ### Posizioni aperte
 
 | symbol | dir | entry | stop | target | size |
 |---|---|---|---|---|---|
 | SOL | long | 72.3214614 | 67.258959102 | 87.508968294 | $1,101.36 |
+| ZEC | long | 454.300842 | 438.40031252999995 | 494.05216567499997 | $884.80 |
 
 ### Trade chiusi
 
@@ -45,5 +46,6 @@
 - **thesis_wrong** (ZEC, $-26.21): Doppia confluenza tsmom+vwap_zscore su candele già estese segna esaurimento, non continuazione: quando la tesi stessa riconosce il crowding e risponde solo con size ridotta, il segnale qualitativo deve essere invertito. Crowding consapevole + momentum tardivo post-rally = peso contrarian implicito ignorato. La size al 50% mitiga la perdita ma non cambia il segno dell'edge atteso. Regola generale: se la tesi contiene 'il rischio X è reale ma lo gestisco con Y', X è probabilmente la causa principale del fallimento e Y è razionalizzazione. #momentum-lag #crowding #altcoin-exhaustion #tsmom #post-extended-candle #thesis-self-contradiction
 - **execution_issue** (SOL, $-1.66): Un time-stop di 24h è strutturalmente incoerente con una tesi basata su rotazione di capitale a 7 giorni e catalizzatori macro (Iran/BOJ): il regime bull e il funding negativo non erano stati invalidati, il prezzo è uscito piatto (−0.16%) non perché la tesi fosse sbagliata ma perché la finestra di holding era troppo corta per far emergere l'edge. Regola generale: il time-stop deve essere ≥ metà del lookback usato per costruire la tesi — tesi su momentum 7d → time-stop minimo 72-96h; altrimenti si vende rumore intraday su una tesi strutturale. #time_stop_mismatch #structural_thesis #holding_period_calibration #momentum_long #SOL
 - **thesis_wrong** (SUI, $-52.07): Un vwap_zscore=1 (1σ) in altcoin ad alta beta è sotto la soglia minima di edge: il rapporto segnale/rumore è insufficiente a sopravvivere alla normale volatilità intraday senza un catalizzatore strutturale aggiuntivo (volume >1.5x media 4h o zscore ≥1.5). La relative strength intraday punto-in-tempo (+2.8%) non è una proxy affidabile di momentum sostenuto se non è confermata da espansione volumetrica nel tick successivo all'ingresso — senza follow-through misurato entro 2h, il segnale va trattato come rumore e il trade chiuso in pareggio. #signal_threshold #vwap_zscore #momentum #altcoin_high_beta #entry_filter #relative_strength_decay
+- **thesis_right** (ZEC, $95.91): Su asset illiquidi (ZEC-tier), la combinazione rally >15% senza catalizzatore fondamentale + primo pullback significativo con funding ancora positivo è un segnale di distribuzione ad alta fedeltà: i longs sono intrappolati e non capitolano, il che concentra la pressione sell sul successivo leg down. Il trade ha raggiunto il target (-12.5%) in 36h su 48h disponibili — conferma che il time-stop va calibrato sul tempo di esaurimento del crowding, non sulla volatilità asset. In regime bear o neutro, questo setup (funding positivo + price action negativa) è più affidabile che il fade di momentum puro perché incorpora informazione di positioning. #mean-reversion #funding-signal #crowding-exhaustion #illiquid-asset #distribution #short-setup #thesis-confirmed
 
 [[lessons|Tutte le lezioni]] · [[timeline|Timeline]]

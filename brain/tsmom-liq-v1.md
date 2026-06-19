@@ -17,16 +17,17 @@ seed di ricerca
 
 ## Performance (paper)
 
-- equity: $9,837.04
+- equity: $9,835.97
 - trade chiusi: 14 · win rate: 21%
 - PnL totale: $-146.74
-- posizioni aperte ora: 1
+- posizioni aperte ora: 2
 
 ### Posizioni aperte
 
 | symbol | dir | entry | stop | target | size |
 |---|---|---|---|---|---|
 | SUI | short | 0.717196532 | 0.7351264452999999 | 0.6634067921 | $2,361.14 |
+| BTC | short | 62932.411 | 64505.721274999996 | 58212.480175000004 | $2,360.89 |
 
 ### Trade chiusi
 

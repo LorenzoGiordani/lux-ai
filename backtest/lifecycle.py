@@ -41,8 +41,11 @@ def all_specs() -> list[tuple[Path, dict]]:
 
 
 def active_specs() -> list[tuple[Path, dict]]:
-    """champion + challenger = ciò che gira in paper trading."""
-    return [(f, s) for f, s in all_specs() if s.get("status") in ("champion", "challenger")]
+    """champion + challenger = ciò che gira nel loop paper MECCANICO.
+    Esclude engine:desk (strategie LLM-desk, eseguite da runner dedicati,
+    es. scripts/geopolitics_paper.py — il runner a segnali le romperebbe)."""
+    return [(f, s) for f, s in all_specs()
+            if s.get("status") in ("champion", "challenger") and s.get("engine") != "desk"]
 
 
 def paper_symbols(spec: dict) -> str:

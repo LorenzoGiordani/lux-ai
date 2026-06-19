@@ -4,6 +4,8 @@
 
 _Eventi lifecycle + open/close, più recenti in alto._
 
+- `2026-06-19T16:20:06` 🟢 open [[agents-v1]] ZEC long
+- `2026-06-18T22:35:01` 🟢 open [[tsmom-liq-v1]] BTC short
 - `2026-06-18T22:33:44` 🔄 lifecycle **retire** [[funding-squeeze-breakout-g2-g1-g2]] — manuale: triplo-gate non spara mai (96 heartbeat, 0 trade) + Sharpe negativo della famiglia
 - `2026-06-18T17:37:07` 🟢 open [[tsmom-liq-v1]] SUI short
 - `2026-06-18T15:58:12` 🔴 close [[agents-v1]] ZEC — target $95.91
