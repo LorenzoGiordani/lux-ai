@@ -49,10 +49,19 @@ def active_specs() -> list[tuple[Path, dict]]:
 
 
 def paper_symbols(spec: dict) -> str:
+    uni = spec.get("universe", {})
+    # selezione dinamica: tutti i perp core liquidi, risolti live da HL ad ogni run
+    # (la lista si auto-aggiorna; ha priorita sull'eventuale paper_symbols esplicito)
+    if uni.get("selection") in ("top_liquidity", "all_perps"):
+        from pipeline.live import core_perp_symbols
+        syms = core_perp_symbols(uni.get("min_day_volume_usd", 1_000_000))
+        if syms:
+            return syms
+        # API HL muta: fallback su esplicito/default sotto, mai trade-su-niente
     if spec.get("paper_symbols"):
         ps = spec["paper_symbols"]
         return ",".join(ps) if isinstance(ps, list) else ps
-    kinds = spec.get("universe", {}).get("kinds", ["perp"])
+    kinds = uni.get("kinds", ["perp"])
     return DEFAULT_SYMBOLS["mixed" if "mixed" in kinds else "perp"]
 
 

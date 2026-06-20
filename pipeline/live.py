@@ -20,6 +20,32 @@ RSS_FEEDS = {
 }
 
 
+# universo perp live da Hyperliquid (dex validator-operated = "core"). Niente file:
+# i runner cloud non hanno data/universe.csv. Cache di modulo: 1 fetch per processo.
+_PERP_CACHE: dict = {}
+
+
+def core_perp_symbols(min_vol_usd: float = 1_000_000) -> str:
+    """Perp core HL con volume 24h >= min_vol_usd, ordinati per liquidita, come
+    stringa CSV pronta per paper_trade. Esclude i delisted. Stringa vuota se l'API
+    non risponde (il chiamante fa fallback). Cache per-processo, chiave = soglia."""
+    key = round(min_vol_usd)
+    if key in _PERP_CACHE:
+        return _PERP_CACHE[key]
+    try:
+        r = requests.post("https://api.hyperliquid.xyz/info",
+                          json={"type": "metaAndAssetCtxs", "dex": ""}, timeout=30)
+        meta, ctxs = r.json()
+    except Exception:
+        return ""
+    rows = [(a["name"], float(c["dayNtlVlm"]))
+            for a, c in zip(meta["universe"], ctxs) if not a.get("isDelisted")]
+    rows = sorted((t for t in rows if t[1] >= min_vol_usd), key=lambda t: -t[1])
+    out = ",".join(s for s, _ in rows)
+    _PERP_CACHE[key] = out
+    return out
+
+
 def fetch_live(symbol: str, lookback_h: int = 1000) -> dict:
     """Candele 1h chiuse + taker flow + funding — stesso formato del backtest.
     Simboli xyz_* (commodities/stock/index) → yfinance, niente flow/funding.

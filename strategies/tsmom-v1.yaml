@@ -11,6 +11,7 @@ thesis: 'Time-series momentum (Moskowitz-Ooi-Pedersen): il segno del ritorno pas
   '
 universe:
   selection: top_liquidity
+  min_day_volume_usd: 1000000   # paper: tutti i perp core HL sopra questa soglia (lista live)
   max_assets: 12
   kinds:
   - perp

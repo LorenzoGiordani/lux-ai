@@ -7,10 +7,11 @@ thesis: 'Profilo di rischio difensivo sullo stesso edge TSMOM (vincente): leva 1
   per un drawdown nettamente minore migliora lo Sharpe. Falsificata se lo Sharpe non
   sale rispetto a tsmom-v1.'
 universe:
-  selection: explicit
+  selection: top_liquidity
+  min_day_volume_usd: 1000000   # paper: tutti i perp core HL sopra questa soglia (lista live)
   max_assets: 8
   kinds:
-  - mixed
+  - perp
 timeframe: 1h
 decision_every_h: 4
 signals:
