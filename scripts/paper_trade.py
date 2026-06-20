@@ -121,7 +121,10 @@ def main() -> None:
         except Exception as e:
             print(f"  news events fetch fallito ({e})", file=sys.stderr)
 
-    for symbol in symbols:
+    # universe corrente + eventuali posizioni aperte fuori universe (es. dopo un
+    # cambio di selection): vanno comunque gestite a exit, mai lasciate orfane
+    held_outside = [s for s in st["positions"] if s not in symbols]
+    for symbol in symbols + held_outside:
         try:
             data = fetch_live(symbol)
             data["symbol"] = symbol  # serve ai segnali cache-reader (liq/kronos/hmm/smart-money)
