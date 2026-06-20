@@ -635,7 +635,7 @@ footer .foot-mark b{ color:var(--amber); }
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-20 07:18",
+ "updated_utc": "2026-06-20 08:19",
  "accounts": [
   {
    "id": "funding-squeeze-breakout-g2-g1-g2",
@@ -2021,6 +2021,14 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-20 07:18",
      10322.3
+    ],
+    [
+     "2026-06-20 08:15",
+     10322.3
+    ],
+    [
+     "2026-06-20 08:18",
+     10322.3
     ]
    ],
    "positions": [
@@ -2604,6 +2612,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-20 06:00",
        72.095
+      ],
+      [
+       "2026-06-20 07:00",
+       71.564
       ]
      ]
     },
@@ -2967,6 +2979,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-20 06:00",
        471.04
+      ],
+      [
+       "2026-06-20 07:00",
+       468.54
       ]
      ]
     }
@@ -3483,6 +3499,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-20 07:15",
+     9688.43
+    ],
+    [
+     "2026-06-20 08:15",
      9688.43
     ]
    ],
@@ -5334,6 +5354,10 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-20 07:15",
      10112.56
+    ],
+    [
+     "2026-06-20 08:15",
+     10112.56
     ]
    ],
    "positions": [
@@ -6609,6 +6633,10 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-20 07:15",
      9835.97
+    ],
+    [
+     "2026-06-20 08:15",
+     9835.97
     ]
    ],
    "positions": [
@@ -7064,6 +7092,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-20 06:00",
        0.71889
+      ],
+      [
+       "2026-06-20 07:00",
+       0.71725
       ]
      ]
     },
@@ -7499,6 +7531,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-20 06:00",
        63722.0
+      ],
+      [
+       "2026-06-20 07:00",
+       63617.0
       ]
      ]
     }
@@ -7652,6 +7688,10 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-20 07:15",
      10000.0
+    ],
+    [
+     "2026-06-20 08:15",
+     10000.0
     ]
    ],
    "positions": []
@@ -7682,6 +7722,20 @@ footer .foot-mark b{ color:var(--amber); }
   }
  ],
  "decisions": [
+  {
+   "ts": "2026-06-20 08:18",
+   "symbol": "ZEC/USD",
+   "direction": "long",
+   "account": "agents-v1",
+   "risk_verdict": "reduce",
+   "risk_notes": "Tre obiezioni concrete, non retoriche. (1) LIQUIDITÀ × LEVA: ZEC ha book depth sottile rispetto a BTC/ETH; 2x leverage su un asset con spread variabile aumenta il rischio di slippage al trigger dello stop — il -4.5% nominale può diventare -5.5%/-6% reale in condizioni di sell pressione rapida; la leva andrebbe portata a 1.5x o la size ridotta ulteriormente. (2) TIMING COMPRESSION: il +13% 7d non è",
+   "thesis": "ZEC è l'unico asset in regime bull sul basket con vol_compression=1 e funding=-1.6% APR: il carry positivo remunera l'attesa dello squeeze mentre il regime-filter lo distingue nettamente dal chop degli altri quattro asset. Nessun lux_confluence è aligned sull'intero basket — assenza di edge top-conviction — quindi la size è dimezzata rispetto a un setup standard e il time_stop forza l'uscita entro 24h per evitare holding prolungato in macro hawkish. La lesson 'crowding-exhaustion post-rally esteso' è esplicitamente riconosciuta: il +13% 7d stringe la finestra di timing favorevole, ma il vol_compression=1 segnala accumulo attivo e non esaurimento, e il funding negativo indica che i short restano aperti come carburante residuo per lo squeeze. Si procede long perché la triade quantitativa (bull regime + compressione + carry) costituisce un edge strutturale verificabile, con size e stop calibrati sul caso avverso.",
+   "invalidation": "Chiusura sotto il supporto del range di compressione (~$450, circa -3.9% da entry); funding che vira positivo o neutro (segnala chiusura dei short senza replacement, il carburante si esaurisce); oppure regime-flip bearish su BTC o ETH che trasmette sell pressure sistemica e travolge l'outlier ZEC.",
+   "outcome": {
+    "closed": false
+   },
+   "size_multiplier": 0.6
+  },
   {
    "ts": "2026-06-20 07:18",
    "symbol": "ZEC",
@@ -9825,7 +9879,7 @@ footer .foot-mark b{ color:var(--amber); }
   {
    "symbol": "BTC",
    "signals": {
-    "tsmom": 0,
+    "tsmom": -1,
     "liq_imbalance": 1,
     "kronos_forecast": 0,
     "smart_money_ratio": 0,
