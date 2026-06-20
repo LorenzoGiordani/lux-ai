@@ -897,3 +897,11 @@
 {"type": "heartbeat", "strategy": "tsmom-liq-v1", "equity": 9833.85, "open_positions": 4, "logged_at": "2026-06-20T17:18:52.187529+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10322.3, "open_positions": 2, "logged_at": "2026-06-20T17:18:53.185021+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10322.3, "open_positions": 2, "logged_at": "2026-06-20T17:18:57.872041+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-v1", "equity": 9680.8, "open_positions": 10, "logged_at": "2026-06-20T18:18:11.916714+00:00"}
+{"type": "close", "strategy": "lux-0.1-beta", "symbol": "WLD", "reason": "stopped", "exit_px": 0.60095097596196, "pnl_usd": -200.8, "equity": 9583.31, "ts": "2026-06-20 17:00:00+00:00", "logged_at": "2026-06-20T18:18:12.511237+00:00"}
+{"type": "heartbeat", "strategy": "lux-0.1-beta", "equity": 9583.31, "open_positions": 1, "logged_at": "2026-06-20T18:18:12.532018+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-conservative-v1", "equity": 10103.83, "open_positions": 10, "logged_at": "2026-06-20T18:18:55.377797+00:00"}
+{"type": "close", "strategy": "tsmom-liq-v1", "symbol": "WLD", "reason": "stopped", "exit_px": 0.60095097596196, "pnl_usd": -60.53, "equity": 9773.32, "ts": "2026-06-20 17:00:00+00:00", "logged_at": "2026-06-20T18:18:55.915244+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-liq-v1", "equity": 9773.32, "open_positions": 3, "logged_at": "2026-06-20T18:18:58.153516+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10322.3, "open_positions": 2, "logged_at": "2026-06-20T18:18:59.835239+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10322.3, "open_positions": 2, "logged_at": "2026-06-20T18:19:15.421662+00:00"}
