@@ -22,12 +22,13 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from backtest.engine import DEFAULT_SLIPPAGE, HL_TAKER_FEE
 from backtest.signals import SIGNALS
 from backtest.strategy import _direction, _eval_rule, load
-from pipeline.live import fetch_live
+from pipeline.live import fetch_live_cached
 
 ROOT = Path(__file__).resolve().parent.parent  # indipendente dal cwd (cron)
 STATE_FILE = ROOT / "paper/state.json"
 JOURNAL = ROOT / "paper/journal.jsonl"
 LOOKBACK_H = 1000  # copre il lookback massimo dei segnali (336+48)
+MAX_PARTICIPATION = 0.005  # size max apribile = 0.5% del volume 24h (gate liquidita per-trade)
 
 
 def log_event(event: dict) -> None:
@@ -82,11 +83,17 @@ def maybe_open(spec: dict, symbol: str, data: dict, equity: float, strategy_id: 
     stop_pct = float(spec["exit"]["stop_pct"]) / 100
     exposure = min(float(spec["risk"]["max_leverage"]),
                    float(spec["risk"]["risk_per_trade_pct"]) / float(spec["exit"]["stop_pct"]))
+    size_usd = round(exposure * equity, 2)
+    # gate liquidita caso-per-caso: la size deve restare sotto una frazione del
+    # volume 24h reale dell'asset, altrimenti il fill non e realistico → skip.
+    vol24h = float((data["candles"].close * data["candles"].volume).tail(24).sum())
+    if vol24h <= 0 or size_usd > MAX_PARTICIPATION * vol24h:
+        return None
     px = last.close * (1 + sign * DEFAULT_SLIPPAGE)
     pos = {
         "strategy": strategy_id, "symbol": symbol,
         "direction": "long" if sign > 0 else "short",
-        "entry_px": px, "size_usd": round(exposure * equity, 2),
+        "entry_px": px, "size_usd": size_usd,
         "stop_px": px * (1 - sign * stop_pct),
         "target_px": px * (1 + sign * stop_pct * float(spec["exit"]["target_r"])),
         "opened_at": str(last.ts), "checked_until": str(last.ts),
@@ -126,7 +133,7 @@ def main() -> None:
     held_outside = [s for s in st["positions"] if s not in symbols]
     for symbol in symbols + held_outside:
         try:
-            data = fetch_live(symbol)
+            data = fetch_live_cached(symbol)
             data["symbol"] = symbol  # serve ai segnali cache-reader (liq/kronos/hmm/smart-money)
             data["news_events"] = news_events
             cot = ROOT / f"data/cot/{symbol}.parquet"

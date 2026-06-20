@@ -8,7 +8,7 @@ thesis: 'Trend confermato dalle liquidazioni reali (Coinalyze): entra solo quand
   positivi. In paper per validazione forward.'
 universe:
   selection: top_liquidity
-  min_day_volume_usd: 1000000   # paper: tutti i perp core HL sopra questa soglia (lista live)
+  min_day_volume_usd: 250000    # floor compute: tutti i perp HL (ogni dex) sopra soglia; il gate liquidita vero e per-trade
   max_assets: 9
   kinds:
   - perp
