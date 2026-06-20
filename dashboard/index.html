@@ -635,7 +635,7 @@ footer .foot-mark b{ color:var(--amber); }
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-20 11:18",
+ "updated_utc": "2026-06-20 12:18",
  "accounts": [
   {
    "id": "agents-v1",
@@ -1653,6 +1653,14 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-20 11:18",
      10322.3
+    ],
+    [
+     "2026-06-20 12:16",
+     10322.3
+    ],
+    [
+     "2026-06-20 12:18",
+     10322.3
     ]
    ],
    "positions": [
@@ -2252,6 +2260,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-20 10:00",
        71.681
+      ],
+      [
+       "2026-06-20 11:00",
+       71.765
       ]
      ]
     },
@@ -2631,6 +2643,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-20 10:00",
        471.26
+      ],
+      [
+       "2026-06-20 11:00",
+       469.81
       ]
      ]
     }
@@ -3163,6 +3179,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-20 11:15",
+     9688.43
+    ],
+    [
+     "2026-06-20 12:15",
      9688.43
     ]
    ],
@@ -5030,6 +5050,10 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-20 11:15",
      10112.56
+    ],
+    [
+     "2026-06-20 12:15",
+     10112.56
     ]
    ],
    "positions": [
@@ -6321,6 +6345,10 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-20 11:15",
      9835.97
+    ],
+    [
+     "2026-06-20 12:16",
+     9835.97
     ]
    ],
    "positions": [
@@ -6792,6 +6820,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-20 10:00",
        0.7203
+      ],
+      [
+       "2026-06-20 11:00",
+       0.71728
       ]
      ]
     },
@@ -7243,6 +7275,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-20 10:00",
        63651.0
+      ],
+      [
+       "2026-06-20 11:00",
+       63658.0
       ]
      ]
     }
@@ -7411,6 +7447,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-20 11:15",
+     9992.8
+    ],
+    [
+     "2026-06-20 12:15",
      9992.8
     ]
    ],
@@ -7719,6 +7759,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-20 10:00",
        2.1425
+      ],
+      [
+       "2026-06-20 11:00",
+       2.1351
       ]
      ]
     },
@@ -8026,6 +8070,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-20 10:00",
        0.2126
+      ],
+      [
+       "2026-06-20 11:00",
+       0.21165
       ]
      ]
     }
@@ -8057,6 +8105,20 @@ footer .foot-mark b{ color:var(--amber); }
   }
  ],
  "decisions": [
+  {
+   "ts": "2026-06-20 12:18",
+   "symbol": "ZEC",
+   "direction": "long",
+   "account": "agents-v1",
+   "account_label": "Agenti LLM",
+   "risk_verdict": "approve",
+   "risk_notes": "",
+   "thesis": "ZEC è l'unico asset del basket con regime primario bull e vol_compression=1: la lezione desk valida esplicitamente questo pattern come setup pre-espansione in contesto direzionale (coiling in direzione del trend, non contro). Nessun asset ha lux_confluence.aligned=true — il trade devia dal filtro standard, motivazione esplicita: lux vote=0 su ZEC è assenza di conferma, non segnale contrario (materialmente diverso da vote=-1), e l'isolamento positivo in un basket capitolato in chop è un regime qualifier autonomo. Funding a 1.37% APR indica che il +13.57% 7d non è trainato da leverage speculativo, lasciando spazio a un secondo leg senza squeeze imminente. Size ridotta a 0.8% (vs 1-1.5% standard) compensa l'assenza di confluenza LUX e il macro hawkish come tail risk sistemico su BTC.",
+   "invalidation": "Chiusura sotto $430 (~8.5% dall'entry corrente $469.81) viola il supporto 7d e invalida il coil bull — stop fisso, nessuna gestione discrezionale. BTC sotto $62k attiva correlazione sistemica che override il regime locale ZEC indipendentemente dal prezzo. Time-stop a 72h: assenza di espansione volumetrica confermata entro lunedì 23 giugno 12:00 UTC chiude il trade in loss o breakeven senza eccezioni.",
+   "outcome": {
+    "closed": false
+   }
+  },
   {
    "ts": "2026-06-20 09:00",
    "symbol": "NEAR",
@@ -10339,7 +10401,7 @@ footer .foot-mark b{ color:var(--amber); }
     "liq_imbalance": 1,
     "kronos_forecast": 1,
     "smart_money_ratio": 0,
-    "oi_trend": 0
+    "oi_trend": -1
    },
    "aligned": false,
    "direction": "—"
@@ -10347,7 +10409,7 @@ footer .foot-mark b{ color:var(--amber); }
   {
    "symbol": "XRP",
    "signals": {
-    "tsmom": 0,
+    "tsmom": -1,
     "liq_imbalance": 1,
     "kronos_forecast": 0,
     "smart_money_ratio": 0,
