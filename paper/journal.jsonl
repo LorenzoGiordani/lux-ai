@@ -1017,3 +1017,11 @@
 {"type": "heartbeat", "strategy": "tsmom-liq-v1", "equity": 9710.64, "open_positions": 4, "logged_at": "2026-06-21T11:18:37.830192+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10357.38, "open_positions": 1, "logged_at": "2026-06-21T11:18:39.035175+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10357.38, "open_positions": 1, "logged_at": "2026-06-21T11:18:46.866297+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-v1", "equity": 9581.3, "open_positions": 10, "logged_at": "2026-06-21T12:16:54.049802+00:00"}
+{"type": "heartbeat", "strategy": "lux-0.1-beta", "equity": 9572.97, "open_positions": 4, "logged_at": "2026-06-21T12:16:54.682760+00:00"}
+{"type": "close", "strategy": "tsmom-conservative-v1", "symbol": "xyz:CL", "reason": "stopped", "exit_px": 79.32577182696899, "pnl_usd": -62.25, "equity": 9913.91, "ts": "2026-06-21 11:00:00+00:00", "logged_at": "2026-06-21T12:16:55.211837+00:00"}
+{"type": "open", "strategy": "tsmom-conservative-v1", "symbol": "NEAR", "direction": "long", "entry_px": 2.2369472999999997, "size_usd": 2379.34, "stop_px": 2.1810236174999997, "target_px": 2.4047183475, "opened_at": "2026-06-21 11:00:00+00:00", "checked_until": "2026-06-21 11:00:00+00:00", "thesis": "tsmom \u2192 follow:tsmom", "signals_last": {"tsmom": 1}, "logged_at": "2026-06-21T12:16:55.223038+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-conservative-v1", "equity": 9912.84, "open_positions": 10, "logged_at": "2026-06-21T12:17:41.461240+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-liq-v1", "equity": 9710.64, "open_positions": 4, "logged_at": "2026-06-21T12:17:50.778004+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10357.38, "open_positions": 1, "logged_at": "2026-06-21T12:17:51.572814+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10357.38, "open_positions": 1, "logged_at": "2026-06-21T12:18:00.752625+00:00"}

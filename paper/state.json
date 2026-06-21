@@ -15,7 +15,7 @@
     "stop_px": 475.04557187999995,
     "target_px": 399.356492724,
     "opened_at": "2026-06-21 08:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00",
+    "checked_until": "2026-06-21 11:00:00+00:00",
     "time_stop_h": 36,
     "thesis": "ZEC \u00e8 l'unico asset del basket con volume_surge + vol_compression simultanei: la sola struttura lesson-validated (\u221212.5% in 36h, thesis_right) disponibile in un regime di chop universale senza lux_confluence attivo. Il +6.78% settimanale privo di catalizzatore fondamentale accoppiato a funding positivo (1.37% APR \u2014 longs che pagano, posizionamento affollato) e a un pullback del 3% su volume surge \u00e8 firma classica di distribuzione con longs intrappolati. Nessun lux_confluence.aligned=true esiste sul basket: il trade non ha edge primario di sistema e per questo il sizing \u00e8 ridotto a 0.5% di rischio \u2014 si scommette esclusivamente sulla ripetibilit\u00e0 del pattern strutturale, non su confluenza multi-segnale. Il time_stop a 36h riflette la finestra storica della risoluzione lesson.",
     "invalidation": "ZEC chiude sopra $465 con volume in contrazione (assenza di pressione distributiva), oppure emerge un catalizzatore fondamentale identificabile (upgrade protocollo, listing tier-1, notizia su privacy-regulation) che giustifica retroattivamente il pump settimanale; in entrambi i casi la tesi di distribuzione decade e si esce a mercato senza attendere lo stop fisico a $475.",
@@ -36,7 +36,7 @@
     "stop_px": 84.02558898144531,
     "target_px": 71.09857529199219,
     "opened_at": "2026-06-15 00:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "xyz_BRENTOIL": {
     "strategy": "tsmom-v1",
@@ -47,7 +47,7 @@
     "stop_px": 87.1033723494873,
     "target_px": 73.70285352648926,
     "opened_at": "2026-06-15 00:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "xyz_SILVER": {
     "strategy": "tsmom-v1",
@@ -58,7 +58,7 @@
     "stop_px": 73.9344136505127,
     "target_px": 62.559888473510746,
     "opened_at": "2026-06-15 13:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "BTC": {
     "strategy": "tsmom-v1",
@@ -69,7 +69,7 @@
     "stop_px": 66473.90256,
     "target_px": 56247.14832,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "xyz:CL": {
     "strategy": "tsmom-v1",
@@ -80,7 +80,7 @@
     "stop_px": 80.47054267200001,
     "target_px": 68.090459184,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "xyz:XYZ100": {
     "strategy": "tsmom-v1",
@@ -91,7 +91,7 @@
     "stop_px": 29140.867008,
     "target_px": 33997.678176,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "xyz:SP500": {
     "strategy": "tsmom-v1",
@@ -102,7 +102,7 @@
     "stop_px": 7192.318176,
     "target_px": 8391.037872,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "xyz:BRENTOIL": {
     "strategy": "tsmom-v1",
@@ -113,7 +113,7 @@
     "stop_px": 84.065103616,
     "target_px": 71.132010752,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "xyz:SKHX": {
     "strategy": "tsmom-v1",
@@ -124,7 +124,7 @@
     "stop_px": 1815.6270528,
     "target_px": 2118.2315616,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "HYPE": {
     "strategy": "tsmom-v1",
@@ -135,12 +135,12 @@
     "stop_px": 64.960829568,
     "target_px": 75.787634496,
     "opened_at": "2026-06-21 08:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    }
   }
  },
  "tsmom-conservative-v1": {
-  "equity": 9976.158001250004,
+  "equity": 9912.835697300005,
   "positions": {
    "xyz_GOLD": {
     "strategy": "tsmom-conservative-v1",
@@ -151,7 +151,7 @@
     "stop_px": 4457.3458525,
     "target_px": 4022.4828425000005,
     "opened_at": "2026-06-15 04:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "xyz_BRENTOIL": {
     "strategy": "tsmom-conservative-v1",
@@ -162,7 +162,7 @@
     "stop_px": 83.89996946468352,
     "target_px": 75.71460659008027,
     "opened_at": "2026-06-16 07:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "BTC": {
     "strategy": "tsmom-conservative-v1",
@@ -173,18 +173,7 @@
     "stop_px": 65515.144349999995,
     "target_px": 59123.42295,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
-   },
-   "xyz:CL": {
-    "strategy": "tsmom-conservative-v1",
-    "symbol": "xyz:CL",
-    "direction": "short",
-    "entry_px": 77.3755218,
-    "size_usd": 2426.49,
-    "stop_px": 79.30990984499999,
-    "target_px": 71.572357665,
-    "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "xyz:XYZ100": {
     "strategy": "tsmom-conservative-v1",
@@ -195,7 +184,7 @@
     "stop_px": 29596.193055,
     "target_px": 32631.700035,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "xyz:SP500": {
     "strategy": "tsmom-conservative-v1",
@@ -206,7 +195,7 @@
     "stop_px": 7304.698147499999,
     "target_px": 8053.897957499999,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "xyz:BRENTOIL": {
     "strategy": "tsmom-conservative-v1",
@@ -217,7 +206,7 @@
     "stop_px": 82.85262616,
     "target_px": 74.76944312,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "xyz:SKHX": {
     "strategy": "tsmom-conservative-v1",
@@ -228,7 +217,7 @@
     "stop_px": 1843.9962255,
     "target_px": 2033.1240435,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "WLD": {
     "strategy": "tsmom-conservative-v1",
@@ -239,7 +228,7 @@
     "stop_px": 0.5873404446,
     "target_px": 0.6475804902,
     "opened_at": "2026-06-21 02:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "HYPE": {
     "strategy": "tsmom-conservative-v1",
@@ -250,7 +239,18 @@
     "stop_px": 65.97584253,
     "target_px": 72.74259561,
     "opened_at": "2026-06-21 08:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
+   },
+   "NEAR": {
+    "strategy": "tsmom-conservative-v1",
+    "symbol": "NEAR",
+    "direction": "long",
+    "entry_px": 2.2369472999999997,
+    "size_usd": 2379.34,
+    "stop_px": 2.1810236174999997,
+    "target_px": 2.4047183475,
+    "opened_at": "2026-06-21 11:00:00+00:00",
+    "checked_until": "2026-06-21 11:00:00+00:00"
    }
   }
  },
@@ -266,7 +266,7 @@
     "stop_px": 0.7351264452999999,
     "target_px": 0.6634067921,
     "opened_at": "2026-06-18 16:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "CRV": {
     "strategy": "tsmom-liq-v1",
@@ -277,7 +277,7 @@
     "stop_px": 0.21829158294999998,
     "target_px": 0.19699484315000002,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "NEAR": {
     "strategy": "tsmom-liq-v1",
@@ -288,7 +288,7 @@
     "stop_px": 2.156546223,
     "target_px": 2.3777304509999997,
     "opened_at": "2026-06-21 00:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "XRP": {
     "strategy": "tsmom-liq-v1",
@@ -299,7 +299,7 @@
     "stop_px": 1.1767720985,
     "target_px": 1.0619650645,
     "opened_at": "2026-06-21 00:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    }
   }
  },
@@ -315,7 +315,7 @@
     "stop_px": 0.21911141894999997,
     "target_px": 0.19773469515,
     "opened_at": "2026-06-20 09:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "NEAR": {
     "strategy": "lux-0.1-beta",
@@ -326,7 +326,7 @@
     "stop_px": 2.156546223,
     "target_px": 2.3777304509999997,
     "opened_at": "2026-06-21 00:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "WLD": {
     "strategy": "lux-0.1-beta",
@@ -337,7 +337,7 @@
     "stop_px": 0.5906561076,
     "target_px": 0.6512362211999999,
     "opened_at": "2026-06-21 00:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    },
    "SUI": {
     "strategy": "lux-0.1-beta",
@@ -348,7 +348,7 @@
     "stop_px": 0.72361799745,
     "target_px": 0.6530211196500001,
     "opened_at": "2026-06-21 05:00:00+00:00",
-    "checked_until": "2026-06-21 10:00:00+00:00"
+    "checked_until": "2026-06-21 11:00:00+00:00"
    }
   }
  },
