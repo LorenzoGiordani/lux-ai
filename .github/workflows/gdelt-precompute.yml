@@ -1,0 +1,44 @@
+name: gdelt-precompute
+
+# Rigenera la cache eventi GDELT (data/news/gdelt_events.parquet) letta dal desk
+# geopolitics-v1 come fallback quando il fetch live degrada su 429. Spostare il
+# fetch GDELT FUORI dall'hourly paper-run: GDELT ha rate limit aggressivo (1 req/5s,
+# 429 cronici) e il fetch sul percorso caldo lasciava il gate geo chiuso e la cache
+# stantia. Qui gira da solo con pacing/backoff e committa il parquet fresco.
+# Trigger via Cloudflare Worker (lux-paper-cron) come gli altri precompute — lo
+# scheduler nativo GitHub salta le run sui repo privati.
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: gdelt-precompute
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  precompute:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+
+      # finestra corta (2 mesi) + niente articoli: refresh veloce dei burst recenti,
+      # meno chiamate = meno 429. Lo storico lungo resta dal fetch iniziale committato.
+      - name: refresh eventi GDELT
+        run: uv run scripts/fetch_gdelt.py --months 2 --skip-articles
+
+      - name: publish cache
+        run: |
+          git config user.name "lux-ai-cron"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/news/gdelt_events.parquet data/news/gdelt_timeline.parquet
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: gdelt precompute $(date -u '+%Y-%m-%d %H:%M') UTC [actions]"
+            for i in 1 2 3; do
+              git pull --rebase -X theirs origin main && git push origin main && break
+              sleep 5
+            done
+          fi
