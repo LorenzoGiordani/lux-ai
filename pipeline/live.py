@@ -55,8 +55,9 @@ def perp_universe(min_vol_usd: float = 250_000) -> list[tuple[str, float]]:
     return rows
 
 
-def all_perp_symbols(min_vol_usd: float = 250_000) -> str:
-    """Perp di tutti i dex sopra soglia come stringa CSV pronta per paper_trade."""
+def all_perp_symbols(min_vol_usd: float = 1_000_000) -> str:
+    """Perp di tutti i dex sopra soglia come stringa CSV pronta per paper_trade.
+    Floor 1M$/24h = coerente con fetch_universe (sotto, troppo illiquido per noi)."""
     return ",".join(s for s, _ in perp_universe(min_vol_usd))
 
 

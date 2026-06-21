@@ -20,6 +20,8 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from backtest.engine import DEFAULT_SLIPPAGE, HL_TAKER_FEE
+from backtest.risk import (atr_pct, effective_stop_pct, exposure_for, open_levels,
+                           resolve_exit, step_exit)
 from backtest.signals import SIGNALS
 from backtest.strategy import _direction, _eval_rule, load
 from pipeline.live import fetch_live_cached
@@ -37,37 +39,64 @@ def log_event(event: dict) -> None:
         f.write(json.dumps(event, default=str) + "\n")
 
 
+def _book_fill(pos: dict, frac: float, px: float, reason: str, equity: float) -> float:
+    """Registra un fill (parziale o totale) su pos: PnL, log, riduce remaining."""
+    sign = pos["sign"]
+    pnl = pos["size_usd"] * frac * (px / pos["entry_px"] - 1) * sign - pos["size_usd"] * frac * HL_TAKER_FEE
+    equity += pnl
+    pos["remaining"] -= frac
+    log_event({"type": "close", "strategy": pos["strategy"], "symbol": pos["symbol"],
+               "reason": reason, "exit_px": px, "frac": round(frac, 4),
+               "remaining": round(pos["remaining"], 4), "pnl_usd": round(pnl, 2),
+               "equity": round(equity, 2), "ts": pos.get("_last_ts")})
+    tag = "PARTIAL" if pos["remaining"] > 1e-9 and reason == "partial" else "CLOSE"
+    print(f"  {tag} {pos['symbol']} {pos['direction']} → {reason}, frac {frac:.2f}, pnl {pnl:+.2f}$")
+    return equity
+
+
 def update_position(pos: dict, candles: pd.DataFrame, time_stop_h: int, equity: float,
                     forming=None) -> tuple[dict | None, float]:
-    """Controlla stop/target/time-stop sulle candele chiuse dall'ultimo check.
-    `forming` (barra in corso) viene valutata anche lei per far scattare stop/target
-    INTRABAR come un vero ordine exchange, ma NON avanza checked_until: alla sua
-    chiusura sarà rivalutata completa (l'high/low parziale non sovrascrive il finale)."""
+    """Gestisce stop/partial-TP/target/trailing (via risk.step_exit) + time-stop sulle
+    candele chiuse dall'ultimo check. `forming` (barra in corso) attiva solo le uscite
+    PROTETTIVE sul residuo (stop/target pieno), come un ordine exchange intrabar: niente
+    partial/trailing persistiti finché la barra non chiude (no doppio conteggio)."""
+    if "sign" not in pos:  # posizione aperta col vecchio schema (pre ATR/partial)
+        pos["sign"] = 1 if pos["direction"] == "long" else -1
+        pos.setdefault("remaining", 1.0)
+        pos.setdefault("partial_done", False)
+        pos.setdefault("hi_water", pos["entry_px"])
+        pos.setdefault("tp1_px", None)
+        pos.setdefault("tp1_frac", 0.0)
+        pos.setdefault("trail_dist", None)
     new = candles[candles.ts > pd.Timestamp(pos["checked_until"])]
-    sign = 1 if pos["direction"] == "long" else -1
-    bars = [row for _, row in new.iterrows()]
-    if forming is not None:
-        bars.append(forming)
-    for row in bars:
-        hit_stop = (row.low <= pos["stop_px"]) if sign > 0 else (row.high >= pos["stop_px"])
-        hit_target = (row.high >= pos["target_px"]) if sign > 0 else (row.low <= pos["target_px"])
-        expired = (row.ts - pd.Timestamp(pos["opened_at"])) >= timedelta(hours=time_stop_h)
-        reason, px = None, None
-        if hit_stop:  # conservativo: stop prima del target nella stessa candela
-            reason, px = "stopped", pos["stop_px"] * (1 - sign * DEFAULT_SLIPPAGE)
-        elif hit_target:
-            reason, px = "target", pos["target_px"] * (1 - sign * DEFAULT_SLIPPAGE)
-        elif expired:
-            reason, px = "time_stop", row.close * (1 - sign * DEFAULT_SLIPPAGE)
-        if reason:
-            pnl = pos["size_usd"] * (px / pos["entry_px"] - 1) * sign - pos["size_usd"] * HL_TAKER_FEE
-            equity += pnl
-            log_event({"type": "close", "strategy": pos["strategy"], "symbol": pos["symbol"],
-                       "reason": reason, "exit_px": px, "pnl_usd": round(pnl, 2),
-                       "equity": round(equity, 2), "ts": row.ts})
-            print(f"  CLOSE {pos['symbol']} {pos['direction']} → {reason}, pnl {pnl:+.2f}$")
+    sign = pos["sign"]
+    for _, row in new.iterrows():
+        pos["_last_ts"] = row.ts
+        for frac, px, reason in step_exit(pos, row.high, row.low, DEFAULT_SLIPPAGE):
+            equity = _book_fill(pos, frac, px, reason, equity)
+        if pos["remaining"] <= 1e-9:
+            return None, equity
+        if (row.ts - pd.Timestamp(pos["opened_at"])) >= timedelta(hours=time_stop_h):
+            equity = _book_fill(pos, pos["remaining"], row.close * (1 - sign * DEFAULT_SLIPPAGE),
+                                "time_stop", equity)
             return None, equity
     pos["checked_until"] = str(candles.ts.iloc[-1])
+
+    if forming is not None:  # protezione intrabar sul residuo, senza mutare lo stato
+        f = forming
+        hit_stop = (f.low <= pos["stop_px"]) if sign > 0 else (f.high >= pos["stop_px"])
+        hit_t = pos["target_px"] is not None and (
+            (f.high >= pos["target_px"]) if sign > 0 else (f.low <= pos["target_px"]))
+        if hit_stop:
+            pos["_last_ts"] = f.ts
+            equity = _book_fill(pos, pos["remaining"], pos["stop_px"] * (1 - sign * DEFAULT_SLIPPAGE),
+                                "trail_stop" if pos["partial_done"] else "stopped", equity)
+            return None, equity
+        if hit_t:
+            pos["_last_ts"] = f.ts
+            equity = _book_fill(pos, pos["remaining"], pos["target_px"] * (1 - sign * DEFAULT_SLIPPAGE),
+                                "target", equity)
+            return None, equity
     return pos, equity
 
 
@@ -80,9 +109,11 @@ def maybe_open(spec: dict, symbol: str, data: dict, equity: float, strategy_id: 
         return None
     last = data["candles"].iloc[-1]
     sign = 1 if direction > 0 else -1
-    stop_pct = float(spec["exit"]["stop_pct"]) / 100
-    exposure = min(float(spec["risk"]["max_leverage"]),
-                   float(spec["risk"]["risk_per_trade_pct"]) / float(spec["exit"]["stop_pct"]))
+    # rischio per asset-class + stop ATR-adattivo + sizing vol-target (risk.py)
+    merged = resolve_exit(spec, symbol)
+    atrp = float(atr_pct(data["candles"], int(merged["atr_period"])).iloc[-1])
+    stop_pct_eff = effective_stop_pct(merged, atrp)
+    exposure = exposure_for(merged, spec["risk"]["risk_per_trade_pct"], stop_pct_eff)
     size_usd = round(exposure * equity, 2)
     # gate liquidita caso-per-caso: la size deve restare sotto una frazione del
     # volume 24h reale dell'asset, altrimenti il fill non e realistico → skip.
@@ -90,19 +121,15 @@ def maybe_open(spec: dict, symbol: str, data: dict, equity: float, strategy_id: 
     if vol24h <= 0 or size_usd > MAX_PARTICIPATION * vol24h:
         return None
     px = last.close * (1 + sign * DEFAULT_SLIPPAGE)
-    pos = {
-        "strategy": strategy_id, "symbol": symbol,
-        "direction": "long" if sign > 0 else "short",
-        "entry_px": px, "size_usd": size_usd,
-        "stop_px": px * (1 - sign * stop_pct),
-        "target_px": px * (1 + sign * stop_pct * float(spec["exit"]["target_r"])),
-        "opened_at": str(last.ts), "checked_until": str(last.ts),
-    }
-    log_event({"type": "open", **pos,
+    pos = {**open_levels(merged, px, sign, stop_pct_eff, atrp),
+           "strategy": strategy_id, "symbol": symbol,
+           "direction": "long" if sign > 0 else "short", "size_usd": size_usd,
+           "opened_at": str(last.ts), "checked_until": str(last.ts)}
+    log_event({"type": "open", **pos, "stop_pct_eff": round(stop_pct_eff, 3), "atr_pct": round(atrp, 4),
                "thesis": f"{spec['entry']['rule']} → {spec['entry']['direction']}",
                "signals_last": {c: int(sigs[c].iloc[-1]) for c in sigs.columns}})
-    print(f"  OPEN {symbol} {pos['direction']} @ {px:.4g}, size {pos['size_usd']}$, "
-          f"stop {pos['stop_px']:.4g}, target {pos['target_px']:.4g}")
+    print(f"  OPEN {symbol} {pos['direction']} @ {px:.4g}, size {size_usd}$ (lev {exposure:.2f}, "
+          f"stop {stop_pct_eff:.2f}% ATR), target {pos['target_px']:.4g}")
     return pos
 
 
@@ -144,7 +171,8 @@ def main() -> None:
         pos = st["positions"].get(symbol)
         closed_this_run = False
         if pos:
-            pos, st["equity"] = update_position(pos, data["candles"], spec["exit"]["time_stop_h"],
+            time_stop_h = int(resolve_exit(spec, symbol)["time_stop_h"])
+            pos, st["equity"] = update_position(pos, data["candles"], time_stop_h,
                                                 st["equity"], data.get("forming"))
             if pos:
                 st["positions"][symbol] = pos

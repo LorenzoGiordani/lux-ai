@@ -19,3 +19,8 @@ logs/
 # cache regime HMM (regenerabile via precompute_hmm.py)
 data/hmm/
 paper/executor.jsonl
+
+# skill bundle locali (dev tooling: impeccable, review-animations) — non runtime
+.agents/
+.github/skills/
+skills-lock.json

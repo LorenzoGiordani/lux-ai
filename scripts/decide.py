@@ -23,6 +23,7 @@ import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
+from backtest.risk import atr_pct
 from backtest.signals import SIGNALS
 from backtest.walkforward import regimes
 from pipeline.live import fetch_live, news_headlines, open_interest_24h
@@ -33,6 +34,7 @@ HARD_LIMITS = {
     "max_leverage": 2.0,
     "max_risk_per_trade_pct": 1.0,
     "stop_pct_range": (0.5, 8.0),
+    "min_stop_atr_mult": 1.0,   # lo stop deve stare FUORI dal rumore: >= 1*ATR% dell'asset
     "max_concurrent_positions": 3,
 }
 
@@ -60,7 +62,11 @@ ROLES = {
         "journal (post-mortem di trade passati): rispettale o motiva esplicitamente perché non si applicano. "
         "Favorisci i setup con `lux_confluence.aligned`=true (edge validato, top-conviction) e allinea la "
         "direction alla sua; se vai contro la confluenza LUX, motivalo esplicitamente nella tesi. "
-        "Decidi: UN trade o nessuno (nessun trade è una decisione rispettabile). Rispondi SOLO con JSON: "
+        "Decidi: UN trade o nessuno (nessun trade è una decisione rispettabile). "
+        "STOP: deve stare FUORI dal rumore — usa stop_pct >= `atr_pct` dell'asset (nel contesto) e "
+        "mai più stretto dell'invalidazione della tesi. Stop dentro 1 ATR = noise-stop garantito "
+        "(lezioni execution_issue ricorrenti). TIME_STOP: coerente con l'orizzonte della tesi — se i "
+        "catalizzatori maturano in giorni (macro/rotazione), usa >=72h, non 24h. Rispondi SOLO con JSON: "
         '{"action": "trade"|"no_trade", "symbol": str, "direction": "long"|"short", '
         '"leverage": float, "risk_pct": float, "stop_pct": float, "target_r": float, '
         '"time_stop_h": int, "thesis": str (3-4 frasi, falsificabile), "invalidation": str (cosa la smentisce)}'
@@ -129,6 +135,7 @@ def build_context(symbols: list[str]) -> dict:
                  if d["flow"] is not None else 0.5)  # fallback HL: niente flow → neutro
         assets[s] = {
             "price": float(c.close.iloc[-1]),
+            "atr_pct": round(float(atr_pct(c).iloc[-1]) * 100, 2),   # rumore tipico → stop floor
             "chg_24h": float(c.close.iloc[-1] / c.close.iloc[-25] - 1),
             "chg_7d": float(c.close.iloc[-1] / c.close.iloc[-169] - 1),
             "funding_8h": float(fr),
@@ -158,7 +165,7 @@ def recall_lessons(symbols: list[str], k: int = 10) -> list[dict]:
              "lesson": r.get("lesson"), "tags": r.get("tags", [])} for r in rows[:k]]
 
 
-def hard_check(p: dict, open_positions: int = 0) -> list[str]:
+def hard_check(p: dict, open_positions: int = 0, atr_by_symbol: dict | None = None) -> list[str]:
     """Strato 1: limiti deterministici. Una violazione = veto, l'LLM non può discutere."""
     errs = []
     if p.get("action") == "no_trade":
@@ -168,8 +175,16 @@ def hard_check(p: dict, open_positions: int = 0) -> list[str]:
     if float(p.get("risk_pct", 99)) > HARD_LIMITS["max_risk_per_trade_pct"]:
         errs.append(f"risk_pct {p.get('risk_pct')} > max {HARD_LIMITS['max_risk_per_trade_pct']}")
     lo, hi = HARD_LIMITS["stop_pct_range"]
-    if not (lo <= float(p.get("stop_pct", 0)) <= hi):
+    stop = float(p.get("stop_pct", 0))
+    if not (lo <= stop <= hi):
         errs.append(f"stop_pct {p.get('stop_pct')} fuori range [{lo},{hi}] (stop obbligatorio)")
+    # stop dentro il rumore (< 1 ATR) = noise-stop: causa #1 degli execution_issue
+    atrp = (atr_by_symbol or {}).get(p.get("symbol"))
+    if atrp and atrp > 0:
+        floor = HARD_LIMITS["min_stop_atr_mult"] * atrp
+        if stop < floor:
+            errs.append(f"stop_pct {stop} < {HARD_LIMITS['min_stop_atr_mult']}*ATR ({floor:.2f}%): "
+                        f"dentro il rumore, noise-stop")
     if open_positions >= HARD_LIMITS["max_concurrent_positions"]:
         errs.append("max posizioni concorrenti raggiunto")
     if p.get("direction") not in ("long", "short"):
@@ -219,7 +234,8 @@ def main() -> None:
     bull = _ask(f"{ROLES['bull']}\n\nBRIEF:\n{brief}")
     bear = _ask(f"{ROLES['bear']}\n\nBRIEF:\n{brief}")
     proposal = _ask(f"{ROLES['strategist']}\n\nBRIEF:\n{brief}\n\nBULL:\n{bull}\n\nBEAR:\n{bear}", as_json=True)
-    errs = hard_check(proposal)
+    atr_by_symbol = {s: a["atr_pct"] for s, a in ctx["assets"].items()}
+    errs = hard_check(proposal, atr_by_symbol=atr_by_symbol)
     if errs:
         log_decision({"stage": "final", "proposal": proposal, "verdict": "hard_veto", "violations": errs})
         print(f"HARD VETO: {errs}")

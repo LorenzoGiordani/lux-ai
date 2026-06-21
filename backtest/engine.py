@@ -15,18 +15,11 @@ from dataclasses import dataclass, field
 import numpy as np
 import pandas as pd
 
+from backtest.risk import open_levels, step_exit
+
 HL_TAKER_FEE = 0.00045          # tier base Hyperliquid
 DEFAULT_SLIPPAGE = 0.0002       # 2 bps
 DEFAULT_FUNDING_HOURLY = 0.0000125  # ≈0.01%/8h, tipico regime neutro
-
-
-@dataclass
-class Position:
-    exposure: float = 0.0   # frazione equity con segno (es. -1.5 = short 1.5x)
-    entry_px: float = 0.0
-    size_usd: float = 0.0   # nozionale assoluto al momento dell'apertura
-    stop_px: float | None = None
-    target_px: float | None = None
 
 
 @dataclass
@@ -42,44 +35,35 @@ class Backtest:
     trades: list = field(default_factory=list)
 
     def run(self, strategy) -> pd.DataFrame:
-        """strategy(history: df ≤ t) -> esposizione target. Ritorna equity curve."""
+        """strategy(history: df ≤ t) -> esposizione target. Ritorna equity curve.
+        Uscita (stop/partial/target/trailing) delegata a backtest.risk.step_exit:
+        unica fonte condivisa col paper engine."""
         df = self.candles.reset_index(drop=True)
         equity = self.start_equity
-        pos = Position()
+        pos = None  # dict da risk.open_levels + {exposure, size_usd}, oppure None
 
         for i in range(1, len(df)):
             row = df.iloc[i]
 
-            # 1. mark-to-market della posizione sulla candela corrente
-            if pos.exposure != 0.0:
+            # 1. gestione posizione sulla candela corrente
+            if pos is not None:
+                sign = pos["sign"]
+                lev = abs(pos["exposure"])
                 # liquidazione approssimata: move avverso > 1/leva dall'entry
-                lev = abs(pos.exposure)
-                liq_px = pos.entry_px * (1 - 1 / lev) if pos.exposure > 0 else pos.entry_px * (1 + 1 / lev)
-                hit_liq = (row.low <= liq_px) if pos.exposure > 0 else (row.high >= liq_px)
-                hit_stop = pos.stop_px is not None and (
-                    (row.low <= pos.stop_px) if pos.exposure > 0 else (row.high >= pos.stop_px))
-                hit_target = pos.target_px is not None and (
-                    (row.high >= pos.target_px) if pos.exposure > 0 else (row.low <= pos.target_px))
-
-                if hit_liq:
-                    equity -= pos.size_usd / lev  # margine della posizione perso
-                    self._log_trade(pos, liq_px, row.ts, "liquidated")
-                    pos = Position()
-                elif hit_stop:  # conservativo: se stop e target nella stessa candela, vince lo stop
-                    px = pos.stop_px * (1 - self.slippage if pos.exposure > 0 else 1 + self.slippage)
-                    equity += pos.size_usd * (px / pos.entry_px - 1) * np.sign(pos.exposure)
-                    equity -= pos.size_usd * self.fee
-                    self._log_trade(pos, px, row.ts, "stopped")
-                    pos = Position()
-                elif hit_target:
-                    px = pos.target_px * (1 - self.slippage if pos.exposure > 0 else 1 + self.slippage)
-                    equity += pos.size_usd * (px / pos.entry_px - 1) * np.sign(pos.exposure)
-                    equity -= pos.size_usd * self.fee
-                    self._log_trade(pos, px, row.ts, "target")
-                    pos = Position()
+                liq_px = pos["entry_px"] * (1 - sign / lev)
+                if (row.low <= liq_px) if sign > 0 else (row.high >= liq_px):
+                    equity -= pos["size_usd"] * pos["remaining"] / lev  # margine residuo perso
+                    self._log_trade(pos, liq_px, pos["remaining"], row.ts, "liquidated")
+                    pos = None
                 else:
-                    # funding sulle ore di posizione aperta (long paga se rate>0)
-                    equity -= pos.size_usd * self.funding_hourly * np.sign(pos.exposure)
+                    for frac, px, reason in step_exit(pos, row.high, row.low, self.slippage):
+                        equity += pos["size_usd"] * frac * (px / pos["entry_px"] - 1) * sign
+                        equity -= pos["size_usd"] * frac * self.fee
+                        self._log_trade(pos, px, frac, row.ts, reason)
+                    if pos["remaining"] <= 1e-9:
+                        pos = None
+                    else:  # funding sul nozionale residuo (long paga se rate>0)
+                        equity -= pos["size_usd"] * pos["remaining"] * self.funding_hourly * sign
 
             if equity <= 0:
                 equity = 0.0
@@ -88,45 +72,42 @@ class Backtest:
 
             # 2. equity mark-to-market per la curva
             mtm = equity
-            if pos.exposure != 0.0:
-                mtm += pos.size_usd * (row.close / pos.entry_px - 1) * np.sign(pos.exposure)
+            if pos is not None:
+                mtm += pos["size_usd"] * pos["remaining"] * (row.close / pos["entry_px"] - 1) * pos["sign"]
             self.equity_curve.append((row.ts, mtm))
 
             # 3. decisione della strategia su dati ≤ t, fill all'open di t+1
             if i + 1 >= len(df):
                 break
             out = strategy(df.iloc[: i + 1])
-            stop_pct = target_r = None
-            if isinstance(out, dict):
-                stop_pct, target_r = out.get("stop_pct"), out.get("target_r")
-                out = out["exposure"]
-            target = float(np.clip(out, -self.max_leverage, self.max_leverage))
-            if target != pos.exposure:
+            stop_pct, atrp, exit_cfg = out.get("stop_pct"), out.get("atr_pct"), out.get("exit_cfg", {})
+            lev_cap = float(exit_cfg.get("max_leverage", self.max_leverage))
+            target = float(np.clip(out["exposure"], -lev_cap, lev_cap))
+            cur_exp = pos["exposure"] if pos is not None else 0.0
+            if target != cur_exp:
                 next_open = df.iloc[i + 1].open
-                # chiudi posizione esistente
-                if pos.exposure != 0.0:
-                    px = next_open * (1 - self.slippage if pos.exposure > 0 else 1 + self.slippage)
-                    equity += pos.size_usd * (px / pos.entry_px - 1) * np.sign(pos.exposure)
-                    equity -= pos.size_usd * self.fee
-                    self._log_trade(pos, px, df.iloc[i + 1].ts, "closed")
-                    pos = Position()
+                # chiudi posizione esistente (residuo)
+                if pos is not None:
+                    px = next_open * (1 - self.slippage if pos["sign"] > 0 else 1 + self.slippage)
+                    equity += pos["size_usd"] * pos["remaining"] * (px / pos["entry_px"] - 1) * pos["sign"]
+                    equity -= pos["size_usd"] * pos["remaining"] * self.fee
+                    self._log_trade(pos, px, pos["remaining"], df.iloc[i + 1].ts, "closed")
+                    pos = None
                 # apri nuova
-                if target != 0.0 and equity > 0:
+                if target != 0.0 and equity > 0 and stop_pct:
+                    sign = 1 if target > 0 else -1
                     px = next_open * (1 + self.slippage if target > 0 else 1 - self.slippage)
                     size = abs(target) * equity
                     equity -= size * self.fee
-                    sign = np.sign(target)
-                    stop_px = px * (1 - sign * stop_pct / 100) if stop_pct else None
-                    target_px = px * (1 + sign * stop_pct / 100 * target_r) if stop_pct and target_r else None
-                    pos = Position(exposure=target, entry_px=px, size_usd=size,
-                                   stop_px=stop_px, target_px=target_px)
+                    pos = open_levels(exit_cfg, px, sign, stop_pct, atrp)
+                    pos["exposure"], pos["size_usd"] = target, size
 
         return pd.DataFrame(self.equity_curve, columns=["ts", "equity"])
 
-    def _log_trade(self, pos: Position, exit_px: float, ts, reason: str) -> None:
-        pnl = pos.size_usd * (exit_px / pos.entry_px - 1) * np.sign(pos.exposure)
+    def _log_trade(self, pos: dict, exit_px: float, frac: float, ts, reason: str) -> None:
+        pnl = pos["size_usd"] * frac * (exit_px / pos["entry_px"] - 1) * pos["sign"]
         if reason == "liquidated":
-            pnl = -pos.size_usd / abs(pos.exposure)
+            pnl = -pos["size_usd"] * frac / abs(pos["exposure"])
         self.trades.append({
-            "ts": ts, "exposure": pos.exposure, "entry_px": pos.entry_px,
-            "exit_px": exit_px, "pnl_usd": pnl, "reason": reason})
+            "ts": ts, "exposure": pos["exposure"], "entry_px": pos["entry_px"],
+            "exit_px": exit_px, "frac": frac, "pnl_usd": pnl, "reason": reason})

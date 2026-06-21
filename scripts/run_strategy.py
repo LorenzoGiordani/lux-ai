@@ -24,7 +24,7 @@ def main() -> None:
     months = int(sys.argv[3]) if len(sys.argv) > 3 else 6
 
     candles = pd.read_parquet(f"data/candles/{symbol}.parquet").tail(months * 30 * 24).reset_index(drop=True)
-    data = {"candles": candles,
+    data = {"candles": candles, "symbol": symbol,
             "funding": read(f"data/funding/{symbol}.parquet"),
             "flow": read(f"data/flow/{symbol}.parquet"),
             "news_events": read("data/news/gdelt_events.parquet"),

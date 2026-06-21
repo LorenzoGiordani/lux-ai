@@ -27,8 +27,10 @@ thesis: >
 
 universe:
   selection: top_liquidity        # filtro su data/universe.csv
+  min_day_volume_usd: 1000000     # floor liquidita (sotto = troppo illiquido, noise-stop)
   max_assets: 10
   kinds: [perp]
+  exclude: []                     # opz — nomi da escludere a mano (segnali senza edge ripetuto). Lista o CSV.
 
 timeframe: 1h
 decision_every_h: 4               # campionamento decisioni (costo LLM nel live)
@@ -47,9 +49,18 @@ entry:
                                   #   Devono essere dichiarati in `signals`. Lista o CSV.
 
 exit:
-  stop_pct: 2.5                   # dall'entry, obbligatorio
-  target_r: 2.0                   # multipli del rischio
+  stop_pct: 2.5                   # fallback se ATR non calcolabile (obbligatorio)
+  stop_atr_mult: 2.5              # opz — stop = k*ATR%: volatility-adaptive. Assente ⇒ stop fisso.
+  atr_period: 14                  # periodo ATR
+  target_r: 2.0                   # multipli del rischio. NB: RR alto (≥3) raramente colpisce il TP
   time_stop_h: 72                 # esci se la tesi non si realizza in tempo
+  partial:                        # opz — scaling out: tp1_frac a tp1_r, BE-stop, traila il resto
+    tp1_r: 1.0
+    tp1_frac: 0.5
+    trail_atr_mult: 3.0
+  by_class:                       # opz — override per asset class (crypto | stock). HIP-3 xyz_* = stock.
+    crypto: {stop_atr_mult: 2.5, target_r: 2.0}                   # alta vol: stop largo
+    stock:  {stop_atr_mult: 1.5, target_r: 1.8, max_leverage: 4}  # bassa vol: stop stretto + leva alta
 
 risk:                             # IMMUTABILE per l'evoluzione
   max_leverage: 2

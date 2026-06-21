@@ -11,7 +11,8 @@ thesis: 'Time-series momentum (Moskowitz-Ooi-Pedersen): il segno del ritorno pas
   '
 universe:
   selection: top_liquidity
-  min_day_volume_usd: 250000    # floor compute: tutti i perp HL (ogni dex) sopra soglia; il gate liquidita vero e per-trade
+  min_day_volume_usd: 1000000   # floor liquidita: sotto 1M$/24h troppo illiquido (noise-stop, no edge)
+  exclude: []                   # nomi da escludere a mano (segnali senza edge ripetuto); cura post-mortem
   max_assets: 12
   kinds:
   - perp

@@ -62,6 +62,19 @@ NB: funding_percentile e taker_flow esistono SOLO per crypto; su oro/petrolio/st
 entry.rule: nomi segnale composti con AND/OR (es. "vol_compression AND taker_flow").
 entry.direction: signal_vote | follow:<segnale> | contrarian:<segnale> | with_breakout | contrarian_funding"""
 
+EXIT_DOC = """Knob di uscita mutabili (blocco `exit`) — esplorali, l'harness misura cosa vince:
+- stop_pct (obbligatorio): stop % fisso, fallback se ATR non calcolabile.
+- stop_atr_mult (opz): stop = k*ATR% → adattivo alla volatilità. Tipico 2-3. Assente ⇒ stop fisso.
+  NB: l'ATR già normalizza la vol fra asset; NON stringere k per asset poco volatili (raddoppia il noise-stop).
+- atr_period (opz, default 14).
+- target_r: multipli del rischio. ATTENZIONE: RR≥3 colpisce raramente il TP; RR 1.5-2 ha hit-rate molto più alto
+  ma su trend lenti (tsmom) un RR alto può rendere di più lasciando correre i winner — verifica, non assumere.
+- time_stop_h: ore max in posizione.
+- partial (opz): {tp1_r, tp1_frac, trail_atr_mult} = scaling out + trailing. Aiuta su strategie veloci/mean-revert;
+  su trend lenti TENDE A FRAMMENTARE i trend pagando fee → spesso peggiora. Usalo con criterio, non di default.
+- by_class (opz): override per asset class {crypto, stock}. HIP-3 xyz_* = stock. Es. leva maggiore su stock low-vol.
+  La sizing è vol-target (exposure=risk%/stop%): stop più stretto ⇒ più leva, fino al cap."""
+
 def ask_claude(prompt: str) -> dict:
     """Headless Claude Code (`claude -p`) — usa il piano Pro, non l'API a consumo."""
     env = {k: v for k, v in os.environ.items() if not k.startswith("ANTHROPIC_")}
@@ -164,6 +177,8 @@ def main() -> None:
     else:
         compact = {s: r["metrics"] for s, r in parent_eval["per_symbol"].items()}
         prompt = f"""{REGISTRY_DOC}
+
+{EXIT_DOC}
 
 PARENT (YAML):
 {Path(parent_path).read_text()}

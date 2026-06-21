@@ -18,6 +18,7 @@ import numpy as np
 import pandas as pd
 import yaml
 
+from backtest.risk import atr_pct, effective_stop_pct, exposure_for, resolve_exit
 from backtest.signals import SIGNALS
 
 
@@ -47,21 +48,27 @@ def compile_strategy(spec: dict, data: dict):
     fire = (active & (direction != 0)).to_numpy()
     dir_arr = direction.to_numpy()
 
-    stop_pct = float(spec["exit"]["stop_pct"])
-    risk = spec["risk"]
-    exposure = min(float(risk["max_leverage"]), float(risk["risk_per_trade_pct"]) / stop_pct)
-    time_stop = int(spec["exit"].get("time_stop_h", 10**9))
-    state = {"dir": 0.0, "opened_i": None}
+    # rischio risolto per asset-class (crypto vs stock) + ATR per stop adattivo
+    merged = resolve_exit(spec, data.get("symbol"))
+    atrp = atr_pct(data["candles"], int(merged["atr_period"])).to_numpy()
+    risk_pct = float(spec["risk"]["risk_per_trade_pct"])
+    target_r = float(merged.get("target_r", 0)) or None
+    time_stop = int(merged["time_stop_h"])
+    # exposure/stop/ATR CONGELATI all'entry: ricalcolarli ad ogni barra (ATR varia)
+    # farebbe driftare l'esposizione target → l'engine chiuderebbe/riaprirebbe ogni
+    # barra (churn da fee). Si rivalutano solo alla prossima apertura.
+    state = {"dir": 0.0, "opened_i": None, "exp": 0.0, "stop_pct": None, "atr": None}
 
     def strat(history: pd.DataFrame):
         i = len(history) - 1
         if state["dir"] != 0.0 and i - state["opened_i"] >= time_stop:
-            state.update(dir=0.0, opened_i=None)
+            state.update(dir=0.0, opened_i=None, exp=0.0)
         if state["dir"] == 0.0 and fire[i]:
-            state.update(dir=float(dir_arr[i]), opened_i=i)
-        return {"exposure": state["dir"] * exposure,
-                "stop_pct": stop_pct,
-                "target_r": float(spec["exit"].get("target_r", 0)) or None}
+            sp = effective_stop_pct(merged, float(atrp[i]))
+            state.update(dir=float(dir_arr[i]), opened_i=i, stop_pct=sp, atr=float(atrp[i]),
+                         exp=float(dir_arr[i]) * exposure_for(merged, risk_pct, sp))
+        return {"exposure": state["exp"], "stop_pct": state["stop_pct"],
+                "target_r": target_r, "atr_pct": state["atr"], "exit_cfg": merged}
 
     return strat, sigs
 
