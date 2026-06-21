@@ -5,6 +5,7 @@
   "observability": { "enabled": true },
   // "10 * * * *" = paper-run completo orario; "*/3 * * * *" = monitor TP/SL real-time
   // (dispatcha paper-exits SOLO se un livello è sfiorato); "30 5 * * *" = precompute
-  // Kronos giornaliero (cache forecast per lux-0.1-beta)
-  "triggers": { "crons": ["10 * * * *", "*/3 * * * *", "30 5 * * *"] }
+  // Kronos giornaliero (cache forecast per lux-0.1-beta); "45 */6 * * *" = refresh
+  // cache eventi GDELT 4x/giorno (desk geopolitics-v1)
+  "triggers": { "crons": ["10 * * * *", "*/3 * * * *", "30 5 * * *", "45 */6 * * *"] }
 }

@@ -12,6 +12,7 @@
 const REPO = "LorenzoGiordani/lux-ai"; // repo rinominato da defi-ai-vault
 const HOURLY_CRON = "10 * * * *";
 const KRONOS_CRON = "30 5 * * *"; // 1x/giorno: rigenera la cache forecast Kronos (lux-0.1-beta)
+const GDELT_CRON = "45 */6 * * *"; // 4x/giorno: rinfresca la cache eventi GDELT (desk geopolitics-v1)
 
 async function dispatch(env, workflow) {
   const res = await fetch(
@@ -83,6 +84,7 @@ export default {
   async scheduled(event, env, ctx) {
     if (event.cron === HOURLY_CRON) ctx.waitUntil(dispatch(env, "paper-run.yml"));
     else if (event.cron === KRONOS_CRON) ctx.waitUntil(dispatch(env, "kronos-precompute.yml"));
+    else if (event.cron === GDELT_CRON) ctx.waitUntil(dispatch(env, "gdelt-precompute.yml"));
     else ctx.waitUntil(monitor(env));
   },
   // GET manuale: ?run forza il paper-run, default = esegue il monitor (utile per test)
