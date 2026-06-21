@@ -28,7 +28,7 @@ jobs:
       # finestra corta (2 mesi) + niente articoli: refresh veloce dei burst recenti,
       # meno chiamate = meno 429. Lo storico lungo resta dal fetch iniziale committato.
       - name: refresh eventi GDELT
-        run: uv run scripts/fetch_gdelt.py --months 2 --skip-articles
+        run: uv run scripts/fetch_gdelt.py --refresh --months 2 --skip-articles
 
       - name: publish cache
         run: |
