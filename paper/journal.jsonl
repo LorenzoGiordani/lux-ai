@@ -1068,3 +1068,5 @@
 {"type": "heartbeat", "strategy": "tsmom-liq-v1", "equity": 9709.59, "open_positions": 5, "logged_at": "2026-06-21T16:16:58.331116+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10357.38, "open_positions": 1, "logged_at": "2026-06-21T16:16:59.066968+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10357.38, "open_positions": 1, "logged_at": "2026-06-21T16:21:36.217454+00:00"}
+{"type": "close", "strategy": "tsmom-liq-v1", "symbol": "NEAR", "reason": "stopped", "exit_px": 2.1561149137554, "frac": 1.0, "remaining": 0.0, "pnl_usd": -60.15, "equity": 9649.44, "ts": "2026-06-21 16:00:00+00:00", "logged_at": "2026-06-21T16:36:40.843218+00:00"}
+{"type": "close", "strategy": "lux-0.1-beta", "symbol": "NEAR", "reason": "stopped", "exit_px": 2.1561149137554, "frac": 1.0, "remaining": 0.0, "pnl_usd": -196.61, "equity": 9942.4, "ts": "2026-06-21 16:00:00+00:00", "logged_at": "2026-06-21T16:36:45.326126+00:00"}
