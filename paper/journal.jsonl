@@ -993,3 +993,4 @@
 {"type": "heartbeat", "strategy": "tsmom-liq-v1", "equity": 9710.64, "open_positions": 4, "logged_at": "2026-06-21T07:17:46.784048+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10345.97, "open_positions": 1, "logged_at": "2026-06-21T07:17:47.519620+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10345.97, "open_positions": 1, "logged_at": "2026-06-21T07:17:55.902749+00:00"}
+{"type": "close", "strategy": "tsmom-conservative-v1", "symbol": "HYPE", "reason": "stopped", "exit_px": 68.96564724137399, "pnl_usd": -62.23, "equity": 9978.31, "ts": "2026-06-21 07:00:00+00:00", "logged_at": "2026-06-21T07:28:14.596369+00:00"}

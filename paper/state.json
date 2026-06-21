@@ -15,7 +15,7 @@
     "stop_px": 67.258959102,
     "target_px": 87.508968294,
     "opened_at": "2026-06-17 08:00:00+00:00",
-    "checked_until": "2026-06-21 05:00:00+00:00",
+    "checked_until": "2026-06-21 06:00:00+00:00",
     "time_stop_h": 96,
     "thesis": "SOL guida il basket a +13.8% 7d in regime bull confermato; il pullback 24h (-4.1%) \u00e8 consolidazione nel trend settimanale intatto, non inversione strutturale. Il funding a +1.14% APR \u00e8 neutro: nessuna euforia, posizionamento non affollato \u2014 condizione che rimuove il headwind derivativo e lascia il momentum spot come driver dominante. La rotazione altcoin gi\u00e0 in atto (Uniswap +22%) valida il beta-play su L1; post-FOMC neutro-dovish il capitale migra esattamente su asset con momentum pulito e leva bassa. ZEC short \u00e8 gi\u00e0 aperto in portafoglio (parziale hedge FOMC); time_stop 96h corregge il mismatch di lesson 31 (tesi 7d \u2192 finestra minima 72-96h), risk_pct 1% applica il gate di rischio pre-annuncio da lesson 5.",
     "invalidation": "Break orario confermato sotto $68 (struttura 7d invalida, -5.9% dall'entry); FOMC hawkish con BTC che cede $62k innescando risk-off indiscriminato sul basket; funding SOL che sale sopra +3% APR nelle prime 48h (euforia/crowding); SOL che sotto-performa il basket su base relativa per 2+ sessioni consecutive post-entry.",
@@ -36,7 +36,7 @@
     "stop_px": 84.02558898144531,
     "target_px": 71.09857529199219,
     "opened_at": "2026-06-15 00:00:00+00:00",
-    "checked_until": "2026-06-21 06:00:00+00:00"
+    "checked_until": "2026-06-19 02:00:00+00:00"
    },
    "xyz_BRENTOIL": {
     "strategy": "tsmom-v1",
@@ -47,7 +47,7 @@
     "stop_px": 87.1033723494873,
     "target_px": 73.70285352648926,
     "opened_at": "2026-06-15 00:00:00+00:00",
-    "checked_until": "2026-06-21 06:00:00+00:00"
+    "checked_until": "2026-06-19 02:00:00+00:00"
    },
    "xyz_SILVER": {
     "strategy": "tsmom-v1",
@@ -58,7 +58,7 @@
     "stop_px": 73.9344136505127,
     "target_px": 62.559888473510746,
     "opened_at": "2026-06-15 13:00:00+00:00",
-    "checked_until": "2026-06-21 06:00:00+00:00"
+    "checked_until": "2026-06-19 02:00:00+00:00"
    },
    "BTC": {
     "strategy": "tsmom-v1",
@@ -140,7 +140,7 @@
   }
  },
  "tsmom-conservative-v1": {
-  "equity": 10040.547208000004,
+  "equity": 9978.313204250004,
   "positions": {
    "xyz_GOLD": {
     "strategy": "tsmom-conservative-v1",
@@ -151,7 +151,7 @@
     "stop_px": 4457.3458525,
     "target_px": 4022.4828425000005,
     "opened_at": "2026-06-15 04:00:00+00:00",
-    "checked_until": "2026-06-21 06:00:00+00:00"
+    "checked_until": "2026-06-19 02:00:00+00:00"
    },
    "xyz_BRENTOIL": {
     "strategy": "tsmom-conservative-v1",
@@ -162,7 +162,7 @@
     "stop_px": 83.89996946468352,
     "target_px": 75.71460659008027,
     "opened_at": "2026-06-16 07:00:00+00:00",
-    "checked_until": "2026-06-21 06:00:00+00:00"
+    "checked_until": "2026-06-19 02:00:00+00:00"
    },
    "BTC": {
     "strategy": "tsmom-conservative-v1",
@@ -172,17 +172,6 @@
     "size_usd": 2427.01,
     "stop_px": 65515.144349999995,
     "target_px": 59123.42295,
-    "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-21 06:00:00+00:00"
-   },
-   "HYPE": {
-    "strategy": "tsmom-conservative-v1",
-    "symbol": "HYPE",
-    "direction": "long",
-    "entry_px": 70.74814679999999,
-    "size_usd": 2426.75,
-    "stop_px": 68.97944312999998,
-    "target_px": 76.05425780999998,
     "opened_at": "2026-06-20 14:00:00+00:00",
     "checked_until": "2026-06-21 06:00:00+00:00"
    },
