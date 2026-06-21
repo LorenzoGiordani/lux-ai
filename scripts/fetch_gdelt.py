@@ -113,6 +113,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--months", type=int, default=12)
     ap.add_argument("--skip-articles", action="store_true")
+    ap.add_argument("--refresh", action="store_true",
+                    help="ri-fetcha le finestre recenti e fondile con lo storico "
+                         "(per il cron: senza, la timeline esistente viene riusata e i burst nuovi non entrano mai)")
     args = ap.parse_args()
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -121,16 +124,30 @@ def main():
           f"{len(TOPICS)*len(windows)*2} richieste a {PACE_S}s", flush=True)
 
     tl_path = OUT_DIR / "gdelt_timeline.parquet"
-    if tl_path.exists():
+    if tl_path.exists() and not args.refresh:
         tl = pd.read_parquet(tl_path)  # riprendi da run interrotto
         print(f"timeline esistente: {len(tl)} righe (riuso)", flush=True)
     else:
         frames = [fetch_timeline(t, q, windows) for t, q in TOPICS.items()]
-        tl = pd.concat([f for f in frames if not f.empty], ignore_index=True)
-        if tl.empty:
-            sys.exit("Nessun dato timeline scaricato")
+        fresh = pd.concat([f for f in frames if not f.empty], ignore_index=True)
+        if args.refresh and tl_path.exists():
+            # cron: rinfresca solo le finestre recenti, preserva lo storico più vecchio.
+            # fetch vuoto (429 totali) → tieni lo storico, non azzerare.
+            old = pd.read_parquet(tl_path)
+            if fresh.empty:
+                tl = old
+                print("refresh: fetch vuoto, riuso storico esistente", flush=True)
+            else:
+                cutoff = fresh["ts"].min()
+                tl = pd.concat([old[old["ts"] < cutoff], fresh], ignore_index=True)
+                tl = tl.drop_duplicates(["ts", "topic"], keep="last").sort_values("ts")
+                print(f"timeline rinfrescata: {len(fresh)} nuove + storico <{cutoff.date()} = {len(tl)} righe", flush=True)
+        else:
+            tl = fresh
+            if tl.empty:
+                sys.exit("Nessun dato timeline scaricato")
+            print(f"timeline: {len(tl)} righe → gdelt_timeline.parquet", flush=True)
         tl.to_parquet(tl_path, index=False)
-        print(f"timeline: {len(tl)} righe → gdelt_timeline.parquet", flush=True)
 
     # ripara topic con vol mancante (run precedenti falliti su quel modo)
     broken = [t for t, g in tl.groupby("topic") if g["vol"].isna().all()]
