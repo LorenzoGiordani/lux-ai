@@ -422,7 +422,7 @@
   }
  },
  "tsmom-liq-v1": {
-  "equity": 9649.435450249997,
+  "equity": 9589.668495499996,
   "positions": {
    "SUI": {
     "strategy": "tsmom-liq-v1",
@@ -480,29 +480,11 @@
     "tp1_frac": 0.0,
     "trail_dist": null,
     "_last_ts": "2026-06-21 15:00:00+00:00"
-   },
-   "WLD": {
-    "sign": 1,
-    "entry_px": 0.642898554,
-    "stop_px": 0.6268260901499999,
-    "target_px": 0.6911159455499999,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 0.642898554,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-liq-v1",
-    "symbol": "WLD",
-    "direction": "long",
-    "size_usd": 2330.55,
-    "opened_at": "2026-06-21 15:00:00+00:00",
-    "checked_until": "2026-06-21 15:00:00+00:00"
    }
   }
  },
  "lux-0.1-beta": {
-  "equity": 9942.400989450003,
+  "equity": 9734.314125600002,
   "positions": {
    "CRV": {
     "strategy": "lux-0.1-beta",
@@ -541,24 +523,6 @@
     "tp1_frac": 0.0,
     "trail_dist": null,
     "_last_ts": "2026-06-21 15:00:00+00:00"
-   },
-   "WLD": {
-    "sign": 1,
-    "entry_px": 0.642898554,
-    "stop_px": 0.6268260901499999,
-    "target_px": 0.6911159455499999,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 0.642898554,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-0.1-beta",
-    "symbol": "WLD",
-    "direction": "long",
-    "size_usd": 8114.13,
-    "opened_at": "2026-06-21 15:00:00+00:00",
-    "checked_until": "2026-06-21 15:00:00+00:00"
    }
   }
  },
