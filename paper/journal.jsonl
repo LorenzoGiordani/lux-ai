@@ -980,3 +980,10 @@
 {"type": "close", "strategy": "agents-v1", "symbol": "ZEC", "reason": "time_stop", "exit_px": 466.65665, "pnl_usd": 23.67, "equity": 10345.97, "ts": "2026-06-21 04:00:00+00:00", "logged_at": "2026-06-21T05:18:41.165593+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10345.97, "open_positions": 1, "logged_at": "2026-06-21T05:18:41.170490+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10345.97, "open_positions": 1, "logged_at": "2026-06-21T05:22:34.598767+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-v1", "equity": 9680.8, "open_positions": 10, "logged_at": "2026-06-21T06:16:59.160273+00:00"}
+{"type": "open", "strategy": "lux-0.1-beta", "symbol": "SUI", "direction": "short", "entry_px": 0.705968778, "size_usd": 7661.13, "stop_px": 0.72361799745, "target_px": 0.6530211196500001, "opened_at": "2026-06-21 05:00:00+00:00", "checked_until": "2026-06-21 05:00:00+00:00", "thesis": "tsmom AND liq_imbalance AND kronos_forecast \u2192 signal_vote", "signals_last": {"tsmom": -1, "liq_imbalance": -1, "kronos_forecast": -1, "smart_money_ratio": 0, "oi_trend": 0, "news_event": 0}, "logged_at": "2026-06-21T06:16:59.722836+00:00"}
+{"type": "heartbeat", "strategy": "lux-0.1-beta", "equity": 9572.97, "open_positions": 4, "logged_at": "2026-06-21T06:16:59.746151+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-conservative-v1", "equity": 10040.55, "open_positions": 10, "logged_at": "2026-06-21T06:17:47.736430+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-liq-v1", "equity": 9710.64, "open_positions": 4, "logged_at": "2026-06-21T06:17:56.424710+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10345.97, "open_positions": 1, "logged_at": "2026-06-21T06:17:57.205301+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10345.97, "open_positions": 1, "logged_at": "2026-06-21T06:22:31.293069+00:00"}
