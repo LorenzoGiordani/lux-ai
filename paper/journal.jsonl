@@ -1216,3 +1216,10 @@
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10357.38, "open_positions": 1, "logged_at": "2026-06-22T07:16:52.295961+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10357.38, "open_positions": 1, "logged_at": "2026-06-22T07:16:56.949494+00:00"}
 {"type": "close", "strategy": "lux-0.1-beta", "symbol": "WLD", "reason": "target", "exit_px": 0.65076197396952, "frac": 1.0, "remaining": 0.0, "pnl_usd": 566.18, "equity": 9888.09, "ts": "2026-06-22 07:00:00+00:00", "logged_at": "2026-06-22T07:21:49.218629+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-v1", "equity": 9384.41, "open_positions": 10, "logged_at": "2026-06-22T08:17:07.327853+00:00"}
+{"type": "open", "sign": 1, "entry_px": 0.639657906, "stop_px": 0.62366645835, "target_px": 0.6876322489500001, "remaining": 1.0, "partial_done": false, "hi_water": 0.639657906, "tp1_px": null, "tp1_frac": 0.0, "trail_dist": null, "strategy": "lux-0.1-beta", "symbol": "WLD", "direction": "long", "size_usd": 7910.47, "opened_at": "2026-06-22 07:00:00+00:00", "checked_until": "2026-06-22 07:00:00+00:00", "stop_pct_eff": 2.5, "atr_pct": 0.0217, "thesis": "tsmom AND liq_imbalance AND kronos_forecast \u2192 signal_vote", "signals_last": {"tsmom": 1, "liq_imbalance": 1, "kronos_forecast": 1, "smart_money_ratio": 0, "oi_trend": -1, "news_event": 0}, "logged_at": "2026-06-22T08:17:07.922227+00:00"}
+{"type": "heartbeat", "strategy": "lux-0.1-beta", "equity": 9884.53, "open_positions": 5, "logged_at": "2026-06-22T08:17:09.785549+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-atr-v1", "equity": 8900.55, "open_positions": 10, "logged_at": "2026-06-22T08:17:49.552667+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-conservative-v1", "equity": 9716.41, "open_positions": 10, "logged_at": "2026-06-22T08:17:50.245302+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10357.38, "open_positions": 1, "logged_at": "2026-06-22T08:17:51.071043+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10357.38, "open_positions": 1, "logged_at": "2026-06-22T08:21:29.587747+00:00"}
