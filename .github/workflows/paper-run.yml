@@ -39,7 +39,9 @@ jobs:
         run: uv run scripts/paper_all.py
 
       - name: executor agenti
-        run: uv run scripts/agents_paper.py
+        run: |
+          uv run scripts/agents_paper.py
+          uv run scripts/agents_paper.py --account agents-rr2-v1 --target-r 2.0 || true   # A/B RR2: stesse decisioni, zero LLM extra
 
       # gira solo se il secret CLAUDE_CODE_OAUTH_TOKEN esiste (token piano Pro)
       - name: pipeline LLM (review + decide)
@@ -49,6 +51,7 @@ jobs:
           uv run scripts/review.py || true
           uv run scripts/decide.py BTC,ETH,SOL,SUI,ZEC || true
           uv run scripts/agents_paper.py || true
+          uv run scripts/agents_paper.py --account agents-rr2-v1 --target-r 2.0 || true   # variante RR2
 
       # EVOLUZIONE SUL CAMPO — promozione/retrocessione AD OGNI RUN (cheap, LLM-free,
       # gate conservativi: no-op finché non ci sono abbastanza trade chiusi).

@@ -1,0 +1,57 @@
+id: liq-cascade-reversal-v1
+parent: null
+status: candidate          # FALSIFICATA: col fix edge_only (entry solo su transizione) il basket 9-asset resta -52%, 0/9 positivi. Fadare il flush perde: il framing FOLLOW (tsmom-liq) e corretto, il fade no. Tenuta come record negativo.
+created: '2026-06-22'
+thesis: >
+  Le cascate di liquidazione sono flusso FORZATO: quando i long vengono liquidati
+  in massa (liq_imbalance estremo ribassista) il prezzo overshoota al ribasso
+  oltre il fair value, poi rimbalza quando il flusso forzato si esaurisce →
+  compra il flush. Specularmente vendi lo squeeze (short liquidati in massa). E il
+  FADE del segnale liq_imbalance — l'opposto di tsmom-liq (che lo SEGUE): testa
+  quale framing dell'unico edge sopravvissuto (liquidazioni reali, flusso forzato)
+  paga di piu. Edge da microstruttura, non da previsione. Solo crypto (dati liq
+  disponibili).
+  Falsificata se: fadare i flush non batte buy&hold risk-adjusted su 6 mesi
+  walk-forward, o se tsmom-liq (follow) lo domina in paper.
+
+universe:
+  selection: explicit
+  exclude: []
+  max_assets: 9
+  kinds: [perp]
+paper_symbols: BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV
+
+timeframe: 1h
+decision_every_h: 4
+
+signals:
+  - name: liq_imbalance
+    params: {lookback_d: 21, extreme_pct: 85, edge_only: true}   # entra solo sulla transizione → no knife-catching
+
+entry:
+  rule: liq_imbalance
+  direction: contrarian:liq_imbalance   # +1 (short liq, squeeze su) → short; -1 (long liq, flush) → long
+
+exit:
+  stop_pct: 3.0
+  stop_atr_mult: 2.5
+  target_r: 2.0
+  atr_period: 14
+  time_stop_h: 48            # il rimbalzo da overshoot e rapido; se non arriva, esci
+  partial:
+    tp1_r: 1.0
+    tp1_frac: 0.5
+    trail_atr_mult: 2.5
+
+risk:
+  max_leverage: 2
+  risk_per_trade_pct: 1.0
+  max_concurrent_positions: 6
+
+evolution:
+  mutable: [signals, entry, exit, universe.max_assets, decision_every_h]
+  notes: >
+    v1 — reversal sulle cascate di liquidazione (fade liq_imbalance). RR2 +
+    partial/trail. Mutazioni: extreme_pct (selettivita), time_stop, RR.
+
+backtest: {}

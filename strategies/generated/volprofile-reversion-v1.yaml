@@ -1,0 +1,56 @@
+id: volprofile-reversion-v1
+parent: null
+status: candidate          # smoke BTC 6m: -35% < B&H -29% (reversion perde, come storia). Non live finche basket walk-forward non la riscatta.
+created: '2026-06-22'
+thesis: >
+  Volume Profile come fair-value strutturale. Il prezzo scambia il grosso del
+  volume dentro una "value area"; quando si estende sopra la VAH o sotto la VAL
+  (poco volume = poche mani a quei prezzi) tende a rientrare verso il POC. Fada
+  l'estensione: short sopra la value area, long sotto. Diverso dal vwap_zscore
+  (deviazione dalla media volume-pesata) perche usa la DISTRIBUZIONE del volume
+  per prezzo, non la media. NB: la mean-reversion semplice e gia stata falsificata
+  3 volte (il regime premia il trend) — qui il test e se il fair-value da
+  volume-profile regge dove la reversion da z-score no.
+  Falsificata se: il fade dell'estensione dalla value area non batte buy&hold
+  risk-adjusted su 6 mesi walk-forward (Sharpe e DSR).
+
+universe:
+  selection: top_liquidity
+  min_day_volume_usd: 1000000
+  exclude: []
+  max_assets: 12
+  kinds: [perp]
+
+timeframe: 1h
+decision_every_h: 4
+
+signals:
+  - name: volume_profile
+    params: {lookback_h: 168, value_area_pct: 70, recompute_h: 6, bins: 50}
+
+entry:
+  rule: volume_profile
+  direction: contrarian:volume_profile   # +1 sopra VAH → short, -1 sotto VAL → long
+
+exit:
+  stop_pct: 2.5
+  stop_atr_mult: 2.0
+  target_r: 1.5            # reversion: TP vicino (fair value), RR basso ma hit-rate alto
+  atr_period: 14
+  time_stop_h: 72
+  by_class:
+    crypto: {stop_atr_mult: 2.0, target_r: 1.5}
+    stock:  {stop_atr_mult: 1.5, target_r: 1.5, max_leverage: 4}
+
+risk:
+  max_leverage: 2
+  risk_per_trade_pct: 1.0
+  max_concurrent_positions: 6
+
+evolution:
+  mutable: [signals, entry, exit, universe.max_assets, decision_every_h]
+  notes: >
+    v1 — prima strategia su Volume Profile (nuovo segnale). Fade estensione dalla
+    value area, RR1.5. Mutazioni: value_area_pct, lookback, RR, fade→follow.
+
+backtest: {}

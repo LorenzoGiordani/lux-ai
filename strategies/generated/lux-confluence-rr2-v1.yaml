@@ -1,0 +1,59 @@
+id: lux-confluence-rr2-v1
+parent: lux-0.1-beta
+status: challenger
+created: '2026-06-22'
+thesis: >
+  La confluenza LUX e l'edge piu validato del desk: trend (tsmom) + liquidazioni
+  reali (liq_imbalance) + forecast Kronos concordi = setup top-conviction. Questo
+  challenger prende ESATTAMENTE quella confluenza a 3 gambe ma cambia solo
+  l'uscita: stop ATR-adattivo + RR2 invece del RR del parent. Ipotesi (di Lorenzo):
+  su entry ad alta convinzione un TP a 2R viene colpito molto piu spesso di RR
+  alti, alzando il PnL realizzato senza degradare il rischio. Cambio SOLO su exit
+  → zero rischio extra sull'entry, gia validato.
+  Falsificata se: a parita di entry, RR2 non batte il parent (lux-0.1-beta) su
+  Sharpe e PnL realizzato in walk-forward + paper.
+
+universe:
+  selection: explicit
+  exclude: []
+  max_assets: 9
+  kinds: [perp]
+paper_symbols: BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV
+
+timeframe: 1h
+decision_every_h: 4
+
+signals:
+  - name: tsmom
+    params: {short_h: 168, long_h: 720}
+  - name: liq_imbalance
+    params: {lookback_d: 21, extreme_pct: 80}
+  - name: kronos_forecast
+    params: {horizon_h: 24, min_move_pct: 1.0}
+
+entry:
+  rule: tsmom AND liq_imbalance AND kronos_forecast
+  direction: signal_vote      # le 3 gambe concordi → voto ±, top-conviction
+
+exit:
+  stop_pct: 4.0
+  stop_atr_mult: 3.0
+  target_r: 2.0
+  atr_period: 14
+  time_stop_h: 240
+
+risk:
+  max_leverage: 2
+  risk_per_trade_pct: 1.0
+  max_concurrent_positions: 6
+
+evolution:
+  mutable: [signals, entry, exit, universe.max_assets, decision_every_h]
+  notes: >
+    v1 — confluenza LUX 3-gambe (parent lux-0.1-beta) con exit RR2 + stop ATR3.
+    Test mirato dell'ipotesi RR2 di Lorenzo sull'edge validato. Basket 9-asset 6m:
+    meanSharpe 1.47, +14.66%, 8/9 positivi, worstDD -13.8% → batte i parent
+    (tsmom-atr 1.26, lux-0.1-beta 0.65). Ipotesi RR2 confermata in backtest;
+    il paper e il gate finale. Mutazioni: RR, stop_atr_mult, soglie delle gambe.
+
+backtest: {}

@@ -8,6 +8,7 @@ Ogni run (cron, insieme a paper_trade):
 Balance fittizio 10k$, dati e prezzi reali. Stesse fee/slippage dell'engine.
 """
 
+import argparse
 import json
 import sys
 from datetime import datetime, timezone
@@ -19,7 +20,13 @@ from backtest.engine import DEFAULT_SLIPPAGE, HL_TAKER_FEE
 from pipeline.live import fetch_live
 from scripts.paper_trade import JOURNAL, STATE_FILE, log_event, update_position
 
+# Default = desk storico. Override via --account/--target-r per varianti di sola
+# ESECUZIONE che riusano le STESSE decisioni (zero chiamate LLM extra): es.
+# agents-rr2-v1 esegue le decisioni di agents-v1 forzando RR=2.0. Le decisioni del
+# desk agents non portano campo "strategy" → d.get("strategy", ACCOUNT) le matcha
+# per qualsiasi account; i desk con tag proprio (es. geopolitics-v1) restano esclusi.
 ACCOUNT = "agents-v1"
+TARGET_R = None             # None = usa il target_r proposto dall'LLM (comportamento storico)
 DECISIONS = ROOT / "paper/decisions.jsonl"
 MAX_CONCURRENT = 3
 
@@ -56,11 +63,12 @@ def open_from_decision(d: dict, equity: float) -> dict | None:
     mult = float(d["risk"].get("size_multiplier", 1.0))
     exposure = min(float(p["leverage"]), float(p["risk_pct"]) * mult / float(p["stop_pct"]))
     px = float(last.close) * (1 + sign * DEFAULT_SLIPPAGE)
+    target_r = TARGET_R if TARGET_R is not None else float(p["target_r"])   # override RR (variante A/B)
     pos = {
         "strategy": ACCOUNT, "symbol": symbol, "direction": p["direction"],
         "entry_px": px, "size_usd": round(exposure * equity, 2),
         "stop_px": px * (1 - sign * stop_pct),
-        "target_px": px * (1 + sign * stop_pct * float(p["target_r"])),
+        "target_px": px * (1 + sign * stop_pct * target_r),
         "opened_at": str(last.ts), "checked_until": str(last.ts),
         "time_stop_h": int(p["time_stop_h"]),
         "thesis": p["thesis"], "invalidation": p["invalidation"],
@@ -73,6 +81,14 @@ def open_from_decision(d: dict, equity: float) -> dict | None:
 
 
 def main() -> None:
+    global ACCOUNT, TARGET_R
+    ap = argparse.ArgumentParser(description="Executor paper decisioni desk agenti")
+    ap.add_argument("--account", default=ACCOUNT, help="account paper (default agents-v1)")
+    ap.add_argument("--target-r", type=float, default=None,
+                    help="forza l'RR all'esecuzione (variante A/B; default = RR proposto dall'LLM)")
+    args = ap.parse_args()
+    ACCOUNT, TARGET_R = args.account, args.target_r
+
     state = json.loads(STATE_FILE.read_text()) if STATE_FILE.exists() else {}
     st = state.setdefault(ACCOUNT, {"equity": 10_000.0, "positions": {}, "last_decision_ts": ""})
     print(f"agents paper run {datetime.now(timezone.utc):%Y-%m-%d %H:%M} UTC — equity {st['equity']:.2f}$")

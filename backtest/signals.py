@@ -293,13 +293,17 @@ def _coinalyze_load(symbol: str):
     return df
 
 
-def liq_imbalance(data, lookback_d: int = 21, extreme_pct: float = 80) -> pd.Series:
+def liq_imbalance(data, lookback_d: int = 21, extreme_pct: float = 80,
+                  edge_only: bool = False) -> pd.Series:
     """Sbilancio liquidazioni (Coinalyze, multi-exchange). imbalance = (short_liq -
     long_liq)/(tot): >0 = short liquidati in massa (pressione rialzista/squeeze),
     <0 = long liquidati (flush ribassista/capitolazione). +1 quando lo sbilancio è a
     un estremo rialzista vs storia recente, -1 estremo ribassista. La DIREZIONE del
     trade (segui lo squeeze vs fada il flush) la sceglie la strategia. Daily forward-
-    fillato sulle candele via merge_asof backward (anti-lookahead). Neutro senza cache."""
+    fillato sulle candele via merge_asof backward (anti-lookahead). Neutro senza cache.
+    edge_only=True: emette ±1 SOLO sulla barra di TRANSIZIONE in un nuovo estremo
+    (non mentre persiste) — evita il re-ingresso ripetuto contro un flush in corso
+    (knife-catching) per le strategie contrarian. Default False = comportamento storico."""
     c = data["candles"]
     cache = _coinalyze_load(data.get("symbol")) if data.get("symbol") else None
     if cache is None or cache.empty:
@@ -313,7 +317,11 @@ def liq_imbalance(data, lookback_d: int = 21, extreme_pct: float = 80) -> pd.Ser
     left = pd.DataFrame({"ts": norm(c["ts"])})
     right = pd.DataFrame({"ts": norm(d["ts"]), "sig": d["sig"]}).sort_values("ts")
     sig = pd.merge_asof(left, right, on="ts", direction="backward")["sig"]
-    return pd.Series(sig.fillna(0).to_numpy(), index=c.index)
+    out = pd.Series(sig.fillna(0).to_numpy(), index=c.index)
+    if edge_only:
+        prev = out.shift(1).fillna(0)
+        out = out.where((out != 0) & (out != prev), 0)   # solo la barra di transizione
+    return out
 
 
 def oi_trend(data, lookback_d: int = 3, price_lb_h: int = 72, min_oi_chg_pct: float = 1.0) -> pd.Series:
@@ -337,6 +345,44 @@ def oi_trend(data, lookback_d: int = 3, price_lb_h: int = 72, min_oi_chg_pct: fl
     return pd.Series(np.where(oi_up == 1, price_dir, 0), index=c.index).fillna(0)
 
 
+def volume_profile(data, lookback_h: int = 168, value_area_pct: float = 70,
+                   recompute_h: int = 6, bins: int = 50) -> pd.Series:
+    """Volume Profile (volume-by-price): distribuzione del volume scambiato sui
+    LIVELLI DI PREZZO nella finestra lookback_h. La 'value area' = il
+    value_area_pct% del volume attorno al POC (point of control, prezzo piu
+    scambiato) → dove il mercato considera 'fair value'. Lettura di estensione
+    strutturale: +1 = prezzo sopra la value-area-high (caro vs dove si e scambiato
+    il volume), -1 = sotto la value-area-low (a buon mercato). La strategia decide
+    se fada (reversion al fair value) o segue (accettazione fuori dalla value area).
+    Ricalcolato ogni recompute_h barre (costo contenuto su Mac), forward-fillato.
+    Anti-lookahead: ogni finestra usa solo barre < anchor; classifica il prezzo
+    corrente contro livelli gia noti."""
+    c = data["candles"]
+    n = len(c)
+    if n <= lookback_h:
+        return pd.Series(0, index=c.index)
+    close = c.close.to_numpy()
+    tp = ((c.high + c.low + c.close) / 3.0).to_numpy()   # typical price per barra
+    vol = c.volume.to_numpy()
+    out = np.zeros(n)
+    va_target = value_area_pct / 100.0
+    for anchor in range(lookback_h, n, recompute_h):
+        p = tp[anchor - lookback_h:anchor]
+        w = vol[anchor - lookback_h:anchor]
+        pmin, pmax = p.min(), p.max()
+        if w.sum() <= 0 or pmax <= pmin:
+            continue
+        hist, edges = np.histogram(p, bins=bins, range=(pmin, pmax), weights=w)
+        order = np.argsort(hist)[::-1]                    # bin per volume decrescente
+        keep = order[:np.searchsorted(np.cumsum(hist[order]), va_target * hist.sum()) + 1]
+        centers = (edges[:-1] + edges[1:]) / 2.0
+        val, vah = centers[keep].min(), centers[keep].max()
+        nxt = min(anchor + recompute_h, n)
+        seg = close[anchor:nxt]
+        out[anchor:nxt] = np.where(seg > vah, 1, np.where(seg < val, -1, 0))
+    return pd.Series(out, index=c.index)
+
+
 SIGNALS = {
     "funding_percentile": funding_percentile,
     "range_breakout": range_breakout,
@@ -354,4 +400,5 @@ SIGNALS = {
     "oi_buildup": oi_buildup,
     "liq_imbalance": liq_imbalance,
     "oi_trend": oi_trend,
+    "volume_profile": volume_profile,
 }

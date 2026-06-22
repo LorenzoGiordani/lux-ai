@@ -20,6 +20,7 @@ stage "paper trading strategie attive"
 "$UV" run scripts/paper_all.py
 stage "executor agenti"
 "$UV" run scripts/agents_paper.py
+"$UV" run scripts/agents_paper.py --account agents-rr2-v1 --target-r 2.0 || true   # A/B RR2, stesse decisioni
 
 if command -v claude >/dev/null 2>&1; then
     stage "reviewer"
@@ -28,6 +29,7 @@ if command -v claude >/dev/null 2>&1; then
     stage "pipeline decide"
     "$UV" run scripts/decide.py BTC,ETH,SOL,SUI,ZEC || true
     "$UV" run scripts/agents_paper.py || true    # esegui subito l'eventuale decisione
+    "$UV" run scripts/agents_paper.py --account agents-rr2-v1 --target-r 2.0 || true   # variante RR2
     # desk geopolitico: gated su burst GDELT, chiama l'LLM solo se il gate è aperto
     stage "geopolitics desk"
     "$UV" run scripts/geopolitics_paper.py || true

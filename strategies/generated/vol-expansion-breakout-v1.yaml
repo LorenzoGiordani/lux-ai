@@ -1,0 +1,58 @@
+id: vol-expansion-breakout-v1
+parent: null
+status: candidate          # BTC smoke batteva B&H ma sul BASKET 9-asset meanSharpe -0.15, 3/9 positivi → era fortuna single-asset. Non live finche non regge il basket.
+created: '2026-06-22'
+thesis: >
+  Breakout con partecipazione. Una rottura di range multi-day confermata da volume
+  anomalo (volume_surge) segnala accettazione di nuovi prezzi: i breakout "veri"
+  hanno volume, i fakeout no. Segui la rottura e lascia correre con trailing (RR3)
+  — i breakout sani sviluppano trend. Diverso da tsmom (momentum lento su ritorni)
+  e da range_breakout puro (qui il volume filtra i falsi). Profilo aggressivo:
+  RR3 + trailing per catturare le code.
+  Falsificata se: il breakout volume-confermato non batte buy&hold risk-adjusted
+  su 6 mesi walk-forward, o se il RR3 lascia troppi TP non colpiti (lezione: RR
+  alto raramente itta) e il Sharpe crolla.
+
+universe:
+  selection: top_liquidity
+  min_day_volume_usd: 1000000
+  exclude: []
+  max_assets: 12
+  kinds: [perp]
+
+timeframe: 1h
+decision_every_h: 4
+
+signals:
+  - name: range_breakout
+    params: {range_h: 48, volume_confirm_mult: 2.0}
+  - name: volume_surge
+    params: {lookback_h: 168, pct: 90}
+
+entry:
+  rule: range_breakout AND volume_surge
+  direction: follow:range_breakout
+
+exit:
+  stop_pct: 3.0
+  stop_atr_mult: 3.0
+  target_r: 3.0
+  atr_period: 14
+  time_stop_h: 240
+  partial:
+    tp1_r: 1.5
+    tp1_frac: 0.5
+    trail_atr_mult: 3.0
+
+risk:
+  max_leverage: 2
+  risk_per_trade_pct: 1.0
+  max_concurrent_positions: 10
+
+evolution:
+  mutable: [signals, entry, exit, universe.max_assets, decision_every_h]
+  notes: >
+    v1 — breakout volume-confermato, RR3 + partial/trail (profilo aggressivo).
+    Mutazioni: range_h, volume_confirm_mult, RR, soglia volume_surge.
+
+backtest: {}
