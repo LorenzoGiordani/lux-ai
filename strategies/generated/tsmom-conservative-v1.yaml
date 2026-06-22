@@ -1,6 +1,6 @@
 id: tsmom-conservative-v1
 parent: null
-status: challenger
+status: retired
 created: '2026-06-13'
 thesis: 'Profilo di rischio difensivo sullo stesso edge TSMOM (vincente): leva 1x,
   stop stretto, meno posizioni concorrenti. Tesi: rinunciare a parte del rendimento
@@ -8,8 +8,9 @@ thesis: 'Profilo di rischio difensivo sullo stesso edge TSMOM (vincente): leva 1
   sale rispetto a tsmom-v1.'
 universe:
   selection: top_liquidity
-  min_day_volume_usd: 250000    # floor compute: tutti i perp HL (ogni dex) sopra soglia; il gate liquidita vero e per-trade
-  exclude_classes: [index]      # il trend perde sugli indici (SP500/Nasdaq Sharpe -5.5): fuori dall'universo
+  min_day_volume_usd: 250000
+  exclude_classes:
+  - index
   max_assets: 8
   kinds:
   - perp
