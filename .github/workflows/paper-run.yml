@@ -50,7 +50,7 @@ jobs:
       - name: pipeline LLM (review + decide)
         if: env.CLAUDE_CODE_OAUTH_TOKEN != ''
         run: |
-          npm install -g @anthropic-ai/claude-code
+          npm install -g @anthropic-ai/claude-code || true   # hiccup registry → non far fallire il run (claude -p sotto è già || true)
           uv run scripts/review.py || true
           uv run scripts/decide.py BTC,ETH,SOL,SUI,ZEC || true
           uv run scripts/agents_paper.py || true
