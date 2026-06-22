@@ -220,7 +220,7 @@
   }
  },
  "tsmom-conservative-v1": {
-  "equity": 10012.968929366985,
+  "equity": 9828.161050596047,
   "positions": {
    "BTC": {
     "strategy": "tsmom-conservative-v1",
@@ -239,25 +239,6 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 10:00:00+00:00"
-   },
-   "ETH": {
-    "sign": -1,
-    "entry_px": 1716.6566,
-    "stop_px": 1759.573015,
-    "target_px": 1587.907355,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 1716.6566,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-conservative-v1",
-    "symbol": "ETH",
-    "direction": "short",
-    "size_usd": 2377.16,
-    "opened_at": "2026-06-21 22:00:00+00:00",
-    "checked_until": "2026-06-22 10:00:00+00:00",
     "_last_ts": "2026-06-22 10:00:00+00:00"
    },
    "HYPE": {
@@ -315,24 +296,6 @@
     "opened_at": "2026-06-22 10:00:00+00:00",
     "checked_until": "2026-06-22 10:00:00+00:00"
    },
-   "xyz_BRENTOIL": {
-    "sign": -1,
-    "entry_px": 78.82423200000001,
-    "stop_px": 80.5603132857143,
-    "target_px": 75.69928568571429,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 78.82423200000001,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-conservative-v1",
-    "symbol": "xyz_BRENTOIL",
-    "direction": "short",
-    "size_usd": 2728.78,
-    "opened_at": "2026-06-22 10:00:00+00:00",
-    "checked_until": "2026-06-22 10:00:00+00:00"
-   },
    "xyz_SILVER": {
     "sign": -1,
     "entry_px": 66.39671799999999,
@@ -348,24 +311,6 @@
     "symbol": "xyz_SILVER",
     "direction": "short",
     "size_usd": 2860.49,
-    "opened_at": "2026-06-22 10:00:00+00:00",
-    "checked_until": "2026-06-22 10:00:00+00:00"
-   },
-   "xyz_MU": {
-    "sign": 1,
-    "entry_px": 1182.0363599999998,
-    "stop_px": 1157.2428308571427,
-    "target_px": 1221.7060066285715,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 1182.0363599999998,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-conservative-v1",
-    "symbol": "xyz_MU",
-    "direction": "long",
-    "size_usd": 2864.59,
     "opened_at": "2026-06-22 10:00:00+00:00",
     "checked_until": "2026-06-22 10:00:00+00:00"
    }
@@ -769,7 +714,14 @@
     "time_stop_h": 48,
     "thesis": "Short crowding estremo su ZEC: funding -39% APR (percentile estremo) con prezzo in rimbalzo +4.9% e OI fermo \u2014 gli short pagano carry alto e non hanno capitolato. Lo squeeze ha carburante e il carry paga il long durante l'attesa. Trade di posizionamento, non di trend.",
     "invalidation": "Chiusura 1h sotto 415 (minimo del rimbalzo) o funding che normalizza sopra -10% APR senza progresso del prezzo entro 48h: squeeze fallito, la tesi muore.",
-    "decision_ts": "2026-06-11T21:46:51.843010+00:00"
+    "decision_ts": "2026-06-11T21:46:51.843010+00:00",
+    "sign": 1,
+    "remaining": 1.0,
+    "partial_done": false,
+    "hi_water": 453.80074199999996,
+    "tp1_px": null,
+    "tp1_frac": 0.0,
+    "trail_dist": null
    },
    "SUI": {
     "strategy": "claude-strategy-v1",
@@ -784,7 +736,14 @@
     "time_stop_h": 48,
     "thesis": "SUI \u00e8 l'unico asset del basket con vol_compression attivo \u2014 segnale tecnico che aggiunge il timing mancante alle pure tesi di funding; la lezione ZEC (stopped -$50 su funding squeeze senza trigger tecnico, 2026-06-12) insegna esattamente questo. Funding a -2.7% APR con prezzo +7.5% 7d significa che i corti pagano carry su un asset che li sta gi\u00e0 battendo. L'espansione di volatilit\u00e0 post-compressione in contesto di funding short crea asimmetria long: il catalizzatore non deve essere macro, basta l'esaurimento della pressione ribassista intra-giornaliera. SOL ha funding pi\u00f9 estremo ma zero segnale tecnico \u2014 stesso pattern del ZEC long fallito, scartato per lo stesso motivo.",
     "invalidation": "Chiusura 4h sotto $0.715 (rottura della base di consolidamento post-compressione) o funding che normalizza sopra -1% APR senza espansione del prezzo entro 24h: tesi di squeeze e espansione entrambe falsificate.",
-    "decision_ts": "2026-06-13T09:20:05.482550+00:00"
+    "decision_ts": "2026-06-13T09:20:05.482550+00:00",
+    "sign": 1,
+    "remaining": 1.0,
+    "partial_done": false,
+    "hi_water": 0.711202212,
+    "tp1_px": null,
+    "tp1_frac": 0.0,
+    "trail_dist": null
    },
    "SOL": {
     "strategy": "claude-strategy-v1",
@@ -799,7 +758,14 @@
     "time_stop_h": 96,
     "thesis": "SOL \u00e8 l'unico asset del paniere con regime bull confermato e funding negativo simultaneo (-1.56% apr): i derivati sono strutturalmente corti mentre lo spot outperforma il paniere a 7 giorni (+9% vs BTC +5.5%), creando un meccanismo di squeeze lento che alimenta il trend. La tesi \u00e8 falsificabile: se il funding sale verso positivo in 24h significa che i short si sono coperti e il motore del trade si esaurisce. Il pullback ZEC viene scartato perch\u00e9 le lesson interne segnalano timing sistematicamente avverso su ZEC e il vol_compression su un asset con funding positivo offre payoff asimmetrico sfavorevole in chop macro. Assenza di vol_compression su SOL suggerisce trend ordinato, non esplosione casuale di direzione.",
     "invalidation": "Funding SOL torna positivo (>+0.3% apr su rolling 24h) indicando capitolazione degli short; oppure chiusura H4 confermata sotto $65.00 che invalida il supporto strutturale e il regime bull locale.",
-    "decision_ts": "2026-06-13T14:24:22.346727+00:00"
+    "decision_ts": "2026-06-13T14:24:22.346727+00:00",
+    "sign": 1,
+    "remaining": 1.0,
+    "partial_done": false,
+    "hi_water": 73.7537478,
+    "tp1_px": null,
+    "tp1_frac": 0.0,
+    "trail_dist": null
    }
   },
   "last_decision_ts": "2026-06-21T17:23:00.800287+00:00"
