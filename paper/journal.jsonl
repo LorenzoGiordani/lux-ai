@@ -1368,3 +1368,14 @@
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10357.38, "open_positions": 1, "logged_at": "2026-06-22T20:17:12.585051+00:00"}
 {"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9998.66, "open_positions": 3, "logged_at": "2026-06-22T20:17:14.747117+00:00"}
 {"type": "heartbeat", "strategy": "claude-strategy-v1", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-22T20:17:24.810978+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-v1", "equity": 10163.67, "open_positions": 10, "logged_at": "2026-06-22T21:16:58.157727+00:00"}
+{"type": "heartbeat", "strategy": "lux-0.1-beta", "equity": 9092.37, "open_positions": 4, "logged_at": "2026-06-22T21:16:58.921996+00:00"}
+{"type": "heartbeat", "strategy": "lux-confluence-rr2-v1", "equity": 9993.59, "open_positions": 5, "logged_at": "2026-06-22T21:16:59.651643+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-atr-v1", "equity": 8599.29, "open_positions": 10, "logged_at": "2026-06-22T21:17:44.793599+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10357.38, "open_positions": 1, "logged_at": "2026-06-22T21:17:45.540105+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9998.66, "open_positions": 3, "logged_at": "2026-06-22T21:17:47.282526+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-port-v1", "equity": 10013.31, "open_positions": 4, "logged_at": "2026-06-22T21:17:50.231172+00:00"}
+{"type": "close", "strategy": "agents-v1", "symbol": "ZEC", "reason": "time_stop", "exit_px": 452.780538, "frac": 1.0, "remaining": 0.0, "pnl_usd": 2.03, "equity": 10359.41, "ts": "2026-06-22 20:00:00+00:00", "logged_at": "2026-06-22T21:17:58.092340+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10359.41, "open_positions": 0, "logged_at": "2026-06-22T21:17:58.097916+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9998.66, "open_positions": 3, "logged_at": "2026-06-22T21:17:59.171124+00:00"}
+{"type": "heartbeat", "strategy": "claude-strategy-v1", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-22T21:18:00.318877+00:00"}
