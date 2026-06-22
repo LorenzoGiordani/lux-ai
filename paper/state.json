@@ -434,7 +434,7 @@
     "stop_px": 0.7351264452999999,
     "target_px": 0.6634067921,
     "opened_at": "2026-06-18 16:00:00+00:00",
-    "checked_until": "2026-06-22 06:00:00+00:00",
+    "checked_until": "2026-06-22 08:00:00+00:00",
     "sign": -1,
     "remaining": 1.0,
     "partial_done": false,
@@ -442,7 +442,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 06:00:00+00:00"
+    "_last_ts": "2026-06-22 08:00:00+00:00"
    },
    "CRV": {
     "strategy": "tsmom-liq-v1",
@@ -453,7 +453,7 @@
     "stop_px": 0.21829158294999998,
     "target_px": 0.19699484315000002,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-22 06:00:00+00:00",
+    "checked_until": "2026-06-22 08:00:00+00:00",
     "sign": -1,
     "remaining": 1.0,
     "partial_done": false,
@@ -461,7 +461,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 06:00:00+00:00"
+    "_last_ts": "2026-06-22 08:00:00+00:00"
    },
    "XRP": {
     "strategy": "tsmom-liq-v1",
@@ -472,7 +472,7 @@
     "stop_px": 1.1767720985,
     "target_px": 1.0619650645,
     "opened_at": "2026-06-21 00:00:00+00:00",
-    "checked_until": "2026-06-22 06:00:00+00:00",
+    "checked_until": "2026-06-22 08:00:00+00:00",
     "sign": -1,
     "remaining": 1.0,
     "partial_done": false,
@@ -480,7 +480,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 06:00:00+00:00"
+    "_last_ts": "2026-06-22 08:00:00+00:00"
    },
    "ZEC": {
     "sign": -1,
@@ -498,8 +498,8 @@
     "direction": "short",
     "size_usd": 2287.11,
     "opened_at": "2026-06-21 21:00:00+00:00",
-    "checked_until": "2026-06-22 06:00:00+00:00",
-    "_last_ts": "2026-06-22 06:00:00+00:00"
+    "checked_until": "2026-06-22 08:00:00+00:00",
+    "_last_ts": "2026-06-22 08:00:00+00:00"
    }
   }
  },
@@ -515,7 +515,7 @@
     "stop_px": 0.21911141894999997,
     "target_px": 0.19773469515,
     "opened_at": "2026-06-20 09:00:00+00:00",
-    "checked_until": "2026-06-22 07:00:00+00:00",
+    "checked_until": "2026-06-22 08:00:00+00:00",
     "sign": -1,
     "remaining": 1.0,
     "partial_done": false,
@@ -523,7 +523,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 07:00:00+00:00"
+    "_last_ts": "2026-06-22 08:00:00+00:00"
    },
    "SUI": {
     "strategy": "lux-0.1-beta",
