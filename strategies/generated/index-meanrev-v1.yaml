@@ -1,0 +1,52 @@
+id: index-meanrev-v1
+parent: null
+status: candidate          # FALSIFICATA: backtest SP500 -39%/Sharpe -6.3, XYZ100 -46%/-7.2 vs B&H +20/+30% Sharpe ~3.5. L'autocorr negativa (-0.05) e reale ma DEBOLISSIMA → schiacciata dal forte drift rialzista; fadare un indice che sale = shortare al rialzo = disastro (leva amplifica). Indici: ne reversione ne tsmom funzionano, solo B&H long (≈beta, non edge robusto, sample 1 anno toro). Restano ESCLUSI dalle strategie attive. Record negativo.
+created: '2026-06-22'
+thesis: >
+  Strategia dedicata agli INDICI (S&P, Nasdaq via HIP-3). Misurato (research_edges
+  2026-06-22): indici a bassa vol (SP500 29% ann vs SOL 71%) e con autocorrelazione
+  dei ritorni NEGATIVA a breve (SP500 lag1 -0.05) = mean-reversion, l'opposto delle
+  crypto (momentum). Quindi FADE dell'estensione dal VWAP su orizzonte corto, leva
+  alta (bassa vol + sizing vol-target tengono il rischio $ costante), stop
+  obbligatorio (gli indici gappano su macro → tail guard). RR e holding brevi
+  (default-classe index: RR1.3, stop 1.5xATR, 48h).
+  Falsificata se: il fade non batte buy&hold degli indici net-of-cost su
+  walk-forward (l'edge di reversione e sottile, le fee possono mangiarlo).
+
+universe:
+  selection: explicit
+  exclude: []
+  max_assets: 4
+  kinds: [perp]
+paper_symbols: xyz:SP500,xyz:XYZ100
+
+timeframe: 1h
+decision_every_h: 4
+
+signals:
+  - name: vwap_zscore
+    params: {lookback_h: 48, z: 1.5}
+
+entry:
+  rule: vwap_zscore
+  direction: contrarian:vwap_zscore   # fada l'estensione dal VWAP → reversione alla media
+
+exit:
+  stop_pct: 1.5            # i CLASS_DEFAULTS[index] danno comunque stop 1.5xATR / RR1.3 / 48h
+  stop_atr_mult: 1.5
+  target_r: 1.3
+  atr_period: 14
+  time_stop_h: 48
+
+risk:
+  max_leverage: 4          # leva alta deliberata: indici a bassa vol, rischio $ tenuto dal vol-target
+  risk_per_trade_pct: 1.0
+  max_concurrent_positions: 3
+
+evolution:
+  mutable: [signals, entry, exit, universe.max_assets, decision_every_h]
+  notes: >
+    v1 — reversione indici: vwap_zscore fade, lookback 48h, leva 4, stop ATR.
+    Mutazioni: lookback/z del vwap, RR, leva, aggiungere altri indici.
+
+backtest: {}
