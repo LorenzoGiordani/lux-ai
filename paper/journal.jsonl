@@ -1392,3 +1392,16 @@
 {"type": "close", "strategy": "lux-0.1-beta", "symbol": "ETH", "reason": "stopped", "exit_px": 1718.8274312469002, "frac": 1.0, "remaining": 0.0, "pnl_usd": -190.58, "equity": 8901.79, "ts": "2026-06-22 22:00:00+00:00", "logged_at": "2026-06-22T22:33:40.567322+00:00"}
 {"type": "close", "strategy": "lux-confluence-rr2-v1", "symbol": "ETH", "reason": "stopped", "exit_px": 1721.735645416286, "frac": 1.0, "remaining": 0.0, "pnl_usd": -102.74, "equity": 9890.85, "ts": "2026-06-22 22:00:00+00:00", "logged_at": "2026-06-22T22:33:56.191061+00:00"}
 {"type": "close", "strategy": "lux-confluence-rr2-v1", "symbol": "ZEC", "reason": "stopped", "exit_px": 441.587125193657, "frac": 1.0, "remaining": 0.0, "pnl_usd": -101.55, "equity": 9789.3, "ts": "2026-06-22 22:00:00+00:00", "logged_at": "2026-06-22T22:33:57.042209+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-v1", "equity": 10163.67, "open_positions": 10, "logged_at": "2026-06-22T23:16:59.784520+00:00"}
+{"type": "close", "strategy": "lux-0.1-beta", "symbol": "NEAR", "reason": "stopped", "exit_px": 2.0655374173784997, "frac": 1.0, "remaining": -1.0, "pnl_usd": -195.54, "equity": 8706.25, "ts": "2026-06-22 22:00:00+00:00", "logged_at": "2026-06-22T23:17:00.359205+00:00"}
+{"type": "heartbeat", "strategy": "lux-0.1-beta", "equity": 8706.25, "open_positions": 2, "logged_at": "2026-06-22T23:17:01.277550+00:00"}
+{"type": "heartbeat", "strategy": "lux-confluence-rr2-v1", "equity": 9789.3, "open_positions": 3, "logged_at": "2026-06-22T23:17:01.847301+00:00"}
+{"type": "close", "strategy": "tsmom-atr-v1", "symbol": "NEAR", "reason": "stopped", "exit_px": 2.0690213458105715, "frac": 1.0, "remaining": -1.0, "pnl_usd": -99.82, "equity": 8499.47, "ts": "2026-06-22 22:00:00+00:00", "logged_at": "2026-06-22T23:17:02.339151+00:00"}
+{"type": "open", "sign": 1, "entry_px": 104.830962, "stop_px": 101.16980134285714, "target_px": 110.68881905142858, "remaining": 1.0, "partial_done": false, "hi_water": 104.830962, "tp1_px": null, "tp1_frac": 0.0, "trail_dist": null, "strategy": "tsmom-atr-v1", "symbol": "xyz:HOOD", "direction": "long", "size_usd": 2433.67, "opened_at": "2026-06-22 22:00:00+00:00", "checked_until": "2026-06-22 22:00:00+00:00", "stop_pct_eff": 3.492, "atr_pct": 0.0194, "thesis": "tsmom \u2192 follow:tsmom", "signals_last": {"tsmom": 1}, "logged_at": "2026-06-22T23:17:02.345654+00:00"}
+{"type": "heartbeat", "strategy": "tsmom-atr-v1", "equity": 8498.37, "open_positions": 10, "logged_at": "2026-06-22T23:17:48.302477+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10359.41, "open_positions": 0, "logged_at": "2026-06-22T23:17:48.880649+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9998.66, "open_positions": 3, "logged_at": "2026-06-22T23:17:50.414802+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-port-v1", "equity": 10032.23, "open_positions": 4, "logged_at": "2026-06-22T23:17:53.741698+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10359.41, "open_positions": 0, "logged_at": "2026-06-22T23:18:08.924564+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9998.66, "open_positions": 3, "logged_at": "2026-06-22T23:18:11.623459+00:00"}
+{"type": "heartbeat", "strategy": "claude-strategy-v1", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-22T23:18:24.462823+00:00"}
