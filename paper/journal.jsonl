@@ -1332,3 +1332,6 @@
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10357.38, "open_positions": 1, "logged_at": "2026-06-22T19:21:47.421613+00:00"}
 {"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9998.66, "open_positions": 3, "logged_at": "2026-06-22T19:21:50.076574+00:00"}
 {"type": "heartbeat", "strategy": "claude-strategy-v1", "equity": 9997.99, "open_positions": 3, "logged_at": "2026-06-22T19:22:06.577691+00:00"}
+{"type": "close", "strategy": "claude-strategy-v1", "symbol": "ZEC", "reason": "reset_backlog", "pnl_usd": 0.0, "equity": 10000.0, "logged_at": "2026-06-22T19:22:53.569947+00:00"}
+{"type": "close", "strategy": "claude-strategy-v1", "symbol": "SUI", "reason": "reset_backlog", "pnl_usd": 0.0, "equity": 10000.0, "logged_at": "2026-06-22T19:22:53.570031+00:00"}
+{"type": "close", "strategy": "claude-strategy-v1", "symbol": "SOL", "reason": "reset_backlog", "pnl_usd": 0.0, "equity": 10000.0, "logged_at": "2026-06-22T19:22:53.570082+00:00"}
