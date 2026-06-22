@@ -15,7 +15,7 @@
     "stop_px": 475.04557187999995,
     "target_px": 399.356492724,
     "opened_at": "2026-06-21 08:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
+    "checked_until": "2026-06-22 03:00:00+00:00",
     "time_stop_h": 36,
     "thesis": "ZEC \u00e8 l'unico asset del basket con volume_surge + vol_compression simultanei: la sola struttura lesson-validated (\u221212.5% in 36h, thesis_right) disponibile in un regime di chop universale senza lux_confluence attivo. Il +6.78% settimanale privo di catalizzatore fondamentale accoppiato a funding positivo (1.37% APR \u2014 longs che pagano, posizionamento affollato) e a un pullback del 3% su volume surge \u00e8 firma classica di distribuzione con longs intrappolati. Nessun lux_confluence.aligned=true esiste sul basket: il trade non ha edge primario di sistema e per questo il sizing \u00e8 ridotto a 0.5% di rischio \u2014 si scommette esclusivamente sulla ripetibilit\u00e0 del pattern strutturale, non su confluenza multi-segnale. Il time_stop a 36h riflette la finestra storica della risoluzione lesson.",
     "invalidation": "ZEC chiude sopra $465 con volume in contrazione (assenza di pressione distributiva), oppure emerge un catalizzatore fondamentale identificabile (upgrade protocollo, listing tier-1, notizia su privacy-regulation) che giustifica retroattivamente il pump settimanale; in entrambi i casi la tesi di distribuzione decade e si esce a mercato senza attendere lo stop fisico a $475.",
@@ -27,7 +27,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    }
   },
   "last_decision_ts": "2026-06-21T17:23:00.800287+00:00"
@@ -44,7 +44,7 @@
     "stop_px": 84.02558898144531,
     "target_px": 71.09857529199219,
     "opened_at": "2026-06-15 00:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
+    "checked_until": "2026-06-22 03:00:00+00:00",
     "sign": -1,
     "remaining": 1.0,
     "partial_done": false,
@@ -52,7 +52,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "xyz_BRENTOIL": {
     "strategy": "tsmom-v1",
@@ -63,7 +63,7 @@
     "stop_px": 87.1033723494873,
     "target_px": 73.70285352648926,
     "opened_at": "2026-06-15 00:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
+    "checked_until": "2026-06-22 03:00:00+00:00",
     "sign": -1,
     "remaining": 1.0,
     "partial_done": false,
@@ -71,7 +71,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "xyz_SILVER": {
     "strategy": "tsmom-v1",
@@ -82,7 +82,7 @@
     "stop_px": 73.9344136505127,
     "target_px": 62.559888473510746,
     "opened_at": "2026-06-15 13:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
+    "checked_until": "2026-06-22 03:00:00+00:00",
     "sign": -1,
     "remaining": 1.0,
     "partial_done": false,
@@ -90,7 +90,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "BTC": {
     "strategy": "tsmom-v1",
@@ -101,7 +101,7 @@
     "stop_px": 66473.90256,
     "target_px": 56247.14832,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
+    "checked_until": "2026-06-22 03:00:00+00:00",
     "sign": -1,
     "remaining": 1.0,
     "partial_done": false,
@@ -109,7 +109,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "xyz:CL": {
     "strategy": "tsmom-v1",
@@ -120,7 +120,7 @@
     "stop_px": 80.47054267200001,
     "target_px": 68.090459184,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
+    "checked_until": "2026-06-22 03:00:00+00:00",
     "sign": -1,
     "remaining": 1.0,
     "partial_done": false,
@@ -128,7 +128,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "xyz:XYZ100": {
     "strategy": "tsmom-v1",
@@ -139,7 +139,7 @@
     "stop_px": 29140.867008,
     "target_px": 33997.678176,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
+    "checked_until": "2026-06-22 03:00:00+00:00",
     "sign": 1,
     "remaining": 1.0,
     "partial_done": false,
@@ -147,7 +147,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "xyz:SP500": {
     "strategy": "tsmom-v1",
@@ -158,7 +158,7 @@
     "stop_px": 7192.318176,
     "target_px": 8391.037872,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
+    "checked_until": "2026-06-22 03:00:00+00:00",
     "sign": 1,
     "remaining": 1.0,
     "partial_done": false,
@@ -166,7 +166,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "xyz:BRENTOIL": {
     "strategy": "tsmom-v1",
@@ -177,7 +177,7 @@
     "stop_px": 84.065103616,
     "target_px": 71.132010752,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
+    "checked_until": "2026-06-22 03:00:00+00:00",
     "sign": -1,
     "remaining": 1.0,
     "partial_done": false,
@@ -185,7 +185,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "HYPE": {
     "strategy": "tsmom-v1",
@@ -196,7 +196,7 @@
     "stop_px": 64.960829568,
     "target_px": 75.787634496,
     "opened_at": "2026-06-21 08:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
+    "checked_until": "2026-06-22 03:00:00+00:00",
     "sign": 1,
     "remaining": 1.0,
     "partial_done": false,
@@ -204,7 +204,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "xyz:SKHX": {
     "sign": 1,
@@ -222,13 +222,13 @@
     "direction": "long",
     "size_usd": 2346.37,
     "opened_at": "2026-06-22 01:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "checked_until": "2026-06-22 03:00:00+00:00",
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    }
   }
  },
  "tsmom-conservative-v1": {
-  "equity": 9717.455639950007,
+  "equity": 9716.406154450007,
   "positions": {
    "xyz_GOLD": {
     "strategy": "tsmom-conservative-v1",
@@ -239,7 +239,7 @@
     "stop_px": 4457.3458525,
     "target_px": 4022.4828425000005,
     "opened_at": "2026-06-15 04:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
+    "checked_until": "2026-06-22 03:00:00+00:00",
     "sign": -1,
     "remaining": 1.0,
     "partial_done": false,
@@ -247,7 +247,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "xyz_BRENTOIL": {
     "strategy": "tsmom-conservative-v1",
@@ -258,7 +258,7 @@
     "stop_px": 83.89996946468352,
     "target_px": 75.71460659008027,
     "opened_at": "2026-06-16 07:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
+    "checked_until": "2026-06-22 03:00:00+00:00",
     "sign": -1,
     "remaining": 1.0,
     "partial_done": false,
@@ -266,7 +266,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "BTC": {
     "strategy": "tsmom-conservative-v1",
@@ -277,7 +277,7 @@
     "stop_px": 65515.144349999995,
     "target_px": 59123.42295,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
+    "checked_until": "2026-06-22 03:00:00+00:00",
     "sign": -1,
     "remaining": 1.0,
     "partial_done": false,
@@ -285,7 +285,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "xyz:XYZ100": {
     "strategy": "tsmom-conservative-v1",
@@ -296,7 +296,7 @@
     "stop_px": 29596.193055,
     "target_px": 32631.700035,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
+    "checked_until": "2026-06-22 03:00:00+00:00",
     "sign": 1,
     "remaining": 1.0,
     "partial_done": false,
@@ -304,7 +304,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "xyz:SP500": {
     "strategy": "tsmom-conservative-v1",
@@ -315,7 +315,7 @@
     "stop_px": 7304.698147499999,
     "target_px": 8053.897957499999,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
+    "checked_until": "2026-06-22 03:00:00+00:00",
     "sign": 1,
     "remaining": 1.0,
     "partial_done": false,
@@ -323,7 +323,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "xyz_CL": {
     "sign": -1,
@@ -341,8 +341,8 @@
     "direction": "short",
     "size_usd": 2407.18,
     "opened_at": "2026-06-21 15:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "checked_until": "2026-06-22 03:00:00+00:00",
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "xyz:BRENTOIL": {
     "sign": -1,
@@ -360,8 +360,8 @@
     "direction": "short",
     "size_usd": 2391.98,
     "opened_at": "2026-06-21 19:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "checked_until": "2026-06-22 03:00:00+00:00",
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "ETH": {
     "sign": -1,
@@ -379,8 +379,8 @@
     "direction": "short",
     "size_usd": 2377.16,
     "opened_at": "2026-06-21 22:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "checked_until": "2026-06-22 03:00:00+00:00",
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "xyz_SILVER": {
     "sign": -1,
@@ -398,8 +398,26 @@
     "direction": "short",
     "size_usd": 2347.18,
     "opened_at": "2026-06-22 01:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "checked_until": "2026-06-22 03:00:00+00:00",
+    "_last_ts": "2026-06-22 03:00:00+00:00"
+   },
+   "HYPE": {
+    "sign": 1,
+    "entry_px": 65.448087,
+    "stop_px": 63.811884825,
+    "target_px": 70.356693525,
+    "remaining": 1.0,
+    "partial_done": false,
+    "hi_water": 65.448087,
+    "tp1_px": null,
+    "tp1_frac": 0.0,
+    "trail_dist": null,
+    "strategy": "tsmom-conservative-v1",
+    "symbol": "HYPE",
+    "direction": "long",
+    "size_usd": 2332.19,
+    "opened_at": "2026-06-22 03:00:00+00:00",
+    "checked_until": "2026-06-22 03:00:00+00:00"
    }
   }
  },
@@ -515,7 +533,7 @@
     "stop_px": 0.72361799745,
     "target_px": 0.6530211196500001,
     "opened_at": "2026-06-21 05:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
+    "checked_until": "2026-06-22 03:00:00+00:00",
     "sign": -1,
     "remaining": 1.0,
     "partial_done": false,
@@ -523,7 +541,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "NEAR": {
     "sign": 1,
@@ -541,8 +559,8 @@
     "direction": "long",
     "size_usd": 7624.88,
     "opened_at": "2026-06-21 20:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "checked_until": "2026-06-22 03:00:00+00:00",
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "ZEC": {
     "sign": -1,
@@ -560,8 +578,8 @@
     "direction": "short",
     "size_usd": 7622.14,
     "opened_at": "2026-06-21 21:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "checked_until": "2026-06-22 03:00:00+00:00",
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "WLD": {
     "sign": 1,
@@ -579,8 +597,8 @@
     "direction": "long",
     "size_usd": 7616.65,
     "opened_at": "2026-06-21 23:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "checked_until": "2026-06-22 03:00:00+00:00",
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    }
   }
  },
@@ -590,7 +608,7 @@
   "last_decision_ts": ""
  },
  "tsmom-atr-v1": {
-  "equity": 8901.412208290109,
+  "equity": 8900.554080790109,
   "positions": {
    "WLD": {
     "sign": 1,
@@ -608,8 +626,8 @@
     "direction": "long",
     "size_usd": 2050.53,
     "opened_at": "2026-06-21 14:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "checked_until": "2026-06-22 03:00:00+00:00",
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "XPL": {
     "sign": 1,
@@ -627,8 +645,8 @@
     "direction": "long",
     "size_usd": 1540.11,
     "opened_at": "2026-06-21 14:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "checked_until": "2026-06-22 03:00:00+00:00",
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "NEAR": {
     "sign": 1,
@@ -646,8 +664,8 @@
     "direction": "long",
     "size_usd": 1865.79,
     "opened_at": "2026-06-21 18:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "checked_until": "2026-06-22 03:00:00+00:00",
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "ZEC": {
     "sign": -1,
@@ -665,8 +683,8 @@
     "direction": "short",
     "size_usd": 2184.2,
     "opened_at": "2026-06-21 21:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "checked_until": "2026-06-22 03:00:00+00:00",
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "XRP": {
     "sign": -1,
@@ -684,8 +702,8 @@
     "direction": "short",
     "size_usd": 4746.28,
     "opened_at": "2026-06-21 22:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "checked_until": "2026-06-22 03:00:00+00:00",
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "PUMP": {
     "sign": -1,
@@ -703,8 +721,8 @@
     "direction": "short",
     "size_usd": 1713.0,
     "opened_at": "2026-06-21 22:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "checked_until": "2026-06-22 03:00:00+00:00",
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "EIGEN": {
     "sign": 1,
@@ -722,8 +740,8 @@
     "direction": "long",
     "size_usd": 1152.43,
     "opened_at": "2026-06-21 22:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "checked_until": "2026-06-22 03:00:00+00:00",
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "TAO": {
     "sign": -1,
@@ -741,8 +759,8 @@
     "direction": "short",
     "size_usd": 2332.51,
     "opened_at": "2026-06-21 22:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "checked_until": "2026-06-22 03:00:00+00:00",
+    "_last_ts": "2026-06-22 03:00:00+00:00"
    },
    "BTC": {
     "sign": -1,
@@ -760,8 +778,26 @@
     "direction": "short",
     "size_usd": 5219.03,
     "opened_at": "2026-06-22 01:00:00+00:00",
-    "checked_until": "2026-06-22 02:00:00+00:00",
-    "_last_ts": "2026-06-22 02:00:00+00:00"
+    "checked_until": "2026-06-22 03:00:00+00:00",
+    "_last_ts": "2026-06-22 03:00:00+00:00"
+   },
+   "HYPE": {
+    "sign": 1,
+    "entry_px": 65.448087,
+    "stop_px": 62.393047542857154,
+    "target_px": 71.5581659142857,
+    "remaining": 1.0,
+    "partial_done": false,
+    "hi_water": 65.448087,
+    "tp1_px": null,
+    "tp1_frac": 0.0,
+    "trail_dist": null,
+    "strategy": "tsmom-atr-v1",
+    "symbol": "HYPE",
+    "direction": "long",
+    "size_usd": 1906.95,
+    "opened_at": "2026-06-22 03:00:00+00:00",
+    "checked_until": "2026-06-22 03:00:00+00:00"
    }
   }
  }
