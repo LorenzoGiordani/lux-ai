@@ -33,6 +33,20 @@ def _perp_dexs() -> list[str]:
     return [""] + [d["name"] for d in dexs if d and d.get("name")]
 
 
+def _dedup_by_underlying(rows: list[tuple[str, float]]) -> list[tuple[str, float]]:
+    """Una sola variante per underlying. Lo stesso asset puo essere listato su piu
+    venue (es. core 'HYPE' + builder 'hyna:HYPE', o commodity su piu dex) → tenerne
+    due = doppia esposizione sullo stesso rischio. Con rows ordinate desc per volume,
+    tiene la prima (la piu liquida). Base = parte dopo l'ultimo ':' (dex-qualificato)."""
+    seen, out = set(), []
+    for name, vol in rows:
+        base = name.split(":")[-1].upper()
+        if base not in seen:
+            seen.add(base)
+            out.append((name, vol))
+    return out
+
+
 def perp_universe(min_vol_usd: float = 250_000) -> list[tuple[str, float]]:
     """(nome, volume 24h) di tutti i perp HL >= soglia, su tutti i dex, ordinati per
     liquidita. Esclude i delisted. Lista vuota se l'API non risponde (il chiamante fa
@@ -50,7 +64,7 @@ def perp_universe(min_vol_usd: float = 250_000) -> list[tuple[str, float]]:
                      for a, c in zip(meta["universe"], ctxs) if not a.get("isDelisted")]
     except Exception:
         return []
-    rows = sorted((t for t in rows if t[1] >= min_vol_usd), key=lambda t: -t[1])
+    rows = _dedup_by_underlying(sorted((t for t in rows if t[1] >= min_vol_usd), key=lambda t: -t[1]))
     _PERP_CACHE[key] = rows
     return rows
 

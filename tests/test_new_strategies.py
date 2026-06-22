@@ -31,6 +31,13 @@ def test_new_signals_in_registry():
     assert "xsection_momentum" in SIGNALS
 
 
+def test_dedup_by_underlying():
+    from pipeline.live import _dedup_by_underlying
+    rows = [("HYPE", 100.0), ("hyna:HYPE", 50.0), ("xyz:CL", 30.0), ("hyna:CL", 20.0), ("BTC", 200.0)]
+    names = [n for n, _ in _dedup_by_underlying(rows)]
+    assert names == ["HYPE", "xyz:CL", "BTC"]    # una variante per underlying, la piu liquida
+
+
 def test_exclude_classes_filters_indices():
     from backtest.lifecycle import paper_symbols
     spec = {"universe": {"exclude_classes": ["index"]},
