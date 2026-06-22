@@ -270,11 +270,11 @@ def build_data() -> dict:
             "wins": sum(1 for e in closes if e.get("pnl_usd", 0) > 0),
             "equity_curve": curve,
             "positions": [{
-                "symbol": clean_symbol(s), "direction": p["direction"],
-                "entry_px": round(p["entry_px"], 6), "size_usd": round(p["size_usd"], 2),
-                "stop_px": round(p["stop_px"], 6), "target_px": round(p["target_px"], 6),
-                "opened_at": ts_short(p["opened_at"]),
-                "chart": chart_series(s, p["opened_at"]),
+                "symbol": clean_symbol(s), "direction": p.get("direction", "long"),
+                "entry_px": round(p.get("entry_px", 0), 6), "size_usd": round(p.get("size_usd", 0), 2),
+                "stop_px": round(p.get("stop_px", 0), 6), "target_px": round(p.get("target_px", 0), 6),
+                "opened_at": ts_short(p.get("opened_at", "")),
+                "chart": chart_series(s, p.get("opened_at", "")),
             } for s, p in st.get("positions", {}).items()],
         })
 
