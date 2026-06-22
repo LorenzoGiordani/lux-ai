@@ -31,6 +31,25 @@ def test_new_signals_in_registry():
     assert "xsection_momentum" in SIGNALS
 
 
+def test_claude_strategy_gate():
+    from scripts.claude_strategy import gate_candidates
+    ctx = {"assets": {
+        "BTC": {"signals": {"tsmom": 1, "liq_imbalance": 1}, "atr_pct": 3.0},    # concordi long
+        "ETH": {"signals": {"tsmom": 1, "liq_imbalance": -1}, "atr_pct": 2.0},   # discordi → escluso
+        "SOL": {"signals": {"tsmom": 0, "liq_imbalance": 1}, "atr_pct": 2.0},    # uno spento → escluso
+        "ZEC": {"signals": {"tsmom": -1, "liq_imbalance": -1}, "atr_pct": 5.0},  # concordi short
+    }}
+    got = {x["symbol"]: x["direction"] for x in gate_candidates(ctx)}
+    assert got == {"BTC": "long", "ZEC": "short"}
+
+
+def test_claude_strategy_spec_excluded():
+    from backtest.lifecycle import active_specs
+    spec = load(ROOT / "strategies/generated/claude-strategy-v1.yaml")
+    assert spec["engine"] == "desk"
+    assert "claude-strategy-v1" not in [s["id"] for _, s in active_specs()]
+
+
 def test_dedup_by_underlying():
     from pipeline.live import _dedup_by_underlying
     rows = [("HYPE", 100.0), ("hyna:HYPE", 50.0), ("xyz:CL", 30.0), ("hyna:CL", 20.0), ("BTC", 200.0)]

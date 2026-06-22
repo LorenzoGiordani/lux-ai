@@ -32,6 +32,10 @@ if command -v claude >/dev/null 2>&1; then
     "$UV" run scripts/decide.py BTC,ETH,SOL,SUI,ZEC || true
     "$UV" run scripts/agents_paper.py || true    # esegui subito l'eventuale decisione
     "$UV" run scripts/agents_paper.py --account agents-rr2-v1 --target-r 2.0 || true   # variante RR2
+    # Claude Strategy: gate sistematico (confluenza) + layer LLM; chiama l'LLM solo a gate aperto
+    stage "claude strategy"
+    "$UV" run scripts/claude_strategy.py BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV || true
+    "$UV" run scripts/agents_paper.py --account claude-strategy-v1 || true
     # desk geopolitico: gated su burst GDELT, chiama l'LLM solo se il gate è aperto
     stage "geopolitics desk"
     "$UV" run scripts/geopolitics_paper.py || true

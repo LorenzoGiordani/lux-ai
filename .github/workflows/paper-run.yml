@@ -55,6 +55,8 @@ jobs:
           uv run scripts/decide.py BTC,ETH,SOL,SUI,ZEC || true
           uv run scripts/agents_paper.py || true
           uv run scripts/agents_paper.py --account agents-rr2-v1 --target-r 2.0 || true   # variante RR2
+          uv run scripts/claude_strategy.py BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV || true   # gate sistematico + layer LLM
+          uv run scripts/agents_paper.py --account claude-strategy-v1 || true
 
       # EVOLUZIONE SUL CAMPO — promozione/retrocessione AD OGNI RUN (cheap, LLM-free,
       # gate conservativi: no-op finché non ci sono abbastanza trade chiusi).

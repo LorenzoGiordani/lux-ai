@@ -1,0 +1,46 @@
+id: claude-strategy-v1
+parent: null
+status: challenger
+engine: desk                # ibrida: gate sistematico + layer LLM. La esegue
+                            #   scripts/claude_strategy.py (decisione) + agents_paper.py
+                            #   --account claude-strategy-v1 (apertura). active_specs la salta.
+created: '2026-06-22'
+thesis: >
+  Strategia ibrida progettata da zero. Tesi: separare CHI trova dal CHI giudica.
+  (1) Un gate SISTEMATICO trova i setup ad alta convinzione = confluenza di flusso
+  forzato (trend tsmom + sbilancio liquidazioni reali liq_imbalance concordi),
+  l'unico edge ortogonale sopravvissuto alle falsificazioni del progetto.
+  (2) Un LAYER LLM (Claude) fa da Portfolio Manager avverso SOLO su quei candidati:
+  giudica regime, funding, news e soprattutto il rischio di correlazione col book —
+  dove l'LLM aggiunge valore — e NON prevede il prezzo, dove l'LLM non ha edge
+  (lezione dura del progetto: forecast LLM = niente alpha). Costo LLM minimo: una
+  chiamata per run e solo a gate aperto.
+  Falsificata se: non batte in paper né tsmom-liq (stesso gate, senza il layer LLM)
+  né il desk agents-v1 — cioè se il giudizio di Claude non aggiunge valore sopra il
+  puro sistematico.
+
+paper_symbols: BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV
+
+timeframe: 1h
+decision_every_h: 4
+
+signals: []                 # nessun segnale meccanico: il gate è in claude_strategy.py, la direzione esce dal layer LLM
+
+exit:                       # stub per dashboard; stop/RR effettivi li propone il PM (Claude), entro gli hard limit
+  stop_pct: 0
+  target_r: 0
+  time_stop_h: 0
+
+risk:                       # hard limit insindacabili (validati in hard_check)
+  max_leverage: 2
+  risk_per_trade_pct: 1.0
+  max_concurrent_positions: 3
+
+evolution:
+  mutable: [signals, exit]
+  notes: >
+    v1 — gate confluenza tsmom+liq_imbalance + layer LLM (Claude PM avverso).
+    Mutazioni possibili: larghezza del gate, contesto passato al PM, regole di
+    sizing per convinzione.
+
+backtest: {}
