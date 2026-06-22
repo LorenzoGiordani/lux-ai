@@ -41,7 +41,7 @@ jobs:
       - name: executor agenti
         run: |
           uv run scripts/agents_paper.py
-          uv run scripts/agents_paper.py --account agents-rr2-v1 --target-r 2.0 || true   # A/B RR2: stesse decisioni, zero LLM extra
+          uv run scripts/agents_paper.py --account agents-rr2-v1 --source agents-v1 --target-r 2.0 || true   # A/B RR2: stesse decisioni, zero LLM extra
 
       - name: portfolio book (cross-sectional momentum)
         run: uv run scripts/portfolio_paper.py strategies/generated/xsmom-port-v1.yaml || true
@@ -54,7 +54,7 @@ jobs:
           uv run scripts/review.py || true
           uv run scripts/decide.py BTC,ETH,SOL,SUI,ZEC || true
           uv run scripts/agents_paper.py || true
-          uv run scripts/agents_paper.py --account agents-rr2-v1 --target-r 2.0 || true   # variante RR2
+          uv run scripts/agents_paper.py --account agents-rr2-v1 --source agents-v1 --target-r 2.0 || true   # variante RR2
           uv run scripts/claude_strategy.py BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV || true   # gate sistematico + layer LLM
           uv run scripts/agents_paper.py --account claude-strategy-v1 || true
 

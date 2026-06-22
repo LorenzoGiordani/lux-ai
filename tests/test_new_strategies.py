@@ -31,6 +31,16 @@ def test_new_signals_in_registry():
     assert "xsection_momentum" in SIGNALS
 
 
+def test_agents_decision_source_routing():
+    from scripts.agents_paper import _matches_source
+    untagged = {"proposal": {}}                                  # decisione del desk storico
+    assert _matches_source(untagged, "agents-v1")                # → agents-v1
+    assert _matches_source(untagged, "agents-rr2-v1") is False   # NON la variante (usa --source agents-v1)
+    assert _matches_source(untagged, "claude-strategy-v1") is False  # NON claude (era il bug)
+    assert _matches_source({"strategy": "claude-strategy-v1"}, "claude-strategy-v1")
+    assert _matches_source({"strategy": "geopolitics-v1"}, "agents-v1") is False
+
+
 def test_claude_strategy_gate():
     from scripts.claude_strategy import gate_candidates
     ctx = {"assets": {

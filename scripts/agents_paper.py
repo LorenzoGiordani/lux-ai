@@ -20,15 +20,24 @@ from backtest.engine import DEFAULT_SLIPPAGE, HL_TAKER_FEE
 from pipeline.live import fetch_live
 from scripts.paper_trade import JOURNAL, STATE_FILE, log_event, update_position
 
-# Default = desk storico. Override via --account/--target-r per varianti di sola
-# ESECUZIONE che riusano le STESSE decisioni (zero chiamate LLM extra): es.
-# agents-rr2-v1 esegue le decisioni di agents-v1 forzando RR=2.0. Le decisioni del
-# desk agents non portano campo "strategy" → d.get("strategy", ACCOUNT) le matcha
-# per qualsiasi account; i desk con tag proprio (es. geopolitics-v1) restano esclusi.
+# Account che esegue + SORGENTE delle decisioni che consuma. Le decisioni del desk
+# agents storico NON portano campo "strategy" → appartengono per default a "agents-v1".
+# --source permette a una variante di RIUSARE quelle decisioni (es. agents-rr2-v1
+# --source agents-v1 --target-r 2.0 = A/B sull'RR, stesse entry, zero LLM extra).
+# Senza --source, un account consuma SOLO le decisioni taggate col proprio id (es.
+# claude-strategy-v1 esegue solo ciò che scrive claude_strategy.py, non il backlog).
 ACCOUNT = "agents-v1"
+SOURCE = "agents-v1"        # da quale strategia provengono le decisioni da eseguire
 TARGET_R = None             # None = usa il target_r proposto dall'LLM (comportamento storico)
 DECISIONS = ROOT / "paper/decisions.jsonl"
 MAX_CONCURRENT = 3
+
+
+def _matches_source(d: dict, source: str) -> bool:
+    """Una decisione appartiene a `source`. Le decisioni senza tag sono del desk
+    storico agents-v1; quelle taggate (claude-strategy-v1, geopolitics-v1) solo del
+    proprio id. Evita che un account mangi il backlog di un altro."""
+    return d.get("strategy", "agents-v1") == source
 
 
 def pending_decisions(after_ts: str) -> list[dict]:
@@ -39,7 +48,7 @@ def pending_decisions(after_ts: str) -> list[dict]:
         d = json.loads(line)
         if d.get("stage") != "final" or d.get("logged_at", "") <= after_ts:
             continue
-        if d.get("strategy", ACCOUNT) != ACCOUNT:   # ignora decisioni di altri desk (es. geopolitics-v1)
+        if not _matches_source(d, SOURCE):
             continue
         p = d.get("proposal", {})
         risk = d.get("risk", {})
@@ -81,13 +90,17 @@ def open_from_decision(d: dict, equity: float) -> dict | None:
 
 
 def main() -> None:
-    global ACCOUNT, TARGET_R
+    global ACCOUNT, SOURCE, TARGET_R
     ap = argparse.ArgumentParser(description="Executor paper decisioni desk agenti")
     ap.add_argument("--account", default=ACCOUNT, help="account paper (default agents-v1)")
+    ap.add_argument("--source", default=None,
+                    help="sorgente decisioni da eseguire (default = l'account stesso; "
+                         "es. --source agents-v1 per riusare le decisioni del desk storico)")
     ap.add_argument("--target-r", type=float, default=None,
                     help="forza l'RR all'esecuzione (variante A/B; default = RR proposto dall'LLM)")
     args = ap.parse_args()
     ACCOUNT, TARGET_R = args.account, args.target_r
+    SOURCE = args.source or ACCOUNT
 
     state = json.loads(STATE_FILE.read_text()) if STATE_FILE.exists() else {}
     st = state.setdefault(ACCOUNT, {"equity": 10_000.0, "positions": {}, "last_decision_ts": ""})
