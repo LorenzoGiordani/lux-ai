@@ -1,6 +1,6 @@
 id: tsmom-liq-v1
 parent: null
-status: challenger
+status: retired
 created: '2026-06-14'
 thesis: 'Trend confermato dalle liquidazioni reali (Coinalyze): entra solo quando
   TSMOM e lo sbilancio liquidazioni concordano sulla direzione (segui lo squeeze).
@@ -8,7 +8,7 @@ thesis: 'Trend confermato dalle liquidazioni reali (Coinalyze): entra solo quand
   positivi. In paper per validazione forward.'
 universe:
   selection: top_liquidity
-  min_day_volume_usd: 250000    # floor compute: tutti i perp HL (ogni dex) sopra soglia; il gate liquidita vero e per-trade
+  min_day_volume_usd: 250000
   max_assets: 9
   kinds:
   - perp
