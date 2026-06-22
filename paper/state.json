@@ -33,7 +33,7 @@
   "last_decision_ts": "2026-06-21T17:23:00.800287+00:00"
  },
  "tsmom-v1": {
-  "equity": 9481.858004700003,
+  "equity": 9385.468864360004,
   "positions": {
    "xyz_CL": {
     "strategy": "tsmom-v1",
@@ -204,25 +204,6 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-22 00:00:00+00:00"
-   },
-   "ZEC": {
-    "sign": -1,
-    "entry_px": 434.13315600000004,
-    "stop_px": 451.49848224000004,
-    "target_px": 382.03717728000004,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 434.13315600000004,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-v1",
-    "symbol": "ZEC",
-    "direction": "short",
-    "size_usd": 2370.73,
-    "opened_at": "2026-06-21 23:00:00+00:00",
-    "checked_until": "2026-06-22 00:00:00+00:00",
     "_last_ts": "2026-06-22 00:00:00+00:00"
    }
   }
@@ -404,7 +385,7 @@
   }
  },
  "tsmom-liq-v1": {
-  "equity": 9467.860090549997,
+  "equity": 9409.190697249996,
   "positions": {
    "SUI": {
     "strategy": "tsmom-liq-v1",
@@ -481,30 +462,11 @@
     "opened_at": "2026-06-21 21:00:00+00:00",
     "checked_until": "2026-06-22 00:00:00+00:00",
     "_last_ts": "2026-06-22 00:00:00+00:00"
-   },
-   "ETH": {
-    "sign": -1,
-    "entry_px": 1705.75878,
-    "stop_px": 1748.4027494999998,
-    "target_px": 1577.8268715,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 1705.75878,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-liq-v1",
-    "symbol": "ETH",
-    "direction": "short",
-    "size_usd": 2286.86,
-    "opened_at": "2026-06-21 23:00:00+00:00",
-    "checked_until": "2026-06-22 00:00:00+00:00",
-    "_last_ts": "2026-06-22 00:00:00+00:00"
    }
   }
  },
  "lux-0.1-beta": {
-  "equity": 9517.38324085,
+  "equity": 9321.9077904,
   "positions": {
    "CRV": {
     "strategy": "lux-0.1-beta",
@@ -579,25 +541,6 @@
     "direction": "short",
     "size_usd": 7622.14,
     "opened_at": "2026-06-21 21:00:00+00:00",
-    "checked_until": "2026-06-22 00:00:00+00:00",
-    "_last_ts": "2026-06-22 00:00:00+00:00"
-   },
-   "ETH": {
-    "sign": -1,
-    "entry_px": 1705.75878,
-    "stop_px": 1748.4027494999998,
-    "target_px": 1577.8268715,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 1705.75878,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-0.1-beta",
-    "symbol": "ETH",
-    "direction": "short",
-    "size_usd": 7619.39,
-    "opened_at": "2026-06-21 23:00:00+00:00",
     "checked_until": "2026-06-22 00:00:00+00:00",
     "_last_ts": "2026-06-22 00:00:00+00:00"
    },
