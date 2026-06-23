@@ -12,7 +12,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from backtest.lifecycle import active_specs, paper_symbols
+from backtest.lifecycle import active_specs, paper_symbols, validate_spec_risk
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -24,12 +24,16 @@ def main() -> None:
         return
     print(f"strategie attive: {len(active)}")
     for path, spec in active:
+        sid = spec["id"]
+        warns = validate_spec_risk(spec)
+        if warns:
+            print(f"  ⚠ {sid}: risk caps violati: {warns}", file=sys.stderr)
         syms = paper_symbols(spec)
-        print(f"\n→ {spec['id']} [{spec['status']}] su {syms}")
+        print(f"\n→ {sid} [{spec['status']}] su {syms}")
         r = subprocess.run([sys.executable, str(ROOT / "scripts" / "paper_trade.py"),
                             str(path), syms])
         if r.returncode != 0:
-            print(f"  ⚠ {spec['id']} uscito con codice {r.returncode}", file=sys.stderr)
+            print(f"  ⚠ {sid} uscito con codice {r.returncode}", file=sys.stderr)
 
 
 if __name__ == "__main__":

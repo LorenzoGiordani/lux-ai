@@ -62,25 +62,30 @@ def main() -> None:
     for fam, members in sorted(fams.items()):
         champ = next((m for m in members if m[1]["status"] == "champion"), None)
         challengers = [m for m in members if m[1]["status"] == "challenger"]
-        champ_sharpe = champ[2]["sharpe_r"] if champ else None
+        champ_sharpe = champ[2].get("basket_sharpe_r", champ[2]["sharpe_r"]) if champ else None
         print(f"\n[{fam}] champion={champ[1]['id'] if champ else '—'} "
-              f"(sharpe_r {champ_sharpe if champ else 'n/a'}), challenger={len(challengers)}")
+              f"(basket_sharpe {champ_sharpe if champ else 'n/a'}), challenger={len(challengers)}")
 
         # 1. ritira i challenger chiaramente perdenti (campione sufficiente o DD grave)
+        # Usa basket_mean_r (mean R per-asset, regola 5): pooled maschererebbe
+        # strategie che vincono su 1 asset e perdono sugli altri.
         for f, s, st in challengers:
             dd = st.get("equity_dd_pct", 0.0)
+            bmr = st.get("basket_mean_r", st.get("mean_r", 0.0))
             print(f"  challenger {s['id']}: {st['n_closed']} chiusi, "
-                  f"sharpe_r {st['sharpe_r']}, meanR {st['mean_r']}, "
-                  f"PnL {st['total_pnl']}$, DD {dd}%")
-            if st["n_closed"] >= args.min_trades and st["mean_r"] < 0:
-                print(f"    → RETIRE (perdente con {st['n_closed']} trade, meanR<0)")
+                  f"basket_sharpe {st.get('basket_sharpe_r', 0.0)}, "
+                  f"basket_meanR {bmr}, PnL {st['total_pnl']}$, DD {dd}%, "
+                  f"symbols {st.get('symbols_traded', 0)}")
+            if st["n_closed"] >= args.min_trades and bmr < 0:
+                print(f"    → RETIRE (perdente con {st['n_closed']} trade, basket_meanR<0)")
                 if not args.dry_run:
                     set_status(f, "retired")
                     log_event({"event": "retire", "strategy": s["id"], "family": fam, "stats": st,
-                               "reason": "mean_r_negative"})
+                               "reason": "basket_mean_r_negative"})
                     add_lesson(s["id"], "thesis_wrong",
                                f"Ritirata da challenger: {st['n_closed']} trade paper, "
-                               f"meanR {st['mean_r']} (perdente). Il paper trading ha falsificato l'edge.",
+                               f"basket_meanR {bmr} (perdente su media per-asset). "
+                               f"Il paper trading ha falsificato l'edge.",
                                ["lifecycle", "retire", "paper"])
                 changes += 1
             elif dd <= -MAX_DD_PCT:
@@ -96,21 +101,22 @@ def main() -> None:
                                ["lifecycle", "retire", "paper", "drawdown"])
                 changes += 1
 
-        # 2. miglior challenger qualificato
+        # 2. miglior challenger qualificato (basket_sharpe_r, regola 5)
         qual = [(f, s, st) for f, s, st in challengers
-                if st["n_closed"] >= args.min_trades and st["mean_r"] > 0
-                and st["sharpe_r"] >= MIN_SHARPE]
+                if st["n_closed"] >= args.min_trades and st.get("basket_mean_r", 0) > 0
+                and st.get("basket_sharpe_r", 0) >= MIN_SHARPE]
         if not qual:
             continue
-        best = max(qual, key=lambda m: m[2]["sharpe_r"])
+        best = max(qual, key=lambda m: m[2].get("basket_sharpe_r", 0.0))
         bf, bs, bst = best
 
-        beats = champ_sharpe is None or bst["sharpe_r"] >= champ_sharpe + MARGIN
+        beats = champ_sharpe is None or bst.get("basket_sharpe_r", 0.0) >= champ_sharpe + MARGIN
         if not beats:
-            print(f"  {bs['id']} (sharpe_r {bst['sharpe_r']}) non batte il champion di {MARGIN}")
+            print(f"  {bs['id']} (basket_sharpe {bst.get('basket_sharpe_r', 0.0)}) "
+                  f"non batte il champion di {MARGIN}")
             continue
 
-        print(f"  → PROMOTE {bs['id']} a champion (sharpe_r {bst['sharpe_r']}, "
+        print(f"  → PROMOTE {bs['id']} a champion (basket_sharpe {bst.get('basket_sharpe_r', 0.0)}, "
               f"DSR backtest {backtest_dsr(bs)})")
         if not args.dry_run:
             if champ:
@@ -120,8 +126,8 @@ def main() -> None:
             set_status(bf, "champion")
             log_event({"event": "promote", "strategy": bs["id"], "family": fam, "stats": bst})
             add_lesson(bs["id"], "thesis_right",
-                       f"Promossa a CHAMPION: {bst['n_closed']} trade paper, sharpe_r "
-                       f"{bst['sharpe_r']}, win {bst['win_rate']}, PnL {bst['total_pnl']}$. "
+                       f"Promossa a CHAMPION: {bst['n_closed']} trade paper, basket_sharpe "
+                       f"{bst.get('basket_sharpe_r', 0.0)}, win {bst['win_rate']}, PnL {bst['total_pnl']}$. "
                        + (f"Spodesta {champ[1]['id']}." if champ else "Primo champion della famiglia."),
                        ["lifecycle", "promote", "paper", "champion"])
         changes += 1

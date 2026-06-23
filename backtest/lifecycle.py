@@ -100,7 +100,10 @@ def paper_stats(strategy_id: str) -> dict:
     """Performance paper realizzata di una strategia, da open↔close del journal.
     R-multiple = pnl / capitale a rischio all'apertura — robusto con pochi trade.
     equity_dd_pct = drawdown corrente vs baseline $10k (da state.json): gate
-    precoce per ritirare strategie in perdita grave anche con pochi trade chiusi."""
+    precoce per ritirare strategie in perdita grave anche con pochi trade chiusi.
+    basket_sharpe_r / basket_mean_r = mean Sharpe/mean R **per-symbol** poi
+    mediato sul basket (regola 5): una strategia che vince su 1 asset e perde
+    sugli altri non passa — il pooled stat maschererebbe la concentrazione."""
     j = _journal()
     opens, closed = {}, []
     for e in j:
@@ -114,7 +117,8 @@ def paper_stats(strategy_id: str) -> dict:
                 continue
             risk = abs(o["stop_px"] / o["entry_px"] - 1) * o["size_usd"]
             closed.append({"pnl": e.get("pnl_usd", 0.0),
-                           "r": e.get("pnl_usd", 0.0) / risk if risk > 0 else 0.0})
+                           "r": e.get("pnl_usd", 0.0) / risk if risk > 0 else 0.0,
+                           "symbol": e.get("symbol", "")})
     n = len(closed)
     # drawdown corrente da state.json (equity unrealized incluse posizioni aperte)
     state_path = ROOT / "paper" / "state.json"
@@ -127,10 +131,26 @@ def paper_stats(strategy_id: str) -> dict:
                 equity_dd_pct = round((eq - 10000.0) / 10000.0 * 100, 2)
         except Exception:
             pass
+    # per-symbol R-multiples → basket Sharpe/mean R (regola 5: mean per-asset, non pooled)
+    by_symbol: dict[str, list[float]] = {}
+    for c in closed:
+        by_symbol.setdefault(c["symbol"], []).append(c["r"])
+    per_symbol_mean = {s: sum(rs) / len(rs) for s, rs in by_symbol.items() if rs}
+    basket_mean_r = round(sum(per_symbol_mean.values()) / len(per_symbol_mean), 3) if per_symbol_mean else 0.0
+    per_symbol_sharpe = []
+    for s, rs in by_symbol.items():
+        if len(rs) < 2:
+            continue   # Sharpe richiede ≥2 trade per stimare la deviazione
+        m = sum(rs) / len(rs)
+        sd = (sum((r - m) ** 2 for r in rs) / (len(rs) - 1)) ** 0.5
+        per_symbol_sharpe.append(m / sd * (len(rs) ** 0.5) if sd > 0 else 0.0)
+    basket_sharpe_r = round(sum(per_symbol_sharpe) / len(per_symbol_sharpe), 3) if per_symbol_sharpe else 0.0
     if n == 0:
         return {"n_closed": 0, "total_pnl": 0.0, "win_rate": 0.0,
                 "mean_r": 0.0, "sharpe_r": 0.0, "open_now": len(opens),
-                "equity_dd_pct": equity_dd_pct}
+                "equity_dd_pct": equity_dd_pct,
+                "basket_mean_r": basket_mean_r, "basket_sharpe_r": basket_sharpe_r,
+                "symbols_traded": len(by_symbol)}
     rs = [c["r"] for c in closed]
     mean_r = sum(rs) / n
     sd = (sum((r - mean_r) ** 2 for r in rs) / (n - 1)) ** 0.5 if n > 1 else 0.0
@@ -142,6 +162,9 @@ def paper_stats(strategy_id: str) -> dict:
         "sharpe_r": round(mean_r / sd * (n ** 0.5), 3) if sd > 0 else 0.0,
         "open_now": len(opens),
         "equity_dd_pct": equity_dd_pct,
+        "basket_mean_r": basket_mean_r,
+        "basket_sharpe_r": basket_sharpe_r,
+        "symbols_traded": len(by_symbol),
     }
 
 
@@ -150,3 +173,42 @@ def backtest_dsr(spec: dict) -> float | None:
     bt = next(iter(spec.get("backtest", {}).values()), {})
     agg = bt.get("aggregate", {})
     return agg.get("dsr")
+
+
+# Global caps per strategie meccaniche (regola 3). I desk LLM hanno HARD_LIMITS
+# più stretti in decide.py. Le meccaniche diversificano su basket → caps più
+# larghi ma bounded. Override per-asset-class consentito con commento nello YAML.
+GLOBAL_RISK_CAPS = {
+    "max_leverage": 4,            # >4 = rischio eccessivo anche su low-vol
+    "max_concurrent_positions": 12,  # >12 = over-diversification, niente edge
+    "max_risk_per_trade_pct": 2.0,   # >2% = risk-of-ruin non trascurabile
+}
+
+
+def validate_spec_risk(spec: dict) -> list[str]:
+    """Valida il blocco risk di una strategia meccanica contro i global caps.
+    Ritorna lista di warning (vuota = OK). Non blocca il runner (così il loop
+    evolutivo può esplorare), ma paper_all.py warna e l'audit le surfaces."""
+    warnings = []
+    risk = spec.get("risk", {})
+    if not risk:
+        return ["blocco risk mancante"]
+    sid = spec.get("id", "?")
+    lev = float(risk.get("max_leverage", 2))
+    if lev > GLOBAL_RISK_CAPS["max_leverage"]:
+        warnings.append(f"max_leverage {lev} > cap {GLOBAL_RISK_CAPS['max_leverage']}")
+    conc = int(risk.get("max_concurrent_positions", 1))
+    if conc > GLOBAL_RISK_CAPS["max_concurrent_positions"]:
+        warnings.append(f"max_concurrent_positions {conc} > cap {GLOBAL_RISK_CAPS['max_concurrent_positions']}")
+    rpt = float(risk.get("risk_per_trade_pct", 1.0))
+    if rpt > GLOBAL_RISK_CAPS["max_risk_per_trade_pct"]:
+        warnings.append(f"risk_per_trade_pct {rpt} > cap {GLOBAL_RISK_CAPS['max_risk_per_trade_pct']}")
+    # override per-asset-class nel blocco exit.by_class (es. stock low-vol leva 4)
+    by_class = spec.get("exit", {}).get("by_class", {})
+    for cls, cfg in by_class.items():
+        if isinstance(cfg, dict) and "max_leverage" in cfg:
+            cl = float(cfg["max_leverage"])
+            if cl > GLOBAL_RISK_CAPS["max_leverage"]:
+                warnings.append(f"by_class.{cls}.max_leverage {cl} > cap {GLOBAL_RISK_CAPS['max_leverage']} "
+                                f"(consentito con commento justification nello YAML)")
+    return warnings
