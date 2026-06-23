@@ -395,6 +395,39 @@ table.pos-tbl{ width:100%; border-collapse:collapse; min-width:760px; }
 .sharpe .sl{ color:var(--text-4); font-size:9px; letter-spacing:.1em; text-transform:uppercase; margin-right:4px; }
 .node-note{ font-family:var(--sans); font-size:12px; color:var(--text-3); margin-left:auto; font-style:italic; }
 
+/* ---------- decision filters ---------- */
+.filter-stack{ display:flex; flex-direction:column; gap:10px; margin-bottom:14px; }
+.filter-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.filter-row .fk{
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--text-4); min-width:62px; padding-top:4px;
+}
+.filter-row .book-filters{ margin-bottom:0; }
+
+/* ---------- empty state ---------- */
+.empty-box{
+  display:flex; flex-direction:column; gap:9px;
+  padding:26px 24px; border:1px dashed var(--line-2); border-radius:var(--r);
+  background:var(--bg-2); max-width:62ch;
+}
+.empty-box .e-ico{
+  font-family:var(--serif); font-size:22px; line-height:1; color:var(--amber-dim);
+  font-feature-settings:"tnum" 0; letter-spacing:.04em;
+}
+.empty-box .e-title{
+  font-family:var(--serif); font-weight:700; font-size:17px; color:var(--text-1); margin:0;
+}
+.empty-box .e-body{
+  font-family:var(--sans); font-size:13.5px; line-height:1.55; color:var(--text-2); margin:0;
+  text-wrap:pretty;
+}
+.empty-box .e-next{
+  display:inline-flex; align-items:center; gap:7px; margin-top:4px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.04em; color:var(--amber);
+}
+.empty-box .e-next .d{ width:6px; height:6px; border-radius:50%; background:var(--amber); }
+@media(max-width:520px){ .empty-box{ padding:22px 18px; } }
+
 /* ---------- nav sezioni ---------- */
 .secnav{ position:sticky; top:0; z-index:50; background:color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
 .secnav-inner{ display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; }
@@ -466,7 +499,7 @@ footer .foot-mark b{ color:var(--amber); }
 
 <nav class="secnav" id="secnav">
   <div class="wrap secnav-inner">
-    <a href="#stato">Stato</a><a href="#strategie">Strategie</a><a href="#posizioni">Posizioni</a><a href="#decisioni">Decisioni</a><a href="#book">Trading book</a><a href="#lezioni">Lezioni</a><a href="#evoluzione">Evoluzione</a>
+    <a href="#stato">Stato</a><a href="#strategie">Strategie</a><a href="#posizioni">Posizioni</a><a href="#rischio">Rischio</a><a href="#decisioni">Decisioni</a><a href="#book">Trading book</a><a href="#lezioni">Lezioni</a><a href="#evoluzione">Evoluzione</a>
   </div>
 </nav>
 
@@ -479,19 +512,14 @@ footer .foot-mark b{ color:var(--amber); }
   <section id="stato">
     <div class="sec-head">
       <span class="kicker">01 · Stato</span>
-      <h2>Due conti, una sola regola: tutto in chiaro</h2>
-      <p class="note">Balance fittizio, prezzi reali di mercato. La pipeline di agenti decide; il TSMOM sistematico fa da challenger.</p>
+      <h2>I conti, una sola regola: tutto in chiaro</h2>
+      <p class="note">Balance fittizio, prezzi reali di mercato. La pipeline di agenti AI decide; le strategie sistematiche fanno da challenger ispezionabile.</p>
     </div>
     <div class="portfolio" id="portfolio"></div>
     <div id="portfolio-kpi" style="margin-bottom:16px"></div>
     <div id="portfolio-curve" style="margin-bottom:18px"></div>
-    <h3 style="font-family:var(--serif);margin:8px 0 10px">Rischio &amp; esposizione</h3>
-    <div id="risk-panel" style="margin-bottom:20px"></div>
     <h3 style="font-family:var(--serif);margin:8px 0 10px">I conti</h3>
     <div class="accounts" id="accounts"></div>
-    <h3 style="font-family:var(--serif);margin:24px 0 6px">Confluenza segnali · LUX</h3>
-    <p class="note" style="margin-bottom:10px">Stato live dei 5 segnali ortogonali per asset. Confluenza = i 3 core (TSMOM·LIQ·KRONOS) attivi e concordi → setup ad alta convinzione.</p>
-    <div id="signals-matrix"></div>
   </section>
 
   <!-- STRATEGIE SPIEGATE -->
@@ -526,21 +554,39 @@ footer .foot-mark b{ color:var(--amber); }
     <div class="pos-list" id="positions-body"></div>
   </section>
 
+  <!-- RISCHIO &amp; ESPOSIZIONE -->
+  <section id="rischio">
+    <div class="sec-head">
+      <span class="kicker">04 · Rischio &amp; esposizione</span>
+      <h2>Esposizione aggregata e tensioni dei conti</h2>
+      <p class="note">Esposizione aggregata di tutti i conti e la matrice di 5 segnali ortogonali per asset. <b>Confluenza</b> = i 3 core (TSMOM·LIQ·KRONOS) attivi e concordi → setup ad alta convinzione.</p>
+    </div>
+    <h3 style="font-family:var(--serif);margin:8px 0 10px">Esposizione aggregata</h3>
+    <div id="risk-panel" style="margin-bottom:24px"></div>
+    <h3 style="font-family:var(--serif);margin:20px 0 6px">Confluenza segnali · LUX</h3>
+    <p class="note" style="margin-bottom:10px">Stato live dei 5 segnali ortogonali per asset.</p>
+    <div id="signals-matrix"></div>
+  </section>
+
   <!-- DECISIONI -->
   <section id="decisioni">
     <div class="sec-head">
-      <span class="kicker">04 · Feed decisioni</span>
+      <span class="kicker">05 · Feed decisioni</span>
       <h2>Tutte le decisioni, e il perché</h2>
       <p class="note">Ordine cronologico inverso: sia le aperture automatiche dei sistemi, sia le proposte del desk AI. Per ognuna: il motivo dell'ingresso e cosa la farebbe chiudere.</p>
     </div>
-    <div class="book-filters" id="dec-filters"></div>
+    <div class="filter-stack">
+      <div class="filter-row"><span class="fk">Conto</span><div class="book-filters" id="dec-filters"></div></div>
+      <div class="filter-row"><span class="fk">Verdetto</span><div class="book-filters" id="dec-filters-verdict"></div></div>
+      <div class="filter-row"><span class="fk">Stato</span><div class="book-filters" id="dec-filters-state"></div></div>
+    </div>
     <div class="feed" id="feed"></div>
   </section>
 
   <!-- TRADING BOOK -->
   <section id="book">
     <div class="sec-head">
-      <span class="kicker">05 · Trading book</span>
+      <span class="kicker">06 · Trading book</span>
       <h2>Lo storico completo delle operazioni</h2>
       <p class="note">Ogni operazione mai aperta, su tutti i conti: prezzi di entrata e uscita, risultato e motivo della chiusura. Filtra per strategia o guarda tutto insieme.</p>
     </div>
@@ -575,7 +621,7 @@ footer .foot-mark b{ color:var(--amber); }
   <!-- LEZIONI -->
   <section id="lezioni">
     <div class="sec-head">
-      <span class="kicker">06 · Lezioni apprese</span>
+      <span class="kicker">07 · Lezioni apprese</span>
       <h2>Imparare in pubblico</h2>
       <p class="note">Gli errori ammessi valgono più dei colpi riusciti. Verdetto onesto su ogni trade chiuso.</p>
     </div>
@@ -585,7 +631,7 @@ footer .foot-mark b{ color:var(--amber); }
   <!-- LINEAGE -->
   <section id="evoluzione">
     <div class="sec-head">
-      <span class="kicker">07 · Albero evolutivo</span>
+      <span class="kicker">08 · Albero evolutivo</span>
       <h2>Generazioni di strategie</h2>
       <p class="note">Ogni nodo è una mutazione di un genitore. Le ritirate restano visibili: è la storia, non solo lo stato.</p>
     </div>
@@ -604,7 +650,7 @@ footer .foot-mark b{ color:var(--amber); }
   <!-- EVENTI NEWS -->
   <section id="eventi">
     <div class="sec-head">
-      <span class="kicker">08 · Eventi news</span>
+      <span class="kicker">09 · Eventi news</span>
       <h2>Catalizzatori dal flusso globale</h2>
       <p class="note">Burst anomali di copertura mediatica per tema (GDELT, timestamp point-in-time). L'event study su 48 eventi ha mostrato che il <b>tono non predice la direzione</b> dei prezzi (ipotesi falsificata — vedi Lezioni): ciò che è reale è la <b>volatilità</b> attorno all'evento. Per questo gli eventi alimentano un <b>filtro di rischio</b> (sospendono nuove entrate durante i burst), non una scommessa direzionale.</p>
     </div>
@@ -645,7 +691,7 @@ footer .foot-mark b{ color:var(--amber); }
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-23 13:16",
+ "updated_utc": "2026-06-23 14:17",
  "accounts": [
   {
    "id": "agents-v1",
@@ -2231,6 +2277,14 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-23 13:16",
      10359.41
+    ],
+    [
+     "2026-06-23 14:15",
+     10359.41
+    ],
+    [
+     "2026-06-23 14:16",
+     10359.41
     ]
    ],
    "positions": [],
@@ -3607,6 +3661,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        62231.0
+      ],
+      [
+       "2026-06-23 13:00",
+       62449.0
       ]
      ]
     },
@@ -4014,6 +4072,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        77.205
+      ],
+      [
+       "2026-06-23 13:00",
+       76.717
       ]
      ]
     },
@@ -4421,6 +4483,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        421.41
+      ],
+      [
+       "2026-06-23 13:00",
+       422.24
       ]
      ]
     },
@@ -4772,6 +4838,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        1653.4
+      ],
+      [
+       "2026-06-23 13:00",
+       1661.4
       ]
      ]
     },
@@ -5123,6 +5193,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        150.9
+      ],
+      [
+       "2026-06-23 13:00",
+       155.82
       ]
      ]
     },
@@ -5474,6 +5548,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        68.901
+      ],
+      [
+       "2026-06-23 13:00",
+       69.142
       ]
      ]
     },
@@ -5801,6 +5879,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        1670.4
+      ],
+      [
+       "2026-06-23 13:00",
+       1705.5
       ]
      ]
     },
@@ -6128,6 +6210,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        1097.0
+      ],
+      [
+       "2026-06-23 13:00",
+       1092.5
       ]
      ]
     }
@@ -6941,6 +7027,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        73.610001
+      ],
+      [
+       "2026-06-23 13:00",
+       72.980003
       ]
      ]
     }
@@ -7394,6 +7484,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-23 13:15",
+     8151.82
+    ],
+    [
+     "2026-06-23 14:15",
      8151.82
     ]
    ],
@@ -7998,6 +8092,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        0.20286
+      ],
+      [
+       "2026-06-23 13:00",
+       0.20393
       ]
      ]
     },
@@ -8353,6 +8451,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        2.0028
+      ],
+      [
+       "2026-06-23 13:00",
+       1.9933
       ]
      ]
     },
@@ -8704,6 +8806,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        68.901
+      ],
+      [
+       "2026-06-23 13:00",
+       69.142
       ]
      ]
     },
@@ -9055,6 +9161,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        421.41
+      ],
+      [
+       "2026-06-23 13:00",
+       422.24
       ]
      ]
     },
@@ -9390,6 +9500,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        1653.4
+      ],
+      [
+       "2026-06-23 13:00",
+       1661.4
       ]
      ]
     }
@@ -10040,6 +10154,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        0.001394
+      ],
+      [
+       "2026-06-23 13:00",
+       0.001405
       ]
      ]
     },
@@ -10495,6 +10613,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        219.84
+      ],
+      [
+       "2026-06-23 13:00",
+       217.25
       ]
      ]
     },
@@ -10870,6 +10992,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        3.233
+      ],
+      [
+       "2026-06-23 13:00",
+       3.2224
       ]
      ]
     },
@@ -11217,6 +11343,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        77.205
+      ],
+      [
+       "2026-06-23 13:00",
+       76.717
       ]
      ]
     },
@@ -11556,6 +11686,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        4115.9
+      ],
+      [
+       "2026-06-23 13:00",
+       4138.7
       ]
      ]
     },
@@ -11883,6 +12017,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        150.9
+      ],
+      [
+       "2026-06-23 13:00",
+       155.82
       ]
      ]
     },
@@ -12210,6 +12348,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        73.688
+      ],
+      [
+       "2026-06-23 13:00",
+       73.113
       ]
      ]
     },
@@ -12221,320 +12363,7 @@ footer .foot-mark b{ color:var(--amber); }
      "stop_px": 1720.091627,
      "target_px": 1598.808746,
      "opened_at": "2026-06-23 07:00",
-     "chart": [
-      [
-       "2026-06-20 07:00",
-       1725.5
-      ],
-      [
-       "2026-06-20 08:00",
-       1722.5
-      ],
-      [
-       "2026-06-20 09:00",
-       1728.5
-      ],
-      [
-       "2026-06-20 10:00",
-       1727.4
-      ],
-      [
-       "2026-06-20 11:00",
-       1727.1
-      ],
-      [
-       "2026-06-20 12:00",
-       1726.7
-      ],
-      [
-       "2026-06-20 13:00",
-       1717.3
-      ],
-      [
-       "2026-06-20 14:00",
-       1733.1
-      ],
-      [
-       "2026-06-20 15:00",
-       1739.6
-      ],
-      [
-       "2026-06-20 16:00",
-       1732.8
-      ],
-      [
-       "2026-06-20 17:00",
-       1726.2
-      ],
-      [
-       "2026-06-20 18:00",
-       1726.3
-      ],
-      [
-       "2026-06-20 19:00",
-       1728.4
-      ],
-      [
-       "2026-06-20 20:00",
-       1730.2
-      ],
-      [
-       "2026-06-20 21:00",
-       1735.2
-      ],
-      [
-       "2026-06-20 22:00",
-       1742.8
-      ],
-      [
-       "2026-06-20 23:00",
-       1740.5
-      ],
-      [
-       "2026-06-21 00:00",
-       1736.5
-      ],
-      [
-       "2026-06-21 01:00",
-       1736.5
-      ],
-      [
-       "2026-06-21 02:00",
-       1735.2
-      ],
-      [
-       "2026-06-21 03:00",
-       1737.0
-      ],
-      [
-       "2026-06-21 04:00",
-       1731.9
-      ],
-      [
-       "2026-06-21 05:00",
-       1732.4
-      ],
-      [
-       "2026-06-21 06:00",
-       1735.1
-      ],
-      [
-       "2026-06-21 07:00",
-       1731.3
-      ],
-      [
-       "2026-06-21 08:00",
-       1728.4
-      ],
-      [
-       "2026-06-21 09:00",
-       1731.9
-      ],
-      [
-       "2026-06-21 10:00",
-       1730.6
-      ],
-      [
-       "2026-06-21 11:00",
-       1724.7
-      ],
-      [
-       "2026-06-21 12:00",
-       1725.0
-      ],
-      [
-       "2026-06-21 13:00",
-       1723.8
-      ],
-      [
-       "2026-06-21 14:00",
-       1727.5
-      ],
-      [
-       "2026-06-21 15:00",
-       1729.6
-      ],
-      [
-       "2026-06-21 16:00",
-       1727.2
-      ],
-      [
-       "2026-06-21 17:00",
-       1726.5
-      ],
-      [
-       "2026-06-21 18:00",
-       1734.1
-      ],
-      [
-       "2026-06-21 19:00",
-       1733.2
-      ],
-      [
-       "2026-06-21 20:00",
-       1720.2
-      ],
-      [
-       "2026-06-21 21:00",
-       1717.7
-      ],
-      [
-       "2026-06-21 22:00",
-       1717.0
-      ],
-      [
-       "2026-06-21 23:00",
-       1706.1
-      ],
-      [
-       "2026-06-22 00:00",
-       1726.3
-      ],
-      [
-       "2026-06-22 01:00",
-       1743.1
-      ],
-      [
-       "2026-06-22 02:00",
-       1736.8
-      ],
-      [
-       "2026-06-22 03:00",
-       1729.5
-      ],
-      [
-       "2026-06-22 04:00",
-       1734.7
-      ],
-      [
-       "2026-06-22 05:00",
-       1736.2
-      ],
-      [
-       "2026-06-22 06:00",
-       1734.8
-      ],
-      [
-       "2026-06-22 07:00",
-       1745.9
-      ],
-      [
-       "2026-06-22 08:00",
-       1747.3
-      ],
-      [
-       "2026-06-22 09:00",
-       1745.8
-      ],
-      [
-       "2026-06-22 10:00",
-       1748.7
-      ],
-      [
-       "2026-06-22 11:00",
-       1767.0
-      ],
-      [
-       "2026-06-22 12:00",
-       1762.9
-      ],
-      [
-       "2026-06-22 13:00",
-       1776.4
-      ],
-      [
-       "2026-06-22 14:00",
-       1753.8
-      ],
-      [
-       "2026-06-22 15:00",
-       1743.7
-      ],
-      [
-       "2026-06-22 16:00",
-       1739.1
-      ],
-      [
-       "2026-06-22 17:00",
-       1740.6
-      ],
-      [
-       "2026-06-22 18:00",
-       1732.6
-      ],
-      [
-       "2026-06-22 19:00",
-       1734.7
-      ],
-      [
-       "2026-06-22 20:00",
-       1733.5
-      ],
-      [
-       "2026-06-22 21:00",
-       1732.1
-      ],
-      [
-       "2026-06-22 22:00",
-       1723.5
-      ],
-      [
-       "2026-06-22 23:00",
-       1727.9
-      ],
-      [
-       "2026-06-23 00:00",
-       1730.8
-      ],
-      [
-       "2026-06-23 01:00",
-       1730.2
-      ],
-      [
-       "2026-06-23 02:00",
-       1732.2
-      ],
-      [
-       "2026-06-23 03:00",
-       1728.9
-      ],
-      [
-       "2026-06-23 04:00",
-       1718.2
-      ],
-      [
-       "2026-06-23 05:00",
-       1712.5
-      ],
-      [
-       "2026-06-23 06:00",
-       1691.3
-      ],
-      [
-       "2026-06-23 07:00",
-       1680.0
-      ],
-      [
-       "2026-06-23 08:00",
-       1647.1
-      ],
-      [
-       "2026-06-23 09:00",
-       1649.9
-      ],
-      [
-       "2026-06-23 10:00",
-       1651.6
-      ],
-      [
-       "2026-06-23 11:00",
-       1659.6
-      ],
-      [
-       "2026-06-23 12:00",
-       1653.4
-      ]
-     ]
+     "chart": null
     },
     {
      "symbol": "BTC",
@@ -12544,316 +12373,7 @@ footer .foot-mark b{ color:var(--amber); }
      "stop_px": 63560.999543,
      "target_px": 59884.592114,
      "opened_at": "2026-06-23 08:00",
-     "chart": [
-      [
-       "2026-06-20 08:00",
-       63399.0
-      ],
-      [
-       "2026-06-20 09:00",
-       63704.0
-      ],
-      [
-       "2026-06-20 10:00",
-       63651.0
-      ],
-      [
-       "2026-06-20 11:00",
-       63658.0
-      ],
-      [
-       "2026-06-20 12:00",
-       63623.0
-      ],
-      [
-       "2026-06-20 13:00",
-       63373.0
-      ],
-      [
-       "2026-06-20 14:00",
-       63930.0
-      ],
-      [
-       "2026-06-20 15:00",
-       64120.0
-      ],
-      [
-       "2026-06-20 16:00",
-       63990.0
-      ],
-      [
-       "2026-06-20 17:00",
-       63814.0
-      ],
-      [
-       "2026-06-20 18:00",
-       63777.0
-      ],
-      [
-       "2026-06-20 19:00",
-       63906.0
-      ],
-      [
-       "2026-06-20 20:00",
-       63899.0
-      ],
-      [
-       "2026-06-20 21:00",
-       63989.0
-      ],
-      [
-       "2026-06-20 22:00",
-       64252.0
-      ],
-      [
-       "2026-06-20 23:00",
-       64276.0
-      ],
-      [
-       "2026-06-21 00:00",
-       64268.0
-      ],
-      [
-       "2026-06-21 01:00",
-       64229.0
-      ],
-      [
-       "2026-06-21 02:00",
-       64230.0
-      ],
-      [
-       "2026-06-21 03:00",
-       64399.0
-      ],
-      [
-       "2026-06-21 04:00",
-       64251.0
-      ],
-      [
-       "2026-06-21 05:00",
-       64221.0
-      ],
-      [
-       "2026-06-21 06:00",
-       64265.0
-      ],
-      [
-       "2026-06-21 07:00",
-       64160.0
-      ],
-      [
-       "2026-06-21 08:00",
-       63985.0
-      ],
-      [
-       "2026-06-21 09:00",
-       64175.0
-      ],
-      [
-       "2026-06-21 10:00",
-       64336.0
-      ],
-      [
-       "2026-06-21 11:00",
-       64130.0
-      ],
-      [
-       "2026-06-21 12:00",
-       64161.0
-      ],
-      [
-       "2026-06-21 13:00",
-       64105.0
-      ],
-      [
-       "2026-06-21 14:00",
-       64110.0
-      ],
-      [
-       "2026-06-21 15:00",
-       64185.0
-      ],
-      [
-       "2026-06-21 16:00",
-       64107.0
-      ],
-      [
-       "2026-06-21 17:00",
-       64111.0
-      ],
-      [
-       "2026-06-21 18:00",
-       64162.0
-      ],
-      [
-       "2026-06-21 19:00",
-       64168.0
-      ],
-      [
-       "2026-06-21 20:00",
-       63800.0
-      ],
-      [
-       "2026-06-21 21:00",
-       63760.0
-      ],
-      [
-       "2026-06-21 22:00",
-       63762.0
-      ],
-      [
-       "2026-06-21 23:00",
-       63270.0
-      ],
-      [
-       "2026-06-22 00:00",
-       63861.0
-      ],
-      [
-       "2026-06-22 01:00",
-       64576.0
-      ],
-      [
-       "2026-06-22 02:00",
-       64218.0
-      ],
-      [
-       "2026-06-22 03:00",
-       63937.0
-      ],
-      [
-       "2026-06-22 04:00",
-       64067.0
-      ],
-      [
-       "2026-06-22 05:00",
-       64204.0
-      ],
-      [
-       "2026-06-22 06:00",
-       63971.0
-      ],
-      [
-       "2026-06-22 07:00",
-       64178.0
-      ],
-      [
-       "2026-06-22 08:00",
-       64139.0
-      ],
-      [
-       "2026-06-22 09:00",
-       64108.0
-      ],
-      [
-       "2026-06-22 10:00",
-       64112.0
-      ],
-      [
-       "2026-06-22 11:00",
-       64630.0
-      ],
-      [
-       "2026-06-22 12:00",
-       65116.0
-      ],
-      [
-       "2026-06-22 13:00",
-       65537.0
-      ],
-      [
-       "2026-06-22 14:00",
-       64946.0
-      ],
-      [
-       "2026-06-22 15:00",
-       64802.0
-      ],
-      [
-       "2026-06-22 16:00",
-       64702.0
-      ],
-      [
-       "2026-06-22 17:00",
-       64587.0
-      ],
-      [
-       "2026-06-22 18:00",
-       64309.0
-      ],
-      [
-       "2026-06-22 19:00",
-       64482.0
-      ],
-      [
-       "2026-06-22 20:00",
-       64420.0
-      ],
-      [
-       "2026-06-22 21:00",
-       64298.0
-      ],
-      [
-       "2026-06-22 22:00",
-       63964.0
-      ],
-      [
-       "2026-06-22 23:00",
-       64012.0
-      ],
-      [
-       "2026-06-23 00:00",
-       64138.0
-      ],
-      [
-       "2026-06-23 01:00",
-       64131.0
-      ],
-      [
-       "2026-06-23 02:00",
-       64167.0
-      ],
-      [
-       "2026-06-23 03:00",
-       64035.0
-      ],
-      [
-       "2026-06-23 04:00",
-       63595.0
-      ],
-      [
-       "2026-06-23 05:00",
-       63371.0
-      ],
-      [
-       "2026-06-23 06:00",
-       62900.0
-      ],
-      [
-       "2026-06-23 07:00",
-       62852.0
-      ],
-      [
-       "2026-06-23 08:00",
-       62348.0
-      ],
-      [
-       "2026-06-23 09:00",
-       62349.0
-      ],
-      [
-       "2026-06-23 10:00",
-       62294.0
-      ],
-      [
-       "2026-06-23 11:00",
-       62481.0
-      ],
-      [
-       "2026-06-23 12:00",
-       62231.0
-      ]
-     ]
+     "chart": null
     }
    ],
    "book": []
@@ -12969,6 +12489,10 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-23 13:15",
+     9876.74
+    ],
+    [
+     "2026-06-23 14:15",
      9876.74
     ]
    ],
@@ -13377,6 +12901,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        0.20286
+      ],
+      [
+       "2026-06-23 13:00",
+       0.20393
       ]
      ]
     },
@@ -13768,6 +13296,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        2.0028
+      ],
+      [
+       "2026-06-23 13:00",
+       1.9933
       ]
      ]
     },
@@ -14119,6 +13651,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        68.901
+      ],
+      [
+       "2026-06-23 13:00",
+       69.142
       ]
      ]
     },
@@ -14130,7 +13666,352 @@ footer .foot-mark b{ color:var(--amber); }
      "stop_px": 464.25713,
      "target_px": 403.06937,
      "opened_at": "2026-06-23 00:00",
-     "chart": null
+     "chart": [
+      [
+       "2026-06-20 00:00",
+       472.7
+      ],
+      [
+       "2026-06-20 01:00",
+       471.21
+      ],
+      [
+       "2026-06-20 02:00",
+       468.38
+      ],
+      [
+       "2026-06-20 03:00",
+       466.83
+      ],
+      [
+       "2026-06-20 04:00",
+       471.33
+      ],
+      [
+       "2026-06-20 05:00",
+       470.06
+      ],
+      [
+       "2026-06-20 06:00",
+       471.04
+      ],
+      [
+       "2026-06-20 07:00",
+       468.54
+      ],
+      [
+       "2026-06-20 08:00",
+       468.97
+      ],
+      [
+       "2026-06-20 09:00",
+       472.08
+      ],
+      [
+       "2026-06-20 10:00",
+       471.26
+      ],
+      [
+       "2026-06-20 11:00",
+       469.81
+      ],
+      [
+       "2026-06-20 12:00",
+       473.36
+      ],
+      [
+       "2026-06-20 13:00",
+       467.47
+      ],
+      [
+       "2026-06-20 14:00",
+       473.62
+      ],
+      [
+       "2026-06-20 15:00",
+       475.48
+      ],
+      [
+       "2026-06-20 16:00",
+       473.75
+      ],
+      [
+       "2026-06-20 17:00",
+       468.89
+      ],
+      [
+       "2026-06-20 18:00",
+       468.06
+      ],
+      [
+       "2026-06-20 19:00",
+       466.07
+      ],
+      [
+       "2026-06-20 20:00",
+       471.21
+      ],
+      [
+       "2026-06-20 21:00",
+       471.12
+      ],
+      [
+       "2026-06-20 22:00",
+       475.21
+      ],
+      [
+       "2026-06-20 23:00",
+       470.76
+      ],
+      [
+       "2026-06-21 00:00",
+       470.08
+      ],
+      [
+       "2026-06-21 01:00",
+       469.03
+      ],
+      [
+       "2026-06-21 02:00",
+       466.7
+      ],
+      [
+       "2026-06-21 03:00",
+       470.96
+      ],
+      [
+       "2026-06-21 04:00",
+       466.75
+      ],
+      [
+       "2026-06-21 05:00",
+       466.63
+      ],
+      [
+       "2026-06-21 06:00",
+       467.83
+      ],
+      [
+       "2026-06-21 07:00",
+       465.87
+      ],
+      [
+       "2026-06-21 08:00",
+       454.68
+      ],
+      [
+       "2026-06-21 09:00",
+       457.26
+      ],
+      [
+       "2026-06-21 10:00",
+       458.02
+      ],
+      [
+       "2026-06-21 11:00",
+       453.42
+      ],
+      [
+       "2026-06-21 12:00",
+       451.45
+      ],
+      [
+       "2026-06-21 13:00",
+       452.82
+      ],
+      [
+       "2026-06-21 14:00",
+       453.54
+      ],
+      [
+       "2026-06-21 15:00",
+       453.48
+      ],
+      [
+       "2026-06-21 16:00",
+       450.11
+      ],
+      [
+       "2026-06-21 17:00",
+       449.27
+      ],
+      [
+       "2026-06-21 18:00",
+       452.39
+      ],
+      [
+       "2026-06-21 19:00",
+       451.61
+      ],
+      [
+       "2026-06-21 20:00",
+       446.28
+      ],
+      [
+       "2026-06-21 21:00",
+       445.26
+      ],
+      [
+       "2026-06-21 22:00",
+       445.91
+      ],
+      [
+       "2026-06-21 23:00",
+       434.22
+      ],
+      [
+       "2026-06-22 00:00",
+       441.67
+      ],
+      [
+       "2026-06-22 01:00",
+       447.92
+      ],
+      [
+       "2026-06-22 02:00",
+       444.73
+      ],
+      [
+       "2026-06-22 03:00",
+       440.67
+      ],
+      [
+       "2026-06-22 04:00",
+       443.9
+      ],
+      [
+       "2026-06-22 05:00",
+       444.24
+      ],
+      [
+       "2026-06-22 06:00",
+       447.52
+      ],
+      [
+       "2026-06-22 07:00",
+       451.32
+      ],
+      [
+       "2026-06-22 08:00",
+       452.64
+      ],
+      [
+       "2026-06-22 09:00",
+       452.29
+      ],
+      [
+       "2026-06-22 10:00",
+       453.71
+      ],
+      [
+       "2026-06-22 11:00",
+       455.8
+      ],
+      [
+       "2026-06-22 12:00",
+       460.14
+      ],
+      [
+       "2026-06-22 13:00",
+       461.96
+      ],
+      [
+       "2026-06-22 14:00",
+       452.79
+      ],
+      [
+       "2026-06-22 15:00",
+       449.88
+      ],
+      [
+       "2026-06-22 16:00",
+       453.3
+      ],
+      [
+       "2026-06-22 17:00",
+       451.97
+      ],
+      [
+       "2026-06-22 18:00",
+       449.99
+      ],
+      [
+       "2026-06-22 19:00",
+       449.26
+      ],
+      [
+       "2026-06-22 20:00",
+       452.69
+      ],
+      [
+       "2026-06-22 21:00",
+       445.52
+      ],
+      [
+       "2026-06-22 22:00",
+       443.1
+      ],
+      [
+       "2026-06-22 23:00",
+       442.04
+      ],
+      [
+       "2026-06-23 00:00",
+       443.95
+      ],
+      [
+       "2026-06-23 01:00",
+       441.75
+      ],
+      [
+       "2026-06-23 02:00",
+       445.52
+      ],
+      [
+       "2026-06-23 03:00",
+       447.4
+      ],
+      [
+       "2026-06-23 04:00",
+       443.13
+      ],
+      [
+       "2026-06-23 05:00",
+       438.72
+      ],
+      [
+       "2026-06-23 06:00",
+       425.17
+      ],
+      [
+       "2026-06-23 07:00",
+       424.81
+      ],
+      [
+       "2026-06-23 08:00",
+       421.89
+      ],
+      [
+       "2026-06-23 09:00",
+       423.95
+      ],
+      [
+       "2026-06-23 10:00",
+       421.77
+      ],
+      [
+       "2026-06-23 11:00",
+       424.65
+      ],
+      [
+       "2026-06-23 12:00",
+       421.41
+      ],
+      [
+       "2026-06-23 13:00",
+       422.24
+      ]
+     ]
     }
    ],
    "book": []
@@ -14350,6 +14231,14 @@ footer .foot-mark b{ color:var(--amber); }
     ],
     [
      "2026-06-23 13:16",
+     9898.49
+    ],
+    [
+     "2026-06-23 14:15",
+     9898.49
+    ],
+    [
+     "2026-06-23 14:16",
      9898.49
     ]
    ],
@@ -14766,6 +14655,10 @@ footer .foot-mark b{ color:var(--amber); }
       [
        "2026-06-23 12:00",
        421.41
+      ],
+      [
+       "2026-06-23 13:00",
+       422.24
       ]
      ]
     }
@@ -14884,6 +14777,10 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-23 13:16",
      10000.0
+    ],
+    [
+     "2026-06-23 14:16",
+     10000.0
     ]
    ],
    "positions": [],
@@ -14893,7 +14790,7 @@ footer .foot-mark b{ color:var(--amber); }
    "id": "xsmom-port-v1",
    "label": "xsmom-port-v1",
    "tag": "",
-   "equity": 10048.42,
+   "equity": 10100.05,
    "pnl_realized": 0,
    "trades_closed": 0,
    "wins": 0,
@@ -14977,6 +14874,10 @@ footer .foot-mark b{ color:var(--amber); }
     [
      "2026-06-23 13:15",
      10048.42
+    ],
+    [
+     "2026-06-23 14:16",
+     10100.05
     ]
    ],
    "positions": [],
@@ -14984,22 +14885,22 @@ footer .foot-mark b{ color:var(--amber); }
     {
      "symbol": "XRP",
      "side": "long",
-     "notional_usd": 2397.82
+     "notional_usd": 2401.09
     },
     {
      "symbol": "NEAR",
      "side": "short",
-     "notional_usd": -2313.77
+     "notional_usd": -2302.8
     },
     {
      "symbol": "WLD",
      "side": "long",
-     "notional_usd": 2261.31
+     "notional_usd": 2303.26
     },
     {
      "symbol": "ZEC",
      "side": "short",
-     "notional_usd": -2311.38
+     "notional_usd": -2315.93
     }
    ]
   }
@@ -20833,6 +20734,30 @@ footer .foot-mark b{ color:var(--amber); }
  ],
  "signals_matrix": [
   {
+   "symbol": "BTC",
+   "signals": {
+    "tsmom": -1,
+    "liq_imbalance": -1,
+    "kronos_forecast": 0,
+    "smart_money_ratio": 0,
+    "oi_trend": 0
+   },
+   "aligned": false,
+   "direction": "—"
+  },
+  {
+   "symbol": "ETH",
+   "signals": {
+    "tsmom": -1,
+    "liq_imbalance": -1,
+    "kronos_forecast": 0,
+    "smart_money_ratio": 0,
+    "oi_trend": 0
+   },
+   "aligned": false,
+   "direction": "—"
+  },
+  {
    "symbol": "SOL",
    "signals": {
     "tsmom": -1,
@@ -20852,6 +20777,18 @@ footer .foot-mark b{ color:var(--amber); }
     "kronos_forecast": 0,
     "smart_money_ratio": 0,
     "oi_trend": 0
+   },
+   "aligned": false,
+   "direction": "—"
+  },
+  {
+   "symbol": "SUI",
+   "signals": {
+    "tsmom": -1,
+    "liq_imbalance": -1,
+    "kronos_forecast": 0,
+    "smart_money_ratio": 0,
+    "oi_trend": -1
    },
    "aligned": false,
    "direction": "—"
@@ -23767,6 +23704,22 @@ footer .foot-mark b{ color:var(--amber); }
     if(h < 48) return Math.round(h)+' h';
     return Math.round(h/24)+' g';
   }
+  function nextRunText(){
+    if(!DATA || !DATA.updated_utc) return null;
+    const now=new Date();
+    const h=now.getUTCMinutes()<10?now.getUTCHours():now.getUTCHours()+1;
+    const next=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate(),h,10));
+    return '~'+String(next.getUTCHours()).padStart(2,'0')+':10 UTC';
+  }
+  function emptyBox(title, body, withNext){
+    const next = withNext ? nextRunText() : null;
+    return '<div class="empty-box">'+
+      '<div class="e-ico" aria-hidden="true">○</div>'+
+      '<p class="e-title">'+title+'</p>'+
+      '<p class="e-body">'+body+'</p>'+
+      (next?'<div class="e-next"><span class="d"></span>Prossimo aggiornamento cron '+next+'</div>':'')+
+    '</div>';
+  }
 
   let DATA = {};
   try{ DATA = JSON.parse($('#data').textContent); }
@@ -24050,7 +24003,7 @@ footer .foot-mark b{ color:var(--amber); }
     const body=$('#positions-body'); body.innerHTML=''; POS.length=0;
     const rows=[];
     (DATA.accounts||[]).forEach(a=> (a.positions||[]).forEach(p=>{ if(p.entry_px>0) rows.push({p, acct:a}); }));  // niente entry 0 → no stop Infinity%
-    if(!rows.length){ body.innerHTML='<p class="note">Nessuna posizione aperta al momento.</p>'; return; }
+    if(!rows.length){ body.innerHTML=emptyBox('Nessuna posizione aperta','Tutte le strategie sono flat al momento. Il cron ogni 4h ricalcola i segnali e può aprire nuove posizioni quando le tesi reggono.', true); return; }
     rows.forEach(({p,acct})=>{
       const risk=Math.abs(p.entry_px-p.stop_px), reward=Math.abs(p.target_px-p.entry_px);
       const rr=risk?(reward/risk):0;
@@ -24122,19 +24075,38 @@ footer .foot-mark b{ color:var(--amber); }
   }
 
   /* ---------- render: decisions feed ---------- */
-  let decFilter='*';
+  let decFilter='*', decVerdict='*', decState='*';
+  const VERDICT_PICKS=[['*','Tutti'],['approve','Approva'],['reduce','Riduci'],['veto','Veto'],['sistema','Automatica']];
+  const STATE_PICKS=[['*','Tutte'],['open','Aperta'],['closed','Chiusa']];
+  function feedRow(d){
+    if(!(decFilter==='*'||d.account===decFilter)) return false;
+    if(!(decVerdict==='*'||d.risk_verdict===decVerdict)) return false;
+    if(decState!=='*'){
+      const closed = !!(d.outcome&&d.outcome.closed);
+      if(decState==='open' && closed) return false;
+      if(decState==='closed' && !closed) return false;
+    }
+    return true;
+  }
   function renderFeed(){
-    const fhost=$('#dec-filters');
+    const fhost=$('#dec-filters'), vhost=$('#dec-filters-verdict'), shost=$('#dec-filters-state');
     if(fhost){
       fhost.innerHTML='';
       const seen=new Map();
       (DATA.decisions||[]).forEach(d=>{ if(d.account&&!seen.has(d.account)) seen.set(d.account, d.account_label||d.account); });
-      const mk=(id,label)=>{ const b=el('button','bchip'+(decFilter===id?' active':'')); b.textContent=label; b.onclick=()=>{ decFilter=id; renderFeed(); }; fhost.appendChild(b); };
-      mk('*','Tutte');
-      seen.forEach((label,id)=>mk(id,label));
+      const mk=(host,id,label,cur,setter)=>{ const b=el('button','bchip'+(cur===id?' active':'')); b.textContent=label; b.onclick=()=>{ setter(id); renderFeed(); }; host.appendChild(b); };
+      mk(fhost,'*','Tutte',decFilter,v=>decFilter=v);
+      seen.forEach((label,id)=>mk(fhost,id,label,decFilter,v=>decFilter=v));
+      if(vhost){ vhost.innerHTML=''; VERDICT_PICKS.forEach(([id,l])=>mk(vhost,id,l,decVerdict,v=>decVerdict=v)); }
+      if(shost){ shost.innerHTML=''; STATE_PICKS.forEach(([id,l])=>mk(shost,id,l,decState,v=>decState=v)); }
     }
     const host=$('#feed'); host.innerHTML='';
-    (DATA.decisions||[]).filter(d=>decFilter==='*'||d.account===decFilter).forEach(d=>{
+    const rows=(DATA.decisions||[]).filter(feedRow);
+    if(!rows.length){
+      host.innerHTML=emptyBox('Nessuna decisione corrisponde ai filtri',(DATA.decisions||[]).length?'Nessuna decisione corrisponde ai filtri attivi. Modifica conto, verdetto o stato, oppure torna a \"Tutte\".':'Il desk LLM e le strategie sistematiche emettono decisioni ogni 4h con tesi falsificabili e veto del Risk Manager. Saranno pubblicate qui man mano.', false);
+      return;
+    }
+    rows.forEach(d=>{
       const card=el('div','dcard v-'+d.risk_verdict);
       let out='';
       if(d.outcome){
@@ -24169,7 +24141,9 @@ footer .foot-mark b{ color:var(--amber); }
   /* ---------- render: lessons ---------- */
   function renderLessons(){
     const host=$('#lessons'); host.innerHTML='';
-    (DATA.lessons||[]).forEach(l=>{
+    const list = (DATA.lessons||[]);
+    if(!list.length){ host.innerHTML=emptyBox('Nessuna lezione ancora','Il Reviewer scrive una post-mortem per ogni trade chiuso — vittoria o sconfitta — quando c\'è materiale da estrarre. Apparirà qui in ordine cronologico.', false); return; }
+    list.forEach(l=>{
       const item=el('div','lesson '+l.verdict);
       const tags=(l.tags||[]).map(t=>'<span class="tag">'+t+'</span>').join('');
       item.innerHTML =
@@ -24216,7 +24190,7 @@ footer .foot-mark b{ color:var(--amber); }
     const a=(DATA.accounts||[]).find(x=>x.id===id);
     const trades=(DATA.tradebook||[]).filter(t=>t.strategy===id);
     const title=$('#sd-title'); if(title) title.textContent=s?s.nome:(a?a.label:id);
-    if(!s&&!a){ host.innerHTML='<p class="note">Strategia non trovata.</p>'; return; }
+    if(!s&&!a){ host.innerHTML=emptyBox('Strategia non trovata','Questo ID non corrisponde ad alcuna strategia o conto registrato. Torna all\'elenco con il link in alto per vedere tutti i conti attivi.', false); return; }
     const ST_IT={champion:'campione',challenger:'sfidante',live:'attiva',candidate:'candidata',retired:'ritirata'};
     let html='';
     // scheda spiegazione
@@ -24267,7 +24241,7 @@ footer .foot-mark b{ color:var(--amber); }
         '<td class="'+(t.r_mult>0?'pos':t.r_mult<0?'neg':'')+'">'+(t.r_mult!=null?(t.r_mult>0?'+':'')+NF2.format(t.r_mult)+'R':'—')+'</td>'+
         '<td class="muted-cell">'+(REASON_IT[t.reason]||t.reason||'—')+'</td></tr>'; });
       html+='</tbody></table></div>';
-    } else { html+='<p class="note">Nessuna operazione ancora.</p>'; }
+    } else { html+='<div style="margin-top:8px">'+emptyBox('Nessuna operazione ancora','Questa strategia è in attesa del primo trade. Negli orari di cron (ogni 4h) il sistema valuta i segnali ed entra solo se le condizioni della tesi si verificano.', true)+'</div>'; }
     host.innerHTML=html;
     // curva equity + mini-chart posizioni
     if(a&&a.equity_curve&&a.equity_curve.length>1){ const w=host.querySelector('[data-sd-curve]'); if(w) registerChart(w, a.equity_curve); }
@@ -24471,8 +24445,14 @@ footer .foot-mark b{ color:var(--amber); }
   /* ---------- render: news events ---------- */
   const TOPIC_IT={crypto:'Crypto', fed_macro:'Fed / Macro', commodities:'Commodities', equities:'Azionario', geopolitics:'Geopolitica'};
   function renderEvents(){
-    const body=$('#events-body'); if(!body) return; body.innerHTML='';
-    (DATA.news_events||[]).forEach(e=>{
+    const body=$('#events-body'); if(!body) return;
+    const list=(DATA.news_events||[]);
+    if(!list.length){
+      const scroll=body.closest('.table-scroll'); if(scroll){ const par=scroll.parentElement; scroll.remove(); par.innerHTML=emptyBox('Nessun burst news','Il filtro GDELT scatta su burst anomali di copertura mediatica per tema (crypto, macro, commodities, geopolitica). Quando un evento supera la soglia z-score apparirà qui con timestamp point-in-time.', false); }
+      return;
+    }
+    body.innerHTML='';
+    list.forEach(e=>{
       const tone=e.tone==null?null:e.tone;
       const tr=el('tr');
       tr.innerHTML =
@@ -24518,7 +24498,7 @@ footer .foot-mark b{ color:var(--amber); }
   function renderLifecycle(){
     const host=$('#lifecycle'); if(!host) return;
     const evs=DATA.lifecycle||[];
-    if(!evs.length){ host.innerHTML='<p class="note">Nessuna promozione/retrocessione ancora — scattano in automatico al superamento dei gate (trade chiusi sufficienti, edge battuto).</p>'; return; }
+    if(!evs.length){ host.innerHTML=emptyBox('Nessuna mossa evolutiva ancora','Quando uno sfidante supera il campione per N trade chiusi con DSR ≥ 0,95, il sistema lo promuove in automatico. Le retrocessioni scattano sul drawdown. Qui appariranno entrambe.', false); return; }
     host.innerHTML=evs.map(e=>{
       const cls=e.event==='promote'?'pos':'neg';
       return '<div style="display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;padding:9px 0;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12px">'+
@@ -24681,7 +24661,7 @@ footer .foot-mark b{ color:var(--amber); }
 
   /* ---------- boot ---------- */
   // router a pagine: una scheda = una vista. Eventi rimosso dalla nav.
-  const ROUTES=['stato','strategie','strategia','posizioni','decisioni','book','lezioni','evoluzione'];
+  const ROUTES=['stato','strategie','strategia','posizioni','rischio','decisioni','book','lezioni','evoluzione'];
   function showRoute(){
     const raw=(location.hash||'#stato').replace('#','');
     let id=raw.split('?')[0];
