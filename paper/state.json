@@ -156,7 +156,7 @@
   "positions": {}
  },
  "lux-0.1-beta": {
-  "equity": 8322.627618100001,
+  "equity": 8151.819095600001,
   "positions": {
    "CRV": {
     "strategy": "lux-0.1-beta",
@@ -252,24 +252,6 @@
     "opened_at": "2026-06-23 04:00:00+00:00",
     "checked_until": "2026-06-23 05:00:00+00:00",
     "_last_ts": "2026-06-23 05:00:00+00:00"
-   },
-   "WLD": {
-    "sign": 1,
-    "entry_px": 0.598109598,
-    "stop_px": 0.58315685805,
-    "target_px": 0.6429678178499999,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 0.598109598,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-0.1-beta",
-    "symbol": "WLD",
-    "direction": "long",
-    "size_usd": 6660.5,
-    "opened_at": "2026-06-23 05:00:00+00:00",
-    "checked_until": "2026-06-23 05:00:00+00:00"
    }
   }
  },
