@@ -395,6 +395,39 @@ table.pos-tbl{ width:100%; border-collapse:collapse; min-width:760px; }
 .sharpe .sl{ color:var(--text-4); font-size:9px; letter-spacing:.1em; text-transform:uppercase; margin-right:4px; }
 .node-note{ font-family:var(--sans); font-size:12px; color:var(--text-3); margin-left:auto; font-style:italic; }
 
+/* ---------- decision filters ---------- */
+.filter-stack{ display:flex; flex-direction:column; gap:10px; margin-bottom:14px; }
+.filter-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.filter-row .fk{
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--text-4); min-width:62px; padding-top:4px;
+}
+.filter-row .book-filters{ margin-bottom:0; }
+
+/* ---------- empty state ---------- */
+.empty-box{
+  display:flex; flex-direction:column; gap:9px;
+  padding:26px 24px; border:1px dashed var(--line-2); border-radius:var(--r);
+  background:var(--bg-2); max-width:62ch;
+}
+.empty-box .e-ico{
+  font-family:var(--serif); font-size:22px; line-height:1; color:var(--amber-dim);
+  font-feature-settings:"tnum" 0; letter-spacing:.04em;
+}
+.empty-box .e-title{
+  font-family:var(--serif); font-weight:700; font-size:17px; color:var(--text-1); margin:0;
+}
+.empty-box .e-body{
+  font-family:var(--sans); font-size:13.5px; line-height:1.55; color:var(--text-2); margin:0;
+  text-wrap:pretty;
+}
+.empty-box .e-next{
+  display:inline-flex; align-items:center; gap:7px; margin-top:4px;
+  font-family:var(--mono); font-size:11px; letter-spacing:.04em; color:var(--amber);
+}
+.empty-box .e-next .d{ width:6px; height:6px; border-radius:50%; background:var(--amber); }
+@media(max-width:520px){ .empty-box{ padding:22px 18px; } }
+
 /* ---------- nav sezioni ---------- */
 .secnav{ position:sticky; top:0; z-index:50; background:color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
 .secnav-inner{ display:flex; gap:2px; overflow-x:auto; scrollbar-width:none; }
@@ -466,7 +499,7 @@ footer .foot-mark b{ color:var(--amber); }
 
 <nav class="secnav" id="secnav">
   <div class="wrap secnav-inner">
-    <a href="#stato">Stato</a><a href="#strategie">Strategie</a><a href="#posizioni">Posizioni</a><a href="#decisioni">Decisioni</a><a href="#book">Trading book</a><a href="#lezioni">Lezioni</a><a href="#evoluzione">Evoluzione</a>
+    <a href="#stato">Stato</a><a href="#strategie">Strategie</a><a href="#posizioni">Posizioni</a><a href="#rischio">Rischio</a><a href="#decisioni">Decisioni</a><a href="#book">Trading book</a><a href="#lezioni">Lezioni</a><a href="#evoluzione">Evoluzione</a>
   </div>
 </nav>
 
@@ -479,19 +512,14 @@ footer .foot-mark b{ color:var(--amber); }
   <section id="stato">
     <div class="sec-head">
       <span class="kicker">01 · Stato</span>
-      <h2>Due conti, una sola regola: tutto in chiaro</h2>
-      <p class="note">Balance fittizio, prezzi reali di mercato. La pipeline di agenti decide; il TSMOM sistematico fa da challenger.</p>
+      <h2>I conti, una sola regola: tutto in chiaro</h2>
+      <p class="note">Balance fittizio, prezzi reali di mercato. La pipeline di agenti AI decide; le strategie sistematiche fanno da challenger ispezionabile.</p>
     </div>
     <div class="portfolio" id="portfolio"></div>
     <div id="portfolio-kpi" style="margin-bottom:16px"></div>
     <div id="portfolio-curve" style="margin-bottom:18px"></div>
-    <h3 style="font-family:var(--serif);margin:8px 0 10px">Rischio &amp; esposizione</h3>
-    <div id="risk-panel" style="margin-bottom:20px"></div>
     <h3 style="font-family:var(--serif);margin:8px 0 10px">I conti</h3>
     <div class="accounts" id="accounts"></div>
-    <h3 style="font-family:var(--serif);margin:24px 0 6px">Confluenza segnali · LUX</h3>
-    <p class="note" style="margin-bottom:10px">Stato live dei 5 segnali ortogonali per asset. Confluenza = i 3 core (TSMOM·LIQ·KRONOS) attivi e concordi → setup ad alta convinzione.</p>
-    <div id="signals-matrix"></div>
   </section>
 
   <!-- STRATEGIE SPIEGATE -->
@@ -526,21 +554,39 @@ footer .foot-mark b{ color:var(--amber); }
     <div class="pos-list" id="positions-body"></div>
   </section>
 
+  <!-- RISCHIO &amp; ESPOSIZIONE -->
+  <section id="rischio">
+    <div class="sec-head">
+      <span class="kicker">04 · Rischio &amp; esposizione</span>
+      <h2>Esposizione aggregata e tensioni dei conti</h2>
+      <p class="note">Esposizione aggregata di tutti i conti e la matrice di 5 segnali ortogonali per asset. <b>Confluenza</b> = i 3 core (TSMOM·LIQ·KRONOS) attivi e concordi → setup ad alta convinzione.</p>
+    </div>
+    <h3 style="font-family:var(--serif);margin:8px 0 10px">Esposizione aggregata</h3>
+    <div id="risk-panel" style="margin-bottom:24px"></div>
+    <h3 style="font-family:var(--serif);margin:20px 0 6px">Confluenza segnali · LUX</h3>
+    <p class="note" style="margin-bottom:10px">Stato live dei 5 segnali ortogonali per asset.</p>
+    <div id="signals-matrix"></div>
+  </section>
+
   <!-- DECISIONI -->
   <section id="decisioni">
     <div class="sec-head">
-      <span class="kicker">04 · Feed decisioni</span>
+      <span class="kicker">05 · Feed decisioni</span>
       <h2>Tutte le decisioni, e il perché</h2>
       <p class="note">Ordine cronologico inverso: sia le aperture automatiche dei sistemi, sia le proposte del desk AI. Per ognuna: il motivo dell'ingresso e cosa la farebbe chiudere.</p>
     </div>
-    <div class="book-filters" id="dec-filters"></div>
+    <div class="filter-stack">
+      <div class="filter-row"><span class="fk">Conto</span><div class="book-filters" id="dec-filters"></div></div>
+      <div class="filter-row"><span class="fk">Verdetto</span><div class="book-filters" id="dec-filters-verdict"></div></div>
+      <div class="filter-row"><span class="fk">Stato</span><div class="book-filters" id="dec-filters-state"></div></div>
+    </div>
     <div class="feed" id="feed"></div>
   </section>
 
   <!-- TRADING BOOK -->
   <section id="book">
     <div class="sec-head">
-      <span class="kicker">05 · Trading book</span>
+      <span class="kicker">06 · Trading book</span>
       <h2>Lo storico completo delle operazioni</h2>
       <p class="note">Ogni operazione mai aperta, su tutti i conti: prezzi di entrata e uscita, risultato e motivo della chiusura. Filtra per strategia o guarda tutto insieme.</p>
     </div>
@@ -575,7 +621,7 @@ footer .foot-mark b{ color:var(--amber); }
   <!-- LEZIONI -->
   <section id="lezioni">
     <div class="sec-head">
-      <span class="kicker">06 · Lezioni apprese</span>
+      <span class="kicker">07 · Lezioni apprese</span>
       <h2>Imparare in pubblico</h2>
       <p class="note">Gli errori ammessi valgono più dei colpi riusciti. Verdetto onesto su ogni trade chiuso.</p>
     </div>
@@ -585,7 +631,7 @@ footer .foot-mark b{ color:var(--amber); }
   <!-- LINEAGE -->
   <section id="evoluzione">
     <div class="sec-head">
-      <span class="kicker">07 · Albero evolutivo</span>
+      <span class="kicker">08 · Albero evolutivo</span>
       <h2>Generazioni di strategie</h2>
       <p class="note">Ogni nodo è una mutazione di un genitore. Le ritirate restano visibili: è la storia, non solo lo stato.</p>
     </div>
@@ -604,7 +650,7 @@ footer .foot-mark b{ color:var(--amber); }
   <!-- EVENTI NEWS -->
   <section id="eventi">
     <div class="sec-head">
-      <span class="kicker">08 · Eventi news</span>
+      <span class="kicker">09 · Eventi news</span>
       <h2>Catalizzatori dal flusso globale</h2>
       <p class="note">Burst anomali di copertura mediatica per tema (GDELT, timestamp point-in-time). L'event study su 48 eventi ha mostrato che il <b>tono non predice la direzione</b> dei prezzi (ipotesi falsificata — vedi Lezioni): ciò che è reale è la <b>volatilità</b> attorno all'evento. Per questo gli eventi alimentano un <b>filtro di rischio</b> (sospendono nuove entrate durante i burst), non una scommessa direzionale.</p>
     </div>
@@ -849,6 +895,22 @@ footer .foot-mark b{ color:var(--amber); }
     if(h < 1) return Math.round(h*60)+' min';
     if(h < 48) return Math.round(h)+' h';
     return Math.round(h/24)+' g';
+  }
+  function nextRunText(){
+    if(!DATA || !DATA.updated_utc) return null;
+    const now=new Date();
+    const h=now.getUTCMinutes()<10?now.getUTCHours():now.getUTCHours()+1;
+    const next=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate(),h,10));
+    return '~'+String(next.getUTCHours()).padStart(2,'0')+':10 UTC';
+  }
+  function emptyBox(title, body, withNext){
+    const next = withNext ? nextRunText() : null;
+    return '<div class="empty-box">'+
+      '<div class="e-ico" aria-hidden="true">○</div>'+
+      '<p class="e-title">'+title+'</p>'+
+      '<p class="e-body">'+body+'</p>'+
+      (next?'<div class="e-next"><span class="d"></span>Prossimo aggiornamento cron '+next+'</div>':'')+
+    '</div>';
   }
 
   let DATA = {};
@@ -1133,7 +1195,7 @@ footer .foot-mark b{ color:var(--amber); }
     const body=$('#positions-body'); body.innerHTML=''; POS.length=0;
     const rows=[];
     (DATA.accounts||[]).forEach(a=> (a.positions||[]).forEach(p=>{ if(p.entry_px>0) rows.push({p, acct:a}); }));  // niente entry 0 → no stop Infinity%
-    if(!rows.length){ body.innerHTML='<p class="note">Nessuna posizione aperta al momento.</p>'; return; }
+    if(!rows.length){ body.innerHTML=emptyBox('Nessuna posizione aperta','Tutte le strategie sono flat al momento. Il cron ogni 4h ricalcola i segnali e può aprire nuove posizioni quando le tesi reggono.', true); return; }
     rows.forEach(({p,acct})=>{
       const risk=Math.abs(p.entry_px-p.stop_px), reward=Math.abs(p.target_px-p.entry_px);
       const rr=risk?(reward/risk):0;
@@ -1205,19 +1267,38 @@ footer .foot-mark b{ color:var(--amber); }
   }
 
   /* ---------- render: decisions feed ---------- */
-  let decFilter='*';
+  let decFilter='*', decVerdict='*', decState='*';
+  const VERDICT_PICKS=[['*','Tutti'],['approve','Approva'],['reduce','Riduci'],['veto','Veto'],['sistema','Automatica']];
+  const STATE_PICKS=[['*','Tutte'],['open','Aperta'],['closed','Chiusa']];
+  function feedRow(d){
+    if(!(decFilter==='*'||d.account===decFilter)) return false;
+    if(!(decVerdict==='*'||d.risk_verdict===decVerdict)) return false;
+    if(decState!=='*'){
+      const closed = !!(d.outcome&&d.outcome.closed);
+      if(decState==='open' && closed) return false;
+      if(decState==='closed' && !closed) return false;
+    }
+    return true;
+  }
   function renderFeed(){
-    const fhost=$('#dec-filters');
+    const fhost=$('#dec-filters'), vhost=$('#dec-filters-verdict'), shost=$('#dec-filters-state');
     if(fhost){
       fhost.innerHTML='';
       const seen=new Map();
       (DATA.decisions||[]).forEach(d=>{ if(d.account&&!seen.has(d.account)) seen.set(d.account, d.account_label||d.account); });
-      const mk=(id,label)=>{ const b=el('button','bchip'+(decFilter===id?' active':'')); b.textContent=label; b.onclick=()=>{ decFilter=id; renderFeed(); }; fhost.appendChild(b); };
-      mk('*','Tutte');
-      seen.forEach((label,id)=>mk(id,label));
+      const mk=(host,id,label,cur,setter)=>{ const b=el('button','bchip'+(cur===id?' active':'')); b.textContent=label; b.onclick=()=>{ setter(id); renderFeed(); }; host.appendChild(b); };
+      mk(fhost,'*','Tutte',decFilter,v=>decFilter=v);
+      seen.forEach((label,id)=>mk(fhost,id,label,decFilter,v=>decFilter=v));
+      if(vhost){ vhost.innerHTML=''; VERDICT_PICKS.forEach(([id,l])=>mk(vhost,id,l,decVerdict,v=>decVerdict=v)); }
+      if(shost){ shost.innerHTML=''; STATE_PICKS.forEach(([id,l])=>mk(shost,id,l,decState,v=>decState=v)); }
     }
     const host=$('#feed'); host.innerHTML='';
-    (DATA.decisions||[]).filter(d=>decFilter==='*'||d.account===decFilter).forEach(d=>{
+    const rows=(DATA.decisions||[]).filter(feedRow);
+    if(!rows.length){
+      host.innerHTML=emptyBox('Nessuna decisione corrisponde ai filtri',(DATA.decisions||[]).length?'Nessuna decisione corrisponde ai filtri attivi. Modifica conto, verdetto o stato, oppure torna a \"Tutte\".':'Il desk LLM e le strategie sistematiche emettono decisioni ogni 4h con tesi falsificabili e veto del Risk Manager. Saranno pubblicate qui man mano.', false);
+      return;
+    }
+    rows.forEach(d=>{
       const card=el('div','dcard v-'+d.risk_verdict);
       let out='';
       if(d.outcome){
@@ -1252,7 +1333,9 @@ footer .foot-mark b{ color:var(--amber); }
   /* ---------- render: lessons ---------- */
   function renderLessons(){
     const host=$('#lessons'); host.innerHTML='';
-    (DATA.lessons||[]).forEach(l=>{
+    const list = (DATA.lessons||[]);
+    if(!list.length){ host.innerHTML=emptyBox('Nessuna lezione ancora','Il Reviewer scrive una post-mortem per ogni trade chiuso — vittoria o sconfitta — quando c\'è materiale da estrarre. Apparirà qui in ordine cronologico.', false); return; }
+    list.forEach(l=>{
       const item=el('div','lesson '+l.verdict);
       const tags=(l.tags||[]).map(t=>'<span class="tag">'+t+'</span>').join('');
       item.innerHTML =
@@ -1299,7 +1382,7 @@ footer .foot-mark b{ color:var(--amber); }
     const a=(DATA.accounts||[]).find(x=>x.id===id);
     const trades=(DATA.tradebook||[]).filter(t=>t.strategy===id);
     const title=$('#sd-title'); if(title) title.textContent=s?s.nome:(a?a.label:id);
-    if(!s&&!a){ host.innerHTML='<p class="note">Strategia non trovata.</p>'; return; }
+    if(!s&&!a){ host.innerHTML=emptyBox('Strategia non trovata','Questo ID non corrisponde ad alcuna strategia o conto registrato. Torna all\'elenco con il link in alto per vedere tutti i conti attivi.', false); return; }
     const ST_IT={champion:'campione',challenger:'sfidante',live:'attiva',candidate:'candidata',retired:'ritirata'};
     let html='';
     // scheda spiegazione
@@ -1350,7 +1433,7 @@ footer .foot-mark b{ color:var(--amber); }
         '<td class="'+(t.r_mult>0?'pos':t.r_mult<0?'neg':'')+'">'+(t.r_mult!=null?(t.r_mult>0?'+':'')+NF2.format(t.r_mult)+'R':'—')+'</td>'+
         '<td class="muted-cell">'+(REASON_IT[t.reason]||t.reason||'—')+'</td></tr>'; });
       html+='</tbody></table></div>';
-    } else { html+='<p class="note">Nessuna operazione ancora.</p>'; }
+    } else { html+='<div style="margin-top:8px">'+emptyBox('Nessuna operazione ancora','Questa strategia è in attesa del primo trade. Negli orari di cron (ogni 4h) il sistema valuta i segnali ed entra solo se le condizioni della tesi si verificano.', true)+'</div>'; }
     host.innerHTML=html;
     // curva equity + mini-chart posizioni
     if(a&&a.equity_curve&&a.equity_curve.length>1){ const w=host.querySelector('[data-sd-curve]'); if(w) registerChart(w, a.equity_curve); }
@@ -1554,8 +1637,14 @@ footer .foot-mark b{ color:var(--amber); }
   /* ---------- render: news events ---------- */
   const TOPIC_IT={crypto:'Crypto', fed_macro:'Fed / Macro', commodities:'Commodities', equities:'Azionario', geopolitics:'Geopolitica'};
   function renderEvents(){
-    const body=$('#events-body'); if(!body) return; body.innerHTML='';
-    (DATA.news_events||[]).forEach(e=>{
+    const body=$('#events-body'); if(!body) return;
+    const list=(DATA.news_events||[]);
+    if(!list.length){
+      const scroll=body.closest('.table-scroll'); if(scroll){ const par=scroll.parentElement; scroll.remove(); par.innerHTML=emptyBox('Nessun burst news','Il filtro GDELT scatta su burst anomali di copertura mediatica per tema (crypto, macro, commodities, geopolitica). Quando un evento supera la soglia z-score apparirà qui con timestamp point-in-time.', false); }
+      return;
+    }
+    body.innerHTML='';
+    list.forEach(e=>{
       const tone=e.tone==null?null:e.tone;
       const tr=el('tr');
       tr.innerHTML =
@@ -1601,7 +1690,7 @@ footer .foot-mark b{ color:var(--amber); }
   function renderLifecycle(){
     const host=$('#lifecycle'); if(!host) return;
     const evs=DATA.lifecycle||[];
-    if(!evs.length){ host.innerHTML='<p class="note">Nessuna promozione/retrocessione ancora — scattano in automatico al superamento dei gate (trade chiusi sufficienti, edge battuto).</p>'; return; }
+    if(!evs.length){ host.innerHTML=emptyBox('Nessuna mossa evolutiva ancora','Quando uno sfidante supera il campione per N trade chiusi con DSR ≥ 0,95, il sistema lo promuove in automatico. Le retrocessioni scattano sul drawdown. Qui appariranno entrambe.', false); return; }
     host.innerHTML=evs.map(e=>{
       const cls=e.event==='promote'?'pos':'neg';
       return '<div style="display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;padding:9px 0;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12px">'+
@@ -1764,7 +1853,7 @@ footer .foot-mark b{ color:var(--amber); }
 
   /* ---------- boot ---------- */
   // router a pagine: una scheda = una vista. Eventi rimosso dalla nav.
-  const ROUTES=['stato','strategie','strategia','posizioni','decisioni','book','lezioni','evoluzione'];
+  const ROUTES=['stato','strategie','strategia','posizioni','rischio','decisioni','book','lezioni','evoluzione'];
   function showRoute(){
     const raw=(location.hash||'#stato').replace('#','');
     let id=raw.split('?')[0];
