@@ -2,3 +2,4 @@
 {"event": "retire", "strategy": "tsmom-liq-v1", "family": "tsmom-liq", "stats": {"n_closed": 21, "total_pnl": -564.11, "win_rate": 0.143, "mean_r": -0.455, "sharpe_r": -1.453, "open_now": 5}, "logged_at": "2026-06-22T02:23:34.005459+00:00"}
 {"event": "retire", "strategy": "tsmom-conservative-v1", "family": "tsmom-conservative", "stats": {"n_closed": 20, "total_pnl": -15.04, "win_rate": 0.35, "mean_r": -0.014, "sharpe_r": -0.044, "open_now": 4}, "logged_at": "2026-06-22T12:54:38.689215+00:00"}
 {"event": "retire", "strategy": "tsmom-v1", "family": "tsmom", "stats": {"n_closed": 20, "total_pnl": -103.01, "win_rate": 0.45, "mean_r": -0.05, "sharpe_r": -0.202, "open_now": 8}, "logged_at": "2026-06-23T07:23:13.472652+00:00"}
+{"event": "retire", "strategy": "tsmom-atr-v1", "family": "tsmom-atr", "stats": {"n_closed": 20, "total_pnl": -1217.77, "win_rate": 0.15, "mean_r": -0.601, "sharpe_r": -2.489, "open_now": 10}, "logged_at": "2026-06-23T09:23:06.621632+00:00"}

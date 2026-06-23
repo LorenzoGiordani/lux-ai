@@ -1,19 +1,20 @@
 id: tsmom-atr-v1
 parent: tsmom-v1
-status: challenger
+status: retired
 created: 2026-06-21
 thesis: 'Stessa tesi TSMOM del parent, ma stop volatility-adaptive (k*ATR invece di
   % fissa) e RR 2 invece di 3. Ipotesi: lo stop ATR sopravvive al rumore senza essere
-  troppo largo, e un TP a 2R viene ittato molto più spesso di 3R. Falsificata se: su
-  basket misto crypto+commodities non batte il parent (tsmom-v1, RR3 stop fisso) su
-  Sharpe e consistenza fold in walk-forward + paper.
+  troppo largo, e un TP a 2R viene ittato molto più spesso di 3R. Falsificata se:
+  su basket misto crypto+commodities non batte il parent (tsmom-v1, RR3 stop fisso)
+  su Sharpe e consistenza fold in walk-forward + paper.
 
   '
 universe:
   selection: top_liquidity
   min_day_volume_usd: 1000000
   exclude: []
-  exclude_classes: [index]      # il trend perde sugli indici (SP500/Nasdaq Sharpe -5.5): fuori dall'universo
+  exclude_classes:
+  - index
   max_assets: 12
   kinds:
   - perp
@@ -28,9 +29,9 @@ entry:
   rule: tsmom
   direction: follow:tsmom
 exit:
-  stop_pct: 4.0            # fallback se ATR non calcolabile
-  stop_atr_mult: 3.0       # stop = 3*ATR → adattivo alla volatilità, largo abbastanza per i trend
-  target_r: 2.0            # RR2: hit-rate del TP molto più alto di RR3
+  stop_pct: 4.0
+  stop_atr_mult: 3.0
+  target_r: 2.0
   atr_period: 14
   time_stop_h: 240
 risk:
