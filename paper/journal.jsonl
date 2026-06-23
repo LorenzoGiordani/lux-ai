@@ -1513,3 +1513,4 @@
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10359.41, "open_positions": 0, "logged_at": "2026-06-23T07:22:58.308972+00:00"}
 {"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9949.13, "open_positions": 2, "logged_at": "2026-06-23T07:23:00.596135+00:00"}
 {"type": "heartbeat", "strategy": "claude-strategy-v1", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-23T07:23:13.057075+00:00"}
+{"type": "close", "strategy": "tsmom-atr-v1", "symbol": "ETH", "reason": "target", "exit_px": 1680.5713613485716, "frac": 1.0, "remaining": -1.0, "pnl_usd": 173.69, "equity": 8534.13, "ts": "2026-06-23 07:00:00+00:00", "logged_at": "2026-06-23T08:00:49.568936+00:00"}
