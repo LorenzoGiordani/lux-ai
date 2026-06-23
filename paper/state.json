@@ -9,7 +9,7 @@
   "last_decision_ts": "2026-06-21T17:23:00.800287+00:00"
  },
  "tsmom-v1": {
-  "equity": 9896.367747036102,
+  "equity": 10054.919387974387,
   "positions": {
    "BTC": {
     "strategy": "tsmom-v1",
@@ -124,104 +124,12 @@
     "opened_at": "2026-06-23 00:00:00+00:00",
     "checked_until": "2026-06-23 05:00:00+00:00",
     "_last_ts": "2026-06-23 05:00:00+00:00"
-   },
-   "xyz:NVDA": {
-    "sign": -1,
-    "entry_px": 206.938604,
-    "stop_px": 209.5596511142857,
-    "target_px": 202.74492861714288,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 206.938604,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-v1",
-    "symbol": "xyz:NVDA",
-    "direction": "short",
-    "size_usd": 7918.52,
-    "opened_at": "2026-06-23 01:00:00+00:00",
-    "checked_until": "2026-06-23 05:00:00+00:00",
-    "_last_ts": "2026-06-23 05:00:00+00:00"
-   },
-   "xyz:SKHX": {
-    "sign": 1,
-    "entry_px": 1681.63626,
-    "stop_px": 1601.918891142857,
-    "target_px": 1809.1840501714287,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 1681.63626,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-v1",
-    "symbol": "xyz:SKHX",
-    "direction": "long",
-    "size_usd": 2051.04,
-    "opened_at": "2026-06-23 05:00:00+00:00",
-    "checked_until": "2026-06-23 05:00:00+00:00"
-   },
-   "xyz:MU": {
-    "sign": 1,
-    "entry_px": 1106.52126,
-    "stop_px": 1055.9311440000001,
-    "target_px": 1187.4654455999998,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 1106.52126,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-v1",
-    "symbol": "xyz:MU",
-    "direction": "long",
-    "size_usd": 2126.41,
-    "opened_at": "2026-06-23 05:00:00+00:00",
-    "checked_until": "2026-06-23 05:00:00+00:00"
-   },
-   "xyz:SNDK": {
-    "sign": 1,
-    "entry_px": 2102.2203600000003,
-    "stop_px": 2031.0418414285716,
-    "target_px": 2216.1059897142864,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 2102.2203600000003,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-v1",
-    "symbol": "xyz:SNDK",
-    "direction": "long",
-    "size_usd": 2923.23,
-    "opened_at": "2026-06-23 05:00:00+00:00",
-    "checked_until": "2026-06-23 05:00:00+00:00"
    }
   }
  },
  "tsmom-conservative-v1": {
-  "equity": 9973.405045107163,
+  "equity": 9913.596032557163,
   "positions": {
-   "HYPE": {
-    "sign": 1,
-    "entry_px": 65.448087,
-    "stop_px": 63.811884825,
-    "target_px": 70.356693525,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 65.448087,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-conservative-v1",
-    "symbol": "HYPE",
-    "direction": "long",
-    "size_usd": 2332.19,
-    "opened_at": "2026-06-22 03:00:00+00:00",
-    "checked_until": "2026-06-23 05:00:00+00:00",
-    "_last_ts": "2026-06-23 05:00:00+00:00"
-   },
    "xyz_CL": {
     "sign": -1,
     "entry_px": 75.349927,
@@ -238,8 +146,8 @@
     "direction": "short",
     "size_usd": 2681.17,
     "opened_at": "2026-06-22 10:00:00+00:00",
-    "checked_until": "2026-06-23 04:00:00+00:00",
-    "_last_ts": "2026-06-23 04:00:00+00:00"
+    "checked_until": "2026-06-23 05:00:00+00:00",
+    "_last_ts": "2026-06-23 05:00:00+00:00"
    }
   }
  },
@@ -371,27 +279,8 @@
   "last_decision_ts": ""
  },
  "tsmom-atr-v1": {
-  "equity": 8557.688194621194,
+  "equity": 8456.640050929078,
   "positions": {
-   "WLD": {
-    "sign": 1,
-    "entry_px": 0.61537305,
-    "stop_px": 0.5854420650000001,
-    "target_px": 0.6752350199999999,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 0.61537305,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-atr-v1",
-    "symbol": "WLD",
-    "direction": "long",
-    "size_usd": 2050.53,
-    "opened_at": "2026-06-21 14:00:00+00:00",
-    "checked_until": "2026-06-23 05:00:00+00:00",
-    "_last_ts": "2026-06-23 05:00:00+00:00"
-   },
    "PUMP": {
     "sign": -1,
     "entry_px": 0.0014807038,
