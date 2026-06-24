@@ -15,7 +15,7 @@
     "stop_px": 445.88600496000004,
     "target_px": 346.80022608,
     "opened_at": "2026-06-24 02:00:00+00:00",
-    "checked_until": "2026-06-24 10:00:00+00:00",
+    "checked_until": "2026-06-24 11:00:00+00:00",
     "time_stop_h": 72,
     "thesis": "ZEC \u00e8 l'unico asset con segnali tecnici attivi multipli: vol_compression=1 in bear regime segnala distribuzione compressa, non accumulazione \u2014 il bias direzionale su trend negativo \u00e8 breakdown. Il funding anomalo +3.97% APR identifica longs intrappolati strutturalmente: il loro costo di carry accelera la capitolazione e la cascata quando cede. volume_profile=-1 conferma assenza di bid denso sotto zona corrente, amplificando il vacuum potenziale. Il contesto macro avverso (selloff AI chip, redemptions istituzionali) rimuove il bid esterno che potrebbe sostenere un rimbalzo.",
     "invalidation": "Funding gira negativo entro 48h (capitolazione longs completata senza trigger breakdown) oppure chiusura daily sopra $445 con volume surge rialzista \u2014 segnalerebbe accumulazione e non distribuzione, invalidando il bias di breakdown della compressione.",
@@ -27,7 +27,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-24 10:00:00+00:00"
+    "_last_ts": "2026-06-24 11:00:00+00:00"
    }
   },
   "last_decision_ts": "2026-06-24T11:21:19.944223+00:00"
@@ -195,7 +195,7 @@
     "stop_px": 3.1309420632,
     "target_px": 3.3865291704000002,
     "opened_at": "2026-06-23 20:00:00+00:00",
-    "checked_until": "2026-06-24 10:00:00+00:00",
+    "checked_until": "2026-06-24 11:00:00+00:00",
     "time_stop_h": 72,
     "thesis": "Il canale LNG-Hormuz rimane aperto e non \u00e8 in de-escalation come il crude: le LNG carriers operano su fixture long-term con penali alte e non rientrano in autonomia, il Qatar non ha rotte alternative per il ~25% del flusso GNL globale, e il premium di scarsit\u00e0 \u00e8 fisicamente radicato \u2014 non eroso dal giorno. tsmom=+1 \u00e8 l'unico segnale long dell'intero basket, confermando flusso sistemico nella direzione; El Ni\u00f1o (domanda raffreddamento Asia) e scorte europee sotto media stagionale aggiungono supporto strutturale indipendente dal catalizzatore geopolitico. Le strategie LUX non coprono NATGAS nel loro universe corrente (lux_confluence non confermabile): vado senza allineamento LUX esplicito \u2014 motivazione: il premium LNG \u00e8 un catalyst commodity-specifico out-of-sample per LUX, focalizzato su crypto/equity, e tsmom=+1 \u00e8 il proxy direzionale pi\u00f9 prossimo a una confluenza disponibile; la posizione \u00e8 aggiuntiva rispetto al book short-pesante esistente su crypto/equity, zero duplicazione di esposizione. Stop a 2.0% (>3\u00d7 ATR stimato da posizione tsmom-atr-v1 su stesso asset, ATR\u22480.51%) garantisce permanenza fuori dal rumore; time_stop 72h coerente con orizzonte di maturazione del catalizzatore LNG.",
     "invalidation": "Ripresa documentata dei transiti LNG attraverso Hormuz nelle 48-72h (MarineTraffic, Bloomberg LNG Tracker) che comprima il premium fisico; oppure crollo del differenziale TTF spot vs mese successivo (struttura backwardation = mercato che prezza risoluzione imminente); oppure chiusura sotto -2% dall'entry su volumi in espansione (segnale di distribuzione, non rumore).",
@@ -207,7 +207,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-24 10:00:00+00:00"
+    "_last_ts": "2026-06-24 11:00:00+00:00"
    },
    "ETH": {
     "strategy": "geopolitics-v1",
@@ -218,7 +218,7 @@
     "stop_px": 1763.2752744,
     "target_px": 1413.947154,
     "opened_at": "2026-06-23 22:00:00+00:00",
-    "checked_until": "2026-06-24 10:00:00+00:00",
+    "checked_until": "2026-06-24 11:00:00+00:00",
     "time_stop_h": 72,
     "thesis": "Canale deleveraging\u2192crypto \u00e8 lineare: liquidity gating (North Haven) + AI/tech cracking \u2192 forced-selling cross-asset, ETH \u00e8 l'asset pi\u00f9 liquido e correlato al deleveraging. tsmom -1 allineato, funding 0.014% Apr (no squeeze protection), acceleration -3.5% 24h = momentum fresco non stale. LUX confluence aligned=true con direction short. Oil esausto (-15% gi\u00e0 discountato, crowding risk), gold ambiguo per safe-haven bid, NatGas isolato dal canale macro attivo.",
     "invalidation": "ETH reclaim >1.720 con funding spike >0.03% Apr = risk-on recovery; o gating North Haven riscatti sbloccati = catalizzatore bullish improvviso che rompe il canale deleveraging.",
@@ -230,10 +230,10 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-24 10:00:00+00:00"
+    "_last_ts": "2026-06-24 11:00:00+00:00"
    }
   },
-  "last_decision_ts": "2026-06-24T11:25:04.009614+00:00"
+  "last_decision_ts": "2026-06-24T12:21:37.538769+00:00"
  },
  "tsmom-atr-v1": {
   "equity": 8739.914758286926,
@@ -354,8 +354,8 @@
     "direction": "short",
     "size_usd": 2954.61,
     "opened_at": "2026-06-23 00:00:00+00:00",
-    "checked_until": "2026-06-24 10:00:00+00:00",
-    "_last_ts": "2026-06-24 10:00:00+00:00"
+    "checked_until": "2026-06-24 11:00:00+00:00",
+    "_last_ts": "2026-06-24 11:00:00+00:00"
    },
    "ZEC": {
     "sign": -1,
@@ -373,8 +373,8 @@
     "direction": "short",
     "size_usd": 2130.08,
     "opened_at": "2026-06-23 00:00:00+00:00",
-    "checked_until": "2026-06-24 10:00:00+00:00",
-    "_last_ts": "2026-06-24 10:00:00+00:00"
+    "checked_until": "2026-06-24 11:00:00+00:00",
+    "_last_ts": "2026-06-24 11:00:00+00:00"
    },
    "CRV": {
     "sign": -1,
@@ -392,8 +392,8 @@
     "direction": "short",
     "size_usd": 3374.82,
     "opened_at": "2026-06-24 05:00:00+00:00",
-    "checked_until": "2026-06-24 10:00:00+00:00",
-    "_last_ts": "2026-06-24 10:00:00+00:00"
+    "checked_until": "2026-06-24 11:00:00+00:00",
+    "_last_ts": "2026-06-24 11:00:00+00:00"
    }
   }
  },
@@ -409,7 +409,7 @@
     "stop_px": 424.22413819999997,
     "target_px": 393.1833476,
     "opened_at": "2026-06-24 04:00:00+00:00",
-    "checked_until": "2026-06-24 10:00:00+00:00",
+    "checked_until": "2026-06-24 11:00:00+00:00",
     "time_stop_h": 96,
     "thesis": "ZEC \u00e8 il setup short pi\u00f9 strutturato del basket: vol_compression=1 + volume_profile=-1 + tsmom=-1 in bear regime confermato (-19.4% 7d) convergono su uno squeeze che sui precedenti ZEC si \u00e8 risolto meccanicamente al ribasso. Il funding_apr 1.37% su un asset illiquido in discesa \u00e8 accelerante strutturale: i longs pagano carry negativo e capitolano progressivamente, amplificando il move direzionale. Nessun lux_confluence.aligned per mancanza di liq_imbalance \u2014 going against the primary gate, giustificazione: tre segnali meccanici concordanti + bear regime + funding setup \u00e8 sufficiente per conviction media; risk_pct abbassato a 0.4% (da ~1%) per compensare l'assenza del secondo gate sistematico.",
     "invalidation": "Chiusura oraria sopra stop (breakout rialzista dalla squeeze con volume); taker ratio > 0.6 su ZEC con volume crescente (capitolazione shorts invece dei longs); funding_apr che scende sotto 0.3% nelle prossime 24h (longs che chiudono ordinatamente senza creare cascata)",
@@ -421,7 +421,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-24 10:00:00+00:00"
+    "_last_ts": "2026-06-24 11:00:00+00:00"
    }
   },
   "last_decision_ts": "2026-06-24T11:21:19.944223+00:00"
@@ -432,23 +432,23 @@
   "last_decision_ts": "2026-06-22T19:22:53.570120+00:00"
  },
  "xsmom-port-v1": {
-  "equity": 9965.206199914011,
+  "equity": 9943.609561491767,
   "positions": {
    "XRP": {
-    "notional": 2366.230936819174,
-    "px": 1.0861
+    "notional": 2385.838779956429,
+    "px": 1.0951
    },
    "NEAR": {
-    "notional": -2254.505545286507,
-    "px": 1.9515
+    "notional": -2281.0767097966736,
+    "px": 1.9745
    },
    "WLD": {
-    "notional": 2099.6887221645793,
-    "px": 0.52614
+    "notional": 2136.7228030968163,
+    "px": 0.53542
    },
    "ZEC": {
-    "notional": -2260.640631856078,
-    "px": 412.16
+    "notional": -2312.3080298376485,
+    "px": 421.58
    }
   },
   "last_rebalance_ts": "2026-06-22T12:53:58.749463+00:00"
