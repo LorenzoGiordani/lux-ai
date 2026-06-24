@@ -33,85 +33,8 @@
   "last_decision_ts": "2026-06-24T14:19:24.842405+00:00"
  },
  "tsmom-v1": {
-  "equity": 9713.13607233915,
-  "positions": {
-   "BTC": {
-    "strategy": "tsmom-v1",
-    "symbol": "BTC",
-    "direction": "short",
-    "entry_px": 63917.214,
-    "size_usd": 2422.11,
-    "stop_px": 66473.90256,
-    "target_px": 56247.14832,
-    "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-24 12:00:00+00:00",
-    "sign": -1,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 63917.214,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "_last_ts": "2026-06-24 12:00:00+00:00"
-   },
-   "ZEC": {
-    "sign": -1,
-    "entry_px": 453.619258,
-    "stop_px": 471.76402832,
-    "target_px": 399.18494704,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 453.619258,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-v1",
-    "symbol": "ZEC",
-    "direction": "short",
-    "size_usd": 2491.98,
-    "opened_at": "2026-06-22 10:00:00+00:00",
-    "checked_until": "2026-06-24 12:00:00+00:00",
-    "_last_ts": "2026-06-24 12:00:00+00:00"
-   },
-   "ETH": {
-    "sign": -1,
-    "entry_px": 1730.45384,
-    "stop_px": 1799.6719936,
-    "target_px": 1522.7993792,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 1730.45384,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-v1",
-    "symbol": "ETH",
-    "direction": "short",
-    "size_usd": 2464.02,
-    "opened_at": "2026-06-23 00:00:00+00:00",
-    "checked_until": "2026-06-24 12:00:00+00:00",
-    "_last_ts": "2026-06-24 12:00:00+00:00"
-   },
-   "SOL": {
-    "sign": -1,
-    "entry_px": 71.8276316,
-    "stop_px": 74.700736864,
-    "target_px": 63.208315808,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 71.8276316,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-v1",
-    "symbol": "SOL",
-    "direction": "short",
-    "size_usd": 2463.54,
-    "opened_at": "2026-06-23 00:00:00+00:00",
-    "checked_until": "2026-06-24 12:00:00+00:00",
-    "_last_ts": "2026-06-24 12:00:00+00:00"
-   }
-  }
+  "equity": 10272.467328831875,
+  "positions": {}
  },
  "tsmom-conservative-v1": {
   "equity": 10020.069043556121,
@@ -122,66 +45,8 @@
   "positions": {}
  },
  "lux-0.1-beta": {
-  "equity": 9264.1038371,
-  "positions": {
-   "NEAR": {
-    "sign": -1,
-    "entry_px": 2.06628666,
-    "stop_px": 2.1179438264999995,
-    "target_px": 1.9113151604999998,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 2.06628666,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-0.1-beta",
-    "symbol": "NEAR",
-    "direction": "short",
-    "size_usd": 6965.0,
-    "opened_at": "2026-06-22 23:00:00+00:00",
-    "checked_until": "2026-06-24 12:00:00+00:00",
-    "_last_ts": "2026-06-24 12:00:00+00:00"
-   },
-   "SOL": {
-    "sign": -1,
-    "entry_px": 71.8276316,
-    "stop_px": 73.62332239,
-    "target_px": 66.44055923,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 71.8276316,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-0.1-beta",
-    "symbol": "SOL",
-    "direction": "short",
-    "size_usd": 6962.49,
-    "opened_at": "2026-06-23 00:00:00+00:00",
-    "checked_until": "2026-06-24 12:00:00+00:00",
-    "_last_ts": "2026-06-24 12:00:00+00:00"
-   },
-   "ETH": {
-    "sign": -1,
-    "entry_px": 1717.85636,
-    "stop_px": 1760.802769,
-    "target_px": 1589.017133,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 1717.85636,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-0.1-beta",
-    "symbol": "ETH",
-    "direction": "short",
-    "size_usd": 6802.56,
-    "opened_at": "2026-06-23 04:00:00+00:00",
-    "checked_until": "2026-06-24 12:00:00+00:00",
-    "_last_ts": "2026-06-24 12:00:00+00:00"
-   }
-  }
+  "equity": 10263.474258087424,
+  "positions": {}
  },
  "geopolitics-v1": {
   "equity": 9998.275051,
@@ -233,88 +98,11 @@
     "_last_ts": "2026-06-24 13:00:00+00:00"
    }
   },
-  "last_decision_ts": "2026-06-24T13:53:38.740961+00:00"
+  "last_decision_ts": "2026-06-24T14:34:16.006859+00:00"
  },
  "tsmom-atr-v1": {
-  "equity": 8903.790118934869,
-  "positions": {
-   "PUMP": {
-    "sign": -1,
-    "entry_px": 0.0014807038,
-    "stop_px": 0.0015604021428571428,
-    "target_px": 0.0013213071142857142,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 0.0014807038,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-atr-v1",
-    "symbol": "PUMP",
-    "direction": "short",
-    "size_usd": 1713.0,
-    "opened_at": "2026-06-21 22:00:00+00:00",
-    "checked_until": "2026-06-24 12:00:00+00:00",
-    "_last_ts": "2026-06-24 12:00:00+00:00"
-   },
-   "TAO": {
-    "sign": -1,
-    "entry_px": 231.35372,
-    "stop_px": 240.49760514285714,
-    "target_px": 213.06594971428572,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 231.35372,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-atr-v1",
-    "symbol": "TAO",
-    "direction": "short",
-    "size_usd": 2332.51,
-    "opened_at": "2026-06-21 22:00:00+00:00",
-    "checked_until": "2026-06-24 12:00:00+00:00",
-    "_last_ts": "2026-06-24 12:00:00+00:00"
-   },
-   "ETH": {
-    "sign": -1,
-    "entry_px": 1679.664,
-    "stop_px": 1720.0916271428569,
-    "target_px": 1598.8087457142858,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 1679.664,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-atr-v1",
-    "symbol": "ETH",
-    "direction": "short",
-    "size_usd": 3545.71,
-    "opened_at": "2026-06-23 07:00:00+00:00",
-    "checked_until": "2026-06-24 12:00:00+00:00",
-    "_last_ts": "2026-06-24 12:00:00+00:00"
-   },
-   "BTC": {
-    "sign": -1,
-    "entry_px": 62335.5304,
-    "stop_px": 63560.99954285714,
-    "target_px": 59884.59211428571,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 62335.5304,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-atr-v1",
-    "symbol": "BTC",
-    "direction": "short",
-    "size_usd": 4430.12,
-    "opened_at": "2026-06-23 08:00:00+00:00",
-    "checked_until": "2026-06-24 12:00:00+00:00",
-    "_last_ts": "2026-06-24 12:00:00+00:00"
-   }
-  }
+  "equity": 9324.897124664369,
+  "positions": {}
  },
  "lux-confluence-rr2-v1": {
   "equity": 10268.995769833944,
