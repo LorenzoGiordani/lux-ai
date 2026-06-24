@@ -1800,3 +1800,4 @@
 {"type": "heartbeat", "strategy": "glm-regime-confluence-v1", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-24T12:18:51.207943+00:00"}
 {"type": "skip", "strategy": "geopolitics-v1", "symbol": "CL", "reason": "posizione esistente o max concorrenti", "logged_at": "2026-06-24T12:21:37.544646+00:00"}
 {"type": "heartbeat", "strategy": "geopolitics-v1", "equity": 9998.28, "open_positions": 2, "logged_at": "2026-06-24T12:21:37.545404+00:00"}
+{"type": "close", "strategy": "tsmom-atr-v1", "symbol": "cash:WTI", "reason": "target", "exit_px": 70.67342574449145, "frac": 1.0, "remaining": 0.0, "pnl_usd": 163.88, "equity": 8903.79, "ts": "2026-06-24 13:00:00+00:00", "logged_at": "2026-06-24T13:04:00.962155+00:00"}
