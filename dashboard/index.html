@@ -811,7 +811,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-24 13:13",
+ "updated_utc": "2026-06-24 13:22",
  "accounts": [
   {
    "id": "agents-v1",
@@ -2572,6 +2572,14 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     ],
     [
      "2026-06-24 12:18",
+     10359.26
+    ],
+    [
+     "2026-06-24 13:16",
+     10359.26
+    ],
+    [
+     "2026-06-24 13:19",
      10359.26
     ]
    ],
@@ -7683,6 +7691,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     [
      "2026-06-24 12:21",
      9998.28
+    ],
+    [
+     "2026-06-24 13:22",
+     9998.28
     ]
    ],
    "positions": [
@@ -10721,6 +10733,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     [
      "2026-06-24 12:16",
      10271.28
+    ],
+    [
+     "2026-06-24 13:16",
+     10271.28
     ]
    ],
    "positions": [
@@ -12344,6 +12360,14 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     [
      "2026-06-24 12:18",
      9972.66
+    ],
+    [
+     "2026-06-24 13:16",
+     9972.66
+    ],
+    [
+     "2026-06-24 13:19",
+     9972.66
     ]
    ],
    "positions": [
@@ -12885,6 +12909,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     [
      "2026-06-24 12:18",
      10000.0
+    ],
+    [
+     "2026-06-24 13:19",
+     10000.0
     ]
    ],
    "positions": [],
@@ -12894,7 +12922,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "id": "xsmom-port-v1",
    "label": "Cross-section momentum",
    "tag": "book market-neutral",
-   "equity": 9943.61,
+   "equity": 9994.53,
    "pnl_realized": 0,
    "trades_closed": 0,
    "wins": 0,
@@ -13066,6 +13094,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     [
      "2026-06-24 12:16",
      9943.61
+    ],
+    [
+     "2026-06-24 13:16",
+     9994.53
     ]
    ],
    "positions": [],
@@ -13073,22 +13105,22 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     {
      "symbol": "XRP",
      "side": "long",
-     "notional_usd": 2385.84
+     "notional_usd": 2373.86
     },
     {
      "symbol": "NEAR",
      "side": "short",
-     "notional_usd": -2281.08
+     "notional_usd": -2268.14
     },
     {
      "symbol": "WLD",
      "side": "long",
-     "notional_usd": 2136.72
+     "notional_usd": 2161.19
     },
     {
      "symbol": "ZEC",
      "side": "short",
-     "notional_usd": -2312.31
+     "notional_usd": -2286.8
     }
    ]
   },
@@ -13160,6 +13192,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     [
      "2026-06-24 12:18",
      10000.0
+    ],
+    [
+     "2026-06-24 13:20",
+     10000.0
     ]
    ],
    "positions": [],
@@ -13167,6 +13203,35 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
   }
  ],
  "decisions": [
+  {
+   "ts": "2026-06-24 13:22",
+   "symbol": "NG",
+   "direction": "short",
+   "account": "geopolitics-v1",
+   "account_label": "Desk geopolitico",
+   "risk_verdict": "approve",
+   "risk_notes": "",
+   "thesis": "NatGas è l'unico asset nel basket che non ha ancora prezzato la de-escalation Hormuz confermata (Trump 'Hormuz libero' + VLCC $470k/giorno = tanker market che già defla il rischio chiusura). Il tsmom=+1 è momentum stantio costruito sul premio LNG da disruzione che sta evaporando: il crude ha anticipato di 7 giorni con -16%, NatGas segue con lag strutturale documentato. Il canale causale è meccanico e falsificabile: riapertura routing LNG tankers → offerta EU normalizza → defla il premio residuo embedded nel prezzo. Il bull case (deficit strutturale EU storage -12%) è reale ma non sufficiente a sostenere il marginal premium geopolitico in de-escalation.",
+   "invalidation": "Nuovo incidente documentato in Hormuz o sanzioni LNG Russia inattese che comprimono l'offerta; oppure NatGas rompe al rialzo del livello di entry con volume confermato su news di escalation reale — in quel caso tsmom=+1 diventa segnale genuino e non lag.",
+   "outcome": {
+    "closed": false
+   }
+  },
+  {
+   "ts": "2026-06-24 13:19",
+   "symbol": "ZEC/USD",
+   "direction": "short",
+   "account": "agents-v1",
+   "account_label": "Agenti LLM",
+   "risk_verdict": "reduce",
+   "risk_notes": "Tre criticità strutturali che il brief sottostima. (1) VIOLAZIONE METODOLOGICA: il proposer scrive esplicitamente 'Vado contro la confluenza LUX' — il desk è costruito su lux_confluence come gate primario (CLAUDE.md §1: 'il gate sistematico è l'edge primario'). Operare senza quel segnale non è 'convinzione media', è discretionary override del sistema. Le lezioni citate riguardano setup con liq_imb",
+   "thesis": "ZEC è l'unico asset del basket con convergenza multi-segnale in regime bear confermato: vol_compression=1 segnala espansione di volatilità imminente con bias direzionale già definito da tsmom=-1. Prezzo sotto VWAP e volume_profile=-1 indicano distribuzione attiva, non accumulo — la pressione sell è strutturale, non episodica. La tesi è a convinzione media (lux_confluence non aligned, manca liq_imbalance): dimensionamento ridotto (0.5% risk, 1.5x leva) compensa l'assenza del segnale primario. Il bull-case SOL è respinto: senza trigger di regime o lux_confluence aligned, un long su funding negativo è scommessa contrarian su timing, non edge sistematico. Vado contro la confluenza LUX perché il brief identifica ZEC come l'unico setup con struttura tecnica leggibile — e le lezioni del desk confermano tsmom=-1 + distribuzione su ZEC in bear regime come sequenza che ha raggiunto R:R 2:1 meccanicamente.",
+   "invalidation": "Prezzo recupera e chiude sopra VWAP su volume > media 20 periodi; oppure vol_compression si risolve in breakout rialzista (ZEC > $430 con volume spike); oppure liq_imbalance flips bullish; oppure BTC rompe con forza $65k e regime di mercato globale si sposta a bullish — in quel caso la correlazione invalida il bear su ZEC indipendentemente dai segnali tecnici.",
+   "outcome": {
+    "closed": false
+   },
+   "size_multiplier": 0.5
+  },
   {
    "ts": "2026-06-24 12:21",
    "symbol": "CL",
@@ -16974,6 +17039,21 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
  ],
  "lessons": [
   {
+   "ts": "2026-06-24 13:16",
+   "scope": "cash:WTI",
+   "verdict": "thesis_right",
+   "lesson": "tsmom su commodity energetiche con segnale confermato (-1) e R:R 2:1 tende a raggiungere il target entro 24-48h: non ampliare lo stop sulle reazioni intraday contro-trend e non uscire in anticipo — il regime momentum su WTI si esaurisce spesso dopo il primo impulso, quindi il full-target disciplinato batte il trailing speculativo.",
+   "tags": [
+    "tsmom",
+    "wti",
+    "energy",
+    "short",
+    "atr-stop",
+    "target-hit",
+    "commodity-momentum"
+   ]
+  },
+  {
    "ts": "2026-06-24 11:16",
    "scope": "NEAR",
    "verdict": "thesis_right",
@@ -19657,10 +19737,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "symbol": "XRP",
    "signals": {
     "tsmom": -1,
-    "liq_imbalance": 0,
+    "liq_imbalance": -1,
     "kronos_forecast": 0,
     "smart_money_ratio": 0,
-    "oi_trend": 0
+    "oi_trend": -1
    },
    "aligned": false,
    "direction": "—"
@@ -19693,7 +19773,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "symbol": "WLD",
    "signals": {
     "tsmom": 0,
-    "liq_imbalance": 0,
+    "liq_imbalance": -1,
     "kronos_forecast": 1,
     "smart_money_ratio": 0,
     "oi_trend": 0
@@ -19709,6 +19789,18 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     "kronos_forecast": -1,
     "smart_money_ratio": 0,
     "oi_trend": -1
+   },
+   "aligned": false,
+   "direction": "—"
+  },
+  {
+   "symbol": "CRV",
+   "signals": {
+    "tsmom": -1,
+    "liq_imbalance": 0,
+    "kronos_forecast": 1,
+    "smart_money_ratio": 0,
+    "oi_trend": 0
    },
    "aligned": false,
    "direction": "—"

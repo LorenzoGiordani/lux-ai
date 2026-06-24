@@ -1801,3 +1801,12 @@
 {"type": "skip", "strategy": "geopolitics-v1", "symbol": "CL", "reason": "posizione esistente o max concorrenti", "logged_at": "2026-06-24T12:21:37.544646+00:00"}
 {"type": "heartbeat", "strategy": "geopolitics-v1", "equity": 9998.28, "open_positions": 2, "logged_at": "2026-06-24T12:21:37.545404+00:00"}
 {"type": "close", "strategy": "tsmom-atr-v1", "symbol": "cash:WTI", "reason": "target", "exit_px": 70.67342574449145, "frac": 1.0, "remaining": 0.0, "pnl_usd": 163.88, "equity": 8903.79, "ts": "2026-06-24 13:00:00+00:00", "logged_at": "2026-06-24T13:04:00.962155+00:00"}
+{"type": "heartbeat", "strategy": "lux-confluence-rr2-v1", "equity": 10271.28, "open_positions": 3, "logged_at": "2026-06-24T13:16:14.126613+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10359.26, "open_positions": 1, "logged_at": "2026-06-24T13:16:15.433228+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9972.66, "open_positions": 1, "logged_at": "2026-06-24T13:16:16.538057+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-port-v1", "equity": 9994.53, "open_positions": 4, "logged_at": "2026-06-24T13:16:23.815486+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10359.26, "open_positions": 1, "logged_at": "2026-06-24T13:19:34.013063+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9972.66, "open_positions": 1, "logged_at": "2026-06-24T13:19:35.466288+00:00"}
+{"type": "heartbeat", "strategy": "claude-strategy-v1", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-24T13:19:47.574731+00:00"}
+{"type": "heartbeat", "strategy": "glm-regime-confluence-v1", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-24T13:20:00.465426+00:00"}
+{"type": "heartbeat", "strategy": "geopolitics-v1", "equity": 9998.28, "open_positions": 2, "logged_at": "2026-06-24T13:22:27.038553+00:00"}
