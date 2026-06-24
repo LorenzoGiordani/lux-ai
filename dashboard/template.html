@@ -243,6 +243,19 @@ table.pos-tbl{ width:100%; border-collapse:collapse; min-width:760px; }
 .strat-card .s-stat.champion{ color:var(--amber); border-color:var(--amber); }
 .strat-card .s-stat.challenger{ color:var(--blue); border-color:var(--blue); }
 .strat-card .s-stat.live{ color:var(--green); border-color:var(--green-dim); }
+.strat-card .s-stat.retired{ color:var(--text-4); border-color:var(--line-2); background:transparent; }
+/* ---------- archivio strategie ritirate ---------- */
+.strat-archive{ margin-top:32px; padding-top:24px; border-top:1px dashed var(--line-2); }
+.strat-archive-head{ display:flex; align-items:baseline; gap:12px; margin-bottom:14px; flex-wrap:wrap; }
+.strat-archive-head h3{ font-family:var(--serif); font-weight:700; font-size:17px; margin:0; color:var(--text-2); }
+.strat-archive-head .kicker{ font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-4); }
+.strat-archive-head .note{ font-family:var(--sans); font-size:12px; color:var(--text-4); margin-left:auto; }
+.strat-archive .strat-card{ opacity:.62; padding-left:22px; border-style:dashed; }
+.strat-archive .strat-card::before{ content:""; }
+.strat-archive .strat-card:hover{ opacity:.85; }
+.strat-retire-reason{ display:flex; gap:14px; flex-wrap:wrap; margin-top:10px; padding-top:10px;
+  border-top:1px solid var(--line); font-family:var(--mono); font-size:11px; color:var(--text-4); }
+.strat-retire-reason b{ color:var(--text-3); font-weight:400; }
 .strat-card .s-tags{ display:flex; flex-wrap:wrap; gap:6px; margin:0 0 12px; }
 .strat-card .s-tag{ font-family:var(--mono); font-size:9.5px; letter-spacing:.06em; padding:3px 9px; border-radius:6px; background:var(--line); color:var(--text-3); }
 .strat-card .s-cosa{ font-size:13.5px; line-height:1.55; color:var(--text-2); margin:0 0 14px; }
@@ -627,7 +640,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
       <p class="nof-mb">I mercati sono l'ambiente di addestramento definitivo: l'unico benchmark che diventa più difficile man mano che l'AI migliora. LUX AI è un desk di agenti che propongono trade con tesi falsificabili, li eseguono su carta, ne scrivono la post-mortem e fanno evolvere le proprie strategie di generazione in generazione — tutto in chiaro, perdite comprese.</p>
       <div class="nof-mrow">
         <span class="nof-mc"><b id="nof-accounts-n">—</b>conti attivi</span>
-        <span class="nof-mc"><b id="nof-strats-n">—</b>strategie in campo</span>
+        <span class="nof-mc"><b id="nof-strats-n">—</b>strategie attive</span>
         <span class="nof-mc"><b id="nof-lessons-n">—</b>lezioni pubblicate</span>
         <span class="nof-mc"><b id="nof-trades-n">—</b>operazioni chiuse</span>
       </div>
@@ -1499,11 +1512,21 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
   function renderStrats(){
     const host=$('#strats'); if(!host) return; host.innerHTML='';
     const ST_IT={champion:'campione',challenger:'sfidante',live:'attiva',candidate:'candidata',retired:'ritirata'};
-    (DATA.strategies||[]).forEach(s=>{
+    const all=DATA.strategies||[];
+    const active=all.filter(s=>s.status!=='retired');
+    const retired=all.filter(s=>s.status==='retired');
+    const renderCard=(s,archived)=>{
       const card=el('div','strat-card');
       const tags=[s.asset_class,s.risk_profile].filter(Boolean)
         .map(t=>'<span class="s-tag">'+t+'</span>').join('');
       const stat=s.status?'<span class="s-stat '+s.status+'">'+(ST_IT[s.status]||s.status)+'</span>':'';
+      const paper=((s.stats&&s.stats.n_closed)?'<div class="s-row" style="margin-top:6px"><span class="s-k">Paper</span><span class="num">'+
+        s.stats.n_closed+'t · WR '+Math.round((s.stats.win_rate||0)*100)+'% · <span class="'+clsOf(s.stats.total_pnl||0)+'">'+signedUsd(s.stats.total_pnl||0)+'</span></span></div>':'');
+      const reason=(archived&&s.stats)?'<div class="strat-retire-reason">'+
+        (s.stats.sharpe_r!=null?'<span><b>Sharpe</b> '+NF2.format(s.stats.sharpe_r)+'</span>':'')+
+        (s.stats.mean_r!=null?'<span><b>R medio</b> '+NF2.format(s.stats.mean_r)+'</span>':'')+
+        (s.stats.n_closed?'<span><b>Trade</b> '+s.stats.n_closed+'</span>':'')+
+        '<span><b>Motivo</b> '+(s.stats.mean_r<0?'perdente su basket':(s.stats.sharpe_r<-1?'Sharpe critico':'drawdown'))+'</span></div>':'';
       card.innerHTML =
         '<div class="s-head"><h3>'+s.nome+'</h3>'+stat+'</div>'+
         (tags?'<div class="s-tags">'+tags+'</div>':'')+
@@ -1511,13 +1534,26 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
         '<div class="s-row"><span class="s-k">Entra</span><span>'+s.entra+'</span></div>'+
         '<div class="s-row"><span class="s-k">Esce</span><span>'+s.esce+'</span></div>'+
         '<div class="s-row"><span class="s-k">Rischio</span><span>'+s.rischio+'</span></div>'+
-        ((s.stats&&s.stats.n_closed)?'<div class="s-row" style="margin-top:6px"><span class="s-k">Paper</span><span class="num">'+
-          s.stats.n_closed+'t · WR '+Math.round((s.stats.win_rate||0)*100)+'% · <span class="'+clsOf(s.stats.total_pnl||0)+'">'+signedUsd(s.stats.total_pnl||0)+'</span></span></div>':'')+
-        '<div class="s-row" style="margin-top:8px"><span class="s-k">'+(s.id||'')+'</span><span style="color:var(--amber)">Dettaglio →</span></div>';
+        paper+
+        '<div class="s-row" style="margin-top:8px"><span class="s-k">'+(s.id||'')+'</span><span style="color:var(--amber)">Dettaglio →</span></div>'+
+        reason;
       card.style.cursor='pointer';
       card.onclick=()=>{ location.hash='#strategia?id='+encodeURIComponent(s.id); };
-      host.appendChild(card);
-    });
+      return card;
+    };
+    active.forEach(s=>host.appendChild(renderCard(s,false)));
+    if(retired.length){
+      const arch=el('div','strat-archive');
+      arch.innerHTML='<div class="strat-archive-head">'+
+        '<span class="kicker">Archivio</span>'+
+        '<h3>Strategie ritirate</h3>'+
+        '<span class="note">'+retired.length+' ritirate dal loop evolutivo — restano per la storia, non tradano più.</span>'+
+      '</div>';
+      const grid=el('div','strat-grid');
+      retired.forEach(s=>grid.appendChild(renderCard(s,true)));
+      arch.appendChild(grid);
+      host.appendChild(arch);
+    }
   }
   // ---------- dettaglio singola strategia ----------
   function renderStrategyDetail(id){
@@ -2033,8 +2069,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
   /* ---------- manifesto counts ---------- */
   function fillCounts(){
     var set=function(id,v){ var e=document.getElementById(id); if(e) e.textContent=v; };
+    var active=(D.strategies||[]).filter(function(s){return s.status!=='retired';}).length;
+    var retired=(D.strategies||[]).filter(function(s){return s.status==='retired';}).length;
     set('nof-accounts-n', (D.accounts||[]).length);
-    set('nof-strats-n', (D.strategies||[]).length);
+    set('nof-strats-n', active+' attive'+(retired?' · '+retired+' ritirate':''));
     set('nof-lessons-n', (D.lessons||[]).length);
     set('nof-trades-n', (D.tradebook||[]).filter(function(t){return t.status==='closed';}).length);
   }
