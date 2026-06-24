@@ -825,7 +825,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-24 13:22",
+ "updated_utc": "2026-06-24 13:54",
  "accounts": [
   {
    "id": "agents-v1",
@@ -2594,6 +2594,14 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     ],
     [
      "2026-06-24 13:19",
+     10359.26
+    ],
+    [
+     "2026-06-24 13:46",
+     10359.26
+    ],
+    [
+     "2026-06-24 13:49",
      10359.26
     ]
    ],
@@ -7709,6 +7717,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     [
      "2026-06-24 13:22",
      9998.28
+    ],
+    [
+     "2026-06-24 13:53",
+     9998.28
     ]
    ],
    "positions": [
@@ -10751,6 +10763,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     [
      "2026-06-24 13:16",
      10271.28
+    ],
+    [
+     "2026-06-24 13:46",
+     10271.28
     ]
    ],
    "positions": [
@@ -12382,6 +12398,14 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     [
      "2026-06-24 13:19",
      9972.66
+    ],
+    [
+     "2026-06-24 13:46",
+     9972.66
+    ],
+    [
+     "2026-06-24 13:49",
+     9972.66
     ]
    ],
    "positions": [
@@ -12927,6 +12951,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     [
      "2026-06-24 13:19",
      10000.0
+    ],
+    [
+     "2026-06-24 13:50",
+     10000.0
     ]
    ],
    "positions": [],
@@ -13112,6 +13140,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     [
      "2026-06-24 13:16",
      9994.53
+    ],
+    [
+     "2026-06-24 13:46",
+     9994.53
     ]
    ],
    "positions": [],
@@ -13210,6 +13242,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     [
      "2026-06-24 13:20",
      10000.0
+    ],
+    [
+     "2026-06-24 13:50",
+     10000.0
     ]
    ],
    "positions": [],
@@ -13217,6 +13253,36 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
   }
  ],
  "decisions": [
+  {
+   "ts": "2026-06-24 13:53",
+   "symbol": "WTI",
+   "direction": "short",
+   "account": "geopolitics-v1",
+   "account_label": "Desk geopolitico",
+   "risk_verdict": "reduce",
+   "risk_notes": "Tesi causale solida e segnali convergenti, ma tre vulnerabilità strutturali che la proposta sottostima. (1) STOP/VOLATILITÀ MISMATCH — CRITICO: ATR implicita ~2.3%/g su 7 giorni; la deviazione attesa su 96h è √4 × 2.3% ≈ 4.6%. Il 3.5% stop è DENTRO il range di rumore statistico della durata prevista, non fuori. Probabilità di stop-out da noise puro > 50% anche con tesi direzionale corretta. Compar",
+   "thesis": "Il premio di rischio Hormuz era strutturalmente priced-in da mesi; con Trump che conferma lo Stretto libero e VLCC fisicamente già in rientro il canale è meccanico e unidirezionale — supply attesa in aumento mentre demand macro decelera. Il regime bear è già stabilito prima del brief (tsmom=−1, vwap_zscore=−1, −16% su 7g): tecnici e fondamentale convergono senza richiedere previsione LLM direzionale, in linea con Regola 1. NATGAS rigettato: tsmom positivo ma canale causale indiretto (oil→ECB cut→demand→gas), multi-step con incertezza non compensata e segnale definito 'chop' nel brief — size ridotta non giustifica priorità su un edge meno pulito. Stop 3.5% > ATR implicito (~2.3%/g su 7g) e sopra la resistenza recente, fuori dal rumore; time_stop 96h coerente con la finestra di 5gg dell'invalidazione strutturale.",
+   "invalidation": "WTI chiude sopra il livello pre-annuncio Trump entro 5 giorni (reversal del canale supply); oppure news di escalation militare Iran/Houthi che ribalta meccanicamente la tesi — chiudere senza attendere lo stop.",
+   "outcome": {
+    "closed": false
+   },
+   "size_multiplier": 0.6
+  },
+  {
+   "ts": "2026-06-24 13:49",
+   "symbol": "ZEC",
+   "direction": "short",
+   "account": "agents-v1",
+   "account_label": "Agenti LLM",
+   "risk_verdict": "reduce",
+   "risk_notes": "Tre segnali meccanici su regime bear confermato costituiscono edge reale e la tesi è falsificabile con condizioni misurabili. Tuttavia quattro criticità impongono size ridotta. (1) FUNDING OVERSTATED: +0.014% APR è sostanzialmente neutro — identico al livello BTC che è in chop senza direzionalità. Il narrativo 'long non capitolati = combustibile per cascade' richiede funding significativamente pos",
+   "thesis": "ZEC presenta la confluenza di tre segnali meccanici allineati (vol_compression=+1, vwap_zscore=-1, volume_profile=-1) in regime bear confermato con -14.1% settimanale: questa struttura replica esattamente i pattern documentati nelle lesson thesis_right del sistema, ed è l'unico asset del basket con più di un segnale attivo. Il funding positivo (+0.014%) nonostante il downtrend segnala long residui non capitolati — combustibile latente per una cascata di liquidazioni al prossimo break ribassista; SOL e SUI mostrano configurazioni analoghe senza la triplice confluenza di ZEC. Nessun lux_confluence aligned in tutto il basket: il trade non beneficia di quel boost di convinzione, ma la triplice confluenza meccanica su regime bear confermato costituisce edge documentato sufficiente; la size ridotta (risk 0.8%) sconta la liquidità inferiore di ZEC e l'assenza di lux alignment. Stop a 2.2% (>1.5x ATR 1.43%) assicura stare fuori dal rumore di breve e dare spazio al setup strutturale; time_stop 96h coerente con la maturazione attesa della capitolazione dei long.",
+   "invalidation": "Chiusura daily sopra il VWAP settimanale con contestuale virata del funding in territorio negativo (significa capitolazione degli short, non dei long, invertendo la tesi di cascata); oppure spike di volume rialzista con recupero sostenuto sopra lo stop entro 24h dall'entry (segnale che i long residui stanno assorbendo selling pressure anziché cedere).",
+   "outcome": {
+    "closed": false
+   },
+   "size_multiplier": 0.7
+  },
   {
    "ts": "2026-06-24 13:22",
    "symbol": "NG",
@@ -19718,7 +19784,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     "liq_imbalance": 0,
     "kronos_forecast": 1,
     "smart_money_ratio": 0,
-    "oi_trend": -1
+    "oi_trend": 0
    },
    "aligned": false,
    "direction": "—"
@@ -19741,8 +19807,8 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     "tsmom": -1,
     "liq_imbalance": 0,
     "kronos_forecast": 0,
-    "smart_money_ratio": -1,
-    "oi_trend": -1
+    "smart_money_ratio": 0,
+    "oi_trend": 0
    },
    "aligned": false,
    "direction": "—"
@@ -19775,10 +19841,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "symbol": "NEAR",
    "signals": {
     "tsmom": -1,
-    "liq_imbalance": 0,
+    "liq_imbalance": -1,
     "kronos_forecast": 0,
     "smart_money_ratio": 0,
-    "oi_trend": -1
+    "oi_trend": 0
    },
    "aligned": false,
    "direction": "—"
@@ -19801,18 +19867,6 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     "tsmom": -1,
     "liq_imbalance": 0,
     "kronos_forecast": -1,
-    "smart_money_ratio": 0,
-    "oi_trend": -1
-   },
-   "aligned": false,
-   "direction": "—"
-  },
-  {
-   "symbol": "CRV",
-   "signals": {
-    "tsmom": -1,
-    "liq_imbalance": 0,
-    "kronos_forecast": 1,
     "smart_money_ratio": 0,
     "oi_trend": 0
    },
@@ -19933,7 +19987,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "esce": "perdita massima predefinita (stop), obiettivo raggiunto (target) o troppo tempo senza risultato",
    "rischio": "massimo 1% del capitale a rischio per operazione, leva non oltre 2x",
    "status": "retired",
-   "asset_class": "tutti i perp (121), crypto+stock/commodity",
+   "asset_class": "tutti i perp (123), crypto+stock/commodity",
    "risk_profile": "bilanciato",
    "stats": {
     "n_closed": 25,
@@ -19987,7 +20041,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "esce": "stop, target o tempo massimo scaduto",
    "rischio": "massimo 1% del capitale a rischio per operazione, leva non oltre 2x",
    "status": "retired",
-   "asset_class": "tutti i perp (123), crypto+stock/commodity",
+   "asset_class": "tutti i perp (125), crypto+stock/commodity",
    "risk_profile": "bilanciato",
    "stats": {
     "n_closed": 0,
@@ -20059,7 +20113,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "esce": "stop 4.0%, target 2.0R, tempo max 240h",
    "rischio": "leva max 2x, 1.0% a rischio per operazione",
    "status": "retired",
-   "asset_class": "tutti i perp (121), crypto+stock/commodity",
+   "asset_class": "tutti i perp (123), crypto+stock/commodity",
    "risk_profile": "bilanciato",
    "stats": {
     "n_closed": 26,
