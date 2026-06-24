@@ -1705,13 +1705,6 @@
 {"type": "close", "strategy": "tsmom-atr-v1", "symbol": "xyz:GOLD", "reason": "target", "exit_px": 4091.005550645485, "frac": 1.0, "remaining": -1.0, "pnl_usd": 146.81, "equity": 8674.22, "ts": "2026-06-23 23:00:00+00:00", "logged_at": "2026-06-24T03:25:08.812579+00:00"}
 {"type": "close", "strategy": "tsmom-atr-v1", "symbol": "xyz:SPCX", "reason": "stopped", "exit_px": 154.7804223802114, "frac": 1.0, "remaining": -1.0, "pnl_usd": -85.9, "equity": 8588.31, "ts": "2026-06-23 11:00:00+00:00", "logged_at": "2026-06-24T03:25:09.715938+00:00"}
 {"type": "close", "strategy": "agents-rr2-v1", "symbol": "ZEC", "reason": "target", "exit_px": 407.37598370496, "frac": 1.0, "remaining": 0.0, "pnl_usd": 74.52, "equity": 9973.01, "ts": "2026-06-24 03:00:00+00:00", "logged_at": "2026-06-24T03:25:19.310226+00:00"}
-{"type": "heartbeat", "strategy": "lux-confluence-rr2-v1", "equity": 9876.74, "open_positions": 4, "logged_at": "2026-06-24T04:15:49.424562+00:00"}
-{"type": "heartbeat", "strategy": "agents-v1", "equity": 10359.26, "open_positions": 1, "logged_at": "2026-06-24T04:15:50.700545+00:00"}
-{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9973.01, "open_positions": 0, "logged_at": "2026-06-24T04:15:51.180337+00:00"}
-{"type": "heartbeat", "strategy": "xsmom-port-v1", "equity": 9952.94, "open_positions": 4, "logged_at": "2026-06-24T04:15:57.189934+00:00"}
-{"type": "heartbeat", "strategy": "agents-v1", "equity": 10359.26, "open_positions": 1, "logged_at": "2026-06-24T04:24:34.529654+00:00"}
-{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9973.01, "open_positions": 0, "logged_at": "2026-06-24T04:24:35.234241+00:00"}
-{"type": "heartbeat", "strategy": "claude-strategy-v1", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-24T04:24:49.527647+00:00"}
-{"type": "heartbeat", "strategy": "glm-regime-confluence-v1", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-24T04:25:04.056747+00:00"}
-{"type": "skip", "strategy": "geopolitics-v1", "symbol": "NATGAS", "reason": "posizione esistente o max concorrenti", "logged_at": "2026-06-24T04:28:06.819985+00:00"}
-{"type": "heartbeat", "strategy": "geopolitics-v1", "equity": 9998.28, "open_positions": 2, "logged_at": "2026-06-24T04:28:06.820813+00:00"}
+{"type": "close", "strategy": "tsmom-v1", "symbol": "xyz:SKHX", "reason": "stopped", "exit_px": 1603.8927929871427, "frac": 1.0, "remaining": 0.0, "pnl_usd": -101.85, "equity": 9536.55, "ts": "2026-06-24 04:00:00+00:00", "logged_at": "2026-06-24T04:29:20.180558+00:00"}
+{"type": "close", "strategy": "lux-0.1-beta", "symbol": "CRV", "reason": "target", "exit_px": 0.19777424208903, "frac": 1.0, "remaining": 0.0, "pnl_usd": 594.71, "equity": 9264.1, "ts": "2026-06-24 04:00:00+00:00", "logged_at": "2026-06-24T04:29:21.369130+00:00"}
+{"type": "close", "strategy": "lux-confluence-rr2-v1", "symbol": "CRV", "reason": "target", "exit_px": 0.19822570635668574, "frac": 1.0, "remaining": 0.0, "pnl_usd": 197.56, "equity": 10074.3, "ts": "2026-06-24 04:00:00+00:00", "logged_at": "2026-06-24T04:29:34.080230+00:00"}
