@@ -25,6 +25,12 @@ ACCOUNT_META = {
     "tsmom-liq-v1": {"label": "TSMOM + liquidazioni", "tag": "trend filtrato da liq"},
     "lux-0.1-beta": {"label": "LUX 0.1 beta", "tag": "tripla confluenza"},
     "geopolitics-v1": {"label": "Desk geopolitico", "tag": "news globali cross-asset"},
+    "tsmom-atr-v1": {"label": "TSMOM ATR", "tag": "trend + vol-target"},
+    "lux-confluence-rr2-v1": {"label": "LUX confluence RR2", "tag": "confluenza 3 core · RR2"},
+    "agents-rr2-v1": {"label": "Agenti RR2", "tag": "A/B agenti · RR2"},
+    "claude-strategy-v1": {"label": "Claude strategy", "tag": "trend + flow"},
+    "xsmom-port-v1": {"label": "Cross-section momentum", "tag": "book market-neutral"},
+    "glm-regime-confluence-v1": {"label": "GLM regime confluence", "tag": "2 momentum ortogonali"},
 }
 
 # Spiegazioni in linguaggio semplice — sezione "Le strategie" + "perché"
@@ -81,6 +87,18 @@ STRATEGY_INFO = {
         "entra": "solo durante un evento geopolitico anomalo in corso, se il desk individua un canale chiaro",
         "esce": "stop obbligatorio, target o tesi smentita dall'evoluzione dell'evento",
         "rischio": "limiti nel codice: leva max 2x, max 1% a rischio per operazione, al più 2 posizioni",
+    },
+    "glm-regime-confluence-v1": {
+        "nome": "GLM regime confluence",
+        "cosa": "Due lenti momentum ortogonali devono concordare: tsmom (trend assoluto, "
+                "Moskowitz-Ooi-Pedersen) e xsection_momentum (forza relativa nel basket, "
+                "market-neutral). L'accordo assoluto+relativo segnala alpha confermato, non "
+                "drift di mercato. Veto hard su eventi news, volatilità alta e funding estremo "
+                "contro direzione. L'LLM (glm-5.2) fa solo da auditor di correlazione col book "
+                "aperto, non da oracolo direzionale.",
+        "entra": "tsmom + xsection_momentum allineati, veto superato, conviction vote 0-4 sufficiente",
+        "esce": "stop 2×ATR, target 2R, time-stop 96h",
+        "rischio": "leva max 2x, max 1% a rischio per operazione",
     },
 }
 
@@ -149,13 +167,17 @@ def build_strategies(state: dict) -> list[dict]:
     curata se disponibile (STRATEGY_INFO) altrimenti derivata dalla tesi nello YAML.
     Auto-include i nuovi ceppi e quelli che il loop evolutivo promuoverà."""
     sys.path.insert(0, str(ROOT))
-    from backtest.lifecycle import active_specs, all_specs, paper_stats, paper_symbols
+    from backtest.lifecycle import all_specs, paper_stats, paper_symbols
     out = []
     seen = set()
-    # attive (meccaniche) + desk LLM + book a portafoglio (engine:desk/portfolio,
-    # escluse da active_specs) attive in paper
-    specs = list(active_specs()) + [(p, s) for p, s in all_specs()
-                                    if s.get("engine") in ("desk", "portfolio") and s["id"] in state]
+    _NON_MECH = ("desk", "portfolio")
+    # tutte le spec con YAML: champion/challenger (attive, anche desk/portfolio) o in state
+    yaml_specs = list(all_specs())
+    active_ids = {s["id"] for _, s in yaml_specs
+                  if s.get("status") in ("champion", "challenger")}
+    in_state_ids = {sid for sid in state}  # qualsiasi conto in state, anche flat
+    specs = [(p, s) for p, s in yaml_specs
+             if s["id"] in active_ids or s["id"] in in_state_ids]
     for path, spec in specs:
         sid = spec["id"]
         seen.add(sid)
@@ -185,10 +207,11 @@ def build_strategies(state: dict) -> list[dict]:
         except Exception:
             entry["stats"] = {}
         out.append(entry)
-    # agents-v1 non è un file YAML: aggiungilo se attivo in paper
-    if "agents-v1" in state and "agents-v1" not in seen:
-        out.append({"id": "agents-v1", **STRATEGY_INFO["agents-v1"],
-                    "status": "live", "asset_class": "crypto", "risk_profile": "bilanciato"})
+    # agents-v1 e glm-regime-confluence-v1 non hanno YAML: aggiungili se attivi in state
+    for sid in ("agents-v1", "glm-regime-confluence-v1"):
+        if sid in state and sid not in seen:
+            out.append({"id": sid, **STRATEGY_INFO[sid],
+                        "status": "live", "asset_class": "crypto", "risk_profile": "bilanciato"})
     return out
 
 

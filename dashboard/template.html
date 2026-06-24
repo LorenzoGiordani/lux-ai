@@ -599,6 +599,7 @@ footer .foot-mark b{ color:var(--amber); }
       <p class="standfirst">Le posizioni aperte ora, con tesi, stop, target e P&amp;L aggiornato in tempo reale sui prezzi di mercato.</p>
     </div>
     <div class="live-stamp" id="pos-live"></div>
+    <div class="book-filters" id="pos-filters"></div>
     <div class="pos-summary" id="pos-summary"></div>
     <div class="pos-list" id="positions-body"></div>
   </section>
@@ -1216,11 +1217,22 @@ footer .foot-mark b{ color:var(--amber); }
         '<span style="font-family:var(--mono);font-size:11px;color:var(--text-3)">'+POS.length+' posizioni · esposizione '+NF0.format(size)+' $</span>'+
       '</div>';
   }
+  let posFilter='*';
   function renderPositions(){
     const body=$('#positions-body'); body.innerHTML=''; POS.length=0;
+    const fhost=$('#pos-filters');
+    if(fhost){
+      fhost.innerHTML='';
+      const seen=new Map();
+      (DATA.accounts||[]).forEach(a=> (a.positions||[]).forEach(p=>{ if(p.entry_px>0) seen.set(a.id, a.label); }));
+      const mk=(id,label)=>{ const b=el('button','bchip'+(posFilter===id?' active':'')); b.textContent=label; b.onclick=()=>{ posFilter=id; renderPositions(); }; fhost.appendChild(b); };
+      mk('*','Tutte ('+seen.size+')');
+      seen.forEach((label,id)=>mk(id,label));
+      fhost.style.display=seen.size>1?'flex':'none';
+    }
     const rows=[];
-    (DATA.accounts||[]).forEach(a=> (a.positions||[]).forEach(p=>{ if(p.entry_px>0) rows.push({p, acct:a}); }));  // niente entry 0 → no stop Infinity%
-    if(!rows.length){ body.innerHTML=emptyBox('Nessuna posizione aperta','Tutte le strategie sono flat al momento. Il cron ogni 4h ricalcola i segnali e può aprire nuove posizioni quando le tesi reggono.', true); return; }
+    (DATA.accounts||[]).forEach(a=> (a.positions||[]).forEach(p=>{ if(p.entry_px>0 && (posFilter==='*'||a.id===posFilter)) rows.push({p, acct:a}); }));
+    if(!rows.length){ body.innerHTML=emptyBox('Nessuna posizione aperta','Tutte le strategie sono flat al momento. Il cron ogni 4h ricalcola i segnali e può aprire nuove posizioni quando le tesi reggono.', true); updatePosSummary(); return; }
     rows.forEach(({p,acct})=>{
       const risk=Math.abs(p.entry_px-p.stop_px), reward=Math.abs(p.target_px-p.entry_px);
       const rr=risk?(reward/risk):0;

@@ -599,6 +599,7 @@ footer .foot-mark b{ color:var(--amber); }
       <p class="standfirst">Le posizioni aperte ora, con tesi, stop, target e P&amp;L aggiornato in tempo reale sui prezzi di mercato.</p>
     </div>
     <div class="live-stamp" id="pos-live"></div>
+    <div class="book-filters" id="pos-filters"></div>
     <div class="pos-summary" id="pos-summary"></div>
     <div class="pos-list" id="positions-body"></div>
   </section>
@@ -716,7 +717,7 @@ footer .foot-mark b{ color:var(--amber); }
 
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-24 11:25",
+ "updated_utc": "2026-06-24 11:49",
  "accounts": [
   {
    "id": "agents-v1",
@@ -8230,8 +8231,8 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "id": "tsmom-atr-v1",
-   "label": "tsmom-atr-v1",
-   "tag": "",
+   "label": "TSMOM ATR",
+   "tag": "trend + vol-target",
    "equity": 8739.91,
    "pnl_realized": -1185.15,
    "trades_closed": 25,
@@ -10719,8 +10720,8 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "id": "lux-confluence-rr2-v1",
-   "label": "lux-confluence-rr2-v1",
-   "tag": "",
+   "label": "LUX confluence RR2",
+   "tag": "confluenza 3 core · RR2",
    "equity": 10271.28,
    "pnl_realized": 283.59,
    "trades_closed": 6,
@@ -12122,8 +12123,8 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "id": "agents-rr2-v1",
-   "label": "agents-rr2-v1",
-   "tag": "",
+   "label": "Agenti RR2",
+   "tag": "A/B agenti · RR2",
    "equity": 9972.66,
    "pnl_realized": -25.65,
    "trades_closed": 3,
@@ -12839,8 +12840,8 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "id": "claude-strategy-v1",
-   "label": "claude-strategy-v1",
-   "tag": "",
+   "label": "Claude strategy",
+   "tag": "trend + flow",
    "equity": 10000.0,
    "pnl_realized": 0.0,
    "trades_closed": 3,
@@ -13040,8 +13041,8 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "id": "xsmom-port-v1",
-   "label": "xsmom-port-v1",
-   "tag": "",
+   "label": "Cross-section momentum",
+   "tag": "book market-neutral",
    "equity": 9965.21,
    "pnl_realized": 0,
    "trades_closed": 0,
@@ -13238,8 +13239,8 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "id": "glm-regime-confluence-v1",
-   "label": "glm-regime-confluence-v1",
-   "tag": "",
+   "label": "GLM regime confluence",
+   "tag": "2 momentum ortogonali",
    "equity": 10000.0,
    "pnl_realized": 0,
    "trades_closed": 0,
@@ -13491,7 +13492,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "CRV",
    "direction": "short",
    "account": "lux-confluence-rr2-v1",
-   "account_label": "lux-confluence-rr2-v1",
+   "account_label": "LUX confluence RR2",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «lux-confluence-rr2-v1» ha aperto short su CRV: tendenza concorde su settimana e mese, liquidazioni sbilanciate (cascata possibile), previsione del modello Kronos concorde.",
    "entry_px": 0.19952,
@@ -13536,7 +13537,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "ZEC",
    "direction": "short",
    "account": "agents-rr2-v1",
-   "account_label": "agents-rr2-v1",
+   "account_label": "Agenti RR2",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «agents-rr2-v1» ha aperto short su ZEC: condizioni della strategia soddisfatte.",
    "entry_px": 413.877208,
@@ -13685,7 +13686,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "BTC",
    "direction": "short",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto short su BTC: tendenza concorde su settimana e mese.",
    "entry_px": 62335.5304,
@@ -13700,7 +13701,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "ETH",
    "direction": "short",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto short su ETH: tendenza concorde su settimana e mese.",
    "entry_px": 1679.664,
@@ -13783,7 +13784,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "xyz:SPCX",
    "direction": "short",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto short su xyz:SPCX: tendenza concorde su settimana e mese.",
    "entry_px": 148.57028,
@@ -13800,7 +13801,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "cash:WTI",
    "direction": "short",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto short su cash:WTI: tendenza concorde su settimana e mese.",
    "entry_px": 72.9834,
@@ -13830,7 +13831,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "ETH",
    "direction": "short",
    "account": "lux-confluence-rr2-v1",
-   "account_label": "lux-confluence-rr2-v1",
+   "account_label": "LUX confluence RR2",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «lux-confluence-rr2-v1» ha aperto short su ETH: tendenza concorde su settimana e mese, liquidazioni sbilanciate (cascata possibile), previsione del modello Kronos concorde.",
    "entry_px": 1717.85636,
@@ -13847,7 +13848,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "xyz:GOLD",
    "direction": "short",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto short su xyz:GOLD: tendenza concorde su settimana e mese.",
    "entry_px": 4146.6705,
@@ -13915,7 +13916,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "xyz:BRENTOIL",
    "direction": "short",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto short su xyz:BRENTOIL: tendenza concorde su settimana e mese.",
    "entry_px": 77.578481,
@@ -14011,7 +14012,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "SOL",
    "direction": "short",
    "account": "lux-confluence-rr2-v1",
-   "account_label": "lux-confluence-rr2-v1",
+   "account_label": "LUX confluence RR2",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «lux-confluence-rr2-v1» ha aperto short su SOL: tendenza concorde su settimana e mese, liquidazioni sbilanciate (cascata possibile), previsione del modello Kronos concorde.",
    "entry_px": 71.827632,
@@ -14026,7 +14027,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "ZEC",
    "direction": "short",
    "account": "lux-confluence-rr2-v1",
-   "account_label": "lux-confluence-rr2-v1",
+   "account_label": "LUX confluence RR2",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «lux-confluence-rr2-v1» ha aperto short su ZEC: tendenza concorde su settimana e mese, liquidazioni sbilanciate (cascata possibile), previsione del modello Kronos concorde.",
    "entry_px": 443.86121,
@@ -14056,7 +14057,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "xyz:HOOD",
    "direction": "long",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto long su xyz:HOOD: tendenza concorde su settimana e mese.",
    "entry_px": 104.830962,
@@ -14090,7 +14091,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "xyz:NATGAS",
    "direction": "long",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto long su xyz:NATGAS: tendenza concorde su settimana e mese.",
    "entry_px": 3.280956,
@@ -14124,7 +14125,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "NEAR",
    "direction": "short",
    "account": "lux-confluence-rr2-v1",
-   "account_label": "lux-confluence-rr2-v1",
+   "account_label": "LUX confluence RR2",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «lux-confluence-rr2-v1» ha aperto short su NEAR: tendenza concorde su settimana e mese, liquidazioni sbilanciate (cascata possibile), previsione del modello Kronos concorde.",
    "entry_px": 2.131874,
@@ -14158,7 +14159,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "xyz:SILVER",
    "direction": "short",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto short su xyz:SILVER: tendenza concorde su settimana e mese.",
    "entry_px": 66.509695,
@@ -14209,7 +14210,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "ETH",
    "direction": "long",
    "account": "lux-confluence-rr2-v1",
-   "account_label": "lux-confluence-rr2-v1",
+   "account_label": "LUX confluence RR2",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «lux-confluence-rr2-v1» ha aperto long su ETH: tendenza concorde su settimana e mese, liquidazioni sbilanciate (cascata possibile), previsione del modello Kronos concorde.",
    "entry_px": 1763.25258,
@@ -14226,7 +14227,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "ZEC",
    "direction": "long",
    "account": "lux-confluence-rr2-v1",
-   "account_label": "lux-confluence-rr2-v1",
+   "account_label": "LUX confluence RR2",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «lux-confluence-rr2-v1» ha aperto long su ZEC: tendenza concorde su settimana e mese, liquidazioni sbilanciate (cascata possibile), previsione del modello Kronos concorde.",
    "entry_px": 460.232028,
@@ -14243,7 +14244,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "ETH",
    "direction": "short",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto short su ETH: tendenza concorde su settimana e mese.",
    "entry_px": 1762.54742,
@@ -14277,7 +14278,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "HYPE",
    "direction": "long",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto long su HYPE: tendenza concorde su settimana e mese.",
    "entry_px": 65.448087,
@@ -14342,7 +14343,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "BTC",
    "direction": "short",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto short su BTC: tendenza concorde su settimana e mese.",
    "entry_px": 64563.0848,
@@ -14444,7 +14445,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "xyz:SILVER",
    "direction": "short",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto short su xyz:SILVER: tendenza concorde su settimana e mese.",
    "entry_px": 64.419114,
@@ -14512,7 +14513,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "XRP",
    "direction": "short",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto short su XRP: tendenza concorde su settimana e mese.",
    "entry_px": 1.131274,
@@ -14529,7 +14530,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "PUMP",
    "direction": "short",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto short su PUMP: tendenza concorde su settimana e mese.",
    "entry_px": 0.001481,
@@ -14544,7 +14545,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "EIGEN",
    "direction": "long",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto long su EIGEN: tendenza concorde su settimana e mese.",
    "entry_px": 0.273855,
@@ -14561,7 +14562,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "TAO",
    "direction": "short",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto short su TAO: tendenza concorde su settimana e mese.",
    "entry_px": 231.35372,
@@ -14610,7 +14611,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "ZEC",
    "direction": "short",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto short su ZEC: tendenza concorde su settimana e mese.",
    "entry_px": 445.170948,
@@ -14627,7 +14628,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "xyz:SILVER",
    "direction": "short",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto short su xyz:SILVER: tendenza concorde su settimana e mese.",
    "entry_px": 64.645068,
@@ -14695,7 +14696,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "NEAR",
    "direction": "long",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto long su NEAR: tendenza concorde su settimana e mese.",
    "entry_px": 2.184937,
@@ -14812,7 +14813,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "HYPE",
    "direction": "long",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto long su HYPE: tendenza concorde su settimana e mese.",
    "entry_px": 68.078613,
@@ -14829,7 +14830,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "xyz:CL",
    "direction": "short",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto short su xyz:CL: tendenza concorde su settimana e mese.",
    "entry_px": 78.147367,
@@ -14846,7 +14847,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "xyz:BRENTOIL",
    "direction": "short",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto short su xyz:BRENTOIL: tendenza concorde su settimana e mese.",
    "entry_px": 81.670663,
@@ -14863,7 +14864,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "xyz:XYZ100",
    "direction": "long",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto long su xyz:XYZ100: tendenza concorde su settimana e mese.",
    "entry_px": 30382.0752,
@@ -14880,7 +14881,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "xyz:SKHX",
    "direction": "long",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto long su xyz:SKHX: tendenza concorde su settimana e mese.",
    "entry_px": 1895.47902,
@@ -14897,7 +14898,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "xyz:SP500",
    "direction": "long",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto long su xyz:SP500: tendenza concorde su settimana e mese.",
    "entry_px": 7485.59682,
@@ -14914,7 +14915,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "WLD",
    "direction": "long",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto long su WLD: tendenza concorde su settimana e mese.",
    "entry_px": 0.615373,
@@ -14931,7 +14932,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "XPL",
    "direction": "long",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto long su XPL: tendenza concorde su settimana e mese.",
    "entry_px": 0.091027,
@@ -14948,7 +14949,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "xyz:MU",
    "direction": "long",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto long su xyz:MU: tendenza concorde su settimana e mese.",
    "entry_px": 1142.82852,
@@ -14965,7 +14966,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "xyz:DRAM",
    "direction": "long",
    "account": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "risk_verdict": "sistema",
    "thesis": "Il sistema «tsmom-atr-v1» ha aperto long su xyz:DRAM: tendenza concorde su settimana e mese.",
    "entry_px": 79.792955,
@@ -19780,10 +19781,10 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "XRP",
    "signals": {
     "tsmom": -1,
-    "liq_imbalance": -1,
+    "liq_imbalance": 0,
     "kronos_forecast": 0,
     "smart_money_ratio": 0,
-    "oi_trend": -1
+    "oi_trend": 0
    },
    "aligned": false,
    "direction": "—"
@@ -19795,7 +19796,7 @@ footer .foot-mark b{ color:var(--amber); }
     "liq_imbalance": 0,
     "kronos_forecast": -1,
     "smart_money_ratio": 0,
-    "oi_trend": -1
+    "oi_trend": 0
    },
    "aligned": false,
    "direction": "—"
@@ -19816,7 +19817,7 @@ footer .foot-mark b{ color:var(--amber); }
    "symbol": "WLD",
    "signals": {
     "tsmom": 0,
-    "liq_imbalance": -1,
+    "liq_imbalance": 0,
     "kronos_forecast": 1,
     "smart_money_ratio": 0,
     "oi_trend": 0
@@ -19830,18 +19831,6 @@ footer .foot-mark b{ color:var(--amber); }
     "tsmom": -1,
     "liq_imbalance": 0,
     "kronos_forecast": -1,
-    "smart_money_ratio": 0,
-    "oi_trend": 0
-   },
-   "aligned": false,
-   "direction": "—"
-  },
-  {
-   "symbol": "CRV",
-   "signals": {
-    "tsmom": -1,
-    "liq_imbalance": 0,
-    "kronos_forecast": 1,
     "smart_money_ratio": 0,
     "oi_trend": 0
    },
@@ -19943,26 +19932,26 @@ footer .foot-mark b{ color:var(--amber); }
  ],
  "strategies": [
   {
-   "id": "lux-confluence-rr2-v1",
-   "nome": "lux-confluence-rr2-v1",
-   "cosa": "La confluenza LUX e l'edge piu validato del desk: trend (tsmom) + liquidazioni reali (liq_imbalance) + forecast Kronos concordi = setup top-conviction. Questo challenger prende ESATTAMENTE quella confluenza a 3 gambe ma cambia solo l'uscita: stop ATR-adattivo + RR2 invece del RR …",
-   "entra": "segnali: tsmom, liq_imbalance, kronos_forecast",
-   "esce": "stop 4.0%, target 2.0R, tempo max 240h",
-   "rischio": "leva max 2x, 1.0% a rischio per operazione",
-   "status": "challenger",
-   "asset_class": "crypto",
+   "id": "tsmom-v1",
+   "nome": "Segui la tendenza (TSMOM)",
+   "cosa": "Compra ciò che sta già salendo da settimane e vende allo scoperto ciò che sta scendendo. L'idea, documentata sui mercati da decenni: un movimento in corso tende a continuare più spesso di quanto si inverta di colpo.",
+   "entra": "la direzione dell'ultima settimana e dell'ultimo mese concordano (entrambe su, o entrambe giù)",
+   "esce": "perdita massima predefinita (stop), obiettivo raggiunto (target) o troppo tempo senza risultato",
+   "rischio": "massimo 1% del capitale a rischio per operazione, leva non oltre 2x",
+   "status": "retired",
+   "asset_class": "tutti i perp (120), crypto+stock/commodity",
    "risk_profile": "bilanciato",
    "stats": {
-    "n_closed": 4,
-    "sharpe_r": 0.552,
-    "mean_r": 0.478,
-    "win_rate": 0.5,
-    "total_pnl": 186.98
+    "n_closed": 25,
+    "sharpe_r": -1.154,
+    "mean_r": -0.244,
+    "win_rate": 0.36,
+    "total_pnl": -614.61
    }
   },
   {
    "id": "agents-rr2-v1",
-   "nome": "agents-rr2-v1",
+   "nome": "Agenti RR2",
    "cosa": "Stesse identiche decisioni del desk agents-v1 (medesimo brief, dibattito, Strategist, Risk Manager — nessuna chiamata LLM aggiuntiva), ma eseguite con RR fisso 2.0 invece del target_r proposto dall'LLM (storicamente ~2.5). A/B puro sullo strato di USCITA: stesse entry, TP piu vic…",
    "entra": "segnali: ",
    "esce": "stop 3.0%, target 2.0R, tempo max 96h",
@@ -19980,13 +19969,31 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "id": "claude-strategy-v1",
-   "nome": "claude-strategy-v1",
+   "nome": "Claude strategy",
    "cosa": "Strategia ibrida progettata da zero. Tesi: separare CHI trova dal CHI giudica. (1) Un gate SISTEMATICO trova i setup ad alta convinzione = confluenza di flusso forzato (trend tsmom + sbilancio liquidazioni reali liq_imbalance concordi), l'unico edge ortogonale sopravvissuto alle …",
    "entra": "segnali: ",
    "esce": "stop 0%, target 0R, tempo max 0h",
    "rischio": "leva max 2x, 1.0% a rischio per operazione",
    "status": "challenger",
    "asset_class": "crypto",
+   "risk_profile": "bilanciato",
+   "stats": {
+    "n_closed": 0,
+    "sharpe_r": 0.0,
+    "mean_r": 0.0,
+    "win_rate": 0.0,
+    "total_pnl": 0.0
+   }
+  },
+  {
+   "id": "funding-squeeze-breakout-g2-g1-g2",
+   "nome": "Caccia allo squeeze (crypto)",
+   "cosa": "Quando troppi trader scommettono tutti dallo stesso lato — si vede dal “funding”, il costo di mantenere aperte le posizioni — e il prezzo rompe il suo intervallo dopo una fase calma, chi è dal lato sbagliato è costretto a chiudere in fretta. Quelle chiusure forzate spingono il prezzo: la strategia cavalca proprio quell'onda.",
+   "entra": "affollamento estremo da un lato + prezzo che rompe il range con volumi alti, dopo una fase di calma",
+   "esce": "stop, target o tempo massimo scaduto",
+   "rischio": "massimo 1% del capitale a rischio per operazione, leva non oltre 2x",
+   "status": "retired",
+   "asset_class": "tutti i perp (122), crypto+stock/commodity",
    "risk_profile": "bilanciato",
    "stats": {
     "n_closed": 0,
@@ -20015,8 +20022,98 @@ footer .foot-mark b{ color:var(--amber); }
    }
   },
   {
+   "id": "lux-0.1-beta",
+   "nome": "LUX 0.1 beta",
+   "cosa": "LUX 0.1 BETA — la flagship: distillazione del meglio appreso finora. Entra solo su TRIPLA CONFLUENZA ORTOGONALE — trend (tsmom) + liquidazioni reali Coinalyze (liq_imbalance, l'unico edge robusto provato) + forecast del foundation model Kronos. Tre fonti indipendenti (prezzo, flu…",
+   "entra": "segnali: tsmom, liq_imbalance, kronos_forecast, smart_money_ratio, oi_trend, news_event",
+   "esce": "stop 2.5%, target 3.0R, tempo max 240h",
+   "rischio": "leva max 3x, 2.0% a rischio per operazione",
+   "status": "retired",
+   "asset_class": "crypto",
+   "risk_profile": "aggressivo",
+   "stats": {
+    "n_closed": 17,
+    "sharpe_r": -0.2,
+    "mean_r": -0.085,
+    "win_rate": 0.235,
+    "total_pnl": -303.79
+   }
+  },
+  {
+   "id": "lux-confluence-rr2-v1",
+   "nome": "LUX confluence RR2",
+   "cosa": "La confluenza LUX e l'edge piu validato del desk: trend (tsmom) + liquidazioni reali (liq_imbalance) + forecast Kronos concordi = setup top-conviction. Questo challenger prende ESATTAMENTE quella confluenza a 3 gambe ma cambia solo l'uscita: stop ATR-adattivo + RR2 invece del RR …",
+   "entra": "segnali: tsmom, liq_imbalance, kronos_forecast",
+   "esce": "stop 4.0%, target 2.0R, tempo max 240h",
+   "rischio": "leva max 2x, 1.0% a rischio per operazione",
+   "status": "challenger",
+   "asset_class": "crypto",
+   "risk_profile": "bilanciato",
+   "stats": {
+    "n_closed": 4,
+    "sharpe_r": 0.552,
+    "mean_r": 0.478,
+    "win_rate": 0.5,
+    "total_pnl": 186.98
+   }
+  },
+  {
+   "id": "tsmom-atr-v1",
+   "nome": "TSMOM ATR",
+   "cosa": "Stessa tesi TSMOM del parent, ma stop volatility-adaptive (k*ATR invece di % fissa) e RR 2 invece di 3. Ipotesi: lo stop ATR sopravvive al rumore senza essere troppo largo, e un TP a 2R viene ittato molto più spesso di 3R. Falsificata se: su basket misto crypto+commodities non ba…",
+   "entra": "segnali: tsmom",
+   "esce": "stop 4.0%, target 2.0R, tempo max 240h",
+   "rischio": "leva max 2x, 1.0% a rischio per operazione",
+   "status": "retired",
+   "asset_class": "tutti i perp (120), crypto+stock/commodity",
+   "risk_profile": "bilanciato",
+   "stats": {
+    "n_closed": 25,
+    "sharpe_r": -1.979,
+    "mean_r": -0.465,
+    "win_rate": 0.2,
+    "total_pnl": -1185.15
+   }
+  },
+  {
+   "id": "tsmom-conservative-v1",
+   "nome": "Segui la tendenza — versione prudente",
+   "cosa": "Lo stesso motore del «segui la tendenza», ma con il piede leggero sull'acceleratore: nessuna leva, stop più stretto e meno posizioni aperte insieme. L'idea è rinunciare a un po' di guadagno potenziale per subire cali molto più contenuti — e ottenere così un rendimento più stabile nel tempo.",
+   "entra": "la direzione dell'ultima settimana e dell'ultimo mese concordano (entrambe su, o entrambe giù)",
+   "esce": "stop ravvicinato, obiettivo raggiunto o troppo tempo senza risultato",
+   "rischio": "nessuna leva (1x), massimo 0,6% del capitale a rischio per operazione, al più 2 posizioni insieme",
+   "status": "retired",
+   "asset_class": "tutti i perp (169), crypto+stock/commodity",
+   "risk_profile": "conservativo",
+   "stats": {
+    "n_closed": 22,
+    "sharpe_r": -0.364,
+    "mean_r": -0.106,
+    "win_rate": 0.318,
+    "total_pnl": -137.11
+   }
+  },
+  {
+   "id": "tsmom-liq-v1",
+   "nome": "TSMOM + liquidazioni",
+   "cosa": "Trend confermato dalle liquidazioni reali (Coinalyze): entra solo quando TSMOM e lo sbilancio liquidazioni concordano sulla direzione (segui lo squeeze). Primo edge ortogonale robusto: 100% celle griglia battono il baseline, 7/9 coin positivi. In paper per validazione forward.",
+   "entra": "segnali: tsmom, liq_imbalance",
+   "esce": "stop 2.5%, target 3.0R, tempo max 240h",
+   "rischio": "leva max 1x, 0.6% a rischio per operazione",
+   "status": "retired",
+   "asset_class": "tutti i perp (171), crypto+stock/commodity",
+   "risk_profile": "conservativo",
+   "stats": {
+    "n_closed": 26,
+    "sharpe_r": -1.385,
+    "mean_r": -0.363,
+    "win_rate": 0.231,
+    "total_pnl": -554.36
+   }
+  },
+  {
    "id": "xsmom-port-v1",
-   "nome": "xsmom-port-v1",
+   "nome": "Cross-section momentum",
    "cosa": "Cross-sectional momentum a PORTAFOGLIO: long il top-terzile del basket per forza relativa (ultime 168h), short il bottom-terzile, dollar-neutral, ribilanciato ogni 168h. Lo stesso edge che da -14.5% nell'engine per-simbolo stop-based (l'IC e troppo sottile per trade discreti) ren…",
    "entra": "segnali: ",
    "esce": "stop 0%, target 0R, tempo max 0h",
@@ -20042,12 +20139,23 @@ footer .foot-mark b{ color:var(--amber); }
    "status": "live",
    "asset_class": "crypto",
    "risk_profile": "bilanciato"
+  },
+  {
+   "id": "glm-regime-confluence-v1",
+   "nome": "GLM regime confluence",
+   "cosa": "Due lenti momentum ortogonali devono concordare: tsmom (trend assoluto, Moskowitz-Ooi-Pedersen) e xsection_momentum (forza relativa nel basket, market-neutral). L'accordo assoluto+relativo segnala alpha confermato, non drift di mercato. Veto hard su eventi news, volatilità alta e funding estremo contro direzione. L'LLM (glm-5.2) fa solo da auditor di correlazione col book aperto, non da oracolo direzionale.",
+   "entra": "tsmom + xsection_momentum allineati, veto superato, conviction vote 0-4 sufficiente",
+   "esce": "stop 2×ATR, target 2R, time-stop 96h",
+   "rischio": "leva max 2x, max 1% a rischio per operazione",
+   "status": "live",
+   "asset_class": "crypto",
+   "risk_profile": "bilanciato"
   }
  ],
  "tradebook": [
   {
    "strategy": "lux-confluence-rr2-v1",
-   "account_label": "lux-confluence-rr2-v1",
+   "account_label": "LUX confluence RR2",
    "symbol": "CRV",
    "direction": "short",
    "entry_px": 0.19952,
@@ -20065,7 +20173,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "agents-rr2-v1",
-   "account_label": "agents-rr2-v1",
+   "account_label": "Agenti RR2",
    "symbol": "ZEC",
    "direction": "short",
    "entry_px": 413.877208,
@@ -20137,7 +20245,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "BTC",
    "direction": "short",
    "entry_px": 62335.5304,
@@ -20155,7 +20263,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "ETH",
    "direction": "short",
    "entry_px": 1679.664,
@@ -20227,7 +20335,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "xyz:SPCX",
    "direction": "short",
    "entry_px": 148.57028,
@@ -20263,7 +20371,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "cash:WTI",
    "direction": "short",
    "entry_px": 72.9834,
@@ -20281,7 +20389,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "lux-confluence-rr2-v1",
-   "account_label": "lux-confluence-rr2-v1",
+   "account_label": "LUX confluence RR2",
    "symbol": "ETH",
    "direction": "short",
    "entry_px": 1717.85636,
@@ -20317,7 +20425,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "xyz:GOLD",
    "direction": "short",
    "entry_px": 4146.6705,
@@ -20389,7 +20497,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "xyz:BRENTOIL",
    "direction": "short",
    "entry_px": 77.578481,
@@ -20497,7 +20605,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "lux-confluence-rr2-v1",
-   "account_label": "lux-confluence-rr2-v1",
+   "account_label": "LUX confluence RR2",
    "symbol": "SOL",
    "direction": "short",
    "entry_px": 71.827632,
@@ -20515,7 +20623,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "lux-confluence-rr2-v1",
-   "account_label": "lux-confluence-rr2-v1",
+   "account_label": "LUX confluence RR2",
    "symbol": "ZEC",
    "direction": "short",
    "entry_px": 443.86121,
@@ -20551,7 +20659,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "xyz:HOOD",
    "direction": "long",
    "entry_px": 104.830962,
@@ -20587,7 +20695,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "xyz:NATGAS",
    "direction": "long",
    "entry_px": 3.280956,
@@ -20623,7 +20731,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "lux-confluence-rr2-v1",
-   "account_label": "lux-confluence-rr2-v1",
+   "account_label": "LUX confluence RR2",
    "symbol": "NEAR",
    "direction": "short",
    "entry_px": 2.131874,
@@ -20659,7 +20767,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "xyz:SILVER",
    "direction": "short",
    "entry_px": 66.509695,
@@ -20713,7 +20821,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "lux-confluence-rr2-v1",
-   "account_label": "lux-confluence-rr2-v1",
+   "account_label": "LUX confluence RR2",
    "symbol": "ETH",
    "direction": "long",
    "entry_px": 1763.25258,
@@ -20731,7 +20839,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "lux-confluence-rr2-v1",
-   "account_label": "lux-confluence-rr2-v1",
+   "account_label": "LUX confluence RR2",
    "symbol": "ZEC",
    "direction": "long",
    "entry_px": 460.232028,
@@ -20749,7 +20857,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "ETH",
    "direction": "short",
    "entry_px": 1762.54742,
@@ -20803,7 +20911,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "HYPE",
    "direction": "long",
    "entry_px": 65.448087,
@@ -20875,7 +20983,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "BTC",
    "direction": "short",
    "entry_px": 64563.0848,
@@ -20929,7 +21037,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "xyz:SILVER",
    "direction": "short",
    "entry_px": 64.419114,
@@ -21037,7 +21145,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "XRP",
    "direction": "short",
    "entry_px": 1.131274,
@@ -21055,7 +21163,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "EIGEN",
    "direction": "long",
    "entry_px": 0.273855,
@@ -21073,7 +21181,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "PUMP",
    "direction": "short",
    "entry_px": 0.001481,
@@ -21091,7 +21199,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "TAO",
    "direction": "short",
    "entry_px": 231.35372,
@@ -21109,7 +21217,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "xyz:SILVER",
    "direction": "short",
    "entry_px": 64.645068,
@@ -21163,7 +21271,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "ZEC",
    "direction": "short",
    "entry_px": 445.170948,
@@ -21217,7 +21325,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "NEAR",
    "direction": "long",
    "entry_px": 2.184937,
@@ -21325,7 +21433,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "xyz:BRENTOIL",
    "direction": "short",
    "entry_px": 81.670663,
@@ -21343,7 +21451,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "xyz:CL",
    "direction": "short",
    "entry_px": 78.147367,
@@ -21361,7 +21469,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "xyz:XYZ100",
    "direction": "long",
    "entry_px": 30382.0752,
@@ -21379,7 +21487,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "xyz:SKHX",
    "direction": "long",
    "entry_px": 1895.47902,
@@ -21397,7 +21505,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "xyz:DRAM",
    "direction": "long",
    "entry_px": 79.792955,
@@ -21415,7 +21523,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "xyz:MU",
    "direction": "long",
    "entry_px": 1142.82852,
@@ -21433,7 +21541,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "xyz:SP500",
    "direction": "long",
    "entry_px": 7485.59682,
@@ -21451,7 +21559,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "HYPE",
    "direction": "long",
    "entry_px": 68.078613,
@@ -21469,7 +21577,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "XPL",
    "direction": "long",
    "entry_px": 0.091027,
@@ -21487,7 +21595,7 @@ footer .foot-mark b{ color:var(--amber); }
   },
   {
    "strategy": "tsmom-atr-v1",
-   "account_label": "tsmom-atr-v1",
+   "account_label": "TSMOM ATR",
    "symbol": "WLD",
    "direction": "long",
    "entry_px": 0.615373,
@@ -23078,11 +23186,22 @@ footer .foot-mark b{ color:var(--amber); }
         '<span style="font-family:var(--mono);font-size:11px;color:var(--text-3)">'+POS.length+' posizioni · esposizione '+NF0.format(size)+' $</span>'+
       '</div>';
   }
+  let posFilter='*';
   function renderPositions(){
     const body=$('#positions-body'); body.innerHTML=''; POS.length=0;
+    const fhost=$('#pos-filters');
+    if(fhost){
+      fhost.innerHTML='';
+      const seen=new Map();
+      (DATA.accounts||[]).forEach(a=> (a.positions||[]).forEach(p=>{ if(p.entry_px>0) seen.set(a.id, a.label); }));
+      const mk=(id,label)=>{ const b=el('button','bchip'+(posFilter===id?' active':'')); b.textContent=label; b.onclick=()=>{ posFilter=id; renderPositions(); }; fhost.appendChild(b); };
+      mk('*','Tutte ('+seen.size+')');
+      seen.forEach((label,id)=>mk(id,label));
+      fhost.style.display=seen.size>1?'flex':'none';
+    }
     const rows=[];
-    (DATA.accounts||[]).forEach(a=> (a.positions||[]).forEach(p=>{ if(p.entry_px>0) rows.push({p, acct:a}); }));  // niente entry 0 → no stop Infinity%
-    if(!rows.length){ body.innerHTML=emptyBox('Nessuna posizione aperta','Tutte le strategie sono flat al momento. Il cron ogni 4h ricalcola i segnali e può aprire nuove posizioni quando le tesi reggono.', true); return; }
+    (DATA.accounts||[]).forEach(a=> (a.positions||[]).forEach(p=>{ if(p.entry_px>0 && (posFilter==='*'||a.id===posFilter)) rows.push({p, acct:a}); }));
+    if(!rows.length){ body.innerHTML=emptyBox('Nessuna posizione aperta','Tutte le strategie sono flat al momento. Il cron ogni 4h ricalcola i segnali e può aprire nuove posizioni quando le tesi reggono.', true); updatePosSummary(); return; }
     rows.forEach(({p,acct})=>{
       const risk=Math.abs(p.entry_px-p.stop_px), reward=Math.abs(p.target_px-p.entry_px);
       const rr=risk?(reward/risk):0;
