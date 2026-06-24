@@ -25,7 +25,7 @@
   "last_decision_ts": "2026-06-24T03:18:49.434183+00:00"
  },
  "tsmom-v1": {
-  "equity": 9840.05943993888,
+  "equity": 9638.395197216345,
   "positions": {
    "BTC": {
     "strategy": "tsmom-v1",
@@ -36,7 +36,7 @@
     "stop_px": 66473.90256,
     "target_px": 56247.14832,
     "opened_at": "2026-06-20 14:00:00+00:00",
-    "checked_until": "2026-06-23 09:00:00+00:00",
+    "checked_until": "2026-06-24 02:00:00+00:00",
     "sign": -1,
     "remaining": 1.0,
     "partial_done": false,
@@ -44,7 +44,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-23 09:00:00+00:00"
+    "_last_ts": "2026-06-24 02:00:00+00:00"
    },
    "xyz:BRENTOIL": {
     "sign": -1,
@@ -62,8 +62,8 @@
     "direction": "short",
     "size_usd": 4527.68,
     "opened_at": "2026-06-22 10:00:00+00:00",
-    "checked_until": "2026-06-23 09:00:00+00:00",
-    "_last_ts": "2026-06-23 09:00:00+00:00"
+    "checked_until": "2026-06-24 02:00:00+00:00",
+    "_last_ts": "2026-06-24 02:00:00+00:00"
    },
    "ZEC": {
     "sign": -1,
@@ -81,8 +81,8 @@
     "direction": "short",
     "size_usd": 2491.98,
     "opened_at": "2026-06-22 10:00:00+00:00",
-    "checked_until": "2026-06-23 09:00:00+00:00",
-    "_last_ts": "2026-06-23 09:00:00+00:00"
+    "checked_until": "2026-06-24 02:00:00+00:00",
+    "_last_ts": "2026-06-24 02:00:00+00:00"
    },
    "ETH": {
     "sign": -1,
@@ -100,27 +100,8 @@
     "direction": "short",
     "size_usd": 2464.02,
     "opened_at": "2026-06-23 00:00:00+00:00",
-    "checked_until": "2026-06-23 09:00:00+00:00",
-    "_last_ts": "2026-06-23 09:00:00+00:00"
-   },
-   "xyz:SPCX": {
-    "sign": -1,
-    "entry_px": 153.86922,
-    "stop_px": 162.09486025714287,
-    "target_px": 140.70819558857144,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 153.86922,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-v1",
-    "symbol": "xyz:SPCX",
-    "direction": "short",
-    "size_usd": 1843.48,
-    "opened_at": "2026-06-23 00:00:00+00:00",
-    "checked_until": "2026-06-23 09:00:00+00:00",
-    "_last_ts": "2026-06-23 09:00:00+00:00"
+    "checked_until": "2026-06-24 02:00:00+00:00",
+    "_last_ts": "2026-06-24 02:00:00+00:00"
    },
    "SOL": {
     "sign": -1,
@@ -138,8 +119,8 @@
     "direction": "short",
     "size_usd": 2463.54,
     "opened_at": "2026-06-23 00:00:00+00:00",
-    "checked_until": "2026-06-23 09:00:00+00:00",
-    "_last_ts": "2026-06-23 09:00:00+00:00"
+    "checked_until": "2026-06-24 02:00:00+00:00",
+    "_last_ts": "2026-06-24 02:00:00+00:00"
    },
    "xyz:SKHX": {
     "sign": 1,
@@ -157,60 +138,21 @@
     "direction": "long",
     "size_usd": 2031.76,
     "opened_at": "2026-06-23 06:00:00+00:00",
-    "checked_until": "2026-06-23 09:00:00+00:00",
-    "_last_ts": "2026-06-23 09:00:00+00:00"
-   },
-   "xyz:MU": {
-    "sign": 1,
-    "entry_px": 1129.12578,
-    "stop_px": 1076.8896205714286,
-    "target_px": 1212.7036350857143,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 1129.12578,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-v1",
-    "symbol": "xyz:MU",
-    "direction": "long",
-    "size_usd": 2172.48,
-    "opened_at": "2026-06-23 06:00:00+00:00",
-    "checked_until": "2026-06-23 09:00:00+00:00",
-    "_last_ts": "2026-06-23 09:00:00+00:00"
+    "checked_until": "2026-06-24 02:00:00+00:00",
+    "_last_ts": "2026-06-24 02:00:00+00:00"
    }
   }
  },
  "tsmom-conservative-v1": {
-  "equity": 9913.596032557163,
-  "positions": {
-   "xyz_CL": {
-    "sign": -1,
-    "entry_px": 75.349927,
-    "stop_px": 77.03916051428571,
-    "target_px": 72.30930667428571,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 75.349927,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-conservative-v1",
-    "symbol": "xyz_CL",
-    "direction": "short",
-    "size_usd": 2681.17,
-    "opened_at": "2026-06-22 10:00:00+00:00",
-    "checked_until": "2026-06-23 09:00:00+00:00",
-    "_last_ts": "2026-06-23 09:00:00+00:00"
-   }
-  }
+  "equity": 10020.069043556121,
+  "positions": {}
  },
  "tsmom-liq-v1": {
   "equity": 9417.920719600146,
   "positions": {}
  },
  "lux-0.1-beta": {
-  "equity": 8151.819095600001,
+  "equity": 8669.3980083,
   "positions": {
    "CRV": {
     "strategy": "lux-0.1-beta",
@@ -221,7 +163,7 @@
     "stop_px": 0.21911141894999997,
     "target_px": 0.19773469515,
     "opened_at": "2026-06-20 09:00:00+00:00",
-    "checked_until": "2026-06-23 20:00:00+00:00",
+    "checked_until": "2026-06-24 02:00:00+00:00",
     "sign": -1,
     "remaining": 1.0,
     "partial_done": false,
@@ -229,7 +171,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-23 20:00:00+00:00"
+    "_last_ts": "2026-06-24 02:00:00+00:00"
    },
    "NEAR": {
     "sign": -1,
@@ -247,8 +189,8 @@
     "direction": "short",
     "size_usd": 6965.0,
     "opened_at": "2026-06-22 23:00:00+00:00",
-    "checked_until": "2026-06-23 20:00:00+00:00",
-    "_last_ts": "2026-06-23 20:00:00+00:00"
+    "checked_until": "2026-06-24 02:00:00+00:00",
+    "_last_ts": "2026-06-24 02:00:00+00:00"
    },
    "SOL": {
     "sign": -1,
@@ -266,27 +208,8 @@
     "direction": "short",
     "size_usd": 6962.49,
     "opened_at": "2026-06-23 00:00:00+00:00",
-    "checked_until": "2026-06-23 20:00:00+00:00",
-    "_last_ts": "2026-06-23 20:00:00+00:00"
-   },
-   "ZEC": {
-    "sign": -1,
-    "entry_px": 443.86120999999997,
-    "stop_px": 454.9577402499999,
-    "target_px": 410.57161924999997,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 443.86120999999997,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-0.1-beta",
-    "symbol": "ZEC",
-    "direction": "short",
-    "size_usd": 6959.98,
-    "opened_at": "2026-06-23 00:00:00+00:00",
-    "checked_until": "2026-06-23 20:00:00+00:00",
-    "_last_ts": "2026-06-23 20:00:00+00:00"
+    "checked_until": "2026-06-24 02:00:00+00:00",
+    "_last_ts": "2026-06-24 02:00:00+00:00"
    },
    "ETH": {
     "sign": -1,
@@ -304,8 +227,8 @@
     "direction": "short",
     "size_usd": 6802.56,
     "opened_at": "2026-06-23 04:00:00+00:00",
-    "checked_until": "2026-06-23 20:00:00+00:00",
-    "_last_ts": "2026-06-23 20:00:00+00:00"
+    "checked_until": "2026-06-24 02:00:00+00:00",
+    "_last_ts": "2026-06-24 02:00:00+00:00"
    }
   }
  },
@@ -362,7 +285,7 @@
   "last_decision_ts": "2026-06-24T03:22:26.039380+00:00"
  },
  "tsmom-atr-v1": {
-  "equity": 8617.056730141388,
+  "equity": 8588.311571413862,
   "positions": {
    "PUMP": {
     "sign": -1,
@@ -380,8 +303,8 @@
     "direction": "short",
     "size_usd": 1713.0,
     "opened_at": "2026-06-21 22:00:00+00:00",
-    "checked_until": "2026-06-23 09:00:00+00:00",
-    "_last_ts": "2026-06-23 09:00:00+00:00"
+    "checked_until": "2026-06-24 02:00:00+00:00",
+    "_last_ts": "2026-06-24 02:00:00+00:00"
    },
    "TAO": {
     "sign": -1,
@@ -399,27 +322,8 @@
     "direction": "short",
     "size_usd": 2332.51,
     "opened_at": "2026-06-21 22:00:00+00:00",
-    "checked_until": "2026-06-23 09:00:00+00:00",
-    "_last_ts": "2026-06-23 09:00:00+00:00"
-   },
-   "xyz:NATGAS": {
-    "sign": 1,
-    "entry_px": 3.28095606,
-    "stop_px": 3.2306317114285714,
-    "target_px": 3.371539887428571,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 3.28095606,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-atr-v1",
-    "symbol": "xyz:NATGAS",
-    "direction": "long",
-    "size_usd": 5608.06,
-    "opened_at": "2026-06-22 18:00:00+00:00",
-    "checked_until": "2026-06-23 09:00:00+00:00",
-    "_last_ts": "2026-06-23 09:00:00+00:00"
+    "checked_until": "2026-06-24 02:00:00+00:00",
+    "_last_ts": "2026-06-24 02:00:00+00:00"
    },
    "xyz:BRENTOIL": {
     "sign": -1,
@@ -437,46 +341,8 @@
     "direction": "short",
     "size_usd": 6412.23,
     "opened_at": "2026-06-23 01:00:00+00:00",
-    "checked_until": "2026-06-23 09:00:00+00:00",
-    "_last_ts": "2026-06-23 09:00:00+00:00"
-   },
-   "xyz:GOLD": {
-    "sign": -1,
-    "entry_px": 4146.6705,
-    "stop_px": 4178.049937142858,
-    "target_px": 4090.1875131428565,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 4146.6705,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-atr-v1",
-    "symbol": "xyz:GOLD",
-    "direction": "short",
-    "size_usd": 11315.38,
-    "opened_at": "2026-06-23 03:00:00+00:00",
-    "checked_until": "2026-06-23 09:00:00+00:00",
-    "_last_ts": "2026-06-23 09:00:00+00:00"
-   },
-   "xyz:SPCX": {
-    "sign": -1,
-    "entry_px": 148.57028,
-    "stop_px": 154.74947248571428,
-    "target_px": 138.68357202285713,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 148.57028,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "tsmom-atr-v1",
-    "symbol": "xyz:SPCX",
-    "direction": "short",
-    "size_usd": 2033.28,
-    "opened_at": "2026-06-23 06:00:00+00:00",
-    "checked_until": "2026-06-23 09:00:00+00:00",
-    "_last_ts": "2026-06-23 09:00:00+00:00"
+    "checked_until": "2026-06-24 02:00:00+00:00",
+    "_last_ts": "2026-06-24 02:00:00+00:00"
    },
    "cash:WTI": {
     "sign": -1,
@@ -494,8 +360,8 @@
     "direction": "short",
     "size_usd": 5252.3,
     "opened_at": "2026-06-23 06:00:00+00:00",
-    "checked_until": "2026-06-23 09:00:00+00:00",
-    "_last_ts": "2026-06-23 09:00:00+00:00"
+    "checked_until": "2026-06-24 02:00:00+00:00",
+    "_last_ts": "2026-06-24 02:00:00+00:00"
    },
    "ETH": {
     "sign": -1,
@@ -513,8 +379,8 @@
     "direction": "short",
     "size_usd": 3545.71,
     "opened_at": "2026-06-23 07:00:00+00:00",
-    "checked_until": "2026-06-23 09:00:00+00:00",
-    "_last_ts": "2026-06-23 09:00:00+00:00"
+    "checked_until": "2026-06-24 02:00:00+00:00",
+    "_last_ts": "2026-06-24 02:00:00+00:00"
    },
    "BTC": {
     "sign": -1,
@@ -532,8 +398,8 @@
     "direction": "short",
     "size_usd": 4430.12,
     "opened_at": "2026-06-23 08:00:00+00:00",
-    "checked_until": "2026-06-23 09:00:00+00:00",
-    "_last_ts": "2026-06-23 09:00:00+00:00"
+    "checked_until": "2026-06-24 02:00:00+00:00",
+    "_last_ts": "2026-06-24 02:00:00+00:00"
    }
   }
  },
@@ -619,33 +485,9 @@
   }
  },
  "agents-rr2-v1": {
-  "equity": 9898.494211,
-  "positions": {
-   "ZEC": {
-    "strategy": "agents-rr2-v1",
-    "symbol": "ZEC",
-    "direction": "short",
-    "entry_px": 452.549472,
-    "size_usd": 749.93,
-    "stop_px": 475.1769456,
-    "target_px": 407.2945248,
-    "opened_at": "2026-06-22 08:00:00+00:00",
-    "checked_until": "2026-06-24 02:00:00+00:00",
-    "time_stop_h": 48,
-    "thesis": "ZEC ha completato un rally di +17.8% in 7 giorni senza catalizzatore fondamentale identificabile, e oggi registra il primo pullback significativo (-3.2%) con funding ancora positivo (+1.37% APR): i longs non capitolano nonostante il prezzo scenda, segnale classico di distribuzione per esaurimento. Il pattern \u00e8 documentato nelle lezioni del journal come configurazione ad alto tasso di mean reversion (-15/20%). SOL \u00e8 il setup long preferito ma manca di segnale attivo \u2014 entrare ora sarebbe speculazione cieca; ZEC short \u00e8 invece il trade con il miglior allineamento storico tra regime, struttura di funding e pattern di price action. Size ridotta (0.75%) e leva bassa (2x) compensano il rischio di slippage su asset illiquido.",
-    "invalidation": "Prezzo ZEC recupera e chiude sopra il massimo degli ultimi 7 giorni, oppure il funding rate scende sotto zero (segnale che i longs stanno capitolando e la pressione sell \u00e8 gi\u00e0 esaurita) \u2014 in entrambi i casi la tesi di distribuzione/esaurimento decade e si chiude immediatamente.",
-    "decision_ts": "2026-06-17T04:19:06.130356+00:00",
-    "sign": -1,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 452.549472,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "_last_ts": "2026-06-24 02:00:00+00:00"
-   }
-  },
-  "last_decision_ts": "2026-06-24T03:18:49.434183+00:00"
+  "equity": 9973.0147551,
+  "positions": {},
+  "last_decision_ts": "2026-06-21T17:23:00.800287+00:00"
  },
  "claude-strategy-v1": {
   "equity": 10000.0,
