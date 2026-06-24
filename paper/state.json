@@ -305,7 +305,7 @@
     "stop_px": 3.1309420632,
     "target_px": 3.3865291704000002,
     "opened_at": "2026-06-23 20:00:00+00:00",
-    "checked_until": "2026-06-23 22:00:00+00:00",
+    "checked_until": "2026-06-24 00:00:00+00:00",
     "time_stop_h": 72,
     "thesis": "Il canale LNG-Hormuz rimane aperto e non \u00e8 in de-escalation come il crude: le LNG carriers operano su fixture long-term con penali alte e non rientrano in autonomia, il Qatar non ha rotte alternative per il ~25% del flusso GNL globale, e il premium di scarsit\u00e0 \u00e8 fisicamente radicato \u2014 non eroso dal giorno. tsmom=+1 \u00e8 l'unico segnale long dell'intero basket, confermando flusso sistemico nella direzione; El Ni\u00f1o (domanda raffreddamento Asia) e scorte europee sotto media stagionale aggiungono supporto strutturale indipendente dal catalizzatore geopolitico. Le strategie LUX non coprono NATGAS nel loro universe corrente (lux_confluence non confermabile): vado senza allineamento LUX esplicito \u2014 motivazione: il premium LNG \u00e8 un catalyst commodity-specifico out-of-sample per LUX, focalizzato su crypto/equity, e tsmom=+1 \u00e8 il proxy direzionale pi\u00f9 prossimo a una confluenza disponibile; la posizione \u00e8 aggiuntiva rispetto al book short-pesante esistente su crypto/equity, zero duplicazione di esposizione. Stop a 2.0% (>3\u00d7 ATR stimato da posizione tsmom-atr-v1 su stesso asset, ATR\u22480.51%) garantisce permanenza fuori dal rumore; time_stop 72h coerente con orizzonte di maturazione del catalizzatore LNG.",
     "invalidation": "Ripresa documentata dei transiti LNG attraverso Hormuz nelle 48-72h (MarineTraffic, Bloomberg LNG Tracker) che comprima il premium fisico; oppure crollo del differenziale TTF spot vs mese successivo (struttura backwardation = mercato che prezza risoluzione imminente); oppure chiusura sotto -2% dall'entry su volumi in espansione (segnale di distribuzione, non rumore).",
@@ -317,7 +317,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-23 22:00:00+00:00"
+    "_last_ts": "2026-06-24 00:00:00+00:00"
    },
    "ETH": {
     "strategy": "geopolitics-v1",
@@ -328,11 +328,19 @@
     "stop_px": 1763.2752744,
     "target_px": 1413.947154,
     "opened_at": "2026-06-23 22:00:00+00:00",
-    "checked_until": "2026-06-23 22:00:00+00:00",
+    "checked_until": "2026-06-24 00:00:00+00:00",
     "time_stop_h": 72,
     "thesis": "Canale deleveraging\u2192crypto \u00e8 lineare: liquidity gating (North Haven) + AI/tech cracking \u2192 forced-selling cross-asset, ETH \u00e8 l'asset pi\u00f9 liquido e correlato al deleveraging. tsmom -1 allineato, funding 0.014% Apr (no squeeze protection), acceleration -3.5% 24h = momentum fresco non stale. LUX confluence aligned=true con direction short. Oil esausto (-15% gi\u00e0 discountato, crowding risk), gold ambiguo per safe-haven bid, NatGas isolato dal canale macro attivo.",
     "invalidation": "ETH reclaim >1.720 con funding spike >0.03% Apr = risk-on recovery; o gating North Haven riscatti sbloccati = catalizzatore bullish improvviso che rompe il canale deleveraging.",
-    "decision_ts": "2026-06-23T23:20:23.171086+00:00"
+    "decision_ts": "2026-06-23T23:20:23.171086+00:00",
+    "sign": -1,
+    "remaining": 1.0,
+    "partial_done": false,
+    "hi_water": 1663.46724,
+    "tp1_px": null,
+    "tp1_frac": 0.0,
+    "trail_dist": null,
+    "_last_ts": "2026-06-24 00:00:00+00:00"
    }
   },
   "last_decision_ts": "2026-06-23T23:20:23.171086+00:00"
@@ -532,8 +540,8 @@
     "direction": "short",
     "size_usd": 3799.17,
     "opened_at": "2026-06-22 10:00:00+00:00",
-    "checked_until": "2026-06-23 23:00:00+00:00",
-    "_last_ts": "2026-06-23 23:00:00+00:00"
+    "checked_until": "2026-06-24 00:00:00+00:00",
+    "_last_ts": "2026-06-24 00:00:00+00:00"
    },
    "NEAR": {
     "sign": -1,
@@ -551,8 +559,8 @@
     "direction": "short",
     "size_usd": 2202.73,
     "opened_at": "2026-06-22 14:00:00+00:00",
-    "checked_until": "2026-06-23 23:00:00+00:00",
-    "_last_ts": "2026-06-23 23:00:00+00:00"
+    "checked_until": "2026-06-24 00:00:00+00:00",
+    "_last_ts": "2026-06-24 00:00:00+00:00"
    },
    "SOL": {
     "sign": -1,
@@ -570,8 +578,8 @@
     "direction": "short",
     "size_usd": 2954.61,
     "opened_at": "2026-06-23 00:00:00+00:00",
-    "checked_until": "2026-06-23 23:00:00+00:00",
-    "_last_ts": "2026-06-23 23:00:00+00:00"
+    "checked_until": "2026-06-24 00:00:00+00:00",
+    "_last_ts": "2026-06-24 00:00:00+00:00"
    },
    "ZEC": {
     "sign": -1,
@@ -589,8 +597,8 @@
     "direction": "short",
     "size_usd": 2130.08,
     "opened_at": "2026-06-23 00:00:00+00:00",
-    "checked_until": "2026-06-23 23:00:00+00:00",
-    "_last_ts": "2026-06-23 23:00:00+00:00"
+    "checked_until": "2026-06-24 00:00:00+00:00",
+    "_last_ts": "2026-06-24 00:00:00+00:00"
    }
   }
  },
@@ -606,7 +614,7 @@
     "stop_px": 475.1769456,
     "target_px": 407.2945248,
     "opened_at": "2026-06-22 08:00:00+00:00",
-    "checked_until": "2026-06-23 23:00:00+00:00",
+    "checked_until": "2026-06-24 00:00:00+00:00",
     "time_stop_h": 48,
     "thesis": "ZEC ha completato un rally di +17.8% in 7 giorni senza catalizzatore fondamentale identificabile, e oggi registra il primo pullback significativo (-3.2%) con funding ancora positivo (+1.37% APR): i longs non capitolano nonostante il prezzo scenda, segnale classico di distribuzione per esaurimento. Il pattern \u00e8 documentato nelle lezioni del journal come configurazione ad alto tasso di mean reversion (-15/20%). SOL \u00e8 il setup long preferito ma manca di segnale attivo \u2014 entrare ora sarebbe speculazione cieca; ZEC short \u00e8 invece il trade con il miglior allineamento storico tra regime, struttura di funding e pattern di price action. Size ridotta (0.75%) e leva bassa (2x) compensano il rischio di slippage su asset illiquido.",
     "invalidation": "Prezzo ZEC recupera e chiude sopra il massimo degli ultimi 7 giorni, oppure il funding rate scende sotto zero (segnale che i longs stanno capitolando e la pressione sell \u00e8 gi\u00e0 esaurita) \u2014 in entrambi i casi la tesi di distribuzione/esaurimento decade e si chiude immediatamente.",
@@ -618,7 +626,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-23 23:00:00+00:00"
+    "_last_ts": "2026-06-24 00:00:00+00:00"
    }
   },
   "last_decision_ts": "2026-06-21T17:23:00.800287+00:00"
@@ -629,23 +637,23 @@
   "last_decision_ts": "2026-06-22T19:22:53.570120+00:00"
  },
  "xsmom-port-v1": {
-  "equity": 10031.250925634904,
+  "equity": 9979.770105810008,
   "positions": {
    "XRP": {
-    "notional": 2417.8649237472778,
-    "px": 1.1098
+    "notional": 2419.389978213509,
+    "px": 1.1105
    },
    "NEAR": {
-    "notional": -2290.087800369686,
-    "px": 1.9823
+    "notional": -2299.907578558226,
+    "px": 1.9908
    },
    "WLD": {
-    "notional": 2170.0854018676673,
-    "px": 0.54378
+    "notional": 2146.699656796233,
+    "px": 0.53792
    },
    "ZEC": {
-    "notional": -2281.0443176831945,
-    "px": 415.88
+    "notional": -2300.8446687143487,
+    "px": 419.49
    }
   },
   "last_rebalance_ts": "2026-06-22T12:53:58.749463+00:00"
