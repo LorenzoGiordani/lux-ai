@@ -1887,3 +1887,14 @@
 {"type": "heartbeat", "strategy": "geopolitics-v1", "equity": 9998.28, "open_positions": 2, "logged_at": "2026-06-25T13:37:02.596879+00:00"}
 {"type": "close", "strategy": "lux-confluence-rr2-v1", "symbol": "BTC", "reason": "target", "exit_px": 58825.28336127428, "frac": 1.0, "remaining": 0.0, "pnl_usd": 202.17, "equity": 10835.38, "ts": "2026-06-25 13:00:00+00:00", "logged_at": "2026-06-25T13:54:54.039144+00:00"}
 {"type": "close", "strategy": "lux-confluence-rr2-v1", "symbol": "XRP", "reason": "target", "exit_px": 1.0342999586280004, "frac": 1.0, "remaining": 0.0, "pnl_usd": 209.04, "equity": 11044.41, "ts": "2026-06-25 13:00:00+00:00", "logged_at": "2026-06-25T13:54:57.465318+00:00"}
+{"type": "open", "sign": -1, "entry_px": 1.0129973600000002, "stop_px": 1.045755092857143, "target_px": 0.9474818942857147, "remaining": 1.0, "partial_done": false, "hi_water": 1.0129973600000002, "tp1_px": null, "tp1_frac": 0.0, "trail_dist": null, "strategy": "lux-confluence-rr2-v1", "symbol": "XRP", "direction": "short", "size_usd": 3415.36, "opened_at": "2026-06-25 13:00:00+00:00", "checked_until": "2026-06-25 13:00:00+00:00", "stop_pct_eff": 3.234, "atr_pct": 0.0108, "thesis": "tsmom AND liq_imbalance AND kronos_forecast \u2192 signal_vote", "signals_last": {"tsmom": -1, "liq_imbalance": -1, "kronos_forecast": -1}, "logged_at": "2026-06-25T14:16:04.612017+00:00"}
+{"type": "heartbeat", "strategy": "lux-confluence-rr2-v1", "equity": 11042.88, "open_positions": 3, "logged_at": "2026-06-25T14:16:10.349646+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10359.26, "open_positions": 1, "logged_at": "2026-06-25T14:16:11.668155+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9975.89, "open_positions": 0, "logged_at": "2026-06-25T14:16:12.168836+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-port-v1", "equity": 9932.25, "open_positions": 4, "logged_at": "2026-06-25T14:16:20.568483+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10359.26, "open_positions": 1, "logged_at": "2026-06-25T14:36:37.204352+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9975.89, "open_positions": 0, "logged_at": "2026-06-25T14:36:37.785678+00:00"}
+{"type": "heartbeat", "strategy": "claude-strategy-v1", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-25T14:36:51.675441+00:00"}
+{"type": "heartbeat", "strategy": "glm-regime-confluence-v1", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-25T14:37:05.424685+00:00"}
+{"type": "heartbeat", "strategy": "geopolitics-v1", "equity": 9998.28, "open_positions": 2, "logged_at": "2026-06-25T14:37:08.051902+00:00"}
+{"type": "close", "strategy": "lux-confluence-rr2-v1", "symbol": "XRP", "reason": "stopped", "exit_px": 1.0459642438757144, "frac": 1.0, "remaining": 0.0, "pnl_usd": -112.69, "equity": 10930.19, "ts": "2026-06-25 14:00:00+00:00", "logged_at": "2026-06-25T14:37:15.511730+00:00"}
