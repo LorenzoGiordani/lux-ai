@@ -15,7 +15,7 @@
     "stop_px": 445.88600496000004,
     "target_px": 346.80022608,
     "opened_at": "2026-06-24 02:00:00+00:00",
-    "checked_until": "2026-06-25 14:00:00+00:00",
+    "checked_until": "2026-06-25 15:00:00+00:00",
     "time_stop_h": 72,
     "thesis": "ZEC \u00e8 l'unico asset con segnali tecnici attivi multipli: vol_compression=1 in bear regime segnala distribuzione compressa, non accumulazione \u2014 il bias direzionale su trend negativo \u00e8 breakdown. Il funding anomalo +3.97% APR identifica longs intrappolati strutturalmente: il loro costo di carry accelera la capitolazione e la cascata quando cede. volume_profile=-1 conferma assenza di bid denso sotto zona corrente, amplificando il vacuum potenziale. Il contesto macro avverso (selloff AI chip, redemptions istituzionali) rimuove il bid esterno che potrebbe sostenere un rimbalzo.",
     "invalidation": "Funding gira negativo entro 48h (capitolazione longs completata senza trigger breakdown) oppure chiusura daily sopra $445 con volume surge rialzista \u2014 segnalerebbe accumulazione e non distribuzione, invalidando il bias di breakdown della compressione.",
@@ -27,7 +27,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-25 14:00:00+00:00"
+    "_last_ts": "2026-06-25 15:00:00+00:00"
    }
   },
   "last_decision_ts": "2026-06-24T18:19:51.766805+00:00"
@@ -123,8 +123,8 @@
     "direction": "short",
     "size_usd": 1769.81,
     "opened_at": "2026-06-24 16:00:00+00:00",
-    "checked_until": "2026-06-25 14:00:00+00:00",
-    "_last_ts": "2026-06-25 14:00:00+00:00"
+    "checked_until": "2026-06-25 15:00:00+00:00",
+    "_last_ts": "2026-06-25 15:00:00+00:00"
    },
    "CRV": {
     "sign": -1,
@@ -142,8 +142,8 @@
     "direction": "short",
     "size_usd": 1804.45,
     "opened_at": "2026-06-24 17:00:00+00:00",
-    "checked_until": "2026-06-25 14:00:00+00:00",
-    "_last_ts": "2026-06-25 14:00:00+00:00"
+    "checked_until": "2026-06-25 15:00:00+00:00",
+    "_last_ts": "2026-06-25 15:00:00+00:00"
    },
    "XRP": {
     "sign": -1,
@@ -161,7 +161,8 @@
     "direction": "short",
     "size_usd": 2868.76,
     "opened_at": "2026-06-25 14:00:00+00:00",
-    "checked_until": "2026-06-25 14:00:00+00:00"
+    "checked_until": "2026-06-25 15:00:00+00:00",
+    "_last_ts": "2026-06-25 15:00:00+00:00"
    }
   }
  },
@@ -203,7 +204,62 @@
   "last_decision_ts": ""
  },
  "lux-flow-confluence-v1": {
-  "equity": 10000.0,
-  "positions": {}
+  "equity": 9996.910165000001,
+  "positions": {
+   "BTC": {
+    "sign": -1,
+    "entry_px": 59518.094000000005,
+    "stop_px": 61749.86184285715,
+    "target_px": 55054.55831428572,
+    "remaining": 1.0,
+    "partial_done": false,
+    "hi_water": 59518.094000000005,
+    "tp1_px": null,
+    "tp1_frac": 0.0,
+    "trail_dist": null,
+    "strategy": "lux-flow-confluence-v1",
+    "symbol": "BTC",
+    "direction": "short",
+    "size_usd": 2666.86,
+    "opened_at": "2026-06-25 15:00:00+00:00",
+    "checked_until": "2026-06-25 15:00:00+00:00"
+   },
+   "XRP": {
+    "sign": -1,
+    "entry_px": 1.03439308,
+    "stop_px": 1.0755919814285715,
+    "target_px": 0.9519952771428574,
+    "remaining": 1.0,
+    "partial_done": false,
+    "hi_water": 1.03439308,
+    "tp1_px": null,
+    "tp1_frac": 0.0,
+    "trail_dist": null,
+    "strategy": "lux-flow-confluence-v1",
+    "symbol": "XRP",
+    "direction": "short",
+    "size_usd": 2510.43,
+    "opened_at": "2026-06-25 15:00:00+00:00",
+    "checked_until": "2026-06-25 15:00:00+00:00"
+   },
+   "ZEC": {
+    "sign": -1,
+    "entry_px": 401.249734,
+    "stop_px": 425.0006971428572,
+    "target_px": 353.7478077142857,
+    "remaining": 1.0,
+    "partial_done": false,
+    "hi_water": 401.249734,
+    "tp1_px": null,
+    "tp1_frac": 0.0,
+    "trail_dist": null,
+    "strategy": "lux-flow-confluence-v1",
+    "symbol": "ZEC",
+    "direction": "short",
+    "size_usd": 1689.01,
+    "opened_at": "2026-06-25 15:00:00+00:00",
+    "checked_until": "2026-06-25 15:00:00+00:00"
+   }
+  }
  }
 }
