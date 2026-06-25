@@ -1887,3 +1887,11 @@
 {"type": "heartbeat", "strategy": "geopolitics-v1", "equity": 9998.28, "open_positions": 2, "logged_at": "2026-06-25T21:16:56.436939+00:00"}
 {"type": "open", "strategy": "geopolitics-v1", "symbol": "BTC", "direction": "long", "entry_px": 130.026, "size_usd": 2500.0, "stop_px": 124.82496, "target_px": 140.42808000000002, "opened_at": "2026-01-17 15:00:00+00:00", "checked_until": "2026-01-17 15:00:00+00:00", "time_stop_h": 96, "thesis": "t", "invalidation": "i", "decision_ts": "2026-06-25T00:00:00+00:00", "logged_at": "2026-06-25T21:27:09.261535+00:00"}
 {"type": "open", "strategy": "geopolitics-v1", "symbol": "BTC", "direction": "long", "entry_px": 130.026, "size_usd": 2500.0, "stop_px": 124.82496, "target_px": 140.42808000000002, "opened_at": "2026-01-17 15:00:00+00:00", "checked_until": "2026-01-17 15:00:00+00:00", "time_stop_h": 96, "thesis": "t", "invalidation": "i", "decision_ts": "2026-06-25T00:00:00+00:00", "logged_at": "2026-06-25T21:32:40.506324+00:00"}
+{"type": "heartbeat", "strategy": "lux-confluence-rr2-v1", "equity": 10928.9, "open_positions": 3, "logged_at": "2026-06-25T22:16:08.201673+00:00"}
+{"type": "heartbeat", "strategy": "lux-flow-confluence-v1", "equity": 9996.91, "open_positions": 3, "logged_at": "2026-06-25T22:16:08.779332+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10359.26, "open_positions": 1, "logged_at": "2026-06-25T22:16:10.094250+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9975.89, "open_positions": 0, "logged_at": "2026-06-25T22:16:10.630045+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10359.26, "open_positions": 1, "logged_at": "2026-06-25T22:16:25.536912+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9975.89, "open_positions": 0, "logged_at": "2026-06-25T22:16:26.118785+00:00"}
+{"type": "heartbeat", "strategy": "glm-regime-confluence-v1", "equity": 10000.0, "open_positions": 0, "logged_at": "2026-06-25T22:16:37.847041+00:00"}
+{"type": "heartbeat", "strategy": "geopolitics-v1", "equity": 9998.28, "open_positions": 2, "logged_at": "2026-06-25T22:16:39.909096+00:00"}
