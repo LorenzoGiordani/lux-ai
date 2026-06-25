@@ -40,6 +40,9 @@ fi
 stage "brain"
 "$UV" run scripts/brain_gen.py || true        # rigenera wiki markdown dai dati paper/
 
+stage "backtest"
+"$UV" run scripts/backtest_report.py || true    # basket multi-asset (sezione dashboard)
+
 stage "dashboard"
 "$UV" run scripts/dashboard.py
 

@@ -470,12 +470,21 @@ def build_data() -> dict:
 
     strategies = build_strategies(state)
 
+    backtests = {}
+    bt_path = ROOT / "paper" / "backtests.json"
+    if bt_path.exists():
+        try:
+            backtests = json.loads(bt_path.read_text())
+        except json.JSONDecodeError:
+            backtests = {}
+
     return {
         "updated_utc": f"{datetime.now(timezone.utc):%Y-%m-%d %H:%M}",
         "accounts": accounts, "decisions": dec_out, "lessons": les_out, "lineage": lineage,
         "lifecycle": lifecycle,
         "signals_matrix": signals_matrix("BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV".split(",")),
         "news_events": events, "strategies": strategies, "tradebook": book,
+        "backtests": backtests,
     }
 
 

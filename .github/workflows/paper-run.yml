@@ -95,6 +95,9 @@ jobs:
         if: env.SUPABASE_URL != '' && env.SUPABASE_SERVICE_ROLE_KEY != ''
         run: uv run scripts/sync_supabase.py || true
 
+      - name: backtest report (basket multi-asset, honest engine)
+        run: uv run scripts/backtest_report.py || true
+
       - name: dashboard
         run: uv run scripts/dashboard.py
 
