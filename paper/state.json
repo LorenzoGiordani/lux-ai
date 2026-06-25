@@ -105,7 +105,7 @@
   "positions": {}
  },
  "lux-confluence-rr2-v1": {
-  "equity": 10743.91026209559,
+  "equity": 10635.7847757469,
   "positions": {
    "BTC": {
     "sign": -1,
@@ -123,25 +123,6 @@
     "direction": "short",
     "size_usd": 5072.77,
     "opened_at": "2026-06-24 13:00:00+00:00",
-    "checked_until": "2026-06-25 04:00:00+00:00",
-    "_last_ts": "2026-06-25 04:00:00+00:00"
-   },
-   "SUI": {
-    "sign": -1,
-    "entry_px": 0.6642371260000001,
-    "stop_px": 0.6940125982857144,
-    "target_px": 0.6046861814285716,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 0.6642371260000001,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-confluence-rr2-v1",
-    "symbol": "SUI",
-    "direction": "short",
-    "size_usd": 2377.14,
-    "opened_at": "2026-06-24 16:00:00+00:00",
     "checked_until": "2026-06-25 04:00:00+00:00",
     "_last_ts": "2026-06-25 04:00:00+00:00"
    },
