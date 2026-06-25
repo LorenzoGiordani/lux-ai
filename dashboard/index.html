@@ -871,7 +871,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-25 21:06",
+ "updated_utc": "2026-06-25 21:17",
  "accounts": [
   {
    "id": "agents-v1",
@@ -2697,6 +2697,14 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     [
      "2026-06-25 20:16",
      10359.26
+    ],
+    [
+     "2026-06-25 21:16",
+     10359.26
+    ],
+    [
+     "2026-06-25 21:16",
+     10359.26
     ]
    ],
    "positions": [
@@ -3285,6 +3293,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     ],
     [
      "2026-06-25 20:16",
+     9998.28
+    ],
+    [
+     "2026-06-25 21:16",
      9998.28
     ]
    ],
@@ -4505,6 +4517,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     ],
     [
      "2026-06-25 20:16",
+     10928.9
+    ],
+    [
+     "2026-06-25 21:16",
      10928.9
     ]
    ],
@@ -6121,6 +6137,14 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     [
      "2026-06-25 20:16",
      9975.89
+    ],
+    [
+     "2026-06-25 21:16",
+     9975.89
+    ],
+    [
+     "2026-06-25 21:16",
+     9975.89
     ]
    ],
    "positions": [],
@@ -6436,6 +6460,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     [
      "2026-06-25 20:16",
      10000.0
+    ],
+    [
+     "2026-06-25 21:16",
+     10000.0
     ]
    ],
    "positions": [],
@@ -6476,6 +6504,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     ],
     [
      "2026-06-25 20:16",
+     9996.91
+    ],
+    [
+     "2026-06-25 21:16",
      9996.91
     ]
    ],
@@ -14123,7 +14155,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "symbol": "BTC",
    "signals": {
     "tsmom": -1,
-    "liq_imbalance": 0,
+    "liq_imbalance": -1,
     "kronos_forecast": 0,
     "smart_money_ratio": 0,
     "oi_trend": -1
@@ -14150,7 +14182,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     "liq_imbalance": 0,
     "kronos_forecast": 1,
     "smart_money_ratio": 0,
-    "oi_trend": -1
+    "oi_trend": 0
    },
    "aligned": false,
    "direction": "—"
@@ -14174,7 +14206,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     "liq_imbalance": 0,
     "kronos_forecast": 0,
     "smart_money_ratio": 0,
-    "oi_trend": -1
+    "oi_trend": 0
    },
    "aligned": false,
    "direction": "—"
@@ -14186,7 +14218,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     "liq_imbalance": 0,
     "kronos_forecast": 0,
     "smart_money_ratio": 0,
-    "oi_trend": -1
+    "oi_trend": 0
    },
    "aligned": false,
    "direction": "—"
@@ -14195,7 +14227,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "symbol": "WLD",
    "signals": {
     "tsmom": 0,
-    "liq_imbalance": 0,
+    "liq_imbalance": -1,
     "kronos_forecast": 1,
     "smart_money_ratio": 0,
     "oi_trend": 0
@@ -14207,13 +14239,13 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "symbol": "ZEC",
    "signals": {
     "tsmom": -1,
-    "liq_imbalance": 0,
+    "liq_imbalance": -1,
     "kronos_forecast": -1,
     "smart_money_ratio": 0,
-    "oi_trend": -1
+    "oi_trend": 0
    },
-   "aligned": false,
-   "direction": "—"
+   "aligned": true,
+   "direction": "short"
   },
   {
    "symbol": "CRV",
@@ -17327,450 +17359,8 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
   "months": 6,
   "impact_k": 0.5,
   "funding_mode": "storico (dove disponibile)",
-  "generated_at": "2026-06-25T20:21 UTC",
-  "strategies": [
-   {
-    "id": "tsmom-v1",
-    "status": "retired",
-    "thesis": "Time-series momentum (Moskowitz-Ooi-Pedersen): il segno del ritorno passato predice il ritorno futuro, su ogni asset class — l'edge istituzionale più documentato. Adattato a 1h: concordanza 7g+30g, posizionale con stop largo. Falsificata se: su basket misto crypto+commodities+ind",
-    "is_benchmark": true,
-    "window": "2025-12-22 → 2026-06-20",
-    "basket_size": 8,
-    "aggregate": {
-     "mean_sharpe": -0.58,
-     "mean_return": -0.0925,
-     "worst_drawdown": -0.4303,
-     "positive_symbols": "3/8",
-     "consistency": "12/48"
-    },
-    "per_symbol": [
-     {
-      "symbol": "BTC",
-      "ret": 0.072,
-      "sharpe": 1.36,
-      "max_dd": -0.0819,
-      "trades": 22,
-      "win_rate": 0.364,
-      "pf": 1.52,
-      "consistency": "3/6 fold positivi",
-      "exits": {
-       "stopped": 11,
-       "target": 6,
-       "closed": 5
-      }
-     },
-     {
-      "symbol": "ETH",
-      "ret": 0.0859,
-      "sharpe": 1.3,
-      "max_dd": -0.0773,
-      "trades": 31,
-      "win_rate": 0.355,
-      "pf": 1.51,
-      "consistency": "3/6 fold positivi",
-      "exits": {
-       "stopped": 18,
-       "target": 9,
-       "closed": 4
-      }
-     },
-     {
-      "symbol": "xyz_GOLD",
-      "ret": -0.0737,
-      "sharpe": -0.41,
-      "max_dd": -0.2404,
-      "trades": 238,
-      "win_rate": 0.424,
-      "pf": 1.12,
-      "consistency": "1/6 fold positivi",
-      "exits": {
-       "stopped": 128,
-       "target": 79,
-       "closed": 31
-      }
-     },
-     {
-      "symbol": "xyz_CL",
-      "ret": -0.3982,
-      "sharpe": -3.15,
-      "max_dd": -0.4148,
-      "trades": 290,
-      "win_rate": 0.366,
-      "pf": 0.83,
-      "consistency": "1/6 fold positivi",
-      "exits": {
-       "stopped": 177,
-       "target": 84,
-       "closed": 29
-      }
-     },
-     {
-      "symbol": "xyz_BRENTOIL",
-      "ret": -0.2917,
-      "sharpe": -1.84,
-      "max_dd": -0.4303,
-      "trades": 336,
-      "win_rate": 0.39,
-      "pf": 0.97,
-      "consistency": "0/6 fold positivi",
-      "exits": {
-       "stopped": 191,
-       "target": 116,
-       "closed": 29
-      }
-     },
-     {
-      "symbol": "xyz_SILVER",
-      "ret": -0.2156,
-      "sharpe": -1.52,
-      "max_dd": -0.3254,
-      "trades": 265,
-      "win_rate": 0.381,
-      "pf": 0.94,
-      "consistency": "1/6 fold positivi",
-      "exits": {
-       "stopped": 153,
-       "target": 81,
-       "closed": 31
-      }
-     },
-     {
-      "symbol": "xyz_SP500",
-      "ret": -0.302,
-      "sharpe": -5.56,
-      "max_dd": -0.3022,
-      "trades": 156,
-      "win_rate": 0.429,
-      "pf": 0.88,
-      "consistency": "0/6 fold positivi",
-      "exits": {
-       "stopped": 83,
-       "target": 59,
-       "closed": 14
-      }
-     },
-     {
-      "symbol": "xyz_MU",
-      "ret": 0.3831,
-      "sharpe": 5.2,
-      "max_dd": -0.107,
-      "trades": 116,
-      "win_rate": 0.526,
-      "pf": 1.66,
-      "consistency": "3/6 fold positivi",
-      "exits": {
-       "target": 53,
-       "stopped": 51,
-       "closed": 12
-      }
-     }
-    ]
-   },
-   {
-    "id": "lux-confluence-rr2-v1",
-    "status": "challenger",
-    "thesis": "La confluenza LUX e l'edge piu validato del desk: trend (tsmom) + liquidazioni reali (liq_imbalance) + forecast Kronos concordi = setup top-conviction. Questo challenger prende ESATTAMENTE quella confluenza a 3 gambe ma cambia solo l'uscita: stop ATR-adattivo + RR2 invece del RR ",
-    "is_benchmark": false,
-    "window": "2025-12-22 → 2026-06-20",
-    "basket_size": 9,
-    "aggregate": {
-     "mean_sharpe": -0.04,
-     "mean_return": -0.0072,
-     "worst_drawdown": -0.4041,
-     "positive_symbols": "5/9",
-     "consistency": "23/54"
-    },
-    "per_symbol": [
-     {
-      "symbol": "BTC",
-      "ret": 0.1966,
-      "sharpe": 1.78,
-      "max_dd": -0.0924,
-      "trades": 122,
-      "win_rate": 0.451,
-      "pf": 1.4,
-      "consistency": "3/6 fold positivi",
-      "exits": {
-       "stopped": 66,
-       "target": 46,
-       "closed": 10
-      }
-     },
-     {
-      "symbol": "ETH",
-      "ret": -0.0138,
-      "sharpe": -0.09,
-      "max_dd": -0.1586,
-      "trades": 82,
-      "win_rate": 0.39,
-      "pf": 1.03,
-      "consistency": "3/6 fold positivi",
-      "exits": {
-       "stopped": 49,
-       "target": 23,
-       "closed": 10
-      }
-     },
-     {
-      "symbol": "SOL",
-      "ret": 0.0234,
-      "sharpe": 0.33,
-      "max_dd": -0.1765,
-      "trades": 113,
-      "win_rate": 0.381,
-      "pf": 1.1,
-      "consistency": "2/6 fold positivi",
-      "exits": {
-       "stopped": 67,
-       "target": 36,
-       "closed": 10
-      }
-     },
-     {
-      "symbol": "XRP",
-      "ret": -0.2758,
-      "sharpe": -2.71,
-      "max_dd": -0.4041,
-      "trades": 141,
-      "win_rate": 0.298,
-      "pf": 0.79,
-      "consistency": "1/6 fold positivi",
-      "exits": {
-       "stopped": 96,
-       "target": 37,
-       "closed": 8
-      }
-     },
-     {
-      "symbol": "SUI",
-      "ret": 0.076,
-      "sharpe": 0.89,
-      "max_dd": -0.1017,
-      "trades": 94,
-      "win_rate": 0.404,
-      "pf": 1.18,
-      "consistency": "3/6 fold positivi",
-      "exits": {
-       "stopped": 54,
-       "target": 30,
-       "closed": 10
-      }
-     },
-     {
-      "symbol": "NEAR",
-      "ret": -0.0569,
-      "sharpe": -0.47,
-      "max_dd": -0.236,
-      "trades": 125,
-      "win_rate": 0.352,
-      "pf": 0.97,
-      "consistency": "3/6 fold positivi",
-      "exits": {
-       "stopped": 76,
-       "target": 37,
-       "closed": 12
-      }
-     },
-     {
-      "symbol": "WLD",
-      "ret": -0.1987,
-      "sharpe": -2.14,
-      "max_dd": -0.2454,
-      "trades": 127,
-      "win_rate": 0.323,
-      "pf": 0.79,
-      "consistency": "1/6 fold positivi",
-      "exits": {
-       "stopped": 86,
-       "target": 32,
-       "closed": 9
-      }
-     },
-     {
-      "symbol": "ZEC",
-      "ret": 0.0655,
-      "sharpe": 0.82,
-      "max_dd": -0.1173,
-      "trades": 98,
-      "win_rate": 0.388,
-      "pf": 1.14,
-      "consistency": "4/6 fold positivi",
-      "exits": {
-       "stopped": 56,
-       "target": 32,
-       "closed": 10
-      }
-     },
-     {
-      "symbol": "CRV",
-      "ret": 0.1192,
-      "sharpe": 1.2,
-      "max_dd": -0.1313,
-      "trades": 122,
-      "win_rate": 0.402,
-      "pf": 1.21,
-      "consistency": "3/6 fold positivi",
-      "exits": {
-       "stopped": 68,
-       "target": 42,
-       "closed": 12
-      }
-     }
-    ]
-   },
-   {
-    "id": "lux-flow-confluence-v1",
-    "status": "challenger",
-    "thesis": "lux-confluence-rr2-v1 usava una confluence a 3 gambe (tsmom + liq_imbalance + kronos_forecast), ma kronos_forecast e' stato FALSIFICATO come segnale direzionale il 14/06 (Sharpe -0.2/-0.3 standalone, dimezza lo Sharpe come gate). La gamba kronos era quindi MORTA ma ancora cablata",
-    "is_benchmark": false,
-    "window": "2025-12-22 → 2026-06-20",
-    "basket_size": 9,
-    "aggregate": {
-     "mean_sharpe": 1.12,
-     "mean_return": 0.1069,
-     "worst_drawdown": -0.2182,
-     "positive_symbols": "8/9",
-     "consistency": "28/54"
-    },
-    "per_symbol": [
-     {
-      "symbol": "BTC",
-      "ret": 0.2014,
-      "sharpe": 1.55,
-      "max_dd": -0.1151,
-      "trades": 157,
-      "win_rate": 0.439,
-      "pf": 1.4,
-      "consistency": "3/6 fold positivi",
-      "exits": {
-       "stopped": 86,
-       "target": 62,
-       "closed": 9
-      }
-     },
-     {
-      "symbol": "ETH",
-      "ret": 0.0678,
-      "sharpe": 0.65,
-      "max_dd": -0.1673,
-      "trades": 169,
-      "win_rate": 0.391,
-      "pf": 1.19,
-      "consistency": "2/6 fold positivi",
-      "exits": {
-       "stopped": 100,
-       "target": 62,
-       "closed": 7
-      }
-     },
-     {
-      "symbol": "SOL",
-      "ret": 0.0244,
-      "sharpe": 0.35,
-      "max_dd": -0.1966,
-      "trades": 100,
-      "win_rate": 0.4,
-      "pf": 1.1,
-      "consistency": "3/6 fold positivi",
-      "exits": {
-       "stopped": 60,
-       "target": 32,
-       "closed": 8
-      }
-     },
-     {
-      "symbol": "XRP",
-      "ret": 0.1436,
-      "sharpe": 1.61,
-      "max_dd": -0.0803,
-      "trades": 85,
-      "win_rate": 0.424,
-      "pf": 1.37,
-      "consistency": "4/6 fold positivi",
-      "exits": {
-       "stopped": 44,
-       "target": 31,
-       "closed": 10
-      }
-     },
-     {
-      "symbol": "SUI",
-      "ret": 0.1484,
-      "sharpe": 1.78,
-      "max_dd": -0.0996,
-      "trades": 76,
-      "win_rate": 0.421,
-      "pf": 1.39,
-      "consistency": "4/6 fold positivi",
-      "exits": {
-       "stopped": 40,
-       "target": 28,
-       "closed": 8
-      }
-     },
-     {
-      "symbol": "NEAR",
-      "ret": 0.1013,
-      "sharpe": 1.08,
-      "max_dd": -0.1485,
-      "trades": 109,
-      "win_rate": 0.385,
-      "pf": 1.2,
-      "consistency": "3/6 fold positivi",
-      "exits": {
-       "stopped": 62,
-       "target": 38,
-       "closed": 9
-      }
-     },
-     {
-      "symbol": "WLD",
-      "ret": -0.0029,
-      "sharpe": 0.09,
-      "max_dd": -0.2182,
-      "trades": 141,
-      "win_rate": 0.376,
-      "pf": 1.06,
-      "consistency": "2/6 fold positivi",
-      "exits": {
-       "stopped": 87,
-       "target": 47,
-       "closed": 7
-      }
-     },
-     {
-      "symbol": "ZEC",
-      "ret": 0.2585,
-      "sharpe": 2.68,
-      "max_dd": -0.0658,
-      "trades": 92,
-      "win_rate": 0.467,
-      "pf": 1.49,
-      "consistency": "4/6 fold positivi",
-      "exits": {
-       "stopped": 48,
-       "target": 36,
-       "closed": 8
-      }
-     },
-     {
-      "symbol": "CRV",
-      "ret": 0.0196,
-      "sharpe": 0.33,
-      "max_dd": -0.0965,
-      "trades": 61,
-      "win_rate": 0.426,
-      "pf": 1.1,
-      "consistency": "3/6 fold positivi",
-      "exits": {
-       "stopped": 34,
-       "target": 18,
-       "closed": 9
-      }
-     }
-    ]
-   }
-  ]
+  "generated_at": "2026-06-25T21:17 UTC",
+  "strategies": []
  }
 }
 </script>
