@@ -6,21 +6,19 @@ Valutazione multi-asset: ranking su Sharpe medio del basket (selezione su
 singolo asset = overfitting, lezione gen 1).
 
 Terzo argomento file .yaml (multi-documento, separatore ---) → salta la chiamata
-LLM e valuta quei candidati. Serve quando il generatore è una sessione Claude
-Code interattiva (piano Pro) invece di `claude -p`.
+LLM e valuta quei candidati. Serve quando il generatore è una sessione di coding
+interattiva invece del layer LLM del progetto.
 
-Flusso: valuta parent → 1 chiamata Claude (N mutazioni in YAML) → validazione
+Flusso: valuta parent → 1 chiamata GLM-5.2 (N mutazioni in YAML) → validazione
 hard (registry, blocco risk forzato uguale al parent) → backtest di ogni
 candidato → leaderboard → salvataggio in strategies/generated/.
 
-LLM via `claude -p` (headless Claude Code → coperto dal piano Pro, niente API
-key). Env ANTHROPIC_* rimosso dal subprocess: ~/.zshrc punta a un proxy
-DashScope scaduto che dirotterebbe la chiamata.
+LLM via scripts/llm.py: ruolo 'evolve' (prompts/roles.yaml), GLM-5.2 sul coding
+plan di Z.ai (max effort, structured output via tool use).
 """
 
 import json
 import os
-import subprocess
 import sys
 from datetime import date
 from pathlib import Path
@@ -38,16 +36,9 @@ from backtest.walkforward import evaluate
 
 OUT_DIR = Path("strategies/generated")
 
-SYSTEM = (
-    "Sei un ricercatore quantitativo. Proponi mutazioni di una strategia di trading "
-    "su perps Hyperliquid (candele 1h). Lavori SOLO con i segnali del registry. "
-    "Ogni mutazione: tesi falsificabile aggiornata, motivazione in evolution.notes, "
-    "diversità tra i candidati (non solo tweak di parametri — anche rule, direction, exit). "
-    "Vietato toccare il blocco risk. Obiettivo: consistenza tra fold e regimi, non massimizzare "
-    "il ritorno totale (overfitting = morte). Penalizza la complessità: meno segnali se possibile. "
-    'Rispondi SOLO con JSON valido: {"candidates": [{"yaml": "<strategia YAML completa>"}, ...]} '
-    "— nessun testo fuori dal JSON, niente markdown fence."
-)
+# Prompt del ruolo 'evolve' (system, max effort, schema 'candidates') centralizzato
+# in prompts/roles.yaml. Qui solo REGISTRY_DOC/EXIT_DOC che vanno nel prompt utente.
+SYSTEM_NOTE = "(system prompt del ruolo 'evolve' in prompts/roles.yaml)"
 
 REGISTRY_DOC = """Segnali disponibili (REGISTRY CHIUSO — solo questi, solo questi params):
 - funding_percentile(lookback_h=168, extreme_pct=90): +1 funding a estremo positivo (crowding long), -1 estremo negativo
@@ -75,26 +66,11 @@ EXIT_DOC = """Knob di uscita mutabili (blocco `exit`) — esplorali, l'harness m
 - by_class (opz): override per asset class {crypto, stock}. HIP-3 xyz_* = stock. Es. leva maggiore su stock low-vol.
   La sizing è vol-target (exposure=risk%/stop%): stop più stretto ⇒ più leva, fino al cap."""
 
-def ask_claude(prompt: str) -> dict:
-    """Headless Claude Code (`claude -p`) — usa il piano Pro, non l'API a consumo.
-    Fallback opencode-go/glm-5.2 se claude fallisce (quota/CLI)."""
-    import os
-    import sys
-    from scripts.decide import _ask_opencode
-    env = {k: v for k, v in os.environ.items() if not k.startswith("ANTHROPIC_")}
-    try:
-        r = subprocess.run(
-            ["claude", "-p", "--output-format", "json", "--append-system-prompt", SYSTEM],
-            input=prompt, capture_output=True, text=True, timeout=600, env=env,
-        )
-        if r.returncode != 0:
-            raise RuntimeError(f"claude -p fallito: {r.stderr[:500]}")
-        result = json.loads(r.stdout)["result"].strip()
-        result = result.split("\n", 1)[1].rsplit("```", 1)[0] if result.startswith("```") else result
-        return json.loads(result)
-    except RuntimeError as e:
-        print(f"[fallback] claude fallito ({str(e)[:140]}) → opencode glm-5.2", file=sys.stderr)
-        return _ask_opencode(prompt, as_json=True, system=SYSTEM)
+def ask_glm(prompt: str) -> dict:
+    """GLM-5.2 via Z.ai Coding Plan, ruolo 'evolve' (max effort, structured output
+    'candidates'). System/effort/schema dal yaml centralizzato (scripts.prompts)."""
+    from scripts.decide import _ask_role
+    return _ask_role("evolve", prompt)
 
 
 def eval_spec(spec: dict, data: dict) -> tuple[dict, pd.Series]:
@@ -221,7 +197,7 @@ aggregato: {json.dumps(pa)}
 per asset: {json.dumps(compact, default=str)}
 
 Proponi {n} mutazioni in YAML (schema identico al parent). Obiettivo: robustezza sul basket, non picchi su singolo asset."""
-        specs = [yaml.safe_load(c["yaml"]) for c in ask_claude(prompt)["candidates"]]
+        specs = [yaml.safe_load(c["yaml"]) for c in ask_glm(prompt)["candidates"]]
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     # K per il DSR: tutti i candidati storici della cartella + questo run + parent

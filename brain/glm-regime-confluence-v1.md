@@ -5,7 +5,7 @@
 ## Anagrafica
 
 - **status**: live (paper)
-- **creatore**: glm-5.2 (opencode-go)
+- **creatore**: glm-5.2 (Z.ai Coding Plan)
 - _nessuno spec YAML: strategia script (`scripts/glm_strategy.py`), pagina da dati runtime_
 
 ## Tesi

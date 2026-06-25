@@ -25,7 +25,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
-from scripts.decide import _ask, build_context, hard_check, log_decision
+from scripts.decide import _ask_role, build_context, hard_check, log_decision
 
 ACCOUNT = "claude-strategy-v1"
 
@@ -73,7 +73,7 @@ def main() -> None:
     open_now = ctx.get("open_positions") or _open_symbols()
     payload = {"candidati": cands, "posizioni_aperte_claude": open_now,
                "contesto": ctx["assets"], "news": ctx.get("news", [])[:15]}
-    proposal = _ask(f"{PM_ROLE}\n\nDATI:\n{json.dumps(payload, default=str)}", as_json=True)
+    proposal = _ask_role("pm", f"DATI:\n{json.dumps(payload, default=str)}")
 
     if proposal.get("action") != "trade":
         log_decision({"stage": "final", "strategy": ACCOUNT, "proposal": proposal,

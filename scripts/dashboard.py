@@ -266,6 +266,34 @@ def chart_series(symbol: str, opened_at: str, pre_h: int = 72) -> list | None:
     return pts[::step]
 
 
+def llm_stats() -> dict:
+    """Aggrega il tracing del layer LLM (paper/llm_calls.jsonl): chiamate per ruolo,
+    latenza media, token, ripartizione per effort, hit di cache. Osservabilità del
+    costo/latenza di ogni ruolo — base per ottimizzare effort e prompt."""
+    from collections import defaultdict
+    p = ROOT / "paper/llm_calls.jsonl"
+    if not p.exists():
+        return {}
+    rows = [json.loads(l) for l in p.read_text().splitlines() if l.strip()]
+    by_role = defaultdict(lambda: {"n": 0, "lat": 0.0, "tok_in": 0, "tok_out": 0})
+    by_effort = defaultdict(int)
+    for r in rows:
+        u = r.get("usage", {}) or {}
+        d = by_role[r.get("role") or "?"]
+        d["n"] += 1
+        d["lat"] += float(r.get("latency_s", 0) or 0)
+        d["tok_in"] += int(u.get("in") or 0)
+        d["tok_out"] += int(u.get("out") or 0)
+        by_effort[r.get("effort") or "?"] += 1
+    roles = [{"role": role, "n": d["n"],
+              "avg_lat": round(d["lat"] / d["n"], 1) if d["n"] else 0,
+              "tok_in": d["tok_in"], "tok_out": d["tok_out"]}
+             for role, d in sorted(by_role.items(), key=lambda kv: -kv[1]["n"])]
+    return {"total": len(rows), "roles": roles, "by_effort": dict(by_effort),
+            "cached": sum(1 for r in rows if r.get("cached")),
+            "tot_tok": sum(d["tok_in"] + d["tok_out"] for d in by_role.values())}
+
+
 def build_data() -> dict:
     state = json.loads((ROOT / "paper/state.json").read_text()) if (ROOT / "paper/state.json").exists() else {}
     journal = jsonl(ROOT / "paper/journal.jsonl")
@@ -485,6 +513,7 @@ def build_data() -> dict:
         "signals_matrix": signals_matrix("BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV".split(",")),
         "news_events": events, "strategies": strategies, "tradebook": book,
         "backtests": backtests,
+        "llm_stats": llm_stats(),
     }
 
 

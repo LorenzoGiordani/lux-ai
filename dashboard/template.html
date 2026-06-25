@@ -644,7 +644,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
 
 <nav class="secnav" id="secnav">
   <div class="wrap secnav-inner">
-    <a href="#stato">Stato</a><a href="#strategie">Strategie</a><a href="#backtest">Backtest</a><a href="#posizioni">Posizioni</a><a href="#rischio">Rischio</a><a href="#decisioni">Decisioni</a><a href="#book">Trading book</a><a href="#lezioni">Lezioni</a><a href="#evoluzione">Evoluzione</a>
+    <a href="#stato">Stato</a><a href="#strategie">Strategie</a><a href="#backtest">Backtest</a><a href="#posizioni">Posizioni</a><a href="#rischio">Rischio</a><a href="#decisioni">Decisioni</a><a href="#book">Trading book</a><a href="#lezioni">Lezioni</a><a href="#evoluzione">Evoluzione</a><a href="#llm">LLM</a>
   </div>
 </nav>
 
@@ -722,6 +722,35 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     <div id="backtest-meta" class="bt-meta"></div>
     <div class="bt-cards" id="backtest-cards"></div>
     <p class="note" id="backtest-foot" style="margin-top:14px;font-size:12px"></p>
+  </section>
+
+  <!-- LLM LAYER — osservabilità (tracing da paper/llm_calls.jsonl) -->
+  <section id="llm">
+    <div class="wrap" style="padding:0">
+      <h2 style="font-family:var(--serif)">Layer LLM — GLM-5.2 (Z.ai Coding Plan)</h2>
+      <p class="note" style="font-size:12px;margin-bottom:14px">Osservabilità: costo, latenza e effort per ruolo. <span id="llm-empty" style="display:none">Nessuna chiamata tracciata ancora.</span></p>
+      <div id="llm-summary" style="display:flex;gap:22px;flex-wrap:wrap;margin-bottom:16px;font-size:13px"></div>
+      <table id="llm-table" style="width:100%;border-collapse:collapse;font-size:13px"></table>
+    </div>
+    <script>
+    (function(){
+      var el=document.getElementById('data'); if(!el) return;
+      var D; try{ D=JSON.parse(el.textContent); }catch(e){ return; }
+      var s=D.llm_stats||{}; if(!s.total){ document.getElementById('llm-empty').style.display='inline'; return; }
+      var sum=document.getElementById('llm-summary');
+      sum.innerHTML=[
+        ['Chiamate totali', s.total],
+        ['Token (in+out)', s.tot_tok],
+        ['Cache hit', s.cached],
+        ['Effort mix', Object.entries(s.by_effort||{}).map(function(e){return e[0]+': '+e[1];}).join(' · ')]
+      ].map(function(r){return '<div><b>'+r[1]+'</b><br><span style="opacity:.6">'+r[0]+'</span></div>';}).join('');
+      var t=document.getElementById('llm-table');
+      var rows=(s.roles||[]); if(!rows.length) return;
+      var h='<thead><tr>'+['Ruolo','Chiamate','Latenza media (s)','Token in','Token out'].map(function(x){return '<th style="text-align:left;padding:6px 10px;border-bottom:1px solid var(--line)">'+x+'</th>';}).join('')+'</tr></thead>';
+      var b='<tbody>'+rows.map(function(r){ return '<tr>'+[r.role,r.n,r.avg_lat,r.tok_in,r.tok_out].map(function(v,i){ return '<td style="padding:6px 10px;border-bottom:1px solid var(--line)'+(i?'':';font-weight:600')+'">'+v+'</td>'; }).join('')+'</tr>'; }).join('')+'</tbody>';
+      t.innerHTML=h+b;
+    })();
+    </script>
   </section>
 
   <!-- POSIZIONI -->

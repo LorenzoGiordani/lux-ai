@@ -26,7 +26,7 @@ sys.path.insert(0, str(ROOT))
 from backtest.engine import DEFAULT_SLIPPAGE, HL_TAKER_FEE
 from backtest.lifecycle import all_specs
 from pipeline.live import fetch_live
-from scripts.decide import ROLES, _ask, build_context, hard_check, log_decision
+from scripts.decide import ROLES, _ask_role, build_context, hard_check, log_decision
 from scripts.paper_trade import STATE_FILE, log_event, update_position
 
 ACCOUNT = "geopolitics-v1"
@@ -102,17 +102,19 @@ def run_desk(symbols: list[str], bursts: list[dict], pack: bool) -> dict | None:
         for role, prompt in {"analyst": analyst, **{k: v for k, v in ROLES.items() if k != "analyst"}}.items():
             print(f"\n=== RUOLO: {role.upper()} ===\n{prompt}")
         return None
-    brief = _ask(f"{analyst}\n\nCONTESTO:\n{json.dumps(ctx, default=str)}")
-    bull = _ask(f"{ROLES['bull']}\n\nBRIEF:\n{brief}")
-    bear = _ask(f"{ROLES['bear']}\n\nBRIEF:\n{brief}")
-    proposal = _ask(f"{ROLES['strategist']}\n\nBRIEF:\n{brief}\n\nBULL:\n{bull}\n\nBEAR:\n{bear}", as_json=True)
+    brief = _ask_role("geo_analyst",
+                      f"BURST GEOPOLITICI ATTIVI:\n{json.dumps(bursts, ensure_ascii=False)}\n\n"
+                      f"CONTESTO:\n{json.dumps(ctx, default=str)}")
+    bull = _ask_role("bull", f"BRIEF:\n{brief}")
+    bear = _ask_role("bear", f"BRIEF:\n{brief}")
+    proposal = _ask_role("strategist", f"BRIEF:\n{brief}\n\nBULL:\n{bull}\n\nBEAR:\n{bear}")
     errs = hard_check(proposal)
     if errs:
         log_decision({"strategy": ACCOUNT, "stage": "final", "bursts": bursts,
                       "proposal": proposal, "verdict": "hard_veto", "violations": errs})
         print(f"HARD VETO: {errs}")
         return None
-    risk = _ask(f"{ROLES['risk']}\n\nPROPOSTA:\n{json.dumps(proposal)}\n\nBRIEF:\n{brief}", as_json=True)
+    risk = _ask_role("risk", f"PROPOSTA:\n{json.dumps(proposal)}\n\nBRIEF:\n{brief}")
     log_decision({"strategy": ACCOUNT, "stage": "final", "bursts": bursts,
                   "brief": brief, "bull": bull, "bear": bear, "proposal": proposal, "risk": risk})
     print(json.dumps({"proposal": proposal, "risk": risk}, indent=1, default=str))

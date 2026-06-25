@@ -5,7 +5,7 @@ Le lezioni rientrano nei prompt di Strategist/Risk (recall in decide.py):
 errore → lezione → comportamento corretto = criterio di successo Fase 1.
 
 Modi:
-  uv run scripts/review.py            # auto via claude -p
+  uv run scripts/review.py            # auto via GLM-5.2 (Z.ai Coding Plan)
   uv run scripts/review.py --pack     # stampa i post-mortem pendenti (LLM in sessione)
   uv run scripts/review.py --add f.jsonl  # appende lezioni scritte dalla sessione
 """
@@ -104,12 +104,11 @@ def main() -> None:
         print('\nOutput atteso (una riga JSONL per trade): {"trade_key": ..., "verdict": ..., "lesson": ..., "tags": [...], "pnl_usd": ...}')
         return
 
-    from scripts.decide import _ask
+    from scripts.decide import _ask_role
     LESSONS.parent.mkdir(exist_ok=True)
     with LESSONS.open("a") as f:
         for t in todo:
-            res = _ask(f"{REVIEWER}\n\nTRADE:\n{json.dumps({'open': t['open'], 'close': t['close']}, default=str)}",
-                       as_json=True)
+            res = _ask_role("reviewer", f"TRADE:\n{json.dumps({'open': t['open'], 'close': t['close']}, default=str)}")
             rec = {"trade_key": t["trade_key"], "symbol": t["close"].get("symbol"),
                    "strategy": t["close"].get("strategy"), "pnl_usd": t["close"].get("pnl_usd"),
                    **res, "logged_at": datetime.now(timezone.utc).isoformat()}

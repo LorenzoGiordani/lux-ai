@@ -1,6 +1,7 @@
 name: paper-run
 
-# Run 24/7 in cloud: ogni ora anche a Mac spento. Paper trading, nessun segreto.
+# Run 24/7 in cloud: ogni ora anche a Mac spento. Paper trading; l'LLM è GLM-5.2
+# sul coding plan di Z.ai (secret ZAI_API_KEY), max effort thinking.
 # Trigger orario via Cloudflare Worker (lux-paper-cron) → workflow_dispatch: lo
 # scheduler nativo GitHub saltava le run su repo privato. Worker = clock affidabile.
 on:
@@ -18,25 +19,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
-      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       COINALYZE_API_KEY: ${{ secrets.COINALYZE_API_KEY }}
-      OPENCODE_GO_API_KEY: ${{ secrets.OPENCODE_GO_API_KEY }}
+      ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v5
-
-      - name: setup opencode (fallback LLM glm-5.2)
-        if: env.OPENCODE_GO_API_KEY != ''
-        run: |
-          curl -fsSL https://opencode.ai/install | bash
-          echo "$HOME/.opencode/bin" >> "$GITHUB_PATH"
-          mkdir -p "$HOME/.local/share/opencode"
-          printf '{"opencode-go":{"type":"api","key":"%s"}}\n' "$OPENCODE_GO_API_KEY" \
-            > "$HOME/.local/share/opencode/auth.json"
 
       - name: dati COT CFTC (settimanali)
         run: uv run scripts/fetch_cot.py || true
@@ -57,11 +48,10 @@ jobs:
 
       # xsmom-port RETIRATA 25/06 (engine portfolio non ha prodotto trade chiusi in paper): rimosso.
 
-      # gira solo se il secret CLAUDE_CODE_OAUTH_TOKEN esiste (token piano Pro)
+      # gira solo se il secret ZAI_API_KEY esiste (coding plan Z.ai → GLM-5.2)
       - name: pipeline LLM (review + decide)
-        if: env.CLAUDE_CODE_OAUTH_TOKEN != ''
+        if: env.ZAI_API_KEY != ''
         run: |
-          npm install -g @anthropic-ai/claude-code || true   # hiccup registry → non far fallire il run (claude -p sotto è già || true)
           uv run scripts/review.py || true
           uv run scripts/decide.py BTC,ETH,SOL,SUI,ZEC || true
           uv run scripts/agents_paper.py || true
@@ -82,10 +72,9 @@ jobs:
 
       # GENERAZIONE nuovi challenger — settimanale (lun 00:xx UTC), serve l'LLM ed è pesante.
       - name: evolve (genera challenger)
-        if: env.CLAUDE_CODE_OAUTH_TOKEN != ''
+        if: env.ZAI_API_KEY != ''
         run: |
           if [ "$(date -u +%u)" = "1" ] && [ "$(date -u +%H)" = "00" ]; then
-            command -v claude >/dev/null || npm install -g @anthropic-ai/claude-code
             uv run scripts/evolve_auto.py || true
           else
             echo "evolve: salta (gira lun 00:xx UTC)"

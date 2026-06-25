@@ -25,3 +25,10 @@ paper/executor.jsonl
 .agents/
 .github/skills/
 skills-lock.json
+
+# layer LLM: tracing e cache applicativo sono dati runtime (regenerati ogni run), non versionarli
+paper/llm_calls.jsonl
+paper/llm_cache/
+
+# config CLI Supabase temporanea (project-ref, versioni) — non versionare
+supabase/.temp/

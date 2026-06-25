@@ -5,8 +5,8 @@ JSON) → hard limit nel codice (veto deterministico, insindacabile) → Risk
 Manager LLM (veto qualitativo). Output: decisione nel journal.
 
 Modi:
-  uv run scripts/decide.py BTC,ETH,SOL              # full auto via `claude -p`
-  uv run scripts/decide.py BTC,ETH,SOL --pack       # stampa contesto+prompt (LLM = sessione Claude Code)
+  uv run scripts/decide.py BTC,ETH,SOL              # full auto via GLM-5.2 (Z.ai Coding Plan)
+  uv run scripts/decide.py BTC,ETH,SOL --pack       # stampa contesto+prompt (per ispezione, LLM esterno)
   uv run scripts/decide.py BTC,ETH,SOL --check p.json  # valida proposta Strategist e logga
 
 Hard limits (non negoziabili dall'LLM): leva ≤2, rischio ≤1% equity/trade,
@@ -38,188 +38,72 @@ HARD_LIMITS = {
     "max_concurrent_positions": 3,
 }
 
-ROLES = {
-    "analyst": (
-        "Sei il Market Analyst di un desk crypto. Dal contesto (prezzi, funding, OI, "
-        "taker flow, segnali, news) produci un brief: 1) regime di mercato complessivo, "
-        "2) per ogni asset: lettura quantitativa in 1-2 righe (posizionamento, flussi, struttura), "
-        "3) i 2-3 asset con il setup più interessante e perché. "
-        "PRIORITÀ: il campo `lux_confluence` è l'edge sistematico più robusto e validato del desk "
-        "(trend+liquidazioni reali+forecast Kronos concordi). Quando `aligned`=true segnala il setup a "
-        "più alta convinzione su quell'asset, nella sua `direction`; trattalo come primario. "
-        "Niente raccomandazioni di trade. Max 350 parole."
-    ),
-    "bull": (
-        "Sei il ricercatore BULL. Dal brief dell'Analyst, argomenta la migliore tesi LONG "
-        "possibile (asset specifico, catalizzatori, posizionamento). Sii aggressivo ma onesto sui rischi. Max 150 parole."
-    ),
-    "bear": (
-        "Sei il ricercatore BEAR. Dal brief dell'Analyst, argomenta la migliore tesi SHORT "
-        "possibile (asset specifico, catalizzatori, posizionamento). Sii aggressivo ma onesto sui rischi. Max 150 parole."
-    ),
-    "strategist": (
-        "Sei lo Strategist. Hai il brief, il dibattito bull/bear, la confluenza LUX e le LEZIONI dal "
-        "journal (post-mortem di trade passati): rispettale o motiva esplicitamente perché non si applicano. "
-        "Favorisci i setup con `lux_confluence.aligned`=true (edge validato, top-conviction) e allinea la "
-        "direction alla sua; se vai contro la confluenza LUX, motivalo esplicitamente nella tesi. "
-        "Decidi: UN trade o nessuno (nessun trade è una decisione rispettabile). "
-        "STOP: deve stare FUORI dal rumore — usa stop_pct >= `atr_pct` dell'asset (nel contesto) e "
-        "mai più stretto dell'invalidazione della tesi. Stop dentro 1 ATR = noise-stop garantito "
-        "(lezioni execution_issue ricorrenti). TIME_STOP: coerente con l'orizzonte della tesi — se i "
-        "catalizzatori maturano in giorni (macro/rotazione), usa >=72h, non 24h. Rispondi SOLO con JSON: "
-        '{"action": "trade"|"no_trade", "symbol": str, "direction": "long"|"short", '
-        '"leverage": float, "risk_pct": float, "stop_pct": float, "target_r": float, '
-        '"time_stop_h": int, "thesis": str (3-4 frasi, falsificabile), "invalidation": str (cosa la smentisce)}'
-    ),
-    "risk": (
-        "Sei il Risk Manager, adversariale per mandato: sei premiato per trovare difetti, "
-        "non per accondiscendere. Valuta la proposta: qualità della tesi, timing, correlazione col "
-        "portafoglio, funding contro, liquidità. Rispondi SOLO con JSON: "
-        '{"verdict": "approve"|"reduce"|"veto", "size_multiplier": float, "notes": str}'
-    ),
-}
+from scripts.prompts import get_role, SCHEMA as _SCHEMAS, role_names
+
+# Prompt centralizzati in prompts/roles.yaml (versionati, A/B-testabili). ROLES
+# espone il solo system-string per retro-compat (geopolitics_paper, render_pack);
+# il flusso nuovo usa _ask_role() che applica anche effort + structured output.
+ROLES = {n: get_role(n).system for n in role_names()}
 
 
-def _strip_fence(text: str) -> str:
-    if text.startswith("```"):
-        text = text.split("\n", 1)[1].rsplit("```", 1)[0]
-    return text
+def _ask_role(role_name: str, prompt: str, cache: bool = False):
+    """Chiamata LLM role-aware: legge system/effort/schema dal yaml centralizzato.
+    GLM-5.2 via Z.ai Coding Plan. Se il ruolo ha `schema_name` → structured output
+    nativo (tool use forzato, ritorna dict già validato)."""
+    r = get_role(role_name)
+    schema = _SCHEMAS().get(r.schema_name) if r.schema_name else None
+    from scripts.llm import ask
+    return ask(prompt, system=r.system, effort=r.effort, schema=schema,
+               schema_name=r.schema_name or "answer", role=role_name,
+               cache=cache, as_json=r.json)
 
 
-def _ask_claude(prompt: str, as_json: bool = False):
-    """Headless Claude Code — piano Pro. Env ANTHROPIC_* rimosso (proxy DashScope in zshrc)."""
+def aggregate_proposals(votes: list[dict]) -> dict:
+    """Self-consistency: majority vote fra N proposte dello Strategist.
+
+    - maggioranza (>=) di no_trade → no_trade (la prudenza domina)
+    - altrimenti plurality su (symbol, direction); i campi numerici sono la media
+      delle proposte allineate (riduce la varianza di un singolo sample LLM)
+    Ritorna la proposta + metadati sc_votes/sc_consensus per il tracing."""
+    from collections import Counter
+    valid = [v for v in votes if isinstance(v, dict)]
+    if not valid:
+        raise RuntimeError("self-consistency: nessuna proposta valida")
+    n_no = sum(1 for v in valid if v.get("action") == "no_trade")
+    if n_no * 2 >= len(valid):          # maggioranza (>=) di no_trade
+        return {"action": "no_trade", "sc_votes": len(votes), "sc_consensus": n_no}
+    trades = [v for v in valid if v.get("action") == "trade"]
+    if not trades:
+        return {"action": "no_trade", "sc_votes": len(votes), "sc_consensus": 0}
+    key = Counter((v.get("symbol"), v.get("direction")) for v in trades).most_common(1)[0][0]
+    aligned = [v for v in trades if (v.get("symbol"), v.get("direction")) == key]
+    rep = dict(aligned[0])
+    for f in ("leverage", "risk_pct", "stop_pct", "target_r", "time_stop_h"):
+        nums = [v[f] for v in aligned if isinstance(v.get(f), (int, float))]
+        if nums:
+            rep[f] = round(sum(nums) / len(nums), 3)
+    rep["sc_votes"] = len(votes)
+    rep["sc_consensus"] = len(aligned)
+    return rep
+
+
+def _ask_strategist(prompt: str, n: int | None = None) -> dict:
+    """Decisione finale dello Strategist con self-consistency (default N=3).
+    GLM-5.2 a temp di default (≈1) = campioni indipendenti → la votazione riduce
+    la varianza del flip-di-moneta di una singola chiamata LLM. N via env GLM_SC_N."""
     import os
-    import subprocess
-    env = {k: v for k, v in os.environ.items() if not k.startswith("ANTHROPIC_")}
-    if as_json:
-        prompt += "\n\nRispondi SOLO con JSON valido, niente markdown fence."
-    r = subprocess.run(["claude", "-p", "--output-format", "json"],
-                       input=prompt, capture_output=True, text=True, timeout=600, env=env)
-    if r.returncode != 0:
-        raise RuntimeError(f"claude -p fallito (exit {r.returncode}): "
-                           f"stderr={r.stderr[:300]} stdout={r.stdout[:300]}")
-    text = json.loads(r.stdout)["result"].strip()
-    text = _strip_fence(text)
-    if as_json:
-        import re
-        m = re.search(r"\{.*\}", text, re.DOTALL)  # il modello a volte aggiunge prosa attorno
-        if m:
-            text = m.group(0)
-    return json.loads(text) if as_json else text
+    n = n if n is not None else max(1, int(os.environ.get("GLM_SC_N", "3")))
+    if n <= 1:
+        return _ask_role("strategist", prompt)
+    votes = [_ask_role("strategist", prompt) for _ in range(n)]
+    return aggregate_proposals(votes)
 
 
-# Pattern di errore LLM non transiente (quota/auth): un retry non li risolve.
-# Derivati da errori reali visti in produzione (opencode-go 'Weekly usage limit
-# reached. Resets in 3 days', 'AI_RetryError: Failed after 3 attempts', ...).
-# Tenuti a livello modulo così sono testabili senza chiamare il modello.
-OPENCODE_QUOTA_ERRORS = (
-    "usage limit reached", "weekly usage limit", "resets in",
-    "ai_retryerror", "ai_apicallerror", "failed after",
-    "insufficient balance", "insufficient credit", "insufficient_quota",
-    "rate_limit_error", "unauthorized", "invalid api key",
-    "authentication failed", "permission_denied",
-)
-
-
-def _ask_opencode(prompt: str, as_json: bool = False, system: str | None = None):
-    """LLM: opencode-go/glm-5.2 via `opencode run --format json`.
-    Auth da XDG_DATA_HOME/opencode/auth.json (locale: ~/.local/share/opencode;
-    cloud: scritto dal workflow da GH secret OPENCODE_GO_API_KEY).
-    Output = stream JSONL; estrae i parti `text` dell'assistente.
-
-    Robustezza: opencode, su errore di quota/auth del modello, NON esce da solo —
-    ritenta e resta appeso fino al timeout (visto in produzione: 180s+ persi per
-    ogni chiamata fallita). Con --print-logs --log-level ERROR gli errori di stream
-    finiscono su stderr: un thread li legge in streaming e KILLA il processo non
-    appena rileva un errore non transiente (quota/auth), così fail-fast in ~3s.
-    Questi errori un retry non li risolve."""
-    import re
-    import subprocess
-    import threading
-    cmd = ["opencode", "run", "-m", "opencode-go/glm-5.2", "--format", "json",
-           "--dangerously-skip-permissions", "--print-logs", "--log-level", "ERROR"]
-    full = prompt
-    if system:
-        full = f"[ISTRUZIONI SISTEMA]\n{system}\n\n[/ISTRUZIONI SISTEMA]\n\n{prompt}"
-    if as_json:
-        full += "\n\nRispondi SOLO con JSON valido, niente markdown fence."
-    # pattern di errore non transiente (quota/auth): un retry non li risolve.
-    QUOTA = OPENCODE_QUOTA_ERRORS
-    try:
-        proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                                stderr=subprocess.PIPE, text=True)
-    except FileNotFoundError:
-        raise RuntimeError("opencode non installato (setup opencode mancante / OPENCODE_GO_API_KEY non impostata)")
-    try:
-        proc.stdin.write(full)
-        proc.stdin.close()
-    except BrokenPipeError:
-        pass
-    killed = {"reason": None}
-
-    def watch_err() -> None:
-        # drena stderr (evita deadlock buffer) e killa al primo errore non transiente
-        try:
-            for line in proc.stderr:
-                low = line.lower()
-                for p in QUOTA:
-                    if p in low:
-                        killed["reason"] = (p, line.strip()[:220])
-                        proc.kill()
-                        return
-        except Exception:
-            pass
-
-    tw = threading.Thread(target=watch_err, daemon=True)
-    tw.start()
-    try:
-        proc.wait(timeout=180)
-    except subprocess.TimeoutExpired:
-        proc.kill()
-        try:
-            proc.wait(timeout=5)
-        except subprocess.TimeoutExpired:
-            pass
-        raise RuntimeError("opencode run timeout (180s): glm-5.2 non raggiungibile o appeso")
-    tw.join(timeout=2)
-    if killed["reason"]:
-        p, msg = killed["reason"]
-        raise RuntimeError(f"opencode-go/glm-5.2 non disponibile ({p}): {msg}")
-    stdout = proc.stdout.read() if proc.stdout else ""
-    if proc.returncode != 0:
-        raise RuntimeError(f"opencode run fallito (exit {proc.returncode}): stdout={stdout[:300]}")
-    text = ""
-    for line in stdout.splitlines():
-        line = line.strip()
-        if not line:
-            continue
-        try:
-            ev = json.loads(line)
-        except json.JSONDecodeError:
-            continue
-        if ev.get("type") == "text" and isinstance(ev.get("part"), dict):
-            text += ev["part"].get("text", "")
-    text = text.strip()
-    if not text:
-        raise RuntimeError(f"opencode run: nessun testo estratto. stdout={stdout[:300]}")
-    text = _strip_fence(text)
-    if as_json:
-        m = re.search(r"\{.*\}", text, re.DOTALL)
-        if m:
-            text = m.group(0)
-        return json.loads(text)
-    return text
-
-
-def _ask(prompt: str, as_json: bool = False):
-    """LLM call con fallback: prova claude (piano Pro), se fallisce (quota/CLI/timeout)
-    ritenta con opencode-go/glm-5.2. Trasparente per i chiamanti."""
-    try:
-        return _ask_claude(prompt, as_json)
-    except Exception as e:
-        import sys
-        print(f"[fallback] claude fallito ({type(e).__name__}: {str(e)[:140]}) → opencode glm-5.2", file=sys.stderr)
-        return _ask_opencode(prompt, as_json)
+def _ask(prompt: str, as_json: bool = False, effort: str = "max", role: str | None = None):
+    """Generic LLM call (GLM-5.2, layer scripts/llm.py). Mantenuto per i chiamanti
+    legacy (le strategie importano _ask). Il flusso agenti preferisce _ask_role()."""
+    from scripts.llm import ask
+    return ask(prompt, as_json=as_json, effort=effort, role=role)
 
 
 def signal_states(data: dict) -> dict:
@@ -348,18 +232,19 @@ def main() -> None:
         print(render_pack(ctx))
         return
 
-    # full auto via claude -p (richiede CLI nativa installata)
-    brief = _ask(f"{ROLES['analyst']}\n\nCONTESTO:\n{json.dumps(ctx, default=str)}")
-    bull = _ask(f"{ROLES['bull']}\n\nBRIEF:\n{brief}")
-    bear = _ask(f"{ROLES['bear']}\n\nBRIEF:\n{brief}")
-    proposal = _ask(f"{ROLES['strategist']}\n\nBRIEF:\n{brief}\n\nBULL:\n{bull}\n\nBEAR:\n{bear}", as_json=True)
+    # full auto via GLM-5.2 (Z.ai Coding Plan): ruoli dal yaml, effort differenziato,
+    # self-consistency (N vote) sulla decisione finale dello Strategist.
+    brief = _ask_role("analyst", f"CONTESTO:\n{json.dumps(ctx, default=str)}")
+    bull = _ask_role("bull", f"BRIEF:\n{brief}")
+    bear = _ask_role("bear", f"BRIEF:\n{brief}")
+    proposal = _ask_strategist(f"BRIEF:\n{brief}\n\nBULL:\n{bull}\n\nBEAR:\n{bear}")
     atr_by_symbol = {s: a["atr_pct"] for s, a in ctx["assets"].items()}
     errs = hard_check(proposal, atr_by_symbol=atr_by_symbol)
     if errs:
         log_decision({"stage": "final", "proposal": proposal, "verdict": "hard_veto", "violations": errs})
         print(f"HARD VETO: {errs}")
         return
-    risk = _ask(f"{ROLES['risk']}\n\nPROPOSTA:\n{json.dumps(proposal)}\n\nBRIEF:\n{brief}", as_json=True)
+    risk = _ask_role("risk", f"PROPOSTA:\n{json.dumps(proposal)}\n\nBRIEF:\n{brief}")
     log_decision({"stage": "final", "brief": brief, "bull": bull, "bear": bear,
                   "proposal": proposal, "risk": risk})
     print(json.dumps({"proposal": proposal, "risk": risk}, indent=1, default=str))

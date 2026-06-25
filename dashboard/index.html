@@ -644,7 +644,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
 
 <nav class="secnav" id="secnav">
   <div class="wrap secnav-inner">
-    <a href="#stato">Stato</a><a href="#strategie">Strategie</a><a href="#backtest">Backtest</a><a href="#posizioni">Posizioni</a><a href="#rischio">Rischio</a><a href="#decisioni">Decisioni</a><a href="#book">Trading book</a><a href="#lezioni">Lezioni</a><a href="#evoluzione">Evoluzione</a>
+    <a href="#stato">Stato</a><a href="#strategie">Strategie</a><a href="#backtest">Backtest</a><a href="#posizioni">Posizioni</a><a href="#rischio">Rischio</a><a href="#decisioni">Decisioni</a><a href="#book">Trading book</a><a href="#lezioni">Lezioni</a><a href="#evoluzione">Evoluzione</a><a href="#llm">LLM</a>
   </div>
 </nav>
 
@@ -722,6 +722,35 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     <div id="backtest-meta" class="bt-meta"></div>
     <div class="bt-cards" id="backtest-cards"></div>
     <p class="note" id="backtest-foot" style="margin-top:14px;font-size:12px"></p>
+  </section>
+
+  <!-- LLM LAYER — osservabilità (tracing da paper/llm_calls.jsonl) -->
+  <section id="llm">
+    <div class="wrap" style="padding:0">
+      <h2 style="font-family:var(--serif)">Layer LLM — GLM-5.2 (Z.ai Coding Plan)</h2>
+      <p class="note" style="font-size:12px;margin-bottom:14px">Osservabilità: costo, latenza e effort per ruolo. <span id="llm-empty" style="display:none">Nessuna chiamata tracciata ancora.</span></p>
+      <div id="llm-summary" style="display:flex;gap:22px;flex-wrap:wrap;margin-bottom:16px;font-size:13px"></div>
+      <table id="llm-table" style="width:100%;border-collapse:collapse;font-size:13px"></table>
+    </div>
+    <script>
+    (function(){
+      var el=document.getElementById('data'); if(!el) return;
+      var D; try{ D=JSON.parse(el.textContent); }catch(e){ return; }
+      var s=D.llm_stats||{}; if(!s.total){ document.getElementById('llm-empty').style.display='inline'; return; }
+      var sum=document.getElementById('llm-summary');
+      sum.innerHTML=[
+        ['Chiamate totali', s.total],
+        ['Token (in+out)', s.tot_tok],
+        ['Cache hit', s.cached],
+        ['Effort mix', Object.entries(s.by_effort||{}).map(function(e){return e[0]+': '+e[1];}).join(' · ')]
+      ].map(function(r){return '<div><b>'+r[1]+'</b><br><span style="opacity:.6">'+r[0]+'</span></div>';}).join('');
+      var t=document.getElementById('llm-table');
+      var rows=(s.roles||[]); if(!rows.length) return;
+      var h='<thead><tr>'+['Ruolo','Chiamate','Latenza media (s)','Token in','Token out'].map(function(x){return '<th style="text-align:left;padding:6px 10px;border-bottom:1px solid var(--line)">'+x+'</th>';}).join('')+'</tr></thead>';
+      var b='<tbody>'+rows.map(function(r){ return '<tr>'+[r.role,r.n,r.avg_lat,r.tok_in,r.tok_out].map(function(v,i){ return '<td style="padding:6px 10px;border-bottom:1px solid var(--line)'+(i?'':';font-weight:600')+'">'+v+'</td>'; }).join('')+'</tr>'; }).join('')+'</tbody>';
+      t.innerHTML=h+b;
+    })();
+    </script>
   </section>
 
   <!-- POSIZIONI -->
@@ -871,7 +900,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-25 21:17",
+ "updated_utc": "2026-06-25 21:30",
  "accounts": [
   {
    "id": "agents-v1",
@@ -11423,6 +11452,21 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "outcome": {
     "closed": false
    }
+  },
+  {
+   "ts": "2026-01-17 15:00",
+   "symbol": "BTC",
+   "direction": "long",
+   "account": "geopolitics-v1",
+   "account_label": "Desk geopolitico",
+   "risk_verdict": "sistema",
+   "thesis": "Il sistema «Il desk geopolitico» ha aperto long su BTC: condizioni della strategia soddisfatte.",
+   "entry_px": 130.026,
+   "size_usd": 2500.0,
+   "invalidation": "esce da sola se il prezzo va contro del 4.0% (stop), se raggiunge l'obiettivo (target) o se passa troppo tempo",
+   "outcome": {
+    "closed": false
+   }
   }
  ],
  "lessons": [
@@ -14150,116 +14194,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "ts": "2026-06-18 22:33"
   }
  ],
- "signals_matrix": [
-  {
-   "symbol": "BTC",
-   "signals": {
-    "tsmom": -1,
-    "liq_imbalance": -1,
-    "kronos_forecast": 0,
-    "smart_money_ratio": 0,
-    "oi_trend": -1
-   },
-   "aligned": false,
-   "direction": "—"
-  },
-  {
-   "symbol": "ETH",
-   "signals": {
-    "tsmom": -1,
-    "liq_imbalance": 0,
-    "kronos_forecast": 0,
-    "smart_money_ratio": 0,
-    "oi_trend": 0
-   },
-   "aligned": false,
-   "direction": "—"
-  },
-  {
-   "symbol": "SOL",
-   "signals": {
-    "tsmom": -1,
-    "liq_imbalance": 0,
-    "kronos_forecast": 1,
-    "smart_money_ratio": 0,
-    "oi_trend": 0
-   },
-   "aligned": false,
-   "direction": "—"
-  },
-  {
-   "symbol": "XRP",
-   "signals": {
-    "tsmom": -1,
-    "liq_imbalance": 0,
-    "kronos_forecast": -1,
-    "smart_money_ratio": 0,
-    "oi_trend": 0
-   },
-   "aligned": false,
-   "direction": "—"
-  },
-  {
-   "symbol": "SUI",
-   "signals": {
-    "tsmom": -1,
-    "liq_imbalance": 0,
-    "kronos_forecast": 0,
-    "smart_money_ratio": 0,
-    "oi_trend": 0
-   },
-   "aligned": false,
-   "direction": "—"
-  },
-  {
-   "symbol": "NEAR",
-   "signals": {
-    "tsmom": -1,
-    "liq_imbalance": 0,
-    "kronos_forecast": 0,
-    "smart_money_ratio": 0,
-    "oi_trend": 0
-   },
-   "aligned": false,
-   "direction": "—"
-  },
-  {
-   "symbol": "WLD",
-   "signals": {
-    "tsmom": 0,
-    "liq_imbalance": -1,
-    "kronos_forecast": 1,
-    "smart_money_ratio": 0,
-    "oi_trend": 0
-   },
-   "aligned": false,
-   "direction": "—"
-  },
-  {
-   "symbol": "ZEC",
-   "signals": {
-    "tsmom": -1,
-    "liq_imbalance": -1,
-    "kronos_forecast": -1,
-    "smart_money_ratio": 0,
-    "oi_trend": 0
-   },
-   "aligned": true,
-   "direction": "short"
-  },
-  {
-   "symbol": "CRV",
-   "signals": {
-    "tsmom": -1,
-    "liq_imbalance": 0,
-    "kronos_forecast": 0,
-    "smart_money_ratio": 0,
-    "oi_trend": 0
-   },
-   "aligned": false,
-   "direction": "—"
-  }
- ],
+ "signals_matrix": [],
  "news_events": [
   {
    "ts": "2026-06-25 00:15",
@@ -14541,7 +14476,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "esce": "stop ravvicinato, obiettivo raggiunto o troppo tempo senza risultato",
    "rischio": "nessuna leva (1x), massimo 0,6% del capitale a rischio per operazione, al più 2 posizioni insieme",
    "status": "retired",
-   "asset_class": "tutti i perp (193), crypto+stock/commodity",
+   "asset_class": "multi-asset",
    "risk_profile": "conservativo",
    "stats": {
     "n_closed": 22,
@@ -14559,7 +14494,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "esce": "stop 2.5%, target 3.0R, tempo max 240h",
    "rischio": "leva max 1x, 0.6% a rischio per operazione",
    "status": "retired",
-   "asset_class": "tutti i perp (195), crypto+stock/commodity",
+   "asset_class": "crypto",
    "risk_profile": "conservativo",
    "stats": {
     "n_closed": 26,
@@ -17361,6 +17296,45 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
   "funding_mode": "storico (dove disponibile)",
   "generated_at": "2026-06-25T21:17 UTC",
   "strategies": []
+ },
+ "llm_stats": {
+  "total": 6,
+  "roles": [
+   {
+    "role": "strategist",
+    "n": 3,
+    "avg_lat": 26.8,
+    "tok_in": 1896,
+    "tok_out": 3588
+   },
+   {
+    "role": "smoke",
+    "n": 1,
+    "avg_lat": 4.1,
+    "tok_in": 23,
+    "tok_out": 176
+   },
+   {
+    "role": "smoke_struct",
+    "n": 1,
+    "avg_lat": 6.6,
+    "tok_in": 178,
+    "tok_out": 35
+   },
+   {
+    "role": "risk",
+    "n": 1,
+    "avg_lat": 35.2,
+    "tok_in": 292,
+    "tok_out": 1664
+   }
+  ],
+  "by_effort": {
+   "max": 5,
+   "medium": 1
+  },
+  "cached": 0,
+  "tot_tok": 7852
  }
 }
 </script>
