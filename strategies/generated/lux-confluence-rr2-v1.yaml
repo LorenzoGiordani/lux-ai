@@ -56,4 +56,24 @@ evolution:
     (tsmom-atr 1.26, lux-0.1-beta 0.65). Ipotesi RR2 confermata in backtest;
     il paper e il gate finale. Mutazioni: RR, stop_atr_mult, soglie delle gambe.
 
-backtest: {}
+backtest:
+  # A/B comparato 25/06 (eval_specs.py, basket 9-asset 6m, stesso run -> DSR
+  # confrontabile). NOTA: lux-confluence-rr2 ora include la gamba kronos_forecast,
+  # FALSIFICATA come direzionale il 14/06 -> trascina le metriche vs il figlio
+  # lux-flow-confluence (che la rimuove). vedi sezione comparativa.
+  basket_6m:
+    aggregate:
+      mean_sharpe: 0.12
+      dsr: 0.40
+      mean_return: 0.0096
+      worst_drawdown: -0.4002
+      positive_symbols: "5/9"
+      total_trades: 1020
+  comparativo:
+    lux-flow-confluence-v1:   # figlio: rimuove kronos (gamba morta)
+      mean_sharpe: 1.23
+      dsr: 0.80
+      mean_return: 0.1174
+      worst_drawdown: -0.2205
+      positive_symbols: "9/9"
+      verdetto: "domina il parent su ogni metrica (Sharpe 10x, DD quasi dimezzato) -> conferma che kronos dragava"
