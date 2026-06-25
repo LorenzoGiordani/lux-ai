@@ -41,7 +41,7 @@ Principi non negoziabili:
 | `scripts/fetch_universe.py` | Universo asset Hyperliquid (mainnet, volumi reali) filtrato per liquidità |
 | `scripts/fetch_candles.py` | Candele 1h 12 mesi: Binance (crypto), yfinance (commodities/stock), HL fallback |
 | `scripts/fetch_derivs.py` | Funding + taker flow storici (Binance fapi) |
-| `backtest/engine.py` | Exchange simulato: fill t+1 (anti-lookahead), fee, **funding storico** (opz., altrimenti costante legacy), **slippage size-aware** square-root (opz. `impact_k`, altrimenti fisso), stop/target intrabar, liquidazioni |
+| `backtest/engine.py` | Exchange simulato: fill t+1 (anti-lookahead), fee, **funding storico** (opz.), **slippage size-aware** square-root (opz. `impact_k`), **liquidazione mark-to-market** su account equity (opz. `maintenance_margin_frac`), stop/target intrabar |
 | `backtest/signals.py` | **Registry segnali** (chiuso, l'LLM compone ma non inventa codice) |
 | `backtest/strategy.py` | Artefatto YAML → callback engine (rule AND/OR, direction, sizing) |
 | `backtest/walkforward.py` | Metriche per fold temporali e regime bull/bear/chop |
@@ -87,7 +87,7 @@ I dati storici (`data/`) non sono nel repo: si rigenerano con i 3 script fetch (
 **TSMOM multi-asset** (BTC, ETH, SOL, GOLD, CL, BRENT, SILVER, SP500, MU)
 - **Mean Sharpe 1.69, ret medio +11.3%, 8/9 asset positivi** — conferma la letteratura → challenger in paper
 
-**Onestà del backtest (funding storico + slippage size-aware).** Il funding è ora storico reale per-asset (la costante legacy sovrastimava di ~8x e nascondeva i flip di segno nei mesi bear). Lo slippage è opzionalmente un modello square-root (Almgren 2005, additivo sul base). Su CRV (illiquido) l'impact smaschera un Profit Mirage: Sharpe 0.73→0.16 a $10k. Su BTC (liquido) l'edge regge fino a $10M AUM (1.37→1.33). `run_strategy.py --impact 0.5` per attivarlo.
+**Onestà del backtest (funding storico + slippage size-aware).** Il funding è ora storico reale per-asset (la costante legacy sovrastimava di ~8x e nascondeva i flip di segno nei mesi bear). Lo slippage è opzionalmente un modello square-root (Almgren 2005, additivo sul base). Slippage size-aware (square-root, Almgren 2005) e liquidazione mark-to-market su account equity (con MMR) opt-in. Su CRV (illiquido) l'impact smaschera un Profit Mirage: Sharpe 0.73→0.16 a $10k. Su BTC (liquido) l'edge regge fino a $10M AUM (1.37→1.33). La liquidazione MTM coincide col legacy a leva ragionevole (≤5, nessuna posizione attiva la rischia) ma a leva 8 + flash crash lascia il margine residuo realistico (1088$ vs 0 del legacy rigido). `run_strategy.py --impact 0.5 --mmr 0.01` per attivarli.
 
 **Tesi falsificate** (documentate in `paper/lessons.jsonl`): scalp-exit su crowding, flow-confirmed breakout, fade VWAP (7/7 asset), stop più stretti dell'invalidazione. Pattern: il regime 2026-H1 premia il trend, punisce il mean-reversion.
 

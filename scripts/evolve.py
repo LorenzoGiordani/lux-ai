@@ -101,8 +101,11 @@ def eval_spec(spec: dict, data: dict) -> tuple[dict, pd.Series]:
     strat, _ = compile_strategy(spec, data)
     _impact = os.environ.get("EVOLVE_IMPACT_K")  # opt-in: market impact square-root
     impact_k = float(_impact) if _impact else None
+    _mmr = os.environ.get("EVOLVE_MMR")           # opt-in: liquidazione mark-to-market
+    mmr = float(_mmr) if _mmr else None
     bt = Backtest(data["candles"], max_leverage=spec["risk"]["max_leverage"],
-                  funding_hist=data.get("funding"), impact_k=impact_k)
+                  funding_hist=data.get("funding"), impact_k=impact_k,
+                  maintenance_margin_frac=mmr)
     equity = bt.run(strat)
     m = compute(equity, bt.trades)
     ev = evaluate(equity, data["candles"])

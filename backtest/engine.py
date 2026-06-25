@@ -3,15 +3,17 @@
 Modello: una posizione per asset, esposizione target ∈ [-max_lev, +max_lev]
 come frazione dell'equity. Fill all'open della candela successiva (no lookahead),
 fee taker + slippage su ogni variazione, funding orario sulle posizioni aperte,
-liquidazione approssimata (prezzo oltre 1/leva dall'entry → equity della posizione
-azzerata), stop-loss opzionale per posizione.
+liquidazione mark-to-market su account equity (con MMR) oppure approssimazione
+legacy 1/leva, stop-loss opzionale per posizione.
 
-Limiti noti: niente maintenance margin fine. Lo slippage è fisso (legacy) di
-default, ma supporta un modello di market impact square-root (Almgren 2005)
-ott-in via `impact_k`: slip_eff = base + k·σ·√(Q/V) con σ e V entrambi orari
-(orizzonte coerente). Additivo (mai sotto il base), anti-lookahead (ADV/σ su
-dati passati). Il funding è storico se si passa
-`funding_hist` (colonne ts, rate); in assenza ricade sulla costante legacy.
+Limiti noti: nessuno di rilevante. Lo slippage è fisso (legacy) di default, ma
+supporta un modello di market impact square-root (Almgren 2005) opt-in via
+`impact_k`: slip_eff = base + k·σ·√(Q/V) con σ e V entrambi orari (orizzonte
+coerente). Additivo (mai sotto il base), anti-lookahead (ADV/σ su dati passati).
+Il funding è storico se si passa `funding_hist` (colonne ts, rate); in assenza
+ricade sulla costante legacy. La liquidazione è mark-to-market su account equity
+se si passa `maintenance_margin_frac` (MMR); in assenza ricade sull'approssimazione
+legacy (soglia 1/leva fissa sull'entry).
 """
 
 from dataclasses import dataclass, field
@@ -75,6 +77,7 @@ class Backtest:
     funding_hist: object = None                       # pd.DataFrame [ts, rate] storico reale
     impact_k: object = None                           # coeff. square-root (None = slippage fisso legacy)
     impact_window_h: int = 24                         # finestra rolling per ADV/σ
+    maintenance_margin_frac: object = None            # MMR (None = liquidazione legacy 1/leva)
     max_leverage: float = 3.0
     start_equity: float = 10_000.0
 
@@ -115,14 +118,32 @@ class Backtest:
             # 1. gestione posizione sulla candela corrente
             if pos is not None:
                 sign = pos["sign"]
-                lev = abs(pos["exposure"])
-                # liquidazione approssimata: move avverso > 1/leva dall'entry
-                liq_px = pos["entry_px"] * (1 - sign / lev)
-                if (row.low <= liq_px) if sign > 0 else (row.high >= liq_px):
-                    equity -= pos["size_usd"] * pos["remaining"] / lev  # margine residuo perso
-                    self._log_trade(pos, liq_px, pos["remaining"], row.ts, "liquidated")
-                    pos = None
-                else:
+                remaining = pos["remaining"]
+                # liquidazione: mark-to-market su account equity se MMR attivo,
+                # altrimenti approssimazione legacy (soglia 1/leva fissa sull'entry).
+                # Il check MTM cattura funding accumulato e P&L realizzato da
+                # partial (equity e' gia' aggiornata dalle barre precedenti),
+                # come i veri exchange in regime cross-margin.
+                if self.maintenance_margin_frac:
+                    worst_px = row.low if sign > 0 else row.high
+                    mmr = self.maintenance_margin_frac * pos["size_usd"] * remaining
+                    unreal = pos["size_usd"] * remaining * (worst_px / pos["entry_px"] - 1) * sign
+                    if equity + unreal <= mmr:
+                        equity_before = equity
+                        # liquidazione standard: equity si ferma al margine di
+                        # mantenimento residuo (clamp difensivo se gia' in default)
+                        equity = min(equity_before, mmr) if equity_before >= mmr else max(0.0, equity + unreal)
+                        self._log_trade(pos, worst_px, remaining, row.ts, "liquidated",
+                                        pnl_override=equity - equity_before)
+                        pos = None
+                if pos is not None:
+                    lev = abs(pos["exposure"])
+                    liq_px = pos["entry_px"] * (1 - sign / lev)
+                    if (row.low <= liq_px) if sign > 0 else (row.high >= liq_px):
+                        equity -= pos["size_usd"] * pos["remaining"] / lev  # margine residuo perso
+                        self._log_trade(pos, liq_px, pos["remaining"], row.ts, "liquidated")
+                        pos = None
+                if pos is not None:
                     slip = self._effective_slippage(i, pos["size_usd"] * pos["remaining"])
                     for frac, px, reason in step_exit(pos, row.high, row.low, slip):
                         equity += pos["size_usd"] * frac * (px / pos["entry_px"] - 1) * sign
@@ -174,10 +195,13 @@ class Backtest:
 
         return pd.DataFrame(self.equity_curve, columns=["ts", "equity"])
 
-    def _log_trade(self, pos: dict, exit_px: float, frac: float, ts, reason: str) -> None:
-        pnl = pos["size_usd"] * frac * (exit_px / pos["entry_px"] - 1) * pos["sign"]
-        if reason == "liquidated":
-            pnl = -pos["size_usd"] * frac / abs(pos["exposure"])
+    def _log_trade(self, pos: dict, exit_px: float, frac: float, ts, reason: str,
+                   pnl_override: float | None = None) -> None:
+        pnl = pnl_override
+        if pnl is None:
+            pnl = pos["size_usd"] * frac * (exit_px / pos["entry_px"] - 1) * pos["sign"]
+            if reason == "liquidated":
+                pnl = -pos["size_usd"] * frac / abs(pos["exposure"])
         self.trades.append({
             "ts": ts, "exposure": pos["exposure"], "entry_px": pos["entry_px"],
             "exit_px": exit_px, "frac": frac, "pnl_usd": pnl, "reason": reason})
