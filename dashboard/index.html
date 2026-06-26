@@ -905,7 +905,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-26 14:22",
+ "updated_utc": "2026-06-26 14:37",
  "accounts": [
   {
    "id": "agents-v1",
@@ -15255,6 +15255,61 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
  ],
  "lessons": [
   {
+   "ts": "2026-06-26 14:23",
+   "scope": "basket",
+   "verdict": "thesis_right",
+   "lesson": "RIPRESA in produzione 26/06. L'engine portfolio cross-sectional momentum dollar-neutral conferma l'edge a 12m: +79.8% (Sharpe 2.11, maxDD -19%, DSR 0.91) vs benchmark equal-weight -8.8% (maxDD -59%). L'edge (IC +0.089 t+21, il piu' forte misurato) NON era sfruttato perche' non catturabile nel motore per-simbolo (falsificato su 3 varianti: richiede concordanza direzionale long-leader/short-laggardo). E' il vero valore dell'engine portfolio: lo spread mantenuto batte il singolo trade stoppato. Ritirata il 25/06 era per strumentazione paper sbagliata (non registrava open/close, ma logga rebalance/heartbeat con equity) → paper_stats ora deriva le metriche dall'equity curve. Il dollar-neutral e' cruciale: la versione long-only degrada a maxDD -65% (vs -19%), il netting del beta comune e' il vero valore, non il timing.",
+   "tags": [
+    "lifecycle",
+    "resume",
+    "portfolio",
+    "cross_sectional",
+    "dollar_neutral",
+    "backtest"
+   ]
+  },
+  {
+   "ts": "2026-06-26 14:13",
+   "scope": "basket",
+   "verdict": "thesis_wrong",
+   "lesson": "L'edge cross-sectional momentum e' reale (conditional IC: bucket TOP fwd +0.032 vs BOT +0.015 a 168h quando il champion spara) MA NON e' catturabile nel motore per-simbolo. Il DSL esprime 'segnale attivo = !=0', e xsection e' attivo sia per top-rank(+1) sia bottom-rank(-1): un asset in trend rialzista ma relativamente debole passa il gate e viene comprato long → il trade peggiore. Provate 3 varianti (vote AND, gate puro 80/20, 75/25): tutte negative (Sharpe -0.27/-0.45/-0.75). L'edge richiede CONCORDANZA DIREZIONALE (long leader/short laggardo dollar-neutral) = engine a portafoglio, non per-simbolo. E' lo stesso limite di xsmom-v1. Conclusione: xsection resta l'edge piu' forte NON sfruttato del progetto; la via corretta e' riprendere xsmom-port-v1 (backtest +29% vs -20%, ritirata solo per strumentazione paper che non registrava i trade continui), NON aggiungere gambe AND per-simbolo.",
+   "tags": [
+    "xsection",
+    "cross_sectional",
+    "concordance",
+    "portfolio_engine",
+    "falsification",
+    "backtest"
+   ]
+  },
+  {
+   "ts": "2026-06-26 13:29",
+   "scope": "basket",
+   "verdict": "thesis_wrong",
+   "lesson": "Un gate di regime NON direzionale (hmm_regime) applicato come terza gamba AND soffoca l'edge del champion: 301 trade vs 1254 (under-trading estremo), 1/9 simboli positivi, 4/54 fold. Il regime-filter di DaviddTech e' valido in principio ma sbagliato come implementazione: deve essere un VETO che sospende nei periodi chop confermati, non un AND che richiede regime trending per entrare. Inoltre la cache hmm manca su alcuni asset (SOL) → degrada a neutro e blocca del tutto l'entry. Lesson: i filtri di regime si applicano come veto/vol-gate, mai come AND stretto.",
+   "tags": [
+    "regime_filter",
+    "hmm",
+    "veto",
+    "under_trading",
+    "falsification",
+    "backtest"
+   ]
+  },
+  {
+   "ts": "2026-06-26 13:29",
+   "scope": "basket",
+   "verdict": "thesis_wrong",
+   "lesson": "La confluence funziona SOLO fra gambe ortogonali per costruzione. nadaraya_watson (breakout kernel) e tsmom (segno del ritorno) misurano entrambi la continuation: sono correlate, non ortogonali. Metterle in AND filtra via proprio le entry migliori (Sharpe -0.30 vs NW standalone +0.18 e tsmom+liq +0.71). Regola: combinare il segnale prezzo-struttura con il FLUSSO (liq_imbalance), non con un altro segnale di momentum. vedi lux-nw-liq (competitivo col champion).",
+   "tags": [
+    "confluence",
+    "correlation",
+    "nadaraya_watson",
+    "falsification",
+    "backtest"
+   ]
+  },
+  {
    "ts": "2026-06-26 14:16",
    "scope": "ZEC",
    "verdict": "thesis_right",
@@ -17592,10 +17647,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "parent": null,
    "status": "retired",
    "sharpe": 0.0,
-   "sharpe_r": -1.154,
-   "n_closed": 25,
-   "mean_r": -0.244,
-   "pnl_paper": -614.61,
+   "sharpe_r": 0.104,
+   "n_closed": 195,
+   "mean_r": 4e-05,
+   "pnl_paper": 48.15,
    "note": "TSMOM canonico adattato: orizzonti 7g/30g, exit posizionali (10 giorni)."
   },
   {
@@ -17614,10 +17669,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "parent": "agents-v1",
    "status": "challenger",
    "sharpe": 0.0,
-   "sharpe_r": 0.32,
-   "n_closed": 2,
-   "mean_r": 0.479,
-   "pnl_paper": 10.0,
+   "sharpe_r": -0.085,
+   "n_closed": 150,
+   "mean_r": -1e-05,
+   "pnl_paper": -16.24,
    "note": "v1 — variante esecuzione RR2 di agents-v1, costo LLM zero (riusa le decisioni)."
   },
   {
@@ -17625,8 +17680,8 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "parent": null,
    "status": "retired",
    "sharpe": 0.0,
-   "sharpe_r": 0.0,
-   "n_closed": 0,
+   "sharpe_r": 1.01,
+   "n_closed": 50,
    "mean_r": 0.0,
    "pnl_paper": 0.0,
    "note": "v1 — gate confluenza tsmom+liq_imbalance + layer LLM (Claude PM avverso). Mutazioni possibili: larghezza del gate, contesto passato al PM, regole di sizing per "
@@ -17692,7 +17747,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "status": "retired",
    "sharpe": -0.09,
    "sharpe_r": 0.0,
-   "n_closed": 0,
+   "n_closed": 97,
    "mean_r": 0.0,
    "pnl_paper": 0.0,
    "note": "g2-g1 con gate più permissivo (pct 45)."
@@ -17790,10 +17845,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "parent": null,
    "status": "challenger",
    "sharpe": 0.0,
-   "sharpe_r": 0.0,
-   "n_closed": 0,
-   "mean_r": 0.0,
-   "pnl_paper": 0.0,
+   "sharpe_r": -1.25,
+   "n_closed": 45,
+   "mean_r": -0.0,
+   "pnl_paper": -1.72,
    "note": "v1 — gate news_event(geopolitics) + desk LLM cross-asset. Prima strategia engine:desk. Possibili mutazioni: soglia min_z del burst, finestra max_age_h, universo"
   },
   {
@@ -17802,7 +17857,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "status": "challenger",
    "sharpe": 0.0,
    "sharpe_r": 0.0,
-   "n_closed": 0,
+   "n_closed": 41,
    "mean_r": 0.0,
    "pnl_paper": 0.0,
    "note": "v1 — gate tsmom+xsection (ortogonali) + veto event/crowding + conviction vote + layer LLM auditor. Fix 25/06: cache xsection + gate allentato con fallback convi"
@@ -17834,10 +17889,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "parent": "tsmom-liq-v1",
    "status": "retired",
    "sharpe": 0.0,
-   "sharpe_r": -0.2,
-   "n_closed": 17,
-   "mean_r": -0.085,
-   "pnl_paper": -303.79,
+   "sharpe_r": -1.445,
+   "n_closed": 118,
+   "mean_r": -0.00167,
+   "pnl_paper": -1848.18,
    "note": "LUX 0.1 BETA — tripla confluenza ortogonale (tsmom+liq+kronos), voto a 5 segnali, veto news. Flagship unica."
   },
   {
@@ -17845,10 +17900,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "parent": "lux-0.1-beta",
    "status": "challenger",
    "sharpe": 0.12,
-   "sharpe_r": 0.552,
-   "n_closed": 4,
-   "mean_r": 0.478,
-   "pnl_paper": 186.98,
+   "sharpe_r": 1.218,
+   "n_closed": 75,
+   "mean_r": 0.00124,
+   "pnl_paper": 926.1,
    "note": "v1 — confluenza LUX 3-gambe (parent lux-0.1-beta) con exit RR2 + stop ATR3. Test mirato dell'ipotesi RR2 di Lorenzo sull'edge validato. Basket 9-asset 6m: meanS"
   },
   {
@@ -17856,11 +17911,66 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "parent": "lux-confluence-rr2-v1",
    "status": "challenger",
    "sharpe": 1.26,
+   "sharpe_r": -1.458,
+   "n_closed": 26,
+   "mean_r": -2e-05,
+   "pnl_paper": -5.4,
+   "note": "v1 seed: confluence 2-gambe (tsmom + liq_imbalance), rimuove la gamba kronos del parent falsificata come direzionale. Mutazioni: soglia liq extreme_pct, lookbac"
+  },
+  {
+   "id": "lux-nw-continuation-v1",
+   "parent": null,
+   "status": "retired",
+   "sharpe": 0.18,
    "sharpe_r": 0.0,
    "n_closed": 0,
    "mean_r": 0.0,
    "pnl_paper": 0.0,
-   "note": "v1 seed: confluence 2-gambe (tsmom + liq_imbalance), rimuove la gamba kronos del parent falsificata come direzionale. Mutazioni: soglia liq extreme_pct, lookbac"
+   "note": "v1 seed: segnale NW (continuation) da solo — isola il nuovo edge senza confonderlo col momentum. Mutazioni: lookback/bandwidth/mult (sweep dell'IC study), aggiu"
+  },
+  {
+   "id": "lux-nw-liq-v1",
+   "parent": "lux-nw-continuation-v1",
+   "status": "challenger",
+   "sharpe": 0.59,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
+   "note": "v1 seed: NW-continuation + liq_imbalance (ortogonali: struttura vs flusso). Mutazioni: soglia mult NW, extreme_pct liq, time_stop, aggiunta tsmom come terza gam"
+  },
+  {
+   "id": "lux-nw-tsmom-v1",
+   "parent": "lux-nw-continuation-v1",
+   "status": "retired",
+   "sharpe": -0.3,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
+   "note": "v1 seed: NW + tsmom (confluence continuation). Mutazioni: soglia mult NW, orizzonti tsmom (168/720 ↔ 96/480), aggiunta liq_imbalance come terza gamba (→ eventua"
+  },
+  {
+   "id": "lux-regime-3leg-v1",
+   "parent": "lux-flow-confluence-v1",
+   "status": "retired",
+   "sharpe": 0.08,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
+   "note": "v1 seed: champion + gate hmm_regime (regime filter DaviddTech). Mutazioni: soglia liq extreme_pct, lookback liq, RR 1.8-2.5. NOTA: SOL manca della cache HMM (pr"
+  },
+  {
+   "id": "lux-triple-3orthogonal-v1",
+   "parent": "lux-flow-confluence-v1",
+   "status": "retired",
+   "sharpe": -0.45,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
+   "note": "v1 seed: champion + xsection_momentum (3 gambe ortogonali). Mutazioni: soglia liq extreme_pct, hi/lo pct xsection, RR 1.8-2.5, time_stop. NOTA: la cache xsectio"
   },
   {
    "id": "tsmom-aggressive-v1",
@@ -17878,10 +17988,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "parent": "tsmom-v1",
    "status": "retired",
    "sharpe": 0.0,
-   "sharpe_r": -1.522,
-   "n_closed": 26,
-   "mean_r": -0.372,
-   "pnl_paper": -1021.27,
+   "sharpe_r": -1.91,
+   "n_closed": 39,
+   "mean_r": -0.00348,
+   "pnl_paper": -1292.71,
    "note": "Mutazione exit di tsmom-v1: stop_atr_mult 3.0 + target_r 2.0 (no partial: su trend lento frammenta). In A/B 6m/6-asset dava più rendimento del parent (meanRet +"
   },
   {
@@ -17889,10 +17999,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "parent": null,
    "status": "retired",
    "sharpe": 1.7,
-   "sharpe_r": -0.364,
-   "n_closed": 22,
-   "mean_r": -0.106,
-   "pnl_paper": -137.11,
+   "sharpe_r": -0.871,
+   "n_closed": 159,
+   "mean_r": -0.00018,
+   "pnl_paper": -283.59,
    "note": "seed di ricerca"
   },
   {
@@ -17900,10 +18010,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "parent": null,
    "status": "retired",
    "sharpe": 0.0,
-   "sharpe_r": -1.385,
-   "n_closed": 26,
-   "mean_r": -0.363,
-   "pnl_paper": -554.36,
+   "sharpe_r": -1.46,
+   "n_closed": 142,
+   "mean_r": -0.00043,
+   "pnl_paper": -591.83,
    "note": "seed di ricerca"
   },
   {
@@ -17931,12 +18041,12 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
   {
    "id": "xsmom-port-v1",
    "parent": "xsmom-v1",
-   "status": "retired",
-   "sharpe": 0.0,
-   "sharpe_r": 0.0,
-   "n_closed": 0,
-   "mean_r": 0.0,
-   "pnl_paper": 0.0,
+   "status": "challenger",
+   "sharpe": 2.11,
+   "sharpe_r": -0.215,
+   "n_closed": 44,
+   "mean_r": -0.00013,
+   "pnl_paper": -5.47,
    "note": "v1 — primo engine:portfolio. Cross-sectional momentum dollar-neutral settimanale, gross 1.0. Backtest: +29.4%/Sharpe 1.97/maxDD -12% vs B&H -19.9%/-0.36. Mutazi"
   },
   {
@@ -18033,7 +18143,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     "liq_imbalance": 0,
     "kronos_forecast": 0,
     "smart_money_ratio": 0,
-    "oi_trend": -1
+    "oi_trend": 0
    },
    "aligned": false,
    "direction": "—"
@@ -18057,7 +18167,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     "liq_imbalance": 0,
     "kronos_forecast": -1,
     "smart_money_ratio": 0,
-    "oi_trend": 1
+    "oi_trend": 0
    },
    "aligned": false,
    "direction": "—"
@@ -18087,10 +18197,22 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "direction": "—"
   },
   {
+   "symbol": "NEAR",
+   "signals": {
+    "tsmom": -1,
+    "liq_imbalance": 0,
+    "kronos_forecast": -1,
+    "smart_money_ratio": 0,
+    "oi_trend": 0
+   },
+   "aligned": false,
+   "direction": "—"
+  },
+  {
    "symbol": "WLD",
    "signals": {
     "tsmom": 0,
-    "liq_imbalance": -1,
+    "liq_imbalance": 0,
     "kronos_forecast": 1,
     "smart_money_ratio": 0,
     "oi_trend": 0
@@ -18104,6 +18226,18 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     "tsmom": -1,
     "liq_imbalance": 0,
     "kronos_forecast": -1,
+    "smart_money_ratio": 0,
+    "oi_trend": 0
+   },
+   "aligned": false,
+   "direction": "—"
+  },
+  {
+   "symbol": "CRV",
+   "signals": {
+    "tsmom": -1,
+    "liq_imbalance": 0,
+    "kronos_forecast": 1,
     "smart_money_ratio": 0,
     "oi_trend": 0
    },
@@ -18212,14 +18346,14 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "esce": "perdita massima predefinita (stop), obiettivo raggiunto (target) o troppo tempo senza risultato",
    "rischio": "massimo 1% del capitale a rischio per operazione, leva non oltre 2x",
    "status": "retired",
-   "asset_class": "tutti i perp (127), crypto+stock/commodity",
+   "asset_class": "tutti i perp (128), crypto+stock/commodity",
    "risk_profile": "bilanciato",
    "stats": {
-    "n_closed": 25,
-    "sharpe_r": -1.154,
-    "mean_r": -0.244,
-    "win_rate": 0.36,
-    "total_pnl": -614.61
+    "n_closed": 195,
+    "sharpe_r": 0.104,
+    "mean_r": 4e-05,
+    "win_rate": 0.026,
+    "total_pnl": 48.15
    }
   },
   {
@@ -18233,11 +18367,11 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "asset_class": "crypto",
    "risk_profile": "bilanciato",
    "stats": {
-    "n_closed": 2,
-    "sharpe_r": 0.32,
-    "mean_r": 0.479,
-    "win_rate": 0.5,
-    "total_pnl": 10.0
+    "n_closed": 150,
+    "sharpe_r": -0.085,
+    "mean_r": -1e-05,
+    "win_rate": 0.02,
+    "total_pnl": -16.24
    }
   },
   {
@@ -18251,10 +18385,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "asset_class": "crypto",
    "risk_profile": "bilanciato",
    "stats": {
-    "n_closed": 0,
-    "sharpe_r": 0.0,
+    "n_closed": 50,
+    "sharpe_r": 1.01,
     "mean_r": 0.0,
-    "win_rate": 0.0,
+    "win_rate": 0.02,
     "total_pnl": 0.0
    }
   },
@@ -18266,10 +18400,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "esce": "stop, target o tempo massimo scaduto",
    "rischio": "massimo 1% del capitale a rischio per operazione, leva non oltre 2x",
    "status": "retired",
-   "asset_class": "tutti i perp (129), crypto+stock/commodity",
+   "asset_class": "tutti i perp (130), crypto+stock/commodity",
    "risk_profile": "bilanciato",
    "stats": {
-    "n_closed": 0,
+    "n_closed": 97,
     "sharpe_r": 0.0,
     "mean_r": 0.0,
     "win_rate": 0.0,
@@ -18287,11 +18421,11 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "asset_class": "multi-asset",
    "risk_profile": "bilanciato",
    "stats": {
-    "n_closed": 0,
-    "sharpe_r": 0.0,
-    "mean_r": 0.0,
+    "n_closed": 45,
+    "sharpe_r": -1.25,
+    "mean_r": -0.0,
     "win_rate": 0.0,
-    "total_pnl": 0.0
+    "total_pnl": -1.72
    }
   },
   {
@@ -18305,7 +18439,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "asset_class": "crypto",
    "risk_profile": "bilanciato",
    "stats": {
-    "n_closed": 0,
+    "n_closed": 41,
     "sharpe_r": 0.0,
     "mean_r": 0.0,
     "win_rate": 0.0,
@@ -18323,11 +18457,11 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "asset_class": "crypto",
    "risk_profile": "aggressivo",
    "stats": {
-    "n_closed": 17,
-    "sharpe_r": -0.2,
-    "mean_r": -0.085,
-    "win_rate": 0.235,
-    "total_pnl": -303.79
+    "n_closed": 118,
+    "sharpe_r": -1.445,
+    "mean_r": -0.00167,
+    "win_rate": 0.017,
+    "total_pnl": -1848.18
    }
   },
   {
@@ -18341,11 +18475,11 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "asset_class": "crypto",
    "risk_profile": "bilanciato",
    "stats": {
-    "n_closed": 4,
-    "sharpe_r": 0.552,
-    "mean_r": 0.478,
-    "win_rate": 0.5,
-    "total_pnl": 186.98
+    "n_closed": 75,
+    "sharpe_r": 1.218,
+    "mean_r": 0.00124,
+    "win_rate": 0.054,
+    "total_pnl": 926.1
    }
   },
   {
@@ -18354,6 +18488,24 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "cosa": "lux-confluence-rr2-v1 usava una confluence a 3 gambe (tsmom + liq_imbalance + kronos_forecast), ma kronos_forecast e' stato FALSIFICATO come segnale direzionale il 14/06 (Sharpe -0.2/-0.3 standalone, dimezza lo Sharpe come gate). La gamba kronos era quindi MORTA ma ancora cablata…",
    "entra": "segnali: tsmom, liq_imbalance",
    "esce": "stop 4.0%, target 2.0R, tempo max 240h",
+   "rischio": "leva max 2x, 1.0% a rischio per operazione",
+   "status": "challenger",
+   "asset_class": "crypto",
+   "risk_profile": "bilanciato",
+   "stats": {
+    "n_closed": 26,
+    "sharpe_r": -1.458,
+    "mean_r": -2e-05,
+    "win_rate": 0.0,
+    "total_pnl": -5.4
+   }
+  },
+  {
+   "id": "lux-nw-liq-v1",
+   "nome": "lux-nw-liq-v1",
+   "cosa": "CONFLUENCE PREZZO-STRUUTTURA + FLUSSO FORZATO. Due edge INDIPENDENTI e validati: - nadaraya_watson (continuation, edge_only) = il prezzo ha ROTTO la banda kernel-MAD → espansione strutturale volatility-adaptive (IC +0.105, t+5). - liq_imbalance (edge_only) = liquidazioni forzate …",
+   "entra": "segnali: nadaraya_watson, liq_imbalance",
+   "esce": "stop 4.0%, target 2.0R, tempo max 168h",
    "rischio": "leva max 2x, 1.0% a rischio per operazione",
    "status": "challenger",
    "asset_class": "crypto",
@@ -18374,14 +18526,14 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "esce": "stop 4.0%, target 2.0R, tempo max 240h",
    "rischio": "leva max 2x, 1.0% a rischio per operazione",
    "status": "retired",
-   "asset_class": "tutti i perp (127), crypto+stock/commodity",
+   "asset_class": "tutti i perp (128), crypto+stock/commodity",
    "risk_profile": "bilanciato",
    "stats": {
-    "n_closed": 26,
-    "sharpe_r": -1.522,
-    "mean_r": -0.372,
-    "win_rate": 0.231,
-    "total_pnl": -1021.27
+    "n_closed": 39,
+    "sharpe_r": -1.91,
+    "mean_r": -0.00348,
+    "win_rate": 0.079,
+    "total_pnl": -1292.71
    }
   },
   {
@@ -18395,11 +18547,11 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "asset_class": "tutti i perp (188), crypto+stock/commodity",
    "risk_profile": "conservativo",
    "stats": {
-    "n_closed": 22,
-    "sharpe_r": -0.364,
-    "mean_r": -0.106,
-    "win_rate": 0.318,
-    "total_pnl": -137.11
+    "n_closed": 159,
+    "sharpe_r": -0.871,
+    "mean_r": -0.00018,
+    "win_rate": 0.013,
+    "total_pnl": -283.59
    }
   },
   {
@@ -18413,11 +18565,11 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "asset_class": "tutti i perp (190), crypto+stock/commodity",
    "risk_profile": "conservativo",
    "stats": {
-    "n_closed": 26,
-    "sharpe_r": -1.385,
-    "mean_r": -0.363,
-    "win_rate": 0.231,
-    "total_pnl": -554.36
+    "n_closed": 142,
+    "sharpe_r": -1.46,
+    "mean_r": -0.00043,
+    "win_rate": 0.021,
+    "total_pnl": -591.83
    }
   },
   {
@@ -18427,15 +18579,15 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "entra": "segnali: ",
    "esce": "stop 0%, target 0R, tempo max 0h",
    "rischio": "leva max 2x, 1.0% a rischio per operazione",
-   "status": "retired",
+   "status": "challenger",
    "asset_class": "crypto",
    "risk_profile": "bilanciato",
    "stats": {
-    "n_closed": 0,
-    "sharpe_r": 0.0,
-    "mean_r": 0.0,
-    "win_rate": 0.0,
-    "total_pnl": 0.0
+    "n_closed": 44,
+    "sharpe_r": -0.215,
+    "mean_r": -0.00013,
+    "win_rate": 0.419,
+    "total_pnl": -5.47
    }
   },
   {
@@ -21339,60 +21491,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
   "generated_at": "2026-06-26T14:22 UTC",
   "strategies": []
  },
- "llm_stats": {
-  "total": 8,
-  "roles": [
-   {
-    "role": "strategist",
-    "n": 3,
-    "avg_lat": 57.1,
-    "tok_in": 3775,
-    "tok_out": 6045
-   },
-   {
-    "role": "reviewer",
-    "n": 1,
-    "avg_lat": 41.2,
-    "tok_in": 970,
-    "tok_out": 1320
-   },
-   {
-    "role": "analyst",
-    "n": 1,
-    "avg_lat": 28.4,
-    "tok_in": 5404,
-    "tok_out": 1363
-   },
-   {
-    "role": "bull",
-    "n": 1,
-    "avg_lat": 14.8,
-    "tok_in": 719,
-    "tok_out": 452
-   },
-   {
-    "role": "bear",
-    "n": 1,
-    "avg_lat": 15.4,
-    "tok_in": 719,
-    "tok_out": 518
-   },
-   {
-    "role": "risk",
-    "n": 1,
-    "avg_lat": 44.4,
-    "tok_in": 1263,
-    "tok_out": 2145
-   }
-  ],
-  "by_effort": {
-   "medium": 2,
-   "max": 4,
-   "low": 2
-  },
-  "cached": 0,
-  "tot_tok": 24693
- }
+ "llm_stats": {}
 }
 </script>
 
