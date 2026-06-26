@@ -1,6 +1,6 @@
 id: lux-confluence-rr2-v1
 parent: lux-0.1-beta
-status: challenger
+status: retired          # 26/06: bocciata — Sharpe 0.12, peggio del parent. Tutta la famiglia lux-* per-simbolo e' rumore colorato vs xsmom
 created: '2026-06-22'
 thesis: >
   La confluenza LUX e l'edge piu validato del desk: trend (tsmom) + liquidazioni

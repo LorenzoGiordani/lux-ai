@@ -123,6 +123,19 @@ I dati storici (`data/`) non sono nel repo: si rigenerano con i 3 script fetch (
 
 Il dollar-neutral e' cruciale (abbatte il DD del 46pp). Era stata ritirata il 25/06 **solo per strumentazione paper** (logga `rebalance`/`heartbeat` con equity, non `open`/`close` → appariva con 0 trade). Fix: `paper_stats` deriva ora Sharpe/ret/maxDD dall'equity curve per `engine:portfolio`. Runner ripristinato in `cron_run.sh` e `paper-run.yml`.
 
+**Sweep edge portfolio ortogonali (26/06, 8 configurazioni testate)** — cercavo un secondo edge forte, onestamente non c'e':
+
+| Config | Sharpe | maxDD | Verdetto |
+|---|---|---|---|
+| **xsmom** (core) | **2.11** | -19% | l'unico davvero forte |
+| **xsmom-multihorizon** (lb 96+168+336) | 1.85 | **-16%** | compagno conservativo, DD minore |
+| funding carry book | 0.39-0.77 | -24/39% | debole, NON esplode a portfolio |
+| TSMOM long vol-target | 1.01 | **-68%** | drawdown inaccettabile |
+| xsmom vol-weighted | 1.05 | -23% | peggio dell'equal-weight |
+| xsmom+tsmom-long combo | 1.80 | -33% | DD peggiore, niente vantaggio |
+
+**Loop per-simbolo SVUOTATO (26/06)** — tutte le strategie per-simbolo erano rumore colorato (Sharpe 0.12-0.71 vs xsmom 2.11). Ritirate lux-flow-confluence, lux-nw-liq, lux-confluence-rr2. Il loop e' ora **tutto engine:portfolio**: xsmom-port (core) + xsmom-multihorizon (conservative). Le desk LLM (agents-v1: 54% win realizzato su 13 trade) restano per il track record live dimostrativo.
+
 - **Segnale nuovo validato**: `nadaraya_watson` (envelope kernel-regression, firma DaviddTech). Edge study (`scripts/research_nw.py`): il breakout di banda è un segnale di **continuation** (IC +0.105, t +5 a 48h), non di mean-reversion (il fade ha IC negativo → falsificato, coerente col regime trend 2026-H1).
 - **Lezione chiave di falsificazione**: la confluence funziona solo fra gambe **ortogonali** per costruzione (prezzo-struttura NW × flusso liq → competitivo; prezzo-struttura NW × momentum tsmom → correlate, l'AND ammazza le entry). E un gate di regime come AND a 3 gambe soffoca l'edge; andrebbe usato come **veto** sui periodi chop, non come requisito di entry.
 

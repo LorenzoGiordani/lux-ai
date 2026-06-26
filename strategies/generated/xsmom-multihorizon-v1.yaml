@@ -1,0 +1,55 @@
+id: xsmom-multihorizon-v1
+parent: xsmom-port-v1           # variante conservativa: stesso edge, DD minore
+status: challenger      # 26/06: promossa — DD -16% (piu' basso), compagno conservativo di xsmom-port
+engine: portfolio
+created: '2026-06-26'
+thesis: >
+  CROSS-SECTIONAL MOMENTUM MULTI-ORIZZONTE. Stesso edge del parent xsmom-port-v1
+  (rank relativo nel basket, dollar-neutral) ma mediato su 3 orizzonti (lb 96/168/336h):
+  il segnale a 96h cattura i movimenti di medio termine, 168h e' il core del parent,
+  336h il trend di fondo. La media dei pesi normalizzati DIVERSIFICA il timing:
+  ogni orizzonte fa entrare/uscire in momenti leggermente diversi → turn-over piu'
+  alto ma drawdown MINORE (correlazione intra-orizzonti < 1).
+  Backtest basket 9 crypto, 12m (26/06): Sharpe 1.85 (vs parent 2.11), ritorno +52%
+  (vs +80%) MA maxDD -15.9% (vs -19.4%, il PIU' BASSO di tutti i test portfolio).
+  Compagno ideale del parent nel book: stesso edge, profilo rischio piu' piano.
+  Falsificata se: in paper il drawdown non risulta inferiore al parent, o se lo
+  Sharpe degrada sotto 1.0 (l'edge si diluisce troppo mediando orizzonti).
+
+paper_symbols: BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV
+portfolio:
+  lookbacks_h: [96, 168, 336]      # 3 orizzonti, pesi normalizzati e mediati 1/3 ciascuno
+  rebalance_h: 168
+  long_q: 0.66
+  short_q: 0.33
+  gross: 1.0
+  dollar_neutral: true
+timeframe: 1h
+decision_every_h: 4
+signals: []
+exit:
+  stop_pct: 0
+  target_r: 0
+  time_stop_h: 0
+risk:
+  max_leverage: 2
+  risk_per_trade_pct: 1.0
+  max_concurrent_positions: 9
+evolution:
+  mutable: [portfolio]
+  notes: >
+    v1 seed: media di 3 orizzonti (lb 96+168+336). Mutazioni: aggiunta/rimozione
+    orizzonti, peso non-uniforme (es. 50% core 168h + 25% gli altri), gross.
+backtest:
+  basket_12m:
+    aggregate:
+      total_return: 0.5224
+      sharpe: 1.85
+      max_drawdown: -0.1585
+      dsr: 0.70
+      rebalances: 102
+    comparativo:
+      xsmom-port-v1_lb168: {sharpe: 2.11, max_dd: -0.1942, note: "parent, Sharpe piu' alto ma DD maggiore"}
+    note: >
+      Stesso edge del parent, DD minore (-16% vs -19%). Ritorno piu' basso (+52% vs +80%)
+      perche' media orizzonti. Compagno di diversificazione, non sostituto del core.

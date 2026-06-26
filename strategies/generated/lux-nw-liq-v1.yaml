@@ -1,6 +1,6 @@
 id: lux-nw-liq-v1
 parent: lux-nw-continuation-v1    # sostituisce la gamba trend con il flusso (ortogonale)
-status: challenger      # 26/06: promossa — DSR 0.87 (= champion), competitiva in paper
+status: retired          # 26/06: bocciata — Sharpe 0.59/DSR 0.87, stesso livello del parent mediocre
 created: '2026-06-26'
 thesis: >
   CONFLUENCE PREZZO-STRUUTTURA + FLUSSO FORZATO. Due edge INDIPENDENTI e validati:

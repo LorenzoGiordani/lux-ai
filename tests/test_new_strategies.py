@@ -269,19 +269,49 @@ def test_portfolio_backtest_12m_edge_holds():
     assert total_ret > float(bheq.iloc[-1] - 1)
 
 
+def test_xsmom_multihorizon_active_and_conservative():
+    """xsmom-multihorizon-v1 e' il compagno conservativo di xsmom-port: stesso edge,
+    DD minore (-16% vs -19%). engine:portfolio, in produzione."""
+    from backtest.lifecycle import all_specs
+    spec = load(ROOT / "strategies/generated/xsmom-multihorizon-v1.yaml")
+    assert spec["engine"] == "portfolio"
+    assert spec["status"] == "challenger"
+    assert spec["portfolio"]["lookbacks_h"] == [96, 168, 336]
+    active = [s["id"] for _, s in all_specs() if s.get("engine") == "portfolio"
+             and s["status"] in ("champion", "challenger")]
+    assert "xsmom-multihorizon-v1" in active
+    assert "xsmom-port-v1" in active           # il core resta
+
+
+def test_funding_carry_factor_is_weak():
+    """Il funding carry NON esplode a portfolio come xsmom (era l'ipotesi). Test di
+    documentazione onesta: l'edge carry e' debole anche come book (Sharpe < 1).
+    Blocca futuri tentativi di riviverlo senza nuova evidenza."""
+    from scripts.backtest_portfolio_factors import carry_weights
+    cols = {}
+    for s in ["BTC", "ETH", "SOL", "XRP", "SUI", "NEAR", "WLD", "ZEC", "CRV"]:
+        cols[s] = pd.read_parquet(ROOT / f"data/funding/{s}.parquet").set_index("ts")["rate"]
+    fund = pd.DataFrame(cols).sort_index().ffill()
+    # sanity: carry_weights e' dollar-neutral (somma ~0) e long/short equal-gamba
+    w = carry_weights(fund.iloc[-1], gross=1.0)
+    assert abs(w.sum()) < 0.01                      # dollar-neutral
+    assert (w > 0).any() and (w < 0).any()          # ha long e short
+
+
 # --- test delle modifiche 25/06 (lux-flow-confluence + GLM gate + geo time_stop) ---
 
 def test_lux_flow_confluence_active_and_valid():
-    """lux-flow-confluence-v1 (nuova, 9/9 simboli positivi in backtest) e nel loop
-    meccanico; claude-strategy/xsmom-port ritirate e fuori dal loop."""
+    """lux-flow-confluence-v1 e' la base di conoscenza (parent lineage) ma e' stata
+    RITIRATA il 26/06: Sharpe 0.71/DSR 0.87 e' rumore colorato vs xsmom-port 2.11.
+    Le per-simbolo sono state bocciate; il loop e' ora tutto engine:portfolio.
+    Questo test verifica la storia: rimozione kronos (falsificato) + retirement 26/06."""
     from backtest.lifecycle import active_specs
     spec = load(ROOT / "strategies/generated/lux-flow-confluence-v1.yaml")
     assert spec["parent"] == "lux-confluence-rr2-v1"   # lineage: rimuove la gamba kronos
     assert "kronos_forecast" not in str(spec["signals"])  # kronos falsificato, non piu gambo AND
+    assert spec["status"] == "retired"                  # bocciata 26/06 (per-simbolo mediocre)
     active = [s["id"] for _, s in active_specs()]
-    assert "lux-flow-confluence-v1" in active
-    assert "claude-strategy-v1" not in active           # ritirata 25/06
-    assert "xsmom-port-v1" not in active                # ritirata 25/06
+    assert "lux-flow-confluence-v1" not in active       # fuori dal loop
 
 
 def test_glm_gate_fallback_conviction():

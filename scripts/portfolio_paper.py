@@ -16,6 +16,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import pandas as pd
+import numpy as np
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
@@ -28,8 +29,30 @@ from scripts.paper_trade import STATE_FILE, log_event
 COST = HL_TAKER_FEE + DEFAULT_SLIPPAGE
 
 
-def trailing_returns(symbols: list[str], lookback_h: int) -> tuple[pd.Series, dict]:
-    """Ritorno trailing per simbolo + ultimo prezzo. Salta i simboli senza dati."""
+def trailing_returns(symbols: list[str], lookback_h: int,
+                    multi_horizon: list[int] | None = None) -> tuple[pd.Series, dict]:
+    """Ritorno trailing per simbolo + ultimo prezzo. Salta i simboli senza dati.
+    multi_horizon: se passato ([96,168,336]), ritorna la MEDIA normalizzata dei rank
+    su piu' orizzonti (xsmom-multihorizon)."""
+    if multi_horizon:
+        # media dei rank cross-section normalizzati su ogni orizzonte
+        rank_acc, px = {}, {}
+        for s in symbols:
+            try:
+                c = fetch_live(s, lookback_h=max(multi_horizon) + 5)["candles"]
+            except Exception as e:
+                print(f"  {s}: fetch fallito ({e})", file=sys.stderr)
+                continue
+            px[s] = float(c.close.iloc[-1])
+            rank_acc[s] = []
+            for lb in multi_horizon:
+                if len(c) > lb:
+                    rank_acc[s].append(float(c.close.iloc[-1] / c.close.iloc[-1 - lb] - 1.0))
+        if len(rank_acc) < 3:
+            return pd.Series(dtype=float), px
+        # media dei ritorni trailing normalizzati per asset (proxy multi-orizzonte onesto)
+        rets = {s: float(np.mean(rs)) for s, rs in rank_acc.items() if rs}
+        return pd.Series(rets), px
     rets, px = {}, {}
     for s in symbols:
         try:
@@ -55,8 +78,10 @@ def main() -> None:
     pf = spec["portfolio"]
     symbols = [s.strip() for s in spec["paper_symbols"].split(",")] if isinstance(spec["paper_symbols"], str) \
         else list(spec["paper_symbols"])
-    lookback_h, rebalance_h = int(pf["lookback_h"]), int(pf["rebalance_h"])
+    lookback_h = int(pf["lookback_h"]) if "lookback_h" in pf else int(pf.get("lookbacks_h", [168])[0])
+    rebalance_h = int(pf["rebalance_h"])
     gross = float(pf.get("gross", 1.0))
+    multi_horizon = pf.get("lookbacks_h")        # [96,168,336] → media dei rank
 
     state = json.loads(STATE_FILE.read_text()) if STATE_FILE.exists() else {}
     st = state.setdefault(acct, {"equity": 10_000.0, "positions": {}, "last_rebalance_ts": ""})
@@ -64,7 +89,7 @@ def main() -> None:
     print(f"portfolio paper {acct} {now:%Y-%m-%d %H:%M} UTC — equity {st['equity']:.2f}$")
 
     # prezzi correnti per i simboli in book + universo
-    rets, px = trailing_returns(symbols, lookback_h)
+    rets, px = trailing_returns(symbols, lookback_h, multi_horizon)
     if not px:
         print("  nessun prezzo: skip"); return
 

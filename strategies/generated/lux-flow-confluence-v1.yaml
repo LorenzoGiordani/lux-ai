@@ -1,6 +1,6 @@
 id: lux-flow-confluence-v1
 parent: lux-confluence-rr2-v1          # lineage: semplifica il parent rimuovendo kronos
-status: challenger                     # va in paper subito (paper = gate finale)
+status: retired          # 26/06: bocciata — Sharpe 0.71/DSR 0.87 e' rumore colorato vs xsmom 2.11                     # va in paper subito (paper = gate finale)
 created: '2026-06-25'
 thesis: >
   lux-confluence-rr2-v1 usava una confluence a 3 gambe (tsmom + liq_imbalance +

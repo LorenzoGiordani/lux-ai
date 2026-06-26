@@ -50,7 +50,7 @@ jobs:
       # Gira tutte le engine:portfolio attive (champion/challenger).
       - name: portfolio paper trading
         run: |
-          for pf in strategies/generated/*-port-v1.yaml; do
+          for pf in strategies/generated/xsmom-*.yaml; do
             uv run scripts/portfolio_paper.py "$pf" || true
           done
 
