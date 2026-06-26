@@ -905,7 +905,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-26 14:37",
+ "updated_utc": "2026-06-26 14:46",
  "accounts": [
   {
    "id": "agents-v1",
@@ -15255,6 +15255,33 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
  ],
  "lessons": [
   {
+   "ts": "2026-06-26 14:45",
+   "scope": "basket",
+   "verdict": "thesis_wrong",
+   "lesson": "Sweep di 8 fattori portfolio ortogonali a xsmom: NESSUNO batte il core. (1) Funding carry book Sharpe 0.39-0.77 — NON esplode a portfolio come xsmom, l'IC -0.024 e' troppo debole anche come book. (2) TSMOM long vol-target Sharpe 1.01 ma maxDD -68% (prende tutto il beta bear). (3) xsmom vol-weighted Sharpe 1.05, PEGGIO dell'equal-weight (l'inverse-vol non aiuta). (4) Combo xsmom+tsmom-long Sharpe 1.80 ma DD -33% (il TSMOM inietta drawdown). Solo xsmom-multihorizon (media 3 orizzonti) ha senso: Sharpe 1.85 con DD -16% (il minore) come compagno di diversificazione, non sostituto. Conclusione: xsmom e' l'unico edge forte del progetto; cercare un secondo edge portfolio con questi dati e' diminishing returns.",
+   "tags": [
+    "portfolio",
+    "factors",
+    "falsification",
+    "funding_carry",
+    "tsmom",
+    "backtest"
+   ]
+  },
+  {
+   "ts": "2026-06-26 14:45",
+   "scope": "basket",
+   "verdict": "thesis_wrong",
+   "lesson": "Tutte le strategie per-simbolo erano rumore colorato: Sharpe 0.12-0.71 / DSR 0.40-0.87 vs xsmom-port 2.11. Il loop per-simbolo e' stato SVUOTATO il 26/06 (lux-flow-confluence, lux-nw-liq, lux-confluence-rr2 ritirate). L'edge reale abita l'engine portfolio (dollar-neutral, spread mantenuto), non i trade discreti stop-based. Lezione capitale: quando un segnale ha IC debole per-simbolo ma forte come book (xsmom: IC +0.028 → Sharpe 2.11), la ricerca di edge simili per-simbolo e' fuorviante; va cercato nei portfolio factors. Il progetto e' ora tutto engine:portfolio (xsmom core + multihorizon conservative).",
+   "tags": [
+    "lifecycle",
+    "retire",
+    "per_symbol",
+    "portfolio",
+    "honest_audit"
+   ]
+  },
+  {
    "ts": "2026-06-26 14:23",
    "scope": "basket",
    "verdict": "thesis_right",
@@ -17898,7 +17925,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
   {
    "id": "lux-confluence-rr2-v1",
    "parent": "lux-0.1-beta",
-   "status": "challenger",
+   "status": "retired",
    "sharpe": 0.12,
    "sharpe_r": 1.218,
    "n_closed": 75,
@@ -17909,7 +17936,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
   {
    "id": "lux-flow-confluence-v1",
    "parent": "lux-confluence-rr2-v1",
-   "status": "challenger",
+   "status": "retired",
    "sharpe": 1.26,
    "sharpe_r": -1.458,
    "n_closed": 26,
@@ -17931,7 +17958,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
   {
    "id": "lux-nw-liq-v1",
    "parent": "lux-nw-continuation-v1",
-   "status": "challenger",
+   "status": "retired",
    "sharpe": 0.59,
    "sharpe_r": 0.0,
    "n_closed": 0,
@@ -18037,6 +18064,17 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "mean_r": 0.0,
    "pnl_paper": 0.0,
    "note": "v1 — prima strategia su Volume Profile (nuovo segnale). Fade estensione dalla value area, RR1.5. Mutazioni: value_area_pct, lookback, RR, fade→follow.\n"
+  },
+  {
+   "id": "xsmom-multihorizon-v1",
+   "parent": "xsmom-port-v1",
+   "status": "challenger",
+   "sharpe": 1.85,
+   "sharpe_r": 0.0,
+   "n_closed": 0,
+   "mean_r": 0.0,
+   "pnl_paper": 0.0,
+   "note": "v1 seed: media di 3 orizzonti (lb 96+168+336). Mutazioni: aggiunta/rimozione orizzonti, peso non-uniforme (es. 50% core 168h + 25% gli altri), gross.\n"
   },
   {
    "id": "xsmom-port-v1",
@@ -18471,7 +18509,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "entra": "segnali: tsmom, liq_imbalance, kronos_forecast",
    "esce": "stop 4.0%, target 2.0R, tempo max 240h",
    "rischio": "leva max 2x, 1.0% a rischio per operazione",
-   "status": "challenger",
+   "status": "retired",
    "asset_class": "crypto",
    "risk_profile": "bilanciato",
    "stats": {
@@ -18489,7 +18527,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "entra": "segnali: tsmom, liq_imbalance",
    "esce": "stop 4.0%, target 2.0R, tempo max 240h",
    "rischio": "leva max 2x, 1.0% a rischio per operazione",
-   "status": "challenger",
+   "status": "retired",
    "asset_class": "crypto",
    "risk_profile": "bilanciato",
    "stats": {
@@ -18498,24 +18536,6 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     "mean_r": -2e-05,
     "win_rate": 0.0,
     "total_pnl": -5.4
-   }
-  },
-  {
-   "id": "lux-nw-liq-v1",
-   "nome": "lux-nw-liq-v1",
-   "cosa": "CONFLUENCE PREZZO-STRUUTTURA + FLUSSO FORZATO. Due edge INDIPENDENTI e validati: - nadaraya_watson (continuation, edge_only) = il prezzo ha ROTTO la banda kernel-MAD → espansione strutturale volatility-adaptive (IC +0.105, t+5). - liq_imbalance (edge_only) = liquidazioni forzate …",
-   "entra": "segnali: nadaraya_watson, liq_imbalance",
-   "esce": "stop 4.0%, target 2.0R, tempo max 168h",
-   "rischio": "leva max 2x, 1.0% a rischio per operazione",
-   "status": "challenger",
-   "asset_class": "crypto",
-   "risk_profile": "bilanciato",
-   "stats": {
-    "n_closed": 0,
-    "sharpe_r": 0.0,
-    "mean_r": 0.0,
-    "win_rate": 0.0,
-    "total_pnl": 0.0
    }
   },
   {
@@ -18570,6 +18590,24 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     "mean_r": -0.00043,
     "win_rate": 0.021,
     "total_pnl": -591.83
+   }
+  },
+  {
+   "id": "xsmom-multihorizon-v1",
+   "nome": "xsmom-multihorizon-v1",
+   "cosa": "CROSS-SECTIONAL MOMENTUM MULTI-ORIZZONTE. Stesso edge del parent xsmom-port-v1 (rank relativo nel basket, dollar-neutral) ma mediato su 3 orizzonti (lb 96/168/336h): il segnale a 96h cattura i movimenti di medio termine, 168h e' il core del parent, 336h il trend di fondo. La medi…",
+   "entra": "segnali: ",
+   "esce": "stop 0%, target 0R, tempo max 0h",
+   "rischio": "leva max 2x, 1.0% a rischio per operazione",
+   "status": "challenger",
+   "asset_class": "crypto",
+   "risk_profile": "bilanciato",
+   "stats": {
+    "n_closed": 0,
+    "sharpe_r": 0.0,
+    "mean_r": 0.0,
+    "win_rate": 0.0,
+    "total_pnl": 0.0
    }
   },
   {
