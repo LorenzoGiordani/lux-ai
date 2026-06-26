@@ -4,7 +4,7 @@
   "positions": {}
  },
  "agents-v1": {
-  "equity": 10359.261848237395,
+  "equity": 10358.235330737394,
   "positions": {
    "ZEC": {
     "strategy": "agents-v1",
@@ -15,7 +15,7 @@
     "stop_px": 445.88600496000004,
     "target_px": 346.80022608,
     "opened_at": "2026-06-24 02:00:00+00:00",
-    "checked_until": "2026-06-26 01:00:00+00:00",
+    "checked_until": "2026-06-26 02:00:00+00:00",
     "time_stop_h": 72,
     "thesis": "ZEC \u00e8 l'unico asset con segnali tecnici attivi multipli: vol_compression=1 in bear regime segnala distribuzione compressa, non accumulazione \u2014 il bias direzionale su trend negativo \u00e8 breakdown. Il funding anomalo +3.97% APR identifica longs intrappolati strutturalmente: il loro costo di carry accelera la capitolazione e la cascata quando cede. volume_profile=-1 conferma assenza di bid denso sotto zona corrente, amplificando il vacuum potenziale. Il contesto macro avverso (selloff AI chip, redemptions istituzionali) rimuove il bid esterno che potrebbe sostenere un rimbalzo.",
     "invalidation": "Funding gira negativo entro 48h (capitolazione longs completata senza trigger breakdown) oppure chiusura daily sopra $445 con volume surge rialzista \u2014 segnalerebbe accumulazione e non distribuzione, invalidando il bias di breakdown della compressione.",
@@ -27,10 +27,25 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-26 01:00:00+00:00"
+    "_last_ts": "2026-06-26 02:00:00+00:00"
+   },
+   "ETH": {
+    "strategy": "agents-v1",
+    "symbol": "ETH",
+    "direction": "short",
+    "entry_px": 1522.99534,
+    "size_usd": 2281.15,
+    "stop_px": 1578.3257607022,
+    "target_px": 1412.3344985956,
+    "opened_at": "2026-06-26 02:00:00+00:00",
+    "checked_until": "2026-06-26 02:00:00+00:00",
+    "time_stop_h": 72,
+    "thesis": "SHORT ETH a 1.523 \u2014 breakdown confermato pi\u00f9 strutturato del desk. range_breakout=-1 + volume_surge=1 = rottura con partecipazione reale, non fakeout. Funding solo -0.89% APR: shorts gi\u00e0 parzialmente on ma non crowded \u2192 squeeze risk contenuto, cascade legittima se livello cede. Macro risk-off (MSFT -6%, S&P crossroads, nessun catalizzatore crypto bullish) sostiene continuation. Allineato al regime (tsmom=-1 unanime). Nessun lux_confluence attivo \u2192 conviction sessionale, size disciplinato 1%. Entry ai livelli attuali: il segnale di conferma (volume + range break) \u00e8 gi\u00e0 presente, posticipare a 1.500 distruggerebbe il R:R.",
+    "invalidation": "Reclaim sopra 1.575 (sopra il range rotto con buffer anti-noise) = breakdown failure, tesi invalidata. Anche: se BTC perde 56k in modo violento, ETH potrebbe gap-down rendendo il fill del target ambiguo \u2014 in quel caso time-stop domina.",
+    "decision_ts": "2026-06-26T03:24:03.635707+00:00"
    }
   },
-  "last_decision_ts": "2026-06-24T18:19:51.766805+00:00"
+  "last_decision_ts": "2026-06-26T03:24:03.635707+00:00"
  },
  "tsmom-v1": {
   "equity": 10272.467328831875,
@@ -60,7 +75,7 @@
     "stop_px": 3.1309420632,
     "target_px": 3.3865291704000002,
     "opened_at": "2026-06-23 20:00:00+00:00",
-    "checked_until": "2026-06-26 01:00:00+00:00",
+    "checked_until": "2026-06-26 02:00:00+00:00",
     "time_stop_h": 72,
     "thesis": "Il canale LNG-Hormuz rimane aperto e non \u00e8 in de-escalation come il crude: le LNG carriers operano su fixture long-term con penali alte e non rientrano in autonomia, il Qatar non ha rotte alternative per il ~25% del flusso GNL globale, e il premium di scarsit\u00e0 \u00e8 fisicamente radicato \u2014 non eroso dal giorno. tsmom=+1 \u00e8 l'unico segnale long dell'intero basket, confermando flusso sistemico nella direzione; El Ni\u00f1o (domanda raffreddamento Asia) e scorte europee sotto media stagionale aggiungono supporto strutturale indipendente dal catalizzatore geopolitico. Le strategie LUX non coprono NATGAS nel loro universe corrente (lux_confluence non confermabile): vado senza allineamento LUX esplicito \u2014 motivazione: il premium LNG \u00e8 un catalyst commodity-specifico out-of-sample per LUX, focalizzato su crypto/equity, e tsmom=+1 \u00e8 il proxy direzionale pi\u00f9 prossimo a una confluenza disponibile; la posizione \u00e8 aggiuntiva rispetto al book short-pesante esistente su crypto/equity, zero duplicazione di esposizione. Stop a 2.0% (>3\u00d7 ATR stimato da posizione tsmom-atr-v1 su stesso asset, ATR\u22480.51%) garantisce permanenza fuori dal rumore; time_stop 72h coerente con orizzonte di maturazione del catalizzatore LNG.",
     "invalidation": "Ripresa documentata dei transiti LNG attraverso Hormuz nelle 48-72h (MarineTraffic, Bloomberg LNG Tracker) che comprima il premium fisico; oppure crollo del differenziale TTF spot vs mese successivo (struttura backwardation = mercato che prezza risoluzione imminente); oppure chiusura sotto -2% dall'entry su volumi in espansione (segnale di distribuzione, non rumore).",
@@ -72,7 +87,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-26 01:00:00+00:00"
+    "_last_ts": "2026-06-26 02:00:00+00:00"
    },
    "ETH": {
     "strategy": "geopolitics-v1",
@@ -83,7 +98,7 @@
     "stop_px": 1763.2752744,
     "target_px": 1413.947154,
     "opened_at": "2026-06-23 22:00:00+00:00",
-    "checked_until": "2026-06-26 01:00:00+00:00",
+    "checked_until": "2026-06-26 02:00:00+00:00",
     "time_stop_h": 72,
     "thesis": "Canale deleveraging\u2192crypto \u00e8 lineare: liquidity gating (North Haven) + AI/tech cracking \u2192 forced-selling cross-asset, ETH \u00e8 l'asset pi\u00f9 liquido e correlato al deleveraging. tsmom -1 allineato, funding 0.014% Apr (no squeeze protection), acceleration -3.5% 24h = momentum fresco non stale. LUX confluence aligned=true con direction short. Oil esausto (-15% gi\u00e0 discountato, crowding risk), gold ambiguo per safe-haven bid, NatGas isolato dal canale macro attivo.",
     "invalidation": "ETH reclaim >1.720 con funding spike >0.03% Apr = risk-on recovery; o gating North Haven riscatti sbloccati = catalizzatore bullish improvviso che rompe il canale deleveraging.",
@@ -95,7 +110,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-26 01:00:00+00:00"
+    "_last_ts": "2026-06-26 02:00:00+00:00"
    }
   },
   "last_decision_ts": "2026-06-24T17:31:27.327899+00:00"
@@ -123,8 +138,8 @@
     "direction": "short",
     "size_usd": 1769.81,
     "opened_at": "2026-06-24 16:00:00+00:00",
-    "checked_until": "2026-06-26 01:00:00+00:00",
-    "_last_ts": "2026-06-26 01:00:00+00:00"
+    "checked_until": "2026-06-26 02:00:00+00:00",
+    "_last_ts": "2026-06-26 02:00:00+00:00"
    },
    "CRV": {
     "sign": -1,
@@ -142,8 +157,8 @@
     "direction": "short",
     "size_usd": 1804.45,
     "opened_at": "2026-06-24 17:00:00+00:00",
-    "checked_until": "2026-06-26 01:00:00+00:00",
-    "_last_ts": "2026-06-26 01:00:00+00:00"
+    "checked_until": "2026-06-26 02:00:00+00:00",
+    "_last_ts": "2026-06-26 02:00:00+00:00"
    },
    "XRP": {
     "sign": -1,
@@ -161,8 +176,8 @@
     "direction": "short",
     "size_usd": 2868.76,
     "opened_at": "2026-06-25 14:00:00+00:00",
-    "checked_until": "2026-06-26 01:00:00+00:00",
-    "_last_ts": "2026-06-26 01:00:00+00:00"
+    "checked_until": "2026-06-26 02:00:00+00:00",
+    "_last_ts": "2026-06-26 02:00:00+00:00"
    },
    "SOL": {
     "sign": -1,
@@ -180,15 +195,31 @@
     "direction": "short",
     "size_usd": 1803.98,
     "opened_at": "2026-06-26 00:00:00+00:00",
-    "checked_until": "2026-06-26 01:00:00+00:00",
-    "_last_ts": "2026-06-26 01:00:00+00:00"
+    "checked_until": "2026-06-26 02:00:00+00:00",
+    "_last_ts": "2026-06-26 02:00:00+00:00"
    }
   }
  },
  "agents-rr2-v1": {
-  "equity": 9975.8867811,
-  "positions": {},
-  "last_decision_ts": "2026-06-24T18:19:51.766805+00:00"
+  "equity": 9974.8982526,
+  "positions": {
+   "ETH": {
+    "strategy": "agents-rr2-v1",
+    "symbol": "ETH",
+    "direction": "short",
+    "entry_px": 1522.99534,
+    "size_usd": 2196.73,
+    "stop_px": 1578.3257607022,
+    "target_px": 1412.3344985956,
+    "opened_at": "2026-06-26 02:00:00+00:00",
+    "checked_until": "2026-06-26 02:00:00+00:00",
+    "time_stop_h": 72,
+    "thesis": "SHORT ETH a 1.523 \u2014 breakdown confermato pi\u00f9 strutturato del desk. range_breakout=-1 + volume_surge=1 = rottura con partecipazione reale, non fakeout. Funding solo -0.89% APR: shorts gi\u00e0 parzialmente on ma non crowded \u2192 squeeze risk contenuto, cascade legittima se livello cede. Macro risk-off (MSFT -6%, S&P crossroads, nessun catalizzatore crypto bullish) sostiene continuation. Allineato al regime (tsmom=-1 unanime). Nessun lux_confluence attivo \u2192 conviction sessionale, size disciplinato 1%. Entry ai livelli attuali: il segnale di conferma (volume + range break) \u00e8 gi\u00e0 presente, posticipare a 1.500 distruggerebbe il R:R.",
+    "invalidation": "Reclaim sopra 1.575 (sopra il range rotto con buffer anti-noise) = breakdown failure, tesi invalidata. Anche: se BTC perde 56k in modo violento, ETH potrebbe gap-down rendendo il fill del target ambiguo \u2014 in quel caso time-stop domina.",
+    "decision_ts": "2026-06-26T03:24:03.635707+00:00"
+   }
+  },
+  "last_decision_ts": "2026-06-26T03:24:03.635707+00:00"
  },
  "claude-strategy-v1": {
   "equity": 10000.0,
@@ -241,8 +272,8 @@
     "direction": "short",
     "size_usd": 2666.86,
     "opened_at": "2026-06-25 15:00:00+00:00",
-    "checked_until": "2026-06-26 01:00:00+00:00",
-    "_last_ts": "2026-06-26 01:00:00+00:00"
+    "checked_until": "2026-06-26 02:00:00+00:00",
+    "_last_ts": "2026-06-26 02:00:00+00:00"
    },
    "XRP": {
     "sign": -1,
@@ -260,8 +291,8 @@
     "direction": "short",
     "size_usd": 2510.43,
     "opened_at": "2026-06-25 15:00:00+00:00",
-    "checked_until": "2026-06-26 01:00:00+00:00",
-    "_last_ts": "2026-06-26 01:00:00+00:00"
+    "checked_until": "2026-06-26 02:00:00+00:00",
+    "_last_ts": "2026-06-26 02:00:00+00:00"
    },
    "ZEC": {
     "sign": -1,
@@ -279,8 +310,8 @@
     "direction": "short",
     "size_usd": 1689.01,
     "opened_at": "2026-06-25 15:00:00+00:00",
-    "checked_until": "2026-06-26 01:00:00+00:00",
-    "_last_ts": "2026-06-26 01:00:00+00:00"
+    "checked_until": "2026-06-26 02:00:00+00:00",
+    "_last_ts": "2026-06-26 02:00:00+00:00"
    },
    "ETH": {
     "sign": -1,
@@ -298,8 +329,8 @@
     "direction": "short",
     "size_usd": 1902.96,
     "opened_at": "2026-06-26 00:00:00+00:00",
-    "checked_until": "2026-06-26 01:00:00+00:00",
-    "_last_ts": "2026-06-26 01:00:00+00:00"
+    "checked_until": "2026-06-26 02:00:00+00:00",
+    "_last_ts": "2026-06-26 02:00:00+00:00"
    },
    "SOL": {
     "sign": -1,
@@ -317,8 +348,8 @@
     "direction": "short",
     "size_usd": 1650.0,
     "opened_at": "2026-06-26 00:00:00+00:00",
-    "checked_until": "2026-06-26 01:00:00+00:00",
-    "_last_ts": "2026-06-26 01:00:00+00:00"
+    "checked_until": "2026-06-26 02:00:00+00:00",
+    "_last_ts": "2026-06-26 02:00:00+00:00"
    },
    "CRV": {
     "sign": -1,
@@ -336,8 +367,8 @@
     "direction": "short",
     "size_usd": 1575.44,
     "opened_at": "2026-06-26 00:00:00+00:00",
-    "checked_until": "2026-06-26 01:00:00+00:00",
-    "_last_ts": "2026-06-26 01:00:00+00:00"
+    "checked_until": "2026-06-26 02:00:00+00:00",
+    "_last_ts": "2026-06-26 02:00:00+00:00"
    }
   }
  }
