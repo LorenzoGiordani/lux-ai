@@ -1,6 +1,6 @@
 id: xsmom-port-v1
 parent: xsmom-v1
-status: challenger      # 26/06: RIPRESA — edge +79.8% confermato a 12m, paper instrumentation fixata
+status: retired
 engine: portfolio
 created: '2026-06-22'
 thesis: 'Cross-sectional momentum a PORTAFOGLIO: long il top-terzile del basket per
@@ -41,7 +41,7 @@ evolution:
     lookback, rebalance_h, quantili, gross, vol-weight.
 
     '
-backtest:                            # basket 9 crypto, 12m walk-forward, fee+slippage (backtest_portfolio.py, 26/06)
+backtest:
   basket_12m:
     config: xs-mom dollar-neutral lb168 reb168 gross1.0
     aggregate:
@@ -50,17 +50,28 @@ backtest:                            # basket 9 crypto, 12m walk-forward, fee+sl
       max_drawdown: -0.1942
       dsr: 0.91
       rebalances: 51
-      avg_gross: 1.00
+      avg_gross: 1.0
     comparativo:
-      equal_weight_bh:        {ret: -0.0881, sharpe: 0.22, max_dd: -0.5904}   # benchmark
-      xs_long_only_g1:        {ret: +0.7266, sharpe: 1.08, max_dd: -0.6518}  # senza netting → DD 3x peggio
-      xs_lb168_reb24_g1:      {ret: +0.9469, sharpe: 2.34, max_dd: -0.1733, dsr: 0.94}  # rebilancio + frequente
-    note: >
-      Edge CONFERMATO a 12m (era +29.4% a 6m nel deploy originale). L'engine portfolio
-      cattura l'edge che il motore per-simbolo distrugge (xsmom-v1: -14.5%): lo spread
-      dollar-neutral mantenuto batte il benchmark +88pp, maxDD -19% vs -59%. Il
-      dollar-neutral e' CRUCIALE (long-only degrada a DD -65%). DSR 0.91 < 0.95 ma e'
-      la strategia piu' forte del progetto (per-simbolo top: Sharpe 0.71). Ritirata
-      il 25/06 SOLO perche' la strumentazione paper non registrava trade (logga
-      rebalance/heartbeat, non open/close) → appariva con 0 trade. Fix: paper_stats
-      ora legge l'equity del book per engine:portfolio.
+      equal_weight_bh:
+        ret: -0.0881
+        sharpe: 0.22
+        max_dd: -0.5904
+      xs_long_only_g1:
+        ret: 0.7266
+        sharpe: 1.08
+        max_dd: -0.6518
+      xs_lb168_reb24_g1:
+        ret: 0.9469
+        sharpe: 2.34
+        max_dd: -0.1733
+        dsr: 0.94
+    note: 'Edge CONFERMATO a 12m (era +29.4% a 6m nel deploy originale). L''engine
+      portfolio cattura l''edge che il motore per-simbolo distrugge (xsmom-v1: -14.5%):
+      lo spread dollar-neutral mantenuto batte il benchmark +88pp, maxDD -19% vs -59%.
+      Il dollar-neutral e'' CRUCIALE (long-only degrada a DD -65%). DSR 0.91 < 0.95
+      ma e'' la strategia piu'' forte del progetto (per-simbolo top: Sharpe 0.71).
+      Ritirata il 25/06 SOLO perche'' la strumentazione paper non registrava trade
+      (logga rebalance/heartbeat, non open/close) → appariva con 0 trade. Fix: paper_stats
+      ora legge l''equity del book per engine:portfolio.
+
+      '

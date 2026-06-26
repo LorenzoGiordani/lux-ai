@@ -15,7 +15,7 @@
     "stop_px": 445.88600496000004,
     "target_px": 346.80022608,
     "opened_at": "2026-06-24 02:00:00+00:00",
-    "checked_until": "2026-06-26 13:00:00+00:00",
+    "checked_until": "2026-06-26 14:00:00+00:00",
     "time_stop_h": 72,
     "thesis": "ZEC \u00e8 l'unico asset con segnali tecnici attivi multipli: vol_compression=1 in bear regime segnala distribuzione compressa, non accumulazione \u2014 il bias direzionale su trend negativo \u00e8 breakdown. Il funding anomalo +3.97% APR identifica longs intrappolati strutturalmente: il loro costo di carry accelera la capitolazione e la cascata quando cede. volume_profile=-1 conferma assenza di bid denso sotto zona corrente, amplificando il vacuum potenziale. Il contesto macro avverso (selloff AI chip, redemptions istituzionali) rimuove il bid esterno che potrebbe sostenere un rimbalzo.",
     "invalidation": "Funding gira negativo entro 48h (capitolazione longs completata senza trigger breakdown) oppure chiusura daily sopra $445 con volume surge rialzista \u2014 segnalerebbe accumulazione e non distribuzione, invalidando il bias di breakdown della compressione.",
@@ -27,7 +27,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-26 13:00:00+00:00"
+    "_last_ts": "2026-06-26 14:00:00+00:00"
    }
   },
   "last_decision_ts": "2026-06-26T14:21:34.350696+00:00"
@@ -60,7 +60,7 @@
     "stop_px": 3.1309420632,
     "target_px": 3.3865291704000002,
     "opened_at": "2026-06-23 20:00:00+00:00",
-    "checked_until": "2026-06-26 13:00:00+00:00",
+    "checked_until": "2026-06-26 14:00:00+00:00",
     "time_stop_h": 72,
     "thesis": "Il canale LNG-Hormuz rimane aperto e non \u00e8 in de-escalation come il crude: le LNG carriers operano su fixture long-term con penali alte e non rientrano in autonomia, il Qatar non ha rotte alternative per il ~25% del flusso GNL globale, e il premium di scarsit\u00e0 \u00e8 fisicamente radicato \u2014 non eroso dal giorno. tsmom=+1 \u00e8 l'unico segnale long dell'intero basket, confermando flusso sistemico nella direzione; El Ni\u00f1o (domanda raffreddamento Asia) e scorte europee sotto media stagionale aggiungono supporto strutturale indipendente dal catalizzatore geopolitico. Le strategie LUX non coprono NATGAS nel loro universe corrente (lux_confluence non confermabile): vado senza allineamento LUX esplicito \u2014 motivazione: il premium LNG \u00e8 un catalyst commodity-specifico out-of-sample per LUX, focalizzato su crypto/equity, e tsmom=+1 \u00e8 il proxy direzionale pi\u00f9 prossimo a una confluenza disponibile; la posizione \u00e8 aggiuntiva rispetto al book short-pesante esistente su crypto/equity, zero duplicazione di esposizione. Stop a 2.0% (>3\u00d7 ATR stimato da posizione tsmom-atr-v1 su stesso asset, ATR\u22480.51%) garantisce permanenza fuori dal rumore; time_stop 72h coerente con orizzonte di maturazione del catalizzatore LNG.",
     "invalidation": "Ripresa documentata dei transiti LNG attraverso Hormuz nelle 48-72h (MarineTraffic, Bloomberg LNG Tracker) che comprima il premium fisico; oppure crollo del differenziale TTF spot vs mese successivo (struttura backwardation = mercato che prezza risoluzione imminente); oppure chiusura sotto -2% dall'entry su volumi in espansione (segnale di distribuzione, non rumore).",
@@ -72,7 +72,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-26 13:00:00+00:00"
+    "_last_ts": "2026-06-26 14:00:00+00:00"
    },
    "ETH": {
     "strategy": "geopolitics-v1",
@@ -83,7 +83,7 @@
     "stop_px": 1763.2752744,
     "target_px": 1413.947154,
     "opened_at": "2026-06-23 22:00:00+00:00",
-    "checked_until": "2026-06-26 13:00:00+00:00",
+    "checked_until": "2026-06-26 14:00:00+00:00",
     "time_stop_h": 72,
     "thesis": "Canale deleveraging\u2192crypto \u00e8 lineare: liquidity gating (North Haven) + AI/tech cracking \u2192 forced-selling cross-asset, ETH \u00e8 l'asset pi\u00f9 liquido e correlato al deleveraging. tsmom -1 allineato, funding 0.014% Apr (no squeeze protection), acceleration -3.5% 24h = momentum fresco non stale. LUX confluence aligned=true con direction short. Oil esausto (-15% gi\u00e0 discountato, crowding risk), gold ambiguo per safe-haven bid, NatGas isolato dal canale macro attivo.",
     "invalidation": "ETH reclaim >1.720 con funding spike >0.03% Apr = risk-on recovery; o gating North Haven riscatti sbloccati = catalizzatore bullish improvviso che rompe il canale deleveraging.",
@@ -95,7 +95,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-26 13:00:00+00:00"
+    "_last_ts": "2026-06-26 14:00:00+00:00"
    }
   },
   "last_decision_ts": "2026-06-24T17:31:27.327899+00:00"
@@ -105,143 +105,12 @@
   "positions": {}
  },
  "lux-confluence-rr2-v1": {
-  "equity": 10926.101462039562,
-  "positions": {
-   "ZEC": {
-    "sign": -1,
-    "entry_px": 398.640256,
-    "stop_px": 422.63974085714284,
-    "target_px": 350.64128628571433,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 398.640256,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-confluence-rr2-v1",
-    "symbol": "ZEC",
-    "direction": "short",
-    "size_usd": 1769.81,
-    "opened_at": "2026-06-24 16:00:00+00:00",
-    "checked_until": "2026-06-26 13:00:00+00:00",
-    "_last_ts": "2026-06-26 13:00:00+00:00"
-   },
-   "CRV": {
-    "sign": -1,
-    "entry_px": 0.1884623,
-    "stop_px": 0.19979788957142855,
-    "target_px": 0.16579112085714287,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 0.1884623,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-confluence-rr2-v1",
-    "symbol": "CRV",
-    "direction": "short",
-    "size_usd": 1804.45,
-    "opened_at": "2026-06-24 17:00:00+00:00",
-    "checked_until": "2026-06-26 13:00:00+00:00",
-    "_last_ts": "2026-06-26 13:00:00+00:00"
-   },
-   "XRP": {
-    "sign": -1,
-    "entry_px": 1.03239348,
-    "stop_px": 1.0717284685714286,
-    "target_px": 0.9537235028571431,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 1.03239348,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-confluence-rr2-v1",
-    "symbol": "XRP",
-    "direction": "short",
-    "size_usd": 2868.76,
-    "opened_at": "2026-06-25 14:00:00+00:00",
-    "checked_until": "2026-06-26 13:00:00+00:00",
-    "_last_ts": "2026-06-26 13:00:00+00:00"
-   },
-   "SOL": {
-    "sign": -1,
-    "entry_px": 67.7184536,
-    "stop_px": 71.82099007142857,
-    "target_px": 59.513380657142854,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 67.7184536,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-confluence-rr2-v1",
-    "symbol": "SOL",
-    "direction": "short",
-    "size_usd": 1803.98,
-    "opened_at": "2026-06-26 00:00:00+00:00",
-    "checked_until": "2026-06-26 13:00:00+00:00",
-    "_last_ts": "2026-06-26 13:00:00+00:00"
-   },
-   "ETH": {
-    "sign": -1,
-    "entry_px": 1554.48904,
-    "stop_px": 1615.0769199999997,
-    "target_px": 1433.31328,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 1554.48904,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-confluence-rr2-v1",
-    "symbol": "ETH",
-    "direction": "short",
-    "size_usd": 2803.79,
-    "opened_at": "2026-06-26 05:00:00+00:00",
-    "checked_until": "2026-06-26 13:00:00+00:00",
-    "_last_ts": "2026-06-26 13:00:00+00:00"
-   },
-   "NEAR": {
-    "sign": -1,
-    "entry_px": 1.81233746,
-    "stop_px": 1.935377132857143,
-    "target_px": 1.5662581142857142,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 1.81233746,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-confluence-rr2-v1",
-    "symbol": "NEAR",
-    "direction": "short",
-    "size_usd": 1609.49,
-    "opened_at": "2026-06-26 05:00:00+00:00",
-    "checked_until": "2026-06-26 13:00:00+00:00",
-    "_last_ts": "2026-06-26 13:00:00+00:00"
-   }
-  }
+  "equity": 10789.645977155993,
+  "positions": {}
  },
  "agents-rr2-v1": {
-  "equity": 9983.761231627821,
-  "positions": {
-   "ZEC": {
-    "strategy": "agents-rr2-v1",
-    "symbol": "ZEC",
-    "direction": "short",
-    "entry_px": 408.428298,
-    "size_usd": 748.81,
-    "stop_px": 432.93399588,
-    "target_px": 359.41690224,
-    "opened_at": "2026-06-26 13:00:00+00:00",
-    "checked_until": "2026-06-26 13:00:00+00:00",
-    "time_stop_h": 39,
-    "thesis": "ZEC \u00e8 l'unico asset in puro regime bear (tsmom=-1, -10% su 7d) con funding +1.37% APR: long crowding estremo contro trend che li distrugge = fuel per deleveraging forzato. Il pattern (funding asimmetrico in regime bear \u2192 target 2:1) \u00e8 journal-validated. L'assenza di lux_confluence \u00e8 sovrascrivibile perch\u00e9 l'isolamento direzionale dell'asset rende il pattern statisticamente stabile e ripetibile. Contesto macro risk-off amplifica il downside. Size ridotta (0.8% risk, 0.7x mult) per rispettare l'assenza di confluence sistematica.",
-    "invalidation": "ZEC recupera sopra ~435 (6.5% sopra entry): il trend bear a breve termine \u00e8 compromesso e il funding premium perde significato direzionale. Anche un BTC sell-off che non trascina ZEC gi\u00f9 entro 48h invalida la tesi di isolamento bear.",
-    "decision_ts": "2026-06-26T14:21:34.350696+00:00"
-   }
-  },
+  "equity": 9990.02136517067,
+  "positions": {},
   "last_decision_ts": "2026-06-26T14:21:34.350696+00:00"
  },
  "claude-strategy-v1": {
@@ -250,23 +119,23 @@
   "last_decision_ts": "2026-06-22T19:22:53.570120+00:00"
  },
  "xsmom-port-v1": {
-  "equity": 9902.421128838268,
+  "equity": 9834.51232955624,
   "positions": {
    "XRP": {
-    "notional": 2249.673202614381,
-    "px": 1.0326
+    "notional": 2257.298474945536,
+    "px": 1.0361
    },
    "NEAR": {
-    "notional": -2148.798521256933,
-    "px": 1.86
+    "notional": -2066.8900184842896,
+    "px": 1.7891
    },
    "WLD": {
-    "notional": 1968.552957139437,
-    "px": 0.49328
+    "notional": 1850.1077500199542,
+    "px": 0.4636
    },
    "ZEC": {
-    "notional": -2181.4392277314614,
-    "px": 397.72
+    "notional": -2220.436594997806,
+    "px": 404.83
    }
   },
   "last_rebalance_ts": "2026-06-22T12:53:58.749463+00:00"
@@ -277,122 +146,67 @@
   "last_decision_ts": ""
  },
  "lux-flow-confluence-v1": {
-  "equity": 9994.602385000002,
+  "equity": 9913.029492920808,
+  "positions": {}
+ },
+ "highvol-port-v1": {
+  "equity": 9993.5,
   "positions": {
    "BTC": {
-    "sign": -1,
-    "entry_px": 59518.094000000005,
-    "stop_px": 61749.86184285715,
-    "target_px": 55054.55831428572,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 59518.094000000005,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-flow-confluence-v1",
-    "symbol": "BTC",
-    "direction": "short",
-    "size_usd": 2666.86,
-    "opened_at": "2026-06-25 15:00:00+00:00",
-    "checked_until": "2026-06-26 13:00:00+00:00",
-    "_last_ts": "2026-06-26 13:00:00+00:00"
-   },
-   "XRP": {
-    "sign": -1,
-    "entry_px": 1.03439308,
-    "stop_px": 1.0755919814285715,
-    "target_px": 0.9519952771428574,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 1.03439308,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-flow-confluence-v1",
-    "symbol": "XRP",
-    "direction": "short",
-    "size_usd": 2510.43,
-    "opened_at": "2026-06-25 15:00:00+00:00",
-    "checked_until": "2026-06-26 13:00:00+00:00",
-    "_last_ts": "2026-06-26 13:00:00+00:00"
-   },
-   "ZEC": {
-    "sign": -1,
-    "entry_px": 401.249734,
-    "stop_px": 425.0006971428572,
-    "target_px": 353.7478077142857,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 401.249734,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-flow-confluence-v1",
-    "symbol": "ZEC",
-    "direction": "short",
-    "size_usd": 1689.01,
-    "opened_at": "2026-06-25 15:00:00+00:00",
-    "checked_until": "2026-06-26 13:00:00+00:00",
-    "_last_ts": "2026-06-26 13:00:00+00:00"
+    "notional": -1666.6666666666667,
+    "px": 59557.0
    },
    "ETH": {
-    "sign": -1,
-    "entry_px": 1563.5872200000001,
-    "stop_px": 1645.7279314285715,
-    "target_px": 1399.3057971428573,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 1563.5872200000001,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-flow-confluence-v1",
-    "symbol": "ETH",
-    "direction": "short",
-    "size_usd": 1902.96,
-    "opened_at": "2026-06-26 00:00:00+00:00",
-    "checked_until": "2026-06-26 13:00:00+00:00",
-    "_last_ts": "2026-06-26 13:00:00+00:00"
+    "notional": -1666.6666666666667,
+    "px": 1559.0
    },
-   "SOL": {
-    "sign": -1,
-    "entry_px": 67.7184536,
-    "stop_px": 71.82099007142857,
-    "target_px": 59.513380657142854,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 67.7184536,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-flow-confluence-v1",
-    "symbol": "SOL",
-    "direction": "short",
-    "size_usd": 1650.0,
-    "opened_at": "2026-06-26 00:00:00+00:00",
-    "checked_until": "2026-06-26 13:00:00+00:00",
-    "_last_ts": "2026-06-26 13:00:00+00:00"
+   "XRP": {
+    "notional": -1666.6666666666667,
+    "px": 1.0361
+   },
+   "WLD": {
+    "notional": 1666.6666666666667,
+    "px": 0.4636
+   },
+   "ZEC": {
+    "notional": 1666.6666666666667,
+    "px": 404.83
    },
    "CRV": {
-    "sign": -1,
-    "entry_px": 0.19258147600000003,
-    "stop_px": 0.20479974614285715,
-    "target_px": 0.16814493571428576,
-    "remaining": 1.0,
-    "partial_done": false,
-    "hi_water": 0.19258147600000003,
-    "tp1_px": null,
-    "tp1_frac": 0.0,
-    "trail_dist": null,
-    "strategy": "lux-flow-confluence-v1",
-    "symbol": "CRV",
-    "direction": "short",
-    "size_usd": 1575.44,
-    "opened_at": "2026-06-26 00:00:00+00:00",
-    "checked_until": "2026-06-26 13:00:00+00:00",
-    "_last_ts": "2026-06-26 13:00:00+00:00"
+    "notional": 1666.6666666666667,
+    "px": 0.19189
    }
-  }
+  },
+  "last_rebalance_ts": "2026-06-26T15:16:08.155546+00:00"
+ },
+ "xsmom-highvol-combo-v1": {
+  "equity": 9993.5,
+  "positions": {
+   "BTC": {
+    "notional": 1666.6666666666667,
+    "px": 59557.0
+   },
+   "SOL": {
+    "notional": 1666.6666666666667,
+    "px": 70.446
+   },
+   "SUI": {
+    "notional": 1666.6666666666667,
+    "px": 0.68332
+   },
+   "NEAR": {
+    "notional": -1666.6666666666667,
+    "px": 1.7891
+   },
+   "WLD": {
+    "notional": -1666.6666666666667,
+    "px": 0.4636
+   },
+   "CRV": {
+    "notional": -1666.6666666666667,
+    "px": 0.19189
+   }
+  },
+  "last_rebalance_ts": "2026-06-26T15:16:19.266461+00:00"
  }
 }

@@ -1,46 +1,38 @@
 id: agents-rr2-v1
 parent: agents-v1
-status: challenger
-engine: desk                # eseguita da scripts/agents_paper.py --account agents-rr2-v1 --target-r 2.0
-                            #   (active_specs la salta: non e meccanica). Riusa le decisioni
-                            #   del desk agents-v1 → NESSUNA chiamata LLM extra.
+status: retired
+engine: desk
 created: '2026-06-22'
-thesis: >
-  Stesse identiche decisioni del desk agents-v1 (medesimo brief, dibattito,
+thesis: 'Stesse identiche decisioni del desk agents-v1 (medesimo brief, dibattito,
   Strategist, Risk Manager — nessuna chiamata LLM aggiuntiva), ma eseguite con RR
-  fisso 2.0 invece del target_r proposto dall'LLM (storicamente ~2.5). A/B puro
-  sullo strato di USCITA: stesse entry, TP piu vicino. Ipotesi di Lorenzo: un TP a
-  2R viene colpito piu spesso e alza il PnL realizzato.
-  Falsificata se: a parita di entry, RR2 non batte agents-v1 su PnL realizzato e
-  Sharpe-R in paper.
+  fisso 2.0 invece del target_r proposto dall''LLM (storicamente ~2.5). A/B puro sullo
+  strato di USCITA: stesse entry, TP piu vicino. Ipotesi di Lorenzo: un TP a 2R viene
+  colpito piu spesso e alza il PnL realizzato. Falsificata se: a parita di entry,
+  RR2 non batte agents-v1 su PnL realizzato e Sharpe-R in paper.
 
+  '
 universe:
   selection: explicit
   max_assets: 3
-  kinds: [perp]
+  kinds:
+  - perp
 paper_symbols: BTC,ETH,SOL,SUI,ZEC
-
 timeframe: 1h
 decision_every_h: 4
-
-signals: []                 # nessun segnale meccanico: la direzione esce dal desk LLM
-
+signals: []
 entry:
   rule: llm_desk
   direction: llm_desk
-
 exit:
-  stop_pct: 3.0             # lo stop resta quello proposto dall'LLM; qui solo per dashboard
-  target_r: 2.0            # override applicato dal runner (--target-r)
+  stop_pct: 3.0
+  target_r: 2.0
   time_stop_h: 96
-
 risk:
   max_leverage: 2
   risk_per_trade_pct: 1.0
   max_concurrent_positions: 3
-
 evolution:
-  mutable: [exit]
+  mutable:
+  - exit
   notes: v1 — variante esecuzione RR2 di agents-v1, costo LLM zero (riusa le decisioni).
-
 backtest: {}
