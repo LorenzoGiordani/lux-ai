@@ -1,0 +1,57 @@
+id: xsmom-highvol-combo-v1
+parent: xsmom-port-v1           # combo dei 2 edge ortogonali (corr 0.28)
+status: challenger      # 26/06: minor drawdown del progetto (-16%), combo 2 edge ortogonali
+engine: portfolio
+created: '2026-06-26'
+thesis: >
+  COMBO dei DUE edge ortogonali forti del progetto: xsmom (momentum relativo, corr
+  al beta comune nettato) + HIGH-VOL (risk premium crypto, long alt volatili). I due
+  fattori hanno correlazione rendimenti +0.28 (diversificazione GENUINA, non
+  ridondanza: le varianti xsmom erano corr ~0.9 fra loro e non abbassavano il DD).
+  Pesi 70% xsmom (core, piu' stabile) + 30% high-vol (tilt al risk premium). La combo
+  NON alza lo Sharpe vs i singoli (2.38 vs 2.13/2.32) MA ABBATTE IL DRAWDOWN:
+  maxDD -16% (il piu' basso di tutti i test) vs -19% xsmom e -22% highvol.
+  Tesi Asness 'Cornerstones of factor investing' (2015): combinare fattori ortogonali
+  riduce la volatilita' senza sacrificare il ritorno (effetto Markowitz sui fattori).
+  Falsificata se: in paper il DD non risulta inferiore ai singoli, o se la correlazione
+  sale sopra 0.5 nel live (i fattori non sono poi cosi' ortogonali).
+
+paper_symbols: BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV
+portfolio:
+  factors: [xsmom, highvol]
+  weights: [0.7, 0.3]
+  lookback_h: 168              # xsmom
+  vol_lookback_h: 72           # high-vol
+  rebalance_h: 168
+  gross: 1.0
+  dollar_neutral: true
+timeframe: 1h
+decision_every_h: 4
+signals: []
+exit:
+  stop_pct: 0
+  target_r: 0
+  time_stop_h: 0
+risk:
+  max_leverage: 2
+  risk_per_trade_pct: 1.0
+  max_concurrent_positions: 9
+evolution:
+  mutable: [portfolio]
+  notes: >
+    v1 seed: 70/30 xsmom/highvol. Mutazioni: tilt pesi (50/50, 80/20), aggiunta
+    multihorizon come terza gamba ortogonale.
+backtest:
+  basket_12m:
+    aggregate:
+      total_return: 0.7900
+      sharpe: 2.38
+      max_drawdown: -0.1607
+      dsr: 0.88
+    comparativo:
+      xsmom_solo:        {sharpe: 2.13, max_dd: -0.1942}
+      highvol_solo:      {sharpe: 2.32, max_dd: -0.2188}
+    note: >
+      Sharpe +12% vs xsmom e maxDD -17% vs xsmom (la combo abbassa entrambi). DSR
+      0.88 (piu' alto del progetto). Leffetto diversificazione e' reale (corr 0.28).
+      Strategia di minor drawdown del progetto: candidata core del book.

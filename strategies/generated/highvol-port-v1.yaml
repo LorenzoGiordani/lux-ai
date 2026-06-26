@@ -1,0 +1,62 @@
+id: highvol-port-v1
+parent: null                     # fattore NUOVO e ortogonale (non lineage xsmom)
+status: challenger      # 26/06: 2° edge FORTE trovato, Sharpe 2.32, corr 0.28 con xsmom
+engine: portfolio
+created: '2026-06-26'
+thesis: >
+  HIGH-VOL ANOMALY (inverso della classica low-vol anomaly). Nel basket crypto, gli
+  asset PIU' VOLATILI delle ultime 72h sovraperformano i piu' calmi su orizzonti
+  medi. E' ortogonale al momentum: ranka la VOLATILITA' (dev standard dei rendimenti),
+  non il rendimento stesso. Tesi: il risk premium crypto — le alt piccole/volatili
+  pagano un premio per il rischio sistemico (beta al beta) che il dollar-neutral
+  di xsmom NETTA via. Long le gambe volatili (SOL/CRV/ZEC tipicamente), short i
+  blue chip calmi (BTC/ETH) raccoglie quello che xsmom non vede.
+  Edge VALIDATO (backtest_factor_zoo.py, basket 9 crypto 12m, 26/06):
+    HIGH-VOL lb72: Sharpe 2.32, +109%, maxDD -22%, DSR 0.87
+    correlazione rendimenti vs xsmom: SOLO +0.28 (diversificazione genuina, non
+    ridondanza — le varianti xsmom erano corr ~0.9 fra loro).
+  Attenzione: NON e' low-vol (quella e' anomalia documentata su EQUITY, regime
+  istituzionale). Su crypto retail il segno e' invertito: il risk-seeking premia
+  la volatilita'. Falsificata se: in walk-forward non mantiene Sharpe > 1.5, o se
+  la correlazione con xsmom sale sopra 0.5 (allora e' momentum mascherato).
+
+paper_symbols: BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV
+portfolio:
+  vol_lookback_h: 72           # finestra vol (IC sweep: 72 e' il picco)
+  rebalance_h: 168
+  long_q: 0.66
+  short_q: 0.33
+  gross: 1.0
+  dollar_neutral: true
+  factor: highvol              # ranka std(ret), NON pct_change
+timeframe: 1h
+decision_every_h: 4
+signals: []
+exit:
+  stop_pct: 0
+  target_r: 0
+  time_stop_h: 0
+risk:
+  max_leverage: 2
+  risk_per_trade_pct: 1.0
+  max_concurrent_positions: 9
+evolution:
+  mutable: [portfolio]
+  notes: >
+    v1 seed: high-vol lb72. Mutazioni: vol_lookback (72 ottimo dallo sweep), gross,
+    combo con xsmom (vedi xsmom-highvol-combo). Attenzione overfitting: sweep
+    finestra e' selection — il DSR calcolato su 8 trials zoo e' la guardia.
+backtest:
+  basket_12m:
+    aggregate:
+      total_return: 1.0897
+      sharpe: 2.32
+      max_drawdown: -0.2188
+      dsr: 0.87
+      rebalances: 51
+    diagnostics:
+      corr_vs_xsmom: +0.28          # diversificazione genuina (varianti xsmom: ~0.9)
+      zoo_sharpe_rank: 1            # batte xsmom 2.13 nello zoo a 8 fattori
+    note: >
+      Secondo edge FORTE del progetto, ortogonale a xsmom. Risk premium crypto
+      (long volatile alt / short calm blue chips). DSR 0.87 (> xsmom 0.79).

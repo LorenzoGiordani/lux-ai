@@ -23,8 +23,10 @@ stage "executor agenti"
 "$UV" run scripts/agents_paper.py --account agents-rr2-v1 --source agents-v1 --target-r 2.0 || true   # A/B RR2, stesse decisioni
 # xsmom-port RIPRESA 26/06: edge +79.8% confermato a 12m, strumentazione paper fixata
 # (paper_stats ora legge l'equity del book per engine:portfolio).
-for pf in strategies/generated/xsmom-*.yaml; do
-  "$UV" run scripts/portfolio_paper.py "$pf" || true   # gira le engine:portfolio (xsmom-port + multihorizon)
+# strategie engine:portfolio (xsmom-port, xsmom-multihorizon, highvol-port, combo)
+for pf in strategies/generated/*port-v1.yaml strategies/generated/*combo-v1.yaml; do
+  [ -f "$pf" ] || continue
+  "$UV" run scripts/portfolio_paper.py "$pf" || true
 done
 
 if command -v claude >/dev/null 2>&1; then

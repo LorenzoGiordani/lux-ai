@@ -322,6 +322,52 @@ def test_crossasset_expansion_degrades_edge():
     assert t_xa < t_c, "cross-asset non dovrebbe superare crypto-only (falsificato 26/06)"
 
 
+# --- HIGH-VOL: 2° edge ortogonale forte trovato (26/06) ---
+
+def test_highvol_factor_is_strong_and_orthogonal():
+    """HIGH-VOL (long asset piu' volatili) e' il 2° edge FORTE del progetto, ortogonale
+    a xsmom. Regression gate: Sharpe>1.5 E correlazione rendimenti con xsmom <0.5
+    (se sale, e' momentum mascherato, non edge separato). Trovato nello zoo a 8 fattori."""
+    from scripts.backtest_factor_zoo import grid_panel, run_factor, terzile_weights, stats
+    from backtest.portfolio import PortfolioBacktest
+    CRYPTO = ["BTC","ETH","SOL","XRP","SUI","NEAR","WLD","ZEC","CRV"]
+    px = grid_panel(CRYPTO, 12)
+    bt = PortfolioBacktest(px)
+    vol = px.pct_change().rolling(72, min_periods=36).std()
+    eq, ret, _ = run_factor(bt, vol.reindex(columns=px.columns), terzile_weights, 168)
+    r, sh, dd = stats(eq, ret)
+    assert sh > 1.5, f"high-vol edge degradato: Sharpe {sh:.2f}"
+    assert r > 0.5, f"high-vol return crollato: {r:.2f}"
+    # ortogonalita': correlazione rendimenti con xsmom deve restare bassa
+    xs = px.pct_change(168)
+    eqx, retx, _ = run_factor(bt, xs.reindex(columns=px.columns), terzile_weights, 168)
+    corr = ret.corr(retx)
+    assert abs(corr) < 0.5, f"high-vol e xsmom troppo correlati ({corr:+.2f}) — non e' ortogonale"
+
+
+def test_highvol_strategies_load_and_active():
+    """highvol-port-v1 e xsmom-highvol-combo-v1 sono engine:portfolio attivi."""
+    from backtest.lifecycle import all_specs
+    spec = load(ROOT / "strategies/generated/highvol-port-v1.yaml")
+    assert spec["engine"] == "portfolio"
+    assert spec["portfolio"]["factor"] == "highvol"
+    assert spec["portfolio"]["vol_lookback_h"] == 72
+    combo = load(ROOT / "strategies/generated/xsmom-highvol-combo-v1.yaml")
+    assert combo["portfolio"]["factors"] == ["xsmom", "highvol"]
+    assert combo["portfolio"]["weights"] == [0.7, 0.3]
+    active = [s["id"] for _, s in all_specs() if s.get("engine") == "portfolio"
+             and s["status"] in ("champion", "challenger")]
+    assert "highvol-port-v1" in active
+    assert "xsmom-highvol-combo-v1" in active
+
+
+def test_portfolio_runner_supports_highvol_factor():
+    """portfolio_paper.py dispatcha su vol_signal quando factor=highvol."""
+    import scripts.portfolio_paper as pp
+    assert callable(pp.vol_signal)
+    assert callable(pp.combo_signal)
+
+
 # --- test delle modifiche 25/06 (lux-flow-confluence + GLM gate + geo time_stop) ---
 
 def test_lux_flow_confluence_active_and_valid():

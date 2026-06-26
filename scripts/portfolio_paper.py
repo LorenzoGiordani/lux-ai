@@ -69,6 +69,56 @@ def trailing_returns(symbols: list[str], lookback_h: int,
     return pd.Series(rets), px
 
 
+def vol_signal(symbols: list[str], lookback_h: int) -> tuple[pd.Series, dict]:
+    """HIGH-VOL factor: per ogni asset la dev-standard dei rendimenti orari trailing.
+    xs_momentum_weights poi long-top (i piu' volatili) / short-bottom (calmi).
+    Risk premium crypto, ortogonale al momentum (ranka vol, non ret)."""
+    vols, px = {}, {}
+    for s in symbols:
+        try:
+            c = fetch_live(s, lookback_h=lookback_h + 5)["candles"]
+        except Exception as e:
+            print(f"  {s}: fetch fallito ({e})", file=sys.stderr)
+            continue
+        if len(c) <= lookback_h:
+            continue
+        r = c.close.pct_change().iloc[-lookback_h:]
+        vols[s] = float(r.std())
+        px[s] = float(c.close.iloc[-1])
+    return pd.Series(vols), px
+
+
+def combo_signal(symbols: list[str], factors: list[str], weights: list[float],
+                 lookback_h: int, vol_lookback_h: int) -> tuple[pd.Series, dict]:
+    """COMBO multi-fattore: media pesata dei segnali normalizzati (z-score per
+    comparabilita'). xsmom = ret trailing (z), highvol = std trailing (z).
+    Pesi da `weights` (es. [0.7, 0.3]). Anti-lookahead: ogni segnale usa dati <= t."""
+    sigs = {}
+    px = {}
+    for s in symbols:
+        try:
+            n = max(lookback_h, vol_lookback_h) + 5
+            c = fetch_live(s, lookback_h=n)["candles"]
+        except Exception as e:
+            print(f"  {s}: fetch fallito ({e})", file=sys.stderr)
+            continue
+        px[s] = float(c.close.iloc[-1])
+        parts = []
+        for f, w in zip(factors, weights):
+            if f == "xsmom":
+                r = c.close.iloc[-1] / c.close.iloc[-1 - lookback_h] - 1.0
+                parts.append(float(r) * w)
+            elif f == "highvol":
+                v = c.close.pct_change().iloc[-vol_lookback_h:].std()
+                parts.append(float(v) * w)   # segno +: long i volatili
+        sigs[s] = sum(parts)
+    # normalizza per cross-section comparabilita' (z-score)
+    s = pd.Series(sigs)
+    if len(s) >= 3 and s.std() > 0:
+        s = (s - s.mean()) / s.std()
+    return s, px
+
+
 def main() -> None:
     spec = load(sys.argv[1]) if len(sys.argv) > 1 else None
     if not spec or spec.get("engine") != "portfolio":
@@ -82,6 +132,7 @@ def main() -> None:
     rebalance_h = int(pf["rebalance_h"])
     gross = float(pf.get("gross", 1.0))
     multi_horizon = pf.get("lookbacks_h")        # [96,168,336] → media dei rank
+    factor = pf.get("factor", "xsmom")           # xsmom (rank ret) | highvol (rank std)
 
     state = json.loads(STATE_FILE.read_text()) if STATE_FILE.exists() else {}
     st = state.setdefault(acct, {"equity": 10_000.0, "positions": {}, "last_rebalance_ts": ""})
@@ -89,7 +140,14 @@ def main() -> None:
     print(f"portfolio paper {acct} {now:%Y-%m-%d %H:%M} UTC — equity {st['equity']:.2f}$")
 
     # prezzi correnti per i simboli in book + universo
-    rets, px = trailing_returns(symbols, lookback_h, multi_horizon)
+    factors = pf.get("factors")                # [xsmom, highvol] → combo pesata
+    if factors:
+        rets, px = combo_signal(symbols, factors, pf.get("weights", [0.5, 0.5]),
+                                pf.get("lookback_h", 168), pf.get("vol_lookback_h", 72))
+    elif factor == "highvol":
+        rets, px = vol_signal(symbols, int(pf.get("vol_lookback_h", 72)))
+    else:
+        rets, px = trailing_returns(symbols, lookback_h, multi_horizon)
     if not px:
         print("  nessun prezzo: skip"); return
 

@@ -142,6 +142,16 @@ Il dollar-neutral e' cruciale (abbatte il DD del 46pp). Era stata ritirata il 25
 
 **Conclusione: xsmom crypto e' il nostro UNICO edge forte.** Cercare un secondo edge portfolio con questi dati/regime e' diminishing returns evidente (8 fattori + cross-asset testati, tutti falsificati). Il gate reale verso M5 (vault on-chain) e' ora il **track record paper nel tempo**, non altra ricerca.
 
+**🏆 SECONDO EDGE FORTE TROVATO: HIGH-VOL anomaly (26/06, factor zoo).** Cercavo fattori ortogonali mai testati come book. Lo zoo a 8 fattori ha falsificato quasi tutto (reversal, low-vol, TSMOM-neutral, flow, OI, top-trader), MA con un trucco diagnostico: i fattori con Sharpe NEGATIVO forte sono segnali *invertiti*. Invertito, **HIGH-VOL** (long asset piu' volatili del basket / short i calmi) e' un edge reale e ortogonale:
+
+| Strategia | Sharpe | maxDD | DSR | corr vs xsmom |
+|---|---|---|---|---|
+| xsmom (core) | 2.13 | -19% | 0.79 | — |
+| **highvol-port** | **2.32** | -22% | 0.87 | **+0.28** |
+| **xsmom-highvol-combo** (70/30) | **2.38** | **-16%** | **0.88** | diversifica |
+
+Il risk premium crypto: long alt volatili (SOL/CRV/ZEC) / short blue chip calmi (BTC/ETH). Correlazione solo +0.28 con xsmom → diversificazione **genuina** (le varianti xsmom erano corr ~0.9). La combo 70/30 ha il **minor drawdown del progetto (-16%)** a Sharpe piu' alto (2.38). Tre strategie in produzione.
+
 - **Segnale nuovo validato**: `nadaraya_watson` (envelope kernel-regression, firma DaviddTech). Edge study (`scripts/research_nw.py`): il breakout di banda è un segnale di **continuation** (IC +0.105, t +5 a 48h), non di mean-reversion (il fade ha IC negativo → falsificato, coerente col regime trend 2026-H1).
 - **Lezione chiave di falsificazione**: la confluence funziona solo fra gambe **ortogonali** per costruzione (prezzo-struttura NW × flusso liq → competitivo; prezzo-struttura NW × momentum tsmom → correlate, l'AND ammazza le entry). E un gate di regime come AND a 3 gambe soffoca l'edge; andrebbe usato come **veto** sui periodi chop, non come requisito di entry.
 
