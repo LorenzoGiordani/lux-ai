@@ -55,6 +55,7 @@ Principi non negoziabili:
 | `scripts/paper_trade.py` | Paper trading challenger segnale-based (cron) |
 | `scripts/review.py` | Reviewer: post-mortem trade chiusi → `paper/lessons.jsonl` |
 | `scripts/dashboard.py` | Dashboard statica (HTML, zero dipendenze) — include sezione **Backtest** onesto || `scripts/backtest_report.py` | Backtest basket multi-asset delle strategie attive (funding storico + slippage size-aware) → `paper/backtests.json` → sezione Backtest |
+| `scripts/robustness_portfolio.py` | **Audit robustezza** edge portfolio: parameter stability + block bootstrap CI + true OOS (8m train / 4m test) |
 | `scripts/cron_run.sh` | Run unificato ogni 4h (crontab) |
 | `pipeline/live.py` | Dati live: Binance (crypto), yfinance (xyz_*), OI, news RSS 6 fonti |
 | `paper/*.jsonl` | Journal: trade, decisioni con tesi, lezioni — il "prodotto pubblico" |
@@ -154,6 +155,16 @@ Il risk premium crypto: long alt volatili (SOL/CRV/ZEC) / short blue chip calmi 
 
 - **Segnale nuovo validato**: `nadaraya_watson` (envelope kernel-regression, firma DaviddTech). Edge study (`scripts/research_nw.py`): il breakout di banda è un segnale di **continuation** (IC +0.105, t +5 a 48h), non di mean-reversion (il fade ha IC negativo → falsificato, coerente col regime trend 2026-H1).
 - **Lezione chiave di falsificazione**: la confluence funziona solo fra gambe **ortogonali** per costruzione (prezzo-struttura NW × flusso liq → competitivo; prezzo-struttura NW × momentum tsmom → correlate, l'AND ammazza le entry). E un gate di regime come AND a 3 gambe soffoca l'edge; andrebbe usato come **veto** sui periodi chop, non come requisito di entry.
+
+**🔬 AUDIT DI ROBUSTEZZA (26/06, `scripts/robustness_portfolio.py`).** Tre test onesti sui 3 edge portfolio prima di dichiararli "reali": (1) parameter stability (sweep lookback/rebalance), (2) block bootstrap 95% CI sul Sharpe (preserva autocorr del ribilanciamento), (3) true OOS (calibra param sui primi 8m, freeze, test sui 4m finali mai visti).
+
+| Strategia | Sharpe full | CI95 inf | OOS-freeze | Stabilità | Giudizio |
+|---|---|---|---|---|---|
+| **highvol** | 2.32 | 0.37 | **3.78** | **100%** | il piu' affidabile: altopiano largo + OOS eccellente |
+| **xsmom** | 2.13 | -0.16 | **-0.79** | 33% | reale ma FRAGILE: il config scelto generalizza (OOS 2.29), MA la selezione ingenua best-su-train overfitta (lb240/reb48 Sharpe 3.53 → OOS -0.79). Mai ri-calibrare i parametri su finestre corte |
+| **combo 70/30** | 2.62 | 0.43 | **3.05** (DD -9.6%) | — | best risk-adjusted; bootstrap DD: coda 5% avversa -25.5%, solo 6% prob di DD peggiore di -25% |
+
+Verdetto onesto: **nessuno passa il gate rigoroso CI95-inf > 1.0** — NON perche' gli edge siano falsi, ma perche' **12 mesi (~50 ribilanci settimanali) sono fondamentalmente insufficienti per inchiodare uno Sharpe** (CI larghi ±2). highvol e' il piu' robusto in superficie; xsmom e' reale ma peaky e sensibile all'overfitting da selezione. La combo ha il profilo migliore e il DD genuinamente basso. **Trovata**: il blend-ratio sweep mostra w_xs=0.50 marginalmente migliore del 70/30 scelto (Sharpe 2.75 vs 2.62, stesso maxDD -15.8%) — altopiano robusto, 50/50 e' un'alternativa valida. **Caveat giallo**: l'OOS (ultimi 4m) ha Sharpe PIU' ALTO dell'in-sample → test window breve e probabilmente regime-favorvole (non leggere 3.x come attesa realistica). **Conclusione capitale**: la certezza statistica non si compra con piu' backtest sugli stessi dati — serve TEMPO (track record forward out-of-sample). Questo conferma che il gate verso M5 e' di **tempo, non di codice**. Le strategie sono **promettenti ma non ancora provate**.
 
 **Onestà del backtest (funding storico + slippage size-aware).** Il funding è ora storico reale per-asset (la costante legacy sovrastimava di ~8x e nascondeva i flip di segno nei mesi bear). Lo slippage è opzionalmente un modello square-root (Almgren 2005, additivo sul base). Slippage size-aware (square-root, Almgren 2005) e liquidazione mark-to-market su account equity (con MMR) opt-in. Su CRV (illiquido) l'impact smaschera un Profit Mirage: Sharpe 0.73→0.16 a $10k. Su BTC (liquido) l'edge regge fino a $10M AUM (1.37→1.33). La liquidazione MTM coincide col legacy a leva ragionevole (≤5, nessuna posizione attiva la rischia) ma a leva 8 + flash crash lascia il margine residuo realistico (1088$ vs 0 del legacy rigido). `run_strategy.py --impact 0.5 --mmr 0.01` per attivarli.
 
