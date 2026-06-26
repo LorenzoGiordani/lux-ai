@@ -102,6 +102,173 @@ def test_new_strategies_load_and_compile():
         assert "exposure" in out and "target_r" in out
 
 
+# --- test del nuovo segnale Nadaraya-Watson (firma DaviddTech, 2026-06-26) ---
+
+NW_STRATS = ["lux-nw-continuation-v1", "lux-nw-tsmom-v1", "lux-nw-liq-v1",
+             "lux-regime-3leg-v1"]
+
+
+def _nw_candles(n: int = 200, base: float = 100.0) -> pd.DataFrame:
+    """Serie piatta con piccolo rumore, poi uno spike rialzista netto e sostenuto
+    alla fine: il kernel baseline (peak sulla barra corrente) resta vicino al livello
+    piatto, lo spike rompe la banda MAD superiore sulle barre di transizione."""
+    ts = pd.date_range("2026-01-01", periods=n, freq="h", tz="UTC")
+    rng = np.random.default_rng(42)
+    close = base + rng.normal(0, 0.05, n)         # piatta e poco volatile
+    close[-6:] = base * 1.20                       # spike netto +20% sostenuto
+    high, low = close * 1.001, close * 0.999
+    vol = np.full(n, 1000.0)
+    return pd.DataFrame({"ts": ts, "open": close, "high": high, "low": low,
+                         "close": close, "volume": vol})
+
+
+def test_nadaraya_watson_in_registry():
+    assert "nadaraya_watson" in SIGNALS
+
+
+def test_nadaraya_watson_extension_up():
+    from backtest.signals import nadaraya_watson
+    c = _nw_candles()
+    out = nadaraya_watson({"candles": c}, lookback=72, bandwidth=12.0, mult=2.0)
+    assert len(out) == len(c)
+    assert set(np.unique(out.to_numpy())).issubset({-1, 0, 1})
+    assert (out.iloc[:71] == 0).all()               # burn-in: niente lettura senza kernel
+    assert (out.iloc[-10:] == 1).any()              # lo spike rompe la banda superiore
+    # controllo: serie totalmente piatta (niente spike) → sempre neutro
+    flat = c.copy(); flat.close = 100.0; flat.high = flat.close * 1.001; flat.low = flat.close * 0.999
+    assert (nadaraya_watson({"candles": flat}, lookback=72, bandwidth=12.0, mult=2.0) == 0).all()
+
+
+def test_nadaraya_watson_edge_only_transition():
+    from backtest.signals import nadaraya_watson
+    c = _nw_candles()
+    persistent = nadaraya_watson({"candles": c}, lookback=72, bandwidth=12.0, mult=2.0)
+    edge = nadaraya_watson({"candles": c}, lookback=72, bandwidth=12.0, mult=2.0,
+                           edge_only=True)
+    # edge_only NON aggiunge mai estensioni: ⊆ del persistente
+    assert ((edge != 0) <= (persistent != 0)).all()
+    # lo spike genera almeno una barra attiva in entrambi, ma edge_only ne attiva di meno
+    # o uguali (solo la transizione): mai piu' del persistente
+    assert (edge != 0).sum() <= (persistent != 0).sum()
+
+
+def test_nadaraya_watson_short_series_neutral():
+    from backtest.signals import nadaraya_watson
+    c = _nw_candles(n=50)                           # < lookback (72)
+    out = nadaraya_watson({"candles": c}, lookback=72)
+    assert (out == 0).all()                         # finestra insufficiente → neutro
+
+
+def test_nw_strategies_load_and_compile():
+    c = _nw_candles(n=400)
+    data = {"candles": c, "symbol": "BTC", "funding": None, "flow": None,
+            "news_events": None, "cot": None}
+    for sid in NW_STRATS:
+        spec = load(ROOT / "strategies" / "generated" / f"{sid}.yaml")
+        strat, sigs = compile_strategy(spec, data)
+        out = strat(c)
+        assert "exposure" in out and "target_r" in out
+
+
+# --- regime filter efficiency_ratio (Kaufman, 2026-06-26) ---
+
+def test_efficiency_ratio_in_registry():
+    from backtest.signals import SIGNALS
+    assert "efficiency_ratio" in SIGNALS
+
+
+def test_efficiency_ratio_trending_vs_chop():
+    """Una serie con trend pulito netto deve essere trending; una piatta rumorosa no."""
+    from backtest.signals import efficiency_ratio
+    n = 600
+    ts = pd.date_range("2026-01-01", periods=n, freq="h", tz="UTC")
+    # trend pulito: close sale monotonically
+    trend_close = np.linspace(100, 150, n)
+    rng = np.random.default_rng(0)
+    chop_close = 100 + rng.normal(0, 0.3, n)          # piatta e rumorosa
+    for close, expect_nonzero in [(trend_close, True), (chop_close, False)]:
+        c = pd.DataFrame({"ts": ts, "open": close, "high": close * 1.001,
+                          "low": close * 0.999, "close": close, "volume": np.full(n, 1000.0)})
+        out = efficiency_ratio({"candles": c}, lookback=168, trend_pct=60)
+        assert set(np.unique(out.to_numpy())).issubset({0, 1})
+        assert (out.iloc[:167] == 0).all()           # burn-in
+        if expect_nonzero:
+            assert (out == 1).any()                  # il trend pulito e' riconosciuto trending
+
+
+def test_xsection_cache_refresh_covers_window():
+    """La cache xsection era stale (201g vs 360g candele, degradava a neutro i primi
+    5 mesi). Rigenerata a 12m il 26/06. Sanity: ora copre ~tutto l'arco candele."""
+    c = pd.read_parquet(ROOT / "data/candles/BTC.parquet").tail(12 * 30 * 24)
+    xs = pd.read_parquet(ROOT / "data/xsection/BTC.parquet")
+    candle_span = (c.ts.max() - c.ts.min()).days
+    cache_span = (xs.ts.max() - xs.ts.min()).days
+    assert cache_span > candle_span * 0.8         # cache copre >=80% dell'arco candele
+    assert 0 <= xs.rank_pct.min() and xs.rank_pct.max() <= 100
+
+
+# --- engine:portfolio ripresa 26/06 (strumentazione paper) ---
+
+def test_portfolio_stats_reads_rebalance_equity(tmp_path, monkeypatch):
+    """xsmom-port fu ritirata solo perche' la strumentazione paper non registrava
+    trade chiusi (logga rebalance/heartbeat con equity, non open/close). paper_stats
+    ora deriva Sharpe/ret/maxDD dall'equity curve sintetica per engine:portfolio."""
+    import backtest.lifecycle as L
+    fake = tmp_path / "journal.jsonl"
+    events = [10000, 10100, 9950, 10300, 10600, 10500, 10800]
+    lines = []
+    for i, eq in enumerate(events):
+        lines.append(json.dumps({"type": "rebalance", "strategy": "xsmom-port-v1",
+                                 "equity": eq, "logged_at": f"2026-06-0{i+1}"}))
+    fake.write_text("\n".join(lines) + "\n")
+    monkeypatch.setattr(L, "JOURNAL", fake)
+    st = L.paper_stats("xsmom-port-v1")
+    assert st["total_pnl"] == 800.0          # 10800 - 10k
+    assert st["sharpe_r"] > 0                # curva crescente
+    assert st["n_closed"] == 7               # 7 letture equity
+    # schema compatibile con promote/dashboard: stessi campi
+    for k in ("total_pnl", "sharpe_r", "equity_dd_pct", "basket_mean_r", "basket_sharpe_r"):
+        assert k in st
+
+
+def test_portfolio_stats_empty_neutral():
+    """Nessun evento rebalance → stats neutri (non crash, coerenza schema)."""
+    import backtest.lifecycle as L
+    st = L._portfolio_stats([])
+    assert st["n_closed"] == 0 and st["total_pnl"] == 0.0 and st["sharpe_r"] == 0.0
+
+
+def test_xsmom_port_active_and_not_in_per_symbol_loop():
+    """xsmom-port-v1 e' ripresa (status challenger) ma resta FUORI dal loop
+    per-simbolo (paper_all) perche' ha il suo runner (engine:portfolio)."""
+    from backtest.lifecycle import active_specs
+    spec = load(ROOT / "strategies/generated/xsmom-port-v1.yaml")
+    assert spec["engine"] == "portfolio"
+    assert spec["status"] == "challenger"          # ripresa 26/06
+    active = [s["id"] for _, s in active_specs()]
+    assert "xsmom-port-v1" not in active            # non nel loop per-simbolo
+
+
+def test_portfolio_backtest_12m_edge_holds():
+    """L'edge cross-sectional a portafoglio e' confermato a 12m (regression gate).
+    Era +29.4% a 6m nel deploy originale; a 12m e' +79.8% Sharpe 2.11. Questo test
+    blocca regressioni sull'engine portfolio se qualcuno tocca xs_momentum_weights."""
+    from backtest.portfolio import PortfolioBacktest, xs_momentum_weights, equal_weight_bh
+    cols = {}
+    for s in ["BTC", "ETH", "SOL", "XRP", "SUI", "NEAR", "WLD", "ZEC", "CRV"]:
+        cols[s] = pd.read_parquet(ROOT / f"data/candles/{s}.parquet").tail(12*30*24).set_index("ts")["close"]
+    px = pd.DataFrame(cols).sort_index()
+    bt = PortfolioBacktest(px)
+    eq, ret, meta = bt.run(xs_momentum_weights, lookback_h=168, rebalance_h=168)
+    total_ret = float(eq.iloc[-1] - 1)
+    sharpe = float(ret.mean() / ret.std() * np.sqrt(24*365)) if ret.std() else 0
+    assert total_ret > 0.5, f"edge scomparso: ret {total_ret:.2f}"
+    assert sharpe > 1.5, f"sharpe degradato: {sharpe:.2f}"
+    # benchmark: dollar-neutral batte equal-weight B&H
+    bheq = equal_weight_bh(px)
+    assert total_ret > float(bheq.iloc[-1] - 1)
+
+
 # --- test delle modifiche 25/06 (lux-flow-confluence + GLM gate + geo time_stop) ---
 
 def test_lux_flow_confluence_active_and_valid():

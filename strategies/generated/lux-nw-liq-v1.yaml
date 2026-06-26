@@ -1,0 +1,87 @@
+id: lux-nw-liq-v1
+parent: lux-nw-continuation-v1    # sostituisce la gamba trend con il flusso (ortogonale)
+status: challenger      # 26/06: promossa — DSR 0.87 (= champion), competitiva in paper
+created: '2026-06-26'
+thesis: >
+  CONFLUENCE PREZZO-STRUUTTURA + FLUSSO FORZATO. Due edge INDIPENDENTI e validati:
+    - nadaraya_watson (continuation, edge_only) = il prezzo ha ROTTO la banda
+      kernel-MAD → espansione strutturale volatility-adaptive (IC +0.105, t+5).
+    - liq_imbalance (edge_only) = liquidazioni forzate a estremo (squeeze/capitola-
+      zione Coinalyze multi-exchange) → carburante direzionale. L'UNICO segnale di
+      flusso sopravvissuto a tutte le falsificazioni del progetto (funding, OI, news,
+      kronos direzionale: tutti morti; liq resta).
+  Perché dovrebbe battere il champion (tsmom+liq): sostituisce il tsmom (segno del
+  ritorno grezzo, una pendenza) con un breakout kernel-MAD strutturale. Il tsmom
+  entra a LIVELLI qualsiasi (basta che 7g+30g siano verdi), anche a fine trend; il NW
+  entra solo su ROTTURE di banda = timing migliore. Le due gambe qui sono ortogonali
+  per costruzione (prezzo-struttura vs flusso forzato), a differenza di NW+tsmom
+  (entrambi momentum, correlati → AND falsificato, vedi lux-nw-tsmom).
+  Falsificata se: in walk-forward basket 9-asset non batte lux-flow-confluence
+  (champion) su mean Sharpe/DSR. Se il NW non aggiunge valore sul tsmom a parità di
+  gamba liq, il champion resta e NW resta come standalone (lux-nw-continuation).
+
+universe:
+  selection: explicit
+  exclude: []
+  exclude_classes: [index]
+  max_assets: 9
+  kinds: [perp]
+paper_symbols: BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV
+
+timeframe: 1h
+decision_every_h: 4
+
+signals:
+  - name: nadaraya_watson
+    params: {lookback: 72, bandwidth: 12.0, mult: 2.0, edge_only: true}   # timing: transition-only
+  - name: liq_imbalance
+    params: {lookback_d: 21, extreme_pct: 80}   # persistente come nel champion (NON edge_only)
+
+entry:
+  rule: nadaraya_watson AND liq_imbalance
+  direction: signal_vote            # entrambe concordi → voto ±, top-conviction
+
+exit:
+  stop_pct: 4.0
+  stop_atr_mult: 3.0
+  atr_period: 14
+  target_r: 2.0
+  time_stop_h: 168                  # tra il NW (48h) e il champion (240h): breakout + flusso
+
+risk:
+  max_leverage: 2
+  risk_per_trade_pct: 1.0
+  max_concurrent_positions: 6
+
+evolution:
+  mutable: [signals, entry, exit, universe.max_assets, decision_every_h]
+  notes: >
+    v1 seed: NW-continuation + liq_imbalance (ortogonali: struttura vs flusso).
+    Mutazioni: soglia mult NW, extreme_pct liq, time_stop, aggiunta tsmom come
+    terza gamba (test di robustezza, non di principio).
+
+backtest:                            # basket 9-asset, 12m walk-forward (eval_specs.py, 26/06)
+  basket_12m:
+    aggregate:
+      mean_sharpe: 0.59
+      dsr: 0.87
+      mean_return: 0.0962
+      worst_drawdown: -0.2388
+      positive_symbols: "7/9"
+      folds_positive: "24/54"
+      total_trades: 1390
+    comparativo:
+      lux-flow-confluence-v1:          # champion (tsmom + liq), stesso run 12m
+        mean_sharpe: 0.71
+        dsr: 0.87
+        mean_return: 0.1104
+        worst_drawdown: -0.2205
+        positive_symbols: "8/9"
+        folds_positive: "23/54"
+        verdetto: >
+          NON batte il champion (0.59 vs 0.71) ma è statisticamente indistinguibile
+          (DSR 0.87 = 0.87) e ha fold consistency leggermente migliore (24 vs 23).
+          Il segnale NW PUÒ sostituire il tsmom come gamba prezzo-struttura a parità
+          di gamba liq. Sotto la soglia DSR 0.95 → resta candidate, paper = gate finale.
+          Tesi confermata: NW + liq (ortogonali) competono col champion; NW + tsmom
+          (correlati) erano falsificati.

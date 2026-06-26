@@ -417,6 +417,74 @@ def xsection_momentum(data, hi_pct: float = 66, lo_pct: float = 33) -> pd.Series
     return pd.Series(out, index=c.index)
 
 
+def nadaraya_watson(data, lookback: int = 72, bandwidth: float = 12.0,
+                   mult: float = 1.5, edge_only: bool = False) -> pd.Series:
+    """Envelope Nadaraya-Watson (kernel regression nonparametrica — Nadaraya 1964,
+    Watson 1964; popolarizzato come baseline adattiva da LuxAlgo/DaviddTech).
+
+    One-sided Gaussian kernel: ogni barra t usa SOLO le barre <= t (peak del peso
+    sulla barra corrente) → NON repainta ed e' anti-lookahead. La baseline e' una
+    media pesata kernel dei prezzi passati (piu' stabile di una SMA, segue il prezzo
+    come una EMA adattiva). Le bande sono kernel-weighted MAD (robuste vs outlier,
+    MAD·1.4826 = stima consistente di sigma) attorno alla baseline.
+
+    Lettura di ESTENSIONE strutturale (come volume_profile / vwap_zscore):
+      +1 = close SOPRA la banda superiore (esteso al rialzo vs il fair value kernel),
+      -1 = SOTTO l'inferiore. La strategia sceglie la direzione:
+        - contrarian:nadaraya_watson = fade dell'estensione (mean reversion al fair value)
+        - follow:nadaraya_watson = breakout/continuation (estensione = forza)
+    Regole di lettura: una finestra corta + mult basso = scalp reversion; finestra
+    lunga + mult alto = trend filter. Anti-lookahead garantito dal one-sided kernel.
+    edge_only=True: emette ±1 SOLO sulla barra di TRANSIZIONE in un nuovo estremo
+    (non mentre persiste) — evita il re-ingresso ripetuto durante una forte estensione
+    (churn da fee/stop) come fa liq_imbalance. Default False = comportamento storico."""
+    c = data["candles"]
+    close = c.close.to_numpy(dtype=float)
+    n = len(close)
+    if n <= lookback:
+        return pd.Series(0, index=c.index)
+    idx = np.arange(lookback)
+    w = np.exp(-0.5 * ((idx - (lookback - 1)) / bandwidth) ** 2)
+    w /= w.sum()
+    base = np.full(n, np.nan)
+    band = np.full(n, np.nan)
+    for t in range(lookback - 1, n):
+        win = close[t - lookback + 1: t + 1]            # causale: solo barre <= t
+        m = float(np.dot(w, win))
+        base[t] = m
+        band[t] = mult * float(np.dot(w, np.abs(win - m))) * 1.4826   # MAD -> sigma
+    up = base + band
+    lo = base - band
+    out = np.where(close > up, 1, np.where(close < lo, -1, 0))
+    out[: lookback - 1] = 0                              # burn-in: niente lettura senza kernel completo
+    out = pd.Series(out, index=c.index)
+    if edge_only:
+        prev = out.shift(1).fillna(0)                    # solo la barra di transizione in un nuovo estremo
+        out = out.where((out != 0) & (out != prev), 0)
+    return out
+
+
+def efficiency_ratio(data, lookback: int = 168, trend_pct: float = 60) -> pd.Series:
+    """Regime filter di Kaufman (Efficiency Ratio, 'Trading Systems' 1995): misura
+    quanto il movimento e' DIREZIONALE vs rumoroso.
+      ER = |Close[t] - Close[t-lookback]| / somma(|Close[i]-Close[i-1]|)
+    Range 0..1: ~1 = trend pulito (tutto spostamento netto), ~0 = chop (rumore
+    che si cancella). Anti-lookahead: rolling su dati <= t, NESSUNA cache esterna
+    (disponibile per TUTTI gli asset, a differenza di hmm_regime che ha la cache).
+    +1 = regime trending (ER nel percentile alto della storia recente, adattivo per
+    asset e regime di vol), 0 = chop. NON direzionale: e' un GATE di regime (usato in
+    AND col momentum per filtrare il chop dove il trend whipsagga), non un segnale
+    di direzione. Soglia percentile-adaptive: 'trending' e' relativo all'asset stesso.
+    """
+    c = data["candles"]
+    close = c.close
+    net = (close - close.shift(lookback)).abs()
+    path = close.diff().abs().rolling(lookback, min_periods=max(2, lookback // 2)).sum()
+    er = (net / path.replace(0, np.nan)).fillna(0.0)
+    rank = er.rolling(lookback * 6, min_periods=lookback).rank(pct=True) * 100
+    return pd.Series(np.where(rank >= trend_pct, 1, 0), index=c.index)
+
+
 SIGNALS = {
     "funding_percentile": funding_percentile,
     "range_breakout": range_breakout,
@@ -436,4 +504,6 @@ SIGNALS = {
     "oi_trend": oi_trend,
     "volume_profile": volume_profile,
     "xsection_momentum": xsection_momentum,
+    "nadaraya_watson": nadaraya_watson,
+    "efficiency_ratio": efficiency_ratio,
 }

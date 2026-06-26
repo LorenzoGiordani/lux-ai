@@ -46,7 +46,13 @@ jobs:
           uv run scripts/agents_paper.py
           uv run scripts/agents_paper.py --account agents-rr2-v1 --source agents-v1 --target-r 2.0 || true   # A/B RR2: stesse decisioni, zero LLM extra
 
-      # xsmom-port RETIRATA 25/06 (engine portfolio non ha prodotto trade chiusi in paper): rimosso.
+      # xsmom-port RIPRESA 26/06: edge +79.8% a 12m, strumentazione paper fixata.
+      # Gira tutte le engine:portfolio attive (champion/challenger).
+      - name: portfolio paper trading
+        run: |
+          for pf in strategies/generated/*-port-v1.yaml; do
+            uv run scripts/portfolio_paper.py "$pf" || true
+          done
 
       # gira solo se il secret ZAI_API_KEY esiste (coding plan Z.ai → GLM-5.2)
       - name: pipeline LLM (review + decide)

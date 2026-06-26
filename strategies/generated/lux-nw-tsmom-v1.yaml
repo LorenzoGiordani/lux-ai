@@ -1,0 +1,71 @@
+id: lux-nw-tsmom-v1
+parent: lux-nw-continuation-v1   # aggiunge la gamba trend (confluence DaviddTech)
+status: retired          # 26/06: FALSIFICATA — NW e tsmom sono correlati (entrambi momentum)
+created: '2026-06-26'
+thesis: >
+  CONFLUENCE 2-GAMBE ortogonali, entrambe validate: breakout strutturale kernel
+  (Nadaraya-Watson, IC +0.105 t+5) AND trend grezzo (tsmom, Moskowitz-Ooi-Pedersen).
+  Le due gambe misurano la stessa cosa (continuation) da angoli INDIPENDENTI:
+    - NW = il prezzo ha rotto la banda kernel-MAD (espansione strutturale, volatility-adaptive)
+    - tsmom = il segno del ritorno 7g+30g è concorde (pendenza, non livello)
+  Quando entrambe concordano l'entry è top-conviction: il break non è un falso
+  (tsmom conferma il trend sottostante). È il pattern 'confluence entry' di DaviddTech
+  (breakout + trend filter) applicato ai due edge più forti del desk.
+  Falsificata se: la confluence a 2 gambe NON batte NW da solo su Sharpe/DSR in
+  walk-forward → la gamba tsmom è ridondante e va semplificata (parsimonia).
+
+universe:
+  selection: explicit
+  exclude: []
+  exclude_classes: [index]
+  max_assets: 9
+  kinds: [perp]
+paper_symbols: BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV
+
+timeframe: 1h
+decision_every_h: 4
+
+signals:
+  - name: nadaraya_watson
+    params: {lookback: 72, bandwidth: 12.0, mult: 2.0}
+  - name: tsmom
+    params: {short_h: 168, long_h: 720}
+
+entry:
+  rule: nadaraya_watson AND tsmom
+  direction: signal_vote           # le 2 gambe concordi → voto ±, top-conviction
+
+exit:
+  stop_pct: 4.0
+  stop_atr_mult: 3.0
+  atr_period: 14
+  target_r: 2.0
+  time_stop_h: 120                 # confluence più lenta del NW puro (trend ha inerzia)
+
+risk:
+  max_leverage: 2
+  risk_per_trade_pct: 1.0
+  max_concurrent_positions: 6
+
+evolution:
+  mutable: [signals, entry, exit, universe.max_assets, decision_every_h]
+  notes: >
+    v1 seed: NW + tsmom (confluence continuation). Mutazioni: soglia mult NW,
+    orizzonti tsmom (168/720 ↔ 96/480), aggiunta liq_imbalance come terza gamba
+    (→ eventuale lux-regime-3leg lineage), RR 1.8-2.5.
+
+backtest:                            # basket 9-asset, 12m (eval_specs.py, 26/06)
+  basket_12m:
+    aggregate:
+      mean_sharpe: -0.30
+      dsr: 0.11
+      mean_return: -0.0539
+      worst_drawdown: -0.4035
+      positive_symbols: "4/9"
+      total_trades: 1816
+    note: >
+      FALSIFICATA. Le due gambe NON sono ortogonali: NW (breakout kernel) e tsmom
+      (segno del ritorno) misurano la stessa dimensione (continuation). L'AND filtra
+      via proprio le entry migliori → Sharpe NEGATIVO. Lezione: la confluence serve
+      solo fra gambe ortogonali per costruzione (prezzo-struttura vs flusso → lux-nw-liq).
+      Verdetto: ritirata. Il NW si combina col FLUSSO (liq), non col MOMENTUM.

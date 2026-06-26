@@ -1,0 +1,74 @@
+id: lux-nw-continuation-v1
+parent: null                      # segnale nuovo (Nadaraya-Watson), famiglia ortogonale
+status: retired          # 26/06: modesto standalone (Sharpe 0.18). L'edge NW vive nella confluence con liq (lux-nw-liq)
+created: '2026-06-26'
+thesis: >
+  BREAKOUT KERNEL-ENVELOPE (Nadaraya-Watson). Quando il prezzo rompe la banda
+  superiore/inferiore di un envelope kernel-regression (Gaussian one-sided, kernel-
+  MAD), l'espansione è strutturale e CONTINUA nella direzione del break.
+  Tesi DaviddTech (Nadaraya-Watson Envelope) adattata al regime 2026-H1: qui il
+  trend domina e il mean-reversion è falsificato (VWAP fade 7/7 persi, lezione
+  12/06), quindi la lettura è CONTINUATION (follow), non fade.
+  Edge VALIDATO (research_nw.py, basket 9-asset 12m, 25/06): il segnale NW come
+  continuation ha IC +0.105 (t +5.0) a orizzonte 48h (params lb=72, mult=2.0) e
+  +0.074 (t +3.4) a 168h. Il fade ha IC NEGATIVO → falsificato nel regime corrente.
+  Perché dovrebbe battere range_breakout: baseline kernel-smoothed (non equal-weighted
+  come un rolling max/min) + bande MAD volatility-adaptive → isola l'espansione reale
+  dal rumore, riduce i falsi break del range_breakout classico. Ortogonale al tsmom
+  (che usa il SEGNO del ritorno grezzo): NW cattura il breakout strutturale, non la pendenza.
+  Falsificata se: in walk-forward basket 9-asset non raggiunge mean Sharpe ≥0.3 e
+  DSR ≥0.5, oppure non batte buy-and-hold risk-adjusted sui 12m.
+
+universe:
+  selection: explicit
+  exclude: []
+  exclude_classes: [index]        # tsmom/continuation su indici falsificato (SP500, lezione 22/06)
+  max_assets: 9
+  kinds: [perp]
+paper_symbols: BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV
+
+timeframe: 1h
+decision_every_h: 4
+
+signals:
+  - name: nadaraya_watson
+    params: {lookback: 72, bandwidth: 12.0, mult: 2.0, edge_only: true}   # transition-only: niente churn
+
+entry:
+  rule: nadaraya_watson
+  direction: follow:nadaraya_watson    # CONTINUATION: estensione = forza, non fade
+
+exit:
+  stop_pct: 4.0                   # fallback se ATR non calcolabile
+  stop_atr_mult: 3.0              # stop ATR-adaptive (lezione altcoin noise-stop)
+  atr_period: 14
+  target_r: 2.0                   # RR2 (lezione 21-22/06: RR3 raramente TP-itta)
+  time_stop_h: 72                 # edge più forte a 48h → esci se non si realizza in 3g
+
+risk:
+  max_leverage: 2
+  risk_per_trade_pct: 1.0
+  max_concurrent_positions: 6
+
+evolution:
+  mutable: [signals, entry, exit, universe.max_assets, decision_every_h]
+  notes: >
+    v1 seed: segnale NW (continuation) da solo — isola il nuovo edge senza confonderlo
+    col momentum. Mutazioni: lookback/bandwidth/mult (sweep dell'IC study), aggiunta
+    di tsmom come gamba di confluence (→ lux-nw-tsmom), time_stop più corto (match 48h).
+
+backtest:                            # basket 9-asset, 12m walk-forward (eval_specs.py, 26/06)
+  basket_12m:
+    aggregate:
+      mean_sharpe: 0.18
+      dsr: 0.33
+      mean_return: 0.0219
+      worst_drawdown: -0.2510
+      positive_symbols: "5/9"
+      folds_positive: "28/54"          # miglior consistenza fold del lotto
+      total_trades: 2707
+    note: >
+      Edge NW VALIDATO (IC continuation +0.105 t+5) ma standalone è modesto:
+      Sharpe 0.18. Over-trading (2707 trade: il prezzo attraversa la banda in
+      chop → churn da fee/stop). Coerenza fold eccellente (28/54) → l'edge c'è
+      ma serve la gamba di flusso (liq) per filtrare il timing. vedi lux-nw-liq.

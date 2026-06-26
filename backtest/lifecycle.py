@@ -103,8 +103,26 @@ def paper_stats(strategy_id: str) -> dict:
     precoce per ritirare strategie in perdita grave anche con pochi trade chiusi.
     basket_sharpe_r / basket_mean_r = mean Sharpe/mean R **per-symbol** poi
     mediato sul basket (regola 5): una strategia che vince su 1 asset e perde
-    sugli altri non passa — il pooled stat maschererebbe la concentrazione."""
+    sugli altri non passa — il pooled stat maschererebbe la concentrazione.
+
+    Per le strategie engine:portfolio (xsmom-port): niente open/close per design,
+    ma logga rebalance/heartbeat con il campo `equity`. Si deriva da li' un
+    equity curve sintetica → Sharpe/ret/maxDD sull'equity, non sul per-trade R.
+    Robustezza vs la ver. per-simbolo: stesso schema di ritorno, nulla da cambiare
+    nei chiamanti (dashboard/promote)."""
     j = _journal()
+    # --- engine:portfolio: equity curve da eventi rebalance/heartbeat ---
+    is_portfolio = any(e.get("type") in ("rebalance", "heartbeat")
+                       and e.get("strategy") == strategy_id for e in j)
+    if is_portfolio:
+        eq_pts = [(e.get("logged_at") or e.get("ts"), e.get("equity"))
+                  for e in j if e.get("strategy") == strategy_id
+                  and e.get("type") in ("rebalance", "heartbeat")
+                  and e.get("equity") is not None]
+        eq_pts.sort(key=lambda x: x[0])
+        equities = [float(v) for _, v in eq_pts]
+        return _portfolio_stats(equities)
+
     opens, closed = {}, []
     for e in j:
         if e.get("strategy") != strategy_id:
@@ -173,6 +191,35 @@ def backtest_dsr(spec: dict) -> float | None:
     bt = next(iter(spec.get("backtest", {}).values()), {})
     agg = bt.get("aggregate", {})
     return agg.get("dsr")
+
+
+def _portfolio_stats(equities: list[float]) -> dict:
+    """Metriche paper per engine:portfolio dall'equity curve sintetica (eventi
+    rebalance/heartbeat). Sharpe/ret/maxDD sull'equity (rettangolo delle letture
+    Mark-to-market). n_rebalances = proxy del 'numero di trade' per coerenza schema."""
+    import numpy as _np
+    if not equities:
+        return {"n_closed": 0, "total_pnl": 0.0, "win_rate": 0.0, "mean_r": 0.0,
+                "sharpe_r": 0.0, "open_now": 0, "equity_dd_pct": 0.0,
+                "basket_mean_r": 0.0, "basket_sharpe_r": 0.0, "symbols_traded": 0}
+    base = 10_000.0
+    eq = _np.array(equities, dtype=float)
+    ret = _np.diff(eq) / eq[:-1] if len(eq) > 1 else _np.array([0.0])
+    sharpe = float(ret.mean() / ret.std() * _np.sqrt(len(ret))) if ret.std() > 0 and len(ret) > 1 else 0.0
+    maxdd = float((eq / _np.maximum.accumulate(eq) - 1).min())
+    return {
+        "n_closed": len(equities),                  # rebalance+heartbeat readings
+        "total_pnl": round(float(eq[-1] - base), 2),
+        "max_drawdown": round(maxdd, 4),           # maxDD sull'equity (calcolato sopra)
+        "win_rate": round(float((ret > 0).mean()), 3) if len(ret) else 0.0,
+        "mean_r": round(float(ret.mean()), 5),      # ritorno per-rebalance (proxy R)
+        "sharpe_r": round(sharpe, 3),
+        "open_now": 0,                              # il book e' continuo, niente 'open'
+        "equity_dd_pct": round((float(eq[-1]) - base) / base * 100, 2),
+        "basket_mean_r": round(float(ret.mean()), 5),
+        "basket_sharpe_r": round(sharpe, 3),
+        "symbols_traded": 0,
+    }
 
 
 # Global caps per strategie meccaniche (regola 3). I desk LLM hanno HARD_LIMITS

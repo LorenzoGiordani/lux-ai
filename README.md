@@ -74,6 +74,8 @@ I dati storici (`data/`) non sono nel repo: si rigenerano con i 3 script fetch (
 | `tsmom` | momentum | tutti | Moskowitz-Ooi-Pedersen, orizzonti 7g+30g |
 | `vwap_zscore` | estensione | tutti | deviazione dal VWAP rolling |
 | `volume_surge` | partecipazione | tutti | percentile volume relativo |
+| `xsection_momentum` | momentum relativo | tutti | rank nel basket (IC +0.089, t +21) |
+| `nadaraya_watson` | struttura prezzo | tutti | envelope kernel-regression (DaviddTech); continuation IC +0.105 (t +5) |
 
 ## Risultati finora (backtest 6 mesi, fee/slippage inclusi; paper live dal 11/06/2026)
 
@@ -87,6 +89,42 @@ I dati storici (`data/`) non sono nel repo: si rigenerano con i 3 script fetch (
 
 **TSMOM multi-asset** (BTC, ETH, SOL, GOLD, CL, BRENT, SILVER, SP500, MU)
 - **Mean Sharpe 1.69, ret medio +11.3%, 8/9 asset positivi** — conferma la letteratura → challenger in paper
+
+**Scoperta nuove strategie (sessione 26/06, ispirazione DaviddTech)** — basket 9 crypto, 12m walk-forward, fee/slippage inclusi, DSR vs champion:
+
+| Strategia | Mean Sharpe | DSR | Ret | worstDD | Esito |
+|---|---|---|---|---|---|
+| **lux-flow-confluence** (champion tsmom+liq) | 0.71 | 0.87 | +11.0% | -22% | live edge di riferimento |
+| **lux-nw-liq** (NW kernel + liq) | 0.59 | 0.87 | +9.6% | -24% | challenger competitivo: NW può sostituire tsmom |
+| lux-nw-continuation (NW puro) | 0.18 | 0.33 | +2.2% | -25% | edge reale ma modesto standalone |
+| lux-nw-tsmom (NW + tsmom) | -0.30 | 0.11 | -5.4% | -40% | **FALSIFICATA**: gambe correlate |
+| lux-regime-3leg (champion + hmm gate) | 0.08 | 0.34 | +1.1% | -26% | **FALSIFICATA**: gate AND soffoca |
+
+**Approfondimento 2° giro (26/06, tutto falsificato onestamente)** — validati prima via research IC, poi backtest:
+
+| Idea | Edge misurato | Backtest | Esito |
+|---|---|---|---|
+| Pullback-in-trend (DaviddTech) | fwd ext +0.012 vs pull −0.007 | — | **FALSIFICATO**: il regime premia l'estensione, non il ritorno |
+| Funding carry standalone | IC +0.094 ma t +1.6 (336h) | — | **FALSIFICATO**: edge troppo debole, non passa il gate |
+| Efficiency Ratio (Kaufman) come gate | basket Δ ~0 (eterogeneo) | — | **FALSIFICATO**: valido su subset (BTC/ETH/SUI/ZEC), invertito su altri |
+| Champion + xsection (3 gambe) | conditional IC TOP +0.032 vs BOT +0.015 | Sharpe −0.45/−0.75 | **FALSIFICATO**: edge reale ma richiede concordanza, non catturabile per-simbolo |
+
+- **Lezione capitale**: l'edge cross-sectional (`xsection_momentum`, IC +0.089 t+21 — il piú forte mai misurato) **resta non sfruttato**. La cache era stale (201g vs 360g, ora rigenerata a 12m), e l'edge NON è catturabile nel motore per-simbolo (richiede concordanza direzionale). Abita nell'**engine a portafoglio dollar-neutral** (`xsmom-port-v1`, backtest +29% vs −20%, ritirata solo per strumentazione paper). É il filone prioritario da riprendere.
+- **La cura del regime filter**: l'implementazione DaviddTech corretta è un **VETO** sui periodi chop (sospende), non una terza gamba AND (soffoca). Lezione documentata in `paper/lessons.jsonl`.
+
+**🏆 FILONE PRINCIPALE RIAPERTO (26/06): cross-sectional momentum a PORTAFOGLIO.**
+`xsmom-port-v1` ripresa in produzione. L'edge cross-sectional (`xsection_momentum`, IC +0.089 t+21 — il piu' forte misurato) non era sfruttato perche': (a) la cache era stale a 201g vs 360g candele (rigenerata a 12m); (b) l'edge NON e' catturabile nel motore per-simbolo (falsificato: Sharpe -0.27/-0.45/-0.75 su 3 varianti — richiede concordanza, non attività). Abita nell'**engine a portafoglio dollar-neutral**. Backtest basket 9 crypto, 12m walk-forward, fee+slippage inclusi:
+
+| Config | Ret | Sharpe | maxDD | DSR | vs benchmark |
+|---|---|---|---|---|---|
+| **xs-mom dollar-neutral lb168 reb168 g1** | **+79.8%** | **2.11** | **-19%** | 0.91 | benchmark equal-weight **-8.8%** (maxDD -59%) |
+| xs-mom dollar-neutral lb168 reb24 g1 | +94.7% | 2.34 | -17% | 0.94 | ribilanciamento +frequente |
+| xs-mom long-only lb168 reb168 g1 | +72.7% | 1.08 | **-65%** | 0.62 | senza netting → DD 3x peggio |
+
+Il dollar-neutral e' cruciale (abbatte il DD del 46pp). Era stata ritirata il 25/06 **solo per strumentazione paper** (logga `rebalance`/`heartbeat` con equity, non `open`/`close` → appariva con 0 trade). Fix: `paper_stats` deriva ora Sharpe/ret/maxDD dall'equity curve per `engine:portfolio`. Runner ripristinato in `cron_run.sh` e `paper-run.yml`.
+
+- **Segnale nuovo validato**: `nadaraya_watson` (envelope kernel-regression, firma DaviddTech). Edge study (`scripts/research_nw.py`): il breakout di banda è un segnale di **continuation** (IC +0.105, t +5 a 48h), non di mean-reversion (il fade ha IC negativo → falsificato, coerente col regime trend 2026-H1).
+- **Lezione chiave di falsificazione**: la confluence funziona solo fra gambe **ortogonali** per costruzione (prezzo-struttura NW × flusso liq → competitivo; prezzo-struttura NW × momentum tsmom → correlate, l'AND ammazza le entry). E un gate di regime come AND a 3 gambe soffoca l'edge; andrebbe usato come **veto** sui periodi chop, non come requisito di entry.
 
 **Onestà del backtest (funding storico + slippage size-aware).** Il funding è ora storico reale per-asset (la costante legacy sovrastimava di ~8x e nascondeva i flip di segno nei mesi bear). Lo slippage è opzionalmente un modello square-root (Almgren 2005, additivo sul base). Slippage size-aware (square-root, Almgren 2005) e liquidazione mark-to-market su account equity (con MMR) opt-in. Su CRV (illiquido) l'impact smaschera un Profit Mirage: Sharpe 0.73→0.16 a $10k. Su BTC (liquido) l'edge regge fino a $10M AUM (1.37→1.33). La liquidazione MTM coincide col legacy a leva ragionevole (≤5, nessuna posizione attiva la rischia) ma a leva 8 + flash crash lascia il margine residuo realistico (1088$ vs 0 del legacy rigido). `run_strategy.py --impact 0.5 --mmr 0.01` per attivarli.
 

@@ -21,7 +21,11 @@ stage "paper trading strategie attive"
 stage "executor agenti"
 "$UV" run scripts/agents_paper.py || true
 "$UV" run scripts/agents_paper.py --account agents-rr2-v1 --source agents-v1 --target-r 2.0 || true   # A/B RR2, stesse decisioni
-# xsmom-port RETIRATA 25/06 (engine portfolio non ha prodotto trade chiusi): rimosso dal cron.
+# xsmom-port RIPRESA 26/06: edge +79.8% confermato a 12m, strumentazione paper fixata
+# (paper_stats ora legge l'equity del book per engine:portfolio).
+for pf in strategies/generated/*-port-v1.yaml; do
+  "$UV" run scripts/portfolio_paper.py "$pf" || true   # gira solo le engine:portfolio
+done
 
 if command -v claude >/dev/null 2>&1; then
     stage "reviewer"

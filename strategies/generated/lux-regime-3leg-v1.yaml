@@ -1,0 +1,81 @@
+id: lux-regime-3leg-v1
+parent: lux-flow-confluence-v1    # muta il CHAMPION aggiungendo il gate di regime
+status: retired          # 26/06: FALSIFICATA — hmm gate troppo restrittivo, under-trading
+created: '2026-06-26'
+thesis: >
+  GATE DI REGIME sul champion (tsmom + liq_imbalance). Il champion lux-flow-confluence
+  (mean Sharpe 1.26, DSR 0.81, 9/9 positivo in backtest) è il live edge più forte,
+  MA la debolezza documentata di ogni strategia momentum è il WHIPSAW nel chop:
+  entra a ogni finta rottura, si fa scippare dallo stop, poi il trend vero parte
+  senza posizione. Cura (DaviddTech: 'regime filter' sempre attivo): aggiungere una
+  terza gamba NON direzionale che GATE solo i periodi trending.
+  hmm_regime = regime 'trending' da un Hidden Markov Model (metodo Renaissance/
+  Simons: stati nascosti dai ritorni). AND gate: entra SOLO se HMM dice 'trend'.
+  → uccide le entrate in chop senza toccare la direzione (che resta il voto tsmom+liq).
+  Tesi ortogonale alle 2 gambe esistenti: HMM misura la STRUTTURA del mercato
+  (trend vs range), non il livello né la pendenza. Tre fonti indipendenti.
+  Falsificata se: il gate di regime NON migliora il drawdown worst-case e/o il
+  win-rate del champion in walk-forward senza distruggere il numero di trade
+  (under-trading). Un gate che azzerza le entrate è inutile quanto uno assente.
+
+universe:
+  selection: explicit
+  exclude: []
+  exclude_classes: [index]
+  max_assets: 9
+  kinds: [perp]
+paper_symbols: BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV
+
+timeframe: 1h
+decision_every_h: 4
+
+signals:
+  - name: tsmom
+    params: {short_h: 168, long_h: 720}
+  - name: liq_imbalance
+    params: {lookback_d: 21, extreme_pct: 80}
+  - name: hmm_regime                     # gate NON direzionale (filtro chop)
+
+entry:
+  rule: tsmom AND liq_imbalance AND hmm_regime
+  direction: signal_vote                 # direzione dal voto tsmom+liq (hmm è neutro)
+
+exit:
+  stop_pct: 4.0
+  stop_atr_mult: 3.0
+  atr_period: 14
+  target_r: 2.0
+  time_stop_h: 240                       # inerzia del trend (parent lux-flow-confluence)
+
+risk:
+  max_leverage: 2
+  risk_per_trade_pct: 1.0
+  max_concurrent_positions: 6
+
+evolution:
+  mutable: [signals, entry, exit, universe.max_assets, decision_every_h]
+  notes: >
+    v1 seed: champion + gate hmm_regime (regime filter DaviddTech). Mutazioni:
+    soglia liq extreme_pct, lookback liq, RR 1.8-2.5. NOTA: SOL manca della cache
+    HMM (precompute_hmm da rigenerare) → su SOL degrada a neutro (hmm=0 → entry
+    spenta). Documentato, non un bug.
+
+backtest:                            # basket 9-asset, 12m (eval_specs.py, 26/06)
+  basket_12m:
+    aggregate:
+      mean_sharpe: 0.08
+      dsr: 0.34
+      mean_return: 0.0109
+      worst_drawdown: -0.2573
+      positive_symbols: "1/9"
+      folds_positive: "4/54"
+      total_trades: 301
+    note: >
+      FALSIFICATA. Il gate hmm_regime SOFFOCA il champion: 301 trade vs 1254 (under-
+      trading estremo), 1/9 simboli positivi, 4/54 fold. AND a 3 gambe dove hmm è
+      spessa (e manca la cache su SOL) blocca quasi tutto. Lezione: un gate di regime
+      NON direzionale applicato come AND uccide l'edge se è troppo selettivo. La cura
+      corretta sarebbe un gate come VETO (sospende solo nei periodi chop confermati)
+      o un regime filter più blando — non un AND a 3 gambe. Tesi del regime-filter
+      DaviddTech valida in principio, sbagliata nell'implementazione (AND vs veto).
+      Verdetto: ritirata. Il champion lux-flow-confluence resta.

@@ -1,0 +1,91 @@
+id: lux-triple-3orthogonal-v1
+parent: lux-flow-confluence-v1    # champion + terza gamba relativa (3 dimensioni ortogonali)
+status: retired          # 26/06: FALSIFICATA — l'edge xsection richiede concordanza, non attività
+created: '2026-06-26'
+thesis: >
+  TRIPLA CONFLUENZA su TRE GAMBE ORTOGONALI PER COSTRUZIONE. Il champion
+  lux-flow-confluence (tsmom + liq_imbalance) e' il live edge piu' forte, ma
+  conferma solo due dimensioni: il trend dell'asset (tempo-assoluto) e il flusso
+  forzato (liquidazioni). Manca la TERZA dimensione: la FORZA RELATIVA dell'asset
+  NEL BASKET. Un trend lungo su SOL vale poco se SOL sta sottoperformando tutto il
+  settore; un trend lungo sull'asset che GUIDA il basket ha continuation molto piu'
+  affidabile.
+  xsection_momentum = rank cross-section del ritorno trailing (cache rigenerata a
+  12m completa il 26/06: prima era stale a 201g, degradando a neutro i primi 5 mesi).
+  Edge come GATE validato il 26/06: condizionato a un'entry champion attiva, il fwd
+  return firmato a 168h del bucket TOP-rank e' +0.032 vs +0.015 del BOT (Δ +0.017,
+  ~2x). Non e' un segnale direzionale (quello era falsificato come per-simbolo
+  thin-edge in xsmom-v1): e' un QUALITY GATE che filtra le entry a massima convinzione.
+  Tre fonti INDIPENDENTI per costruzione (tempo-assoluto x flusso x cross-section):
+  niente ridondanza, a differenza di lux-nw-tsmom (entrambi momentum, correlate).
+  Falsificata se: in walk-forward basket 9-asset non batte il champion su mean
+  Sharpe/DSR. Se xsection non aggiunge valore a parita' delle altre 2 gambe, il
+  champion resta a 2 (piu' parsimonioso).
+
+universe:
+  selection: explicit
+  exclude: []
+  exclude_classes: [index]
+  max_assets: 9
+  kinds: [perp]
+paper_symbols: BTC,ETH,SOL,XRP,SUI,NEAR,WLD,ZEC,CRV
+
+timeframe: 1h
+decision_every_h: 4
+
+signals:
+  - name: tsmom
+    params: {short_h: 168, long_h: 720}
+  - name: liq_imbalance
+    params: {lookback_d: 21, extreme_pct: 80}
+  - name: xsection_momentum        # 3a gamba ortogonale: forza relativa nel basket
+    params: {hi_pct: 66, lo_pct: 33}
+
+entry:
+  rule: tsmom AND liq_imbalance AND xsection_momentum
+  direction: signal_vote            # 3 gambe concordi → voto ±, top-conviction
+
+exit:
+  stop_pct: 4.0
+  stop_atr_mult: 3.0
+  atr_period: 14
+  target_r: 2.0
+  time_stop_h: 168                  # edge xsection piu' forte a 168h → holding allineato
+
+risk:
+  max_leverage: 2
+  risk_per_trade_pct: 1.0
+  max_concurrent_positions: 6
+
+evolution:
+  mutable: [signals, entry, exit, universe.max_assets, decision_every_h]
+  notes: >
+    v1 seed: champion + xsection_momentum (3 gambe ortogonali). Mutazioni: soglia
+    liq extreme_pct, hi/lo pct xsection, RR 1.8-2.5, time_stop. NOTA: la cache
+    xsection va rigenerata quando cambiano i simboli del basket (precompute_xsection.py).
+
+backtest:                            # basket 9-asset, 12m (eval_specs.py + varianti, 26/06)
+  basket_12m:
+    aggregate:
+      mean_sharpe: -0.45
+      dsr: 0.00
+      mean_return: -0.0694
+      worst_drawdown: -0.5433
+      positive_symbols: "5/9"
+      total_trades: 1394
+    variants_testate:
+      dir_signal_vote_and3:        {mean_sharpe: -0.45, note: "3 gambe AND, voto direzione — conflitto su bottom-ranked longs"}
+      dir_follow_tsmom_xs80_20:   {mean_sharpe: -0.75, note: "xsection come gate puro, soglia 80/20"}
+      dir_follow_tsmom_xs75_25:   {mean_sharpe: -0.27, note: "xsection gate, soglia 75/25"}
+    note: >
+      FALSIFICATA come per-simbolo. Il conditional IC era reale (bucket TOP fwd
+      +0.032 vs BOT +0.015 a 168h), MA il motore per-simbolo esprime 'segnale
+      attivo = !=0', e xsection e' attivo sia TOP(+1) sia BOT(-1). Risultato: un
+      asset in trend rialzista ma relativamente debole (bottom del basket) passa il
+      gate e viene comprato long → compra il laggardo, il trade peggiore.
+      L'edge cross-section richiede CONCORDANZA DIREZIONALE (long solo i leader,
+      short solo i laggardi), che il DSL AND+vote non sa esprimere. E' lo STESSO
+      limite di xsmom-v1 (falsificata): l'edge relativo abita l'engine a PORTAFOGLIO
+      dollar-neutral (xsmom-port-v1, backtest +29% ma ritirata per tuning), non
+      quello per-simbolo. Verdetto: l'xsection resta il filone piu' forte NON ancora
+      sfruttato; richiede di riprendere l'engine portfolio, non aggiungere gambe AND.
