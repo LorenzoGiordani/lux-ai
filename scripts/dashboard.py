@@ -133,7 +133,11 @@ def ts_short(s: str) -> str:
 
 
 def clean_symbol(s: str) -> str:
-    return str(s).removeprefix("xyz_")
+    # normalizza alla radice (canonical_symbol in pipeline/live): l'LLM emette
+    # "SOL/USDT", "SOLUSDT", "SOL-PERP"... ma lo state usa solo "SOL". Usata qui
+    # anche per riconciliare le decisioni storiche gia' loggate con simbolo sporco.
+    from pipeline.live import canonical_symbol
+    return canonical_symbol(s)
 
 
 # descrizione sintetica e onesta di un burst news: la pipeline GDELT salva solo
@@ -367,15 +371,20 @@ def build_data() -> dict:
         })
 
     dec_out = []
-    # posizioni REALMENTE aperte in state (solo TRADE, non le gambe notional del book).
-    # Verità usata per marcare "aperta" nel feed: una decisione è aperta solo se la
-    # posizione corrispondente è viva in state, non se "non esiste un close" (altrimenti
-    # proposte veto/superate risulterebbero posizioni aperte, slegandosi da Posizioni).
+    # posizioni REALMENTE aperte in state (sia desk con entry_px SIA gambe del
+    # book a portafoglio con notional). Verita' usata per marcare "aperta" nel
+    # feed: una decisione/apertura e' aperta solo se la posizione corrispondente
+    # e' viva in state, non se "non esiste un close" (altrimenti proposte
+    # veto/superate, o gambe di portfolio gia' ribilanciate via, risulterebbero
+    # posizioni aperte, slegandosi da Posizioni). Includere anche i book e'
+    # indispensabile: le aperture sistematiche dei portfolio (xsmom/highvol)
+    # vivono proprio come gambe notional — senza diche non verrebbero mai
+    # marcate "aperta" nel feed, staccandosi dalle posizioni reali.
     open_keys = {
         (sid, clean_symbol(sym))
         for sid, st in state.items()
         for sym, p in st.get("positions", {}).items()
-        if "notional" not in p and p.get("entry_px", 0) > 0
+        if "notional" in p or p.get("entry_px", 0) > 0
     }
     TRADEABLE = {"approve", "reduce"}
     for d in decisions:
@@ -593,7 +602,11 @@ def build_data() -> dict:
     if bt_path.exists():
         try:
             backtests = json.loads(bt_path.read_text())
-        except json.JSONDecodeError:
+        except (json.JSONDecodeError, ValueError) as e:
+            # non degenera silenziosamente a {}: logga, cosi' una scrittura
+            # troncata (race col backtest report, ormai mitigata dalla scrittura
+            # atomica) non fa sparire i backtest senza traccia.
+            print(f"[dashboard] backtests.json illeggibile: {e}", file=sys.stderr)
             backtests = {}
 
     return {
@@ -615,7 +628,8 @@ def main() -> None:
     out, n = re.subn(r'<script id="data" type="application/json">.*?</script>', lambda _: block, html, flags=re.DOTALL)
     if n != 1:
         sys.exit("ERRORE: blocco #data non trovato nel template")
-    OUT.write_text(out)
+    from pipeline.live import atomic_write_text
+    atomic_write_text(OUT, out)
     print(f"dashboard LUX AI → {OUT}")
 
 

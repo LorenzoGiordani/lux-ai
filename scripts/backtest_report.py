@@ -51,12 +51,36 @@ def _read(path: Path) -> pd.DataFrame | None:
     return pd.read_parquet(path) if path.exists() else None
 
 
+def _load_candles(symbol: str) -> pd.DataFrame | None:
+    """Candele orarie per un simbolo: dal parquet storico se presente (locale,
+    dati precomputati), ALTRIMENTI via fetch live con cache su disco.
+
+    Il backtest report girava solo dove data/candles/*.parquet esisteva gia'
+    (locale). Nel cloud quei file sono gitignored e il checkout e' vuoto, quindi
+    _dataset ritornava None per ogni simbolo → backtest con 0 strategie
+    (sintomo: i backtest sparivano dalla dashboard nei run cloud). Ora cade
+    su fetch_live_cached (rete + cache oraia in /tmp) come fa paper_trade, cosi'
+    il report funziona ovunque ci sia connettivita' alle API Hyperliquid."""
+    import sys
+    cp = DATA / "candles" / f"{symbol}.parquet"
+    if cp.exists():
+        return pd.read_parquet(cp)
+    # fallback rete: cache di modulo riusata tra simboli e strategie nello stesso run
+    sys.path.insert(0, str(ROOT))
+    from pipeline.live import fetch_live_cached
+    try:
+        # lookback ampio: serve la finestra massima dei segnali (tsmom long_h=720)
+        return fetch_live_cached(symbol, lookback_h=5000)["candles"]
+    except Exception:
+        return None
+
+
 def _dataset(symbol: str, months: int) -> dict | None:
     """Candles + dati ausiliari per un simbolo, finestra trailing coerente."""
-    cp = DATA / "candles" / f"{symbol}.parquet"
-    if not cp.exists():
+    candles = _load_candles(symbol)
+    if candles is None:
         return None
-    candles = pd.read_parquet(cp).tail(months * 30 * 24).reset_index(drop=True)
+    candles = candles.tail(months * 30 * 24).reset_index(drop=True)
     if len(candles) < 30 * 24:   # troppi pochi dati
         return None
     return {
@@ -150,13 +174,16 @@ def backtest_strategy(spec_path: Path, months: int) -> dict | None:
 # trade per-simbolo). Il fattore (xsmom/highvol/combo) determina COSA si ranka.
 
 def _close_panel(symbols: list[str], months: int) -> pd.DataFrame | None:
-    """Panel close allineato (inner join su ts comuni) per il basket."""
+    """Panel close allineato (inner join su ts comuni) per il basket.
+    Tollerante alla assenza dei parquet storici: fa fetch live con cache se manca
+    un file (vedi _load_candles) — il portfolio report non deve collassare a
+    None nel cloud dove data/candles e' vuoto."""
     frames = {}
     for sym in symbols:
-        cp = DATA / "candles" / f"{sym}.parquet"
-        if not cp.exists():
+        c = _load_candles(sym)
+        if c is None:
             return None
-        c = pd.read_parquet(cp)[["ts", "close"]].rename(columns={"close": sym})
+        c = c[["ts", "close"]].rename(columns={"close": sym})
         frames[sym] = c.set_index("ts")[sym]
     if not frames:
         return None
@@ -320,7 +347,7 @@ def main() -> int:
         "generated_at": pd.Timestamp.now(tz="UTC").strftime("%Y-%m-%dT%H:%M UTC"),
         "strategies": results,
     }
-    OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=1))
+    atomic_write_text(OUT, json.dumps(payload, ensure_ascii=False, indent=1))
     print(f"\nbacktest report ({len(results)} strategie) → {OUT}")
     return 0
 

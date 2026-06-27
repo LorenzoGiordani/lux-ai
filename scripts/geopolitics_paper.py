@@ -25,7 +25,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from backtest.engine import DEFAULT_SLIPPAGE, HL_TAKER_FEE
 from backtest.lifecycle import all_specs
-from pipeline.live import fetch_live
+from pipeline.live import atomic_write_text, canonical_symbol, fetch_live
 from scripts.decide import ROLES, _ask_role, build_context, hard_check, log_decision
 from scripts.paper_trade import STATE_FILE, log_event, update_position
 
@@ -140,7 +140,7 @@ def pending_decisions(after_ts: str) -> list[dict]:
 
 def open_from_decision(d: dict, equity: float) -> dict | None:
     p = d["proposal"]
-    symbol = p["symbol"]
+    symbol = canonical_symbol(p["symbol"])
     try:
         data = fetch_live(symbol, lookback_h=50)
     except Exception as e:
@@ -219,7 +219,7 @@ def main() -> None:
             st["positions"][symbol] = pos
 
     print(f"fine run: equity {st['equity']:.2f}$, posizioni: {list(st['positions']) or 'nessuna'}")
-    STATE_FILE.write_text(json.dumps(state, indent=1, default=str))
+    atomic_write_text(STATE_FILE, json.dumps(state, indent=1, default=str))
     log_event({"type": "heartbeat", "strategy": ACCOUNT, "equity": round(st["equity"], 2),
                "open_positions": len(st["positions"])})
 

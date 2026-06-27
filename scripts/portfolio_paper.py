@@ -23,7 +23,7 @@ sys.path.insert(0, str(ROOT))
 from backtest.engine import DEFAULT_SLIPPAGE, HL_TAKER_FEE
 from backtest.portfolio import xs_momentum_weights
 from backtest.strategy import load
-from pipeline.live import fetch_live
+from pipeline.live import atomic_write_text, fetch_live
 from scripts.paper_trade import STATE_FILE, log_event
 
 COST = HL_TAKER_FEE + DEFAULT_SLIPPAGE
@@ -220,7 +220,7 @@ def main() -> None:
     st["equity_history"] = (st.get("equity_history", []) + [{"ts": now.isoformat(), "eq": round(st["equity"], 2)}])[-720:]
     print(f"fine: equity {st['equity']:.2f}$, gambe {len(st['positions'])}, "
           f"gross {gross_now:.0f}$, net {net:+.0f}$")
-    STATE_FILE.write_text(json.dumps(state, indent=1, default=str))
+    atomic_write_text(STATE_FILE, json.dumps(state, indent=1, default=str))
     log_event({"type": "heartbeat", "strategy": acct, "equity": round(st["equity"], 2),
                "open_positions": len(st["positions"])})
 

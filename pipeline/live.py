@@ -28,6 +28,61 @@ _INFO = "https://api.hyperliquid.xyz/info"
 _PERP_CACHE: dict = {}
 
 
+# Pattern per riconoscere un qualificatore di venue HIP-3 (es. "xyz:NATGAS",
+# "hyna:HYPE") o il prefisso legacy "xyz_NATGAS": vanno preservati tali e quali
+# (Hyperliquid li serve via candleSnapshot con i due punti), non normalizzati.
+import re as _re
+_QUOTE_SUFFIXES = ("USDT", "USDC", "USD", "BUSD", "TUSD", "PERP")
+
+
+def canonical_symbol(symbol) -> str:
+    """Normalizza un simbolo emesso dall'LLM nel BASE coin canonico usato dal sistema.
+
+    L'LLM produce di tutto ("SOL/USDT", "SOLUSDT", "SOL-PERP", "ETH/USDT PERP",
+    "SOL/USDT:USDT", "SUI-USDT-PERP"...) mentre lo stato, il journal e le API
+    Hyperliquid usano solo il base coin pulito ("SOL", "ETH"). Senza questa
+    normalizzazione le decisioni non vengono riconciliate con le posizioni reali:
+    il feed mostra "tante decisioni" senza esito, staccate dalle posizioni aperte.
+
+    I qualificatori HIP-3 ("xyz:NATGAS", "hyna:HYPE") e il legacy "xyz_NATGAS"
+    vengono preservati (sono nomi di venue, non da normalizzare)."""
+    if symbol is None:
+        return ""
+    s = str(symbol).strip()
+    if not s:
+        return ""
+    # preserva asset HIP-3 / legacy: la parte prima di ':' o 'xyz_' e' la venue
+    # (xyz:NATGAS, hyna:HYPE). MA se prima dei ':' c'e' gia' uno slash o un quote
+    # ("SOL/USDT:USDT" e' il market-type di Binance), quello dopo ':' si butta.
+    if s.startswith("xyz_"):
+        return s
+    if ":" in s:
+        head = s.split(":", 1)[0]
+        if "/" in head or any(head.endswith(q) for q in _QUOTE_SUFFIXES):
+            s = head            # market-type dopo i ':' -> scartato
+        else:
+            return s            # qualificatore venue HIP-3 -> preserva tale e quale
+    s = s.upper()
+    s = _re.sub(r"\s+", "", s)
+    # stacca ripetutamente i suffissi quote separati da - o / o appiciccolati.
+    # gestisce "SUI-USDT-PERP" -> "SUI" e "SOL/USDT" -> "SOL"
+    changed = True
+    while changed:
+        changed = False
+        for sep in ("-", "/"):
+            for q in _QUOTE_SUFFIXES:
+                tag = sep + q
+                if s.endswith(tag) and len(s) > len(tag):
+                    s = s[: -len(tag)]
+                    changed = True
+        for q in _QUOTE_SUFFIXES:  # quote appiccicato: "SOLUSDT" -> "SOL"
+            if s.endswith(q) and len(s) > len(q):
+                s = s[: -len(q)]
+                changed = True
+    s = s.replace("/", "").replace("-", "")
+    return s
+
+
 def _perp_dexs() -> list[str]:
     dexs = requests.post(_INFO, json={"type": "perpDexs"}, timeout=20).json()
     return [""] + [d["name"] for d in dexs if d and d.get("name")]
@@ -115,6 +170,34 @@ def fetch_live(symbol: str, lookback_h: int = 1000) -> dict:
 
 
 HL_INFO = "https://api.hyperliquid.xyz/info"
+
+
+def atomic_write_text(path, text: str) -> None:
+    """Scrive un file di testo atomicamente: prima su un temporaneo nello STESSO
+    direttorio, poi os.replace (atomico su POSIX/Windows sullo stesso filesystem).
+
+    Elimina le race condition in cui un lettore — la dashboard che legge
+    paper/state.json o paper/backtests.json mentre un paper runner o il backtest
+    report lo stanno riscrivendo — vede un file troncato a meta scrittura e lo
+    interpreta come JSON invalido (sintomo: backtest/posizioni che a volte
+    spariscono dalla dashboard). Lascia sempre o il vecchio contenuto o il nuovo,
+    mai uno stato intermedio."""
+    import os as _os
+    import tempfile as _tf
+    from pathlib import Path as _Path
+    p = _Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp = _tf.mkstemp(dir=p.parent, prefix=p.name + ".", suffix=".tmp")
+    try:
+        with _os.fdopen(fd, "w", encoding="utf-8") as f:
+            f.write(text)
+        _os.replace(tmp, p)
+    except BaseException:
+        try:
+            _os.unlink(tmp)
+        except OSError:
+            pass
+        raise
 
 
 def _fetch_hl(symbol: str, lookback_h: int) -> dict:

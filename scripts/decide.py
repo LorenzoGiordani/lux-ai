@@ -25,7 +25,7 @@ sys.path.insert(0, str(ROOT))
 from backtest.risk import atr_pct
 from backtest.signals import SIGNALS
 from backtest.walkforward import regimes
-from pipeline.live import fetch_live, news_headlines, open_interest_24h
+from pipeline.live import canonical_symbol, fetch_live, news_headlines, open_interest_24h
 
 DECISIONS = ROOT / "paper/decisions.jsonl"
 
@@ -198,6 +198,14 @@ def hard_check(p: dict, open_positions: int = 0, atr_by_symbol: dict | None = No
 
 def log_decision(record: dict) -> None:
     record["logged_at"] = datetime.now(timezone.utc).isoformat()
+    # normalizza il symbol della proposta (se presente): l'LLM emette spesso
+    # "SOL/USDT", "SOLUSDT", "SOL-PERP"... che poi non si riconciliano con le
+    # posizioni reali nello state (sempre "SOL"). Fatto alla radice qui, feed
+    # decisioni e aperture paper parlano la stessa lingua. Vale per tutti i desk
+    # (decide/glm/geo/claude) che passano di qui.
+    prop = record.get("proposal")
+    if isinstance(prop, dict) and prop.get("symbol") is not None:
+        prop["symbol"] = canonical_symbol(prop["symbol"])
     DECISIONS.parent.mkdir(exist_ok=True)
     with DECISIONS.open("a") as f:
         f.write(json.dumps(record, default=str) + "\n")

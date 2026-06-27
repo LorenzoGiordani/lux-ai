@@ -19,7 +19,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from backtest.lifecycle import all_specs
-from pipeline.live import fetch_live
+from pipeline.live import atomic_write_text, fetch_live
 from scripts.paper_trade import STATE_FILE, _book_fill, update_position
 
 NO_TIME_STOP = 10_000_000  # ore: le uscite a tempo le gestisce l'hourly run, non questo check
@@ -63,7 +63,7 @@ def main() -> None:
                 st["positions"][sym] = newpos  # checked_until in-memory, persistito solo se c'è una chiusura
 
     if closed:
-        STATE_FILE.write_text(json.dumps(state, indent=1, default=str))
+        atomic_write_text(STATE_FILE, json.dumps(state, indent=1, default=str))
         print(f"exit-check: {closed} posizioni chiuse")
     else:
         print("exit-check: nessuna uscita")
