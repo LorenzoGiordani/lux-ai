@@ -14,11 +14,18 @@ stop obbligatorio 0.5-8%, max 3 posizioni, solo simboli del contesto.
 """
 
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
+
+# BYPASS TEMPORANEO (test): se HARD_LIMITS_BYPASS e' settato, hard_check non vetoa
+# MAI per sizing (leva/risk/stop). Restituisce le violazioni in `bypassed` invece
+# di `errs`, cosi' il trade passa ma resta tracciato. Da rimuovere dopo il test;
+# il design corretto (clamp, non bypass) e' in docs/TODO-sizing-clamp.md.
+_HARD_BYPASS = bool(os.environ.get("HARD_LIMITS_BYPASS"))
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
@@ -168,19 +175,39 @@ def recall_lessons(symbols: list[str], k: int = 10) -> list[dict]:
 
 
 def hard_check(p: dict, open_positions: int = 0, atr_by_symbol: dict | None = None) -> list[str]:
-    """Strato 1: limiti deterministici. Una violazione = veto, l'LLM non può discutere."""
+    """Strato 1: limiti deterministici. Una violazione = veto, l'LLM non può discutere.
+
+    BYPASS TEMPORANEO (env HARD_LIMITS_BYPASS): le violazioni di SIZING (leva,
+    risk_pct, stop_alto) NON vetoano — vengono raccolte in `bypassed` e il trade
+    passa. Le violazioni strutturali (stop nel rumore, max posizioni, tesi/direction
+    mancanti) vetoano SEMPRE anche col bypass. Tracciabilita' nel log.
+    Design corretto definitivo: docs/TODO-sizing-clamp.md (clamp, non bypass)."""
     errs = []
+    bypassed = []   # solo col BYPASS attivo: sizing fuori limiti ma fatto passare
     if p.get("action") == "no_trade":
         return errs
+
+    def _sizing_violation(msg: str):
+        """Registra una violazione di sizing: veto normale, bypass se attivo."""
+        if _HARD_BYPASS:
+            bypassed.append(msg)
+        else:
+            errs.append(msg)
+
     if float(p.get("leverage", 99)) > HARD_LIMITS["max_leverage"]:
-        errs.append(f"leva {p.get('leverage')} > max {HARD_LIMITS['max_leverage']}")
+        _sizing_violation(f"leva {p.get('leverage')} > max {HARD_LIMITS['max_leverage']}")
     if float(p.get("risk_pct", 99)) > HARD_LIMITS["max_risk_per_trade_pct"]:
-        errs.append(f"risk_pct {p.get('risk_pct')} > max {HARD_LIMITS['max_risk_per_trade_pct']}")
+        _sizing_violation(f"risk_pct {p.get('risk_pct')} > max {HARD_LIMITS['max_risk_per_trade_pct']}")
     lo, hi = HARD_LIMITS["stop_pct_range"]
     stop = float(p.get("stop_pct", 0))
-    if not (lo <= stop <= hi):
-        errs.append(f"stop_pct {p.get('stop_pct')} fuori range [{lo},{hi}] (stop obbligatorio)")
-    # stop dentro il rumore (< 1 ATR) = noise-stop: causa #1 degli execution_issue
+    if stop > hi:
+        # stop TROPPO LARGO = riducibile (più conservativo clamparlo): sizing
+        _sizing_violation(f"stop_pct {p.get('stop_pct')} > max {hi}")
+    elif stop < lo:
+        # stop TROPPO STRETTO = noise-stop potenziale: resta veto anche col bypass
+        errs.append(f"stop_pct {p.get('stop_pct')} < min {lo} (stop obbligatorio)")
+    # stop dentro il rumore (< 1 ATR) = noise-stop: causa #1 degli execution_issue.
+    # Veto strutturale SEMPRE (non e' sizing, e' qualita' del trade).
     atrp = (atr_by_symbol or {}).get(p.get("symbol"))
     if atrp and atrp > 0:
         floor = HARD_LIMITS["min_stop_atr_mult"] * atrp
@@ -193,6 +220,10 @@ def hard_check(p: dict, open_positions: int = 0, atr_by_symbol: dict | None = No
         errs.append("direction mancante")
     if not p.get("thesis") or not p.get("invalidation"):
         errs.append("tesi o invalidazione mancante (obbligatorie)")
+
+    # attacca i bypassati alla proposal per tracciabilita' (il chiamante li logga)
+    if bypassed:
+        p["_hard_bypass"] = bypassed
     return errs
 
 

@@ -42,6 +42,8 @@ LLM_TO_HL = {
     "NATGAS": "xyz:NATGAS",
     "WTI": "xyz:CL",
     "BRENT": "xyz:BRENTOIL",
+    "GOLD": "xyz:GOLD",    # XAUUSD -> GOLD (alias) -> xyz:GOLD (venue HL)
+    "SILVER": "xyz:SILVER",
 }
 
 
@@ -69,7 +71,11 @@ def already_backfilled(decision_ts: str, hl_sym: str) -> bool:
 
 def simulate_exit(candles, entry_ts, direction, stop_px, target_px, time_stop_h):
     """Ricalcola se/quando la posizione sarebbe uscita (stop/target/time) sulle
-    candele POST-entry reali. Ritorna (exit_px, reason, exit_ts) o None se ancora aperta."""
+    candele POST-entry reali. Ritorna (exit_px, reason, exit_ts) o None se ancora aperta.
+
+    Direzione-cosciente: per un LONG lo stop e' SOTTO entry (lo<=stop_px = toccato)
+    e il target SOPRA (hi>=target_px); per uno SHORT e' il contrario (stop sopra,
+    target sotto). Usare la stessa logica per entrambi dareva exit falsi."""
     sign = 1 if direction == "long" else -1
     post = candles[candles["ts"] >= entry_ts]
     if post.empty:
@@ -77,10 +83,16 @@ def simulate_exit(candles, entry_ts, direction, stop_px, target_px, time_stop_h)
     hit_stop = hit_target = None
     for _, r in post.iterrows():
         lo, hi = float(r["low"]), float(r["high"])
-        if lo <= stop_px and hit_stop is None:
-            hit_stop = r["ts"]
-        if hi >= target_px and hit_target is None:
-            hit_target = r["ts"]
+        if sign > 0:   # long: stop sotto (prezzo scende), target sopra (prezzo sale)
+            if lo <= stop_px and hit_stop is None:
+                hit_stop = r["ts"]
+            if hi >= target_px and hit_target is None:
+                hit_target = r["ts"]
+        else:          # short: stop sopra (prezzo sale), target sotto (prezzo scende)
+            if hi >= stop_px and hit_stop is None:
+                hit_stop = r["ts"]
+            if lo <= target_px and hit_target is None:
+                hit_target = r["ts"]
     last_ts = post.iloc[-1]["ts"]
     hours = (last_ts - entry_ts).total_seconds() / 3600
     # target vince se toccato prima (o per primo) dello stop
@@ -97,7 +109,7 @@ def backfill_position(decision: dict, state: dict) -> str:
     """Ricostruisce UNA posizione persa. Ritorna una riga di log descrittiva."""
     from pipeline.live import canonical_symbol
     p = decision["proposal"]
-    risk = decision["risk"]
+    risk = decision.get("risk") or {}
     sym_raw = p["symbol"]
     sym = canonical_symbol(sym_raw)
     hl = hl_symbol(sym)
@@ -121,6 +133,8 @@ def backfill_position(decision: dict, state: dict) -> str:
     equity = float(state[ACCOUNT]["equity"])
     exposure = min(float(p["leverage"]), float(p["risk_pct"]) * mult / float(p["stop_pct"]))
     px = float(last["close"]) * (1 + sign * DEFAULT_SLIPPAGE)   # stesso slippage del desk
+    # se la decisione era hard_veto da sizing (bypass temporaneo), lo tracciamo
+    bypassed = decision.get("verdict") == "hard_veto"
     pos = {
         "strategy": ACCOUNT, "symbol": hl, "direction": p["direction"],
         "entry_px": round(px, 6),
@@ -133,7 +147,9 @@ def backfill_position(decision: dict, state: dict) -> str:
         "decision_ts": decision["logged_at"],
     }
     open_event = {"type": "open", "backfill": True, "backfill_reason":
-                  "symbol LLM non mappato a venue HL (CL/NG->xyz:...), fetch_live falliva",
+                  "symbol LLM non mappato a venue HL (CL/NG->xyz:...), fetch_live falliva"
+                  if not bypassed else
+                  "hard_veto da sizing (bypass temporaneo dei limiti, per test)",
                   **pos}
     log_event_with(open_event, decision["logged_at"])
 
@@ -181,9 +197,14 @@ def log_event_with(event: dict, decision_ts: str) -> None:
         f.write(json.dumps(event, default=str) + "\n")
 
 
-def lost_decisions() -> list[dict]:
-    """Decisioni tradeable del desk geopolitico senza una open corrispondente
-    ( né reale né gia' backfillata) nelle ultime 48h."""
+def lost_decisions(include_vetoed: bool = False) -> list[dict]:
+    """Decisioni del desk geopolitico senza una open corrispondente
+    (né reale né gia' backfillata) nelle ultime 48h.
+
+    include_vetoed=True: include anche le decisioni hard_veto bloccate SOLO per
+    sizing (leva/risk/stop). Con il bypass temporaneo dei limiti, queste sarebbero
+    passate — le recuperiamo come se fossero state eseguite. Le hard_veto
+    strutturali (stop nel rumore, max posizioni, tesi mancanti) restano escluse."""
     decisions = [json.loads(l) for l in JOURNAL.parent.joinpath("decisions.jsonl").read_text().splitlines()
                  if l.strip()]
     journal = [json.loads(l) for l in JOURNAL.read_text().splitlines() if l.strip()]
@@ -194,7 +215,16 @@ def lost_decisions() -> list[dict]:
         if d.get("strategy") != ACCOUNT or d.get("stage") != "final":
             continue
         r = d.get("risk")
-        if not isinstance(r, dict) or r.get("verdict") not in ("approve", "reduce"):
+        # accetta: (a) tradeable dal risk gate, oppure (b) --include-vetoed e
+        # hard_veto SOLO per sizing (leva/risk/stop). Le veto strutturali no.
+        tradeable = isinstance(r, dict) and r.get("verdict") in ("approve", "reduce")
+        vetoed_sizing = False
+        if include_vetoed and d.get("verdict") == "hard_veto":
+            viols = d.get("violations") or []
+            structural = any("noise-stop" in v or "posizioni concorrenti" in v
+                             or "mancante" in v or "< min" in v for v in viols)
+            vetoed_sizing = bool(viols) and not structural
+        if not (tradeable or vetoed_sizing):
             continue
         p = d.get("proposal", {})
         if p.get("action") != "trade":
@@ -210,25 +240,53 @@ def lost_decisions() -> list[dict]:
         # ha gia' una open reale o backfill con questo decision_ts?
         has_open = any(e.get("type") == "open" and e.get("strategy") == ACCOUNT
                        and e.get("decision_ts") == ts for e in journal)
-        if not has_open:
+        # evita di creare posizioni concorrenti sullo stesso symbol: se esiste
+        # gia' una posizione APERTA (reale o backfillata, non ancora chiusa) per
+        # questo (account, hl_symbol), salta le decisioni successive — coerente
+        # con il max_concurrent e con cio' che farebbe il desk in realta'.
+        already_open_sym = any(
+            e.get("type") == "open" and e.get("strategy") == ACCOUNT and e.get("symbol") == hl
+            and not any(c.get("type") == "close" and c.get("strategy") == ACCOUNT
+                        and c.get("symbol") == hl
+                        and c.get("logged_at", "") > e.get("logged_at", "")
+                        for c in journal)
+            for e in journal)
+        if not has_open and not already_open_sym:
             out.append(d)
     return out
 
 
 def main() -> int:
+    include_vetoed = "--include-vetoed" in sys.argv
     state = json.loads(STATE_FILE.read_text())
-    lost = lost_decisions()
+    lost = lost_decisions(include_vetoed=include_vetoed)
     if not lost:
-        print("[backfill] nessuna posizione tradeable persa da recuperare.")
+        print("[backfill] nessuna posizione tradeable persa da recuperare"
+              + (" (incluse hard_veto da sizing)." if include_vetoed else "."))
         return 0
-    print(f"[backfill] {len(lost)} posizione/i persa/e da ricostruire:")
+    tag = " [+ hard_veto da sizing via bypass]" if include_vetoed else ""
+    # ordina cronologicamente: la prima decisione per ogni symbol viene backfillata
+    # per prima; le successive sullo stesso symbol diventano 'superata' (dedup
+    # concorrenza, coerente con max_concurrent e col comportamento reale del desk).
+    lost.sort(key=lambda d: d["logged_at"])
+    print(f"[backfill]{tag} {len(lost)} posizione/i persa/e da ricostruire:")
     for d in lost:
+        v = d.get("verdict") or f"risk={d['risk'].get('verdict')}"
         print(f"  - {d['logged_at'][:16]} {d['proposal']['symbol']} "
-              f"{d['proposal']['direction']} (risk={d['risk']['verdict']})")
+              f"{d['proposal']['direction']} ({v})")
     print("\nricostruzione (prezzi reali Hyperliquid, logica identica al desk):")
+    opened_now = set()   # hl_symbol aperti in questo run (dedup intra-run)
     for d in lost:
+        from pipeline.live import canonical_symbol
+        hl = hl_symbol(canonical_symbol(d["proposal"].get("symbol", "")))
+        if hl in opened_now:
+            print(f"  SKIP {hl} ({d['logged_at'][:16]}): superata (gia' aperta questo run)")
+            continue
         try:
-            print(backfill_position(d, state))
+            msg = backfill_position(d, state)
+            print(msg)
+            if msg.startswith("  OPEN") or msg.startswith("  CLOSED"):
+                opened_now.add(hl)
         except Exception as e:
             print(f"  ERRORE su {d['proposal']['symbol']}: {e}")
     atomic_write_text(STATE_FILE, json.dumps(state, indent=1, default=str))

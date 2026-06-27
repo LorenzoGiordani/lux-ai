@@ -107,3 +107,64 @@ def test_atomic_write_replaces_old_content():
     # non deve lasciare temporanei in giro
     leftovers = [p for p in d.iterdir() if ".tmp" in p.name]
     assert leftovers == [], f"temporanei non puliti: {leftovers}"
+
+
+def _mk_candles(rows):
+    """rows: list of (ts_str, low, high, close). Restituisce un DataFrame candele."""
+    import pandas as pd
+    ts = pd.to_datetime([r[0] for r in rows], utc=True)
+    return pd.DataFrame({
+        "ts": ts,
+        "low": [r[1] for r in rows], "high": [r[2] for r in rows],
+        "close": [r[3] for r in rows],
+    })
+
+
+def test_simulate_exit_short_uses_correct_direction():
+    # bug storico: simulate_exit usava la logica long per gli short, dando target
+    # falsi (es. 'target hit' quando il prezzo NON era sceso al target dello short).
+    # Per uno SHORT: stop SOPRA entry, target SOTTO entry.
+    from scripts.backfill_lost_positions import simulate_exit
+    import pandas as pd
+    # entry 100, short. stop 105 (sopra), target 90 (sotto)
+    candles = _mk_candles([
+        ("2026-06-27 09:00", 98, 102, 100),   # entry hour: non tocca ne stop ne target
+        ("2026-06-27 10:00", 89, 99, 90),    # low 89 <= target 90 -> target hit (short scende)
+    ])
+    ex = simulate_exit(candles, pd.Timestamp("2026-06-27 09:00", tz="UTC"),
+                       "short", stop_px=105, target_px=90, time_stop_h=72)
+    assert ex is not None
+    exit_px, reason, _ = ex
+    assert reason == "target", f"short deve chiudere in target, non {reason}"
+    assert exit_px == 90
+
+
+def test_simulate_exit_long_uses_correct_direction():
+    from scripts.backfill_lost_positions import simulate_exit
+    import pandas as pd
+    # entry 100, long. stop 95 (sotto), target 110 (sopra)
+    candles = _mk_candles([
+        ("2026-06-27 09:00", 98, 102, 100),
+        ("2026-06-27 10:00", 96, 111, 110),  # high 111 >= target 110 -> target hit (long sale)
+    ])
+    ex = simulate_exit(candles, pd.Timestamp("2026-06-27 09:00", tz="UTC"),
+                       "long", stop_px=95, target_px=110, time_stop_h=72)
+    assert ex is not None
+    exit_px, reason, _ = ex
+    assert reason == "target"
+    assert exit_px == 110
+
+
+def test_simulate_exit_short_stop_above():
+    # short stoppato: il prezzo SALE sopra lo stop (non scende sotto)
+    from scripts.backfill_lost_positions import simulate_exit
+    import pandas as pd
+    candles = _mk_candles([
+        ("2026-06-27 09:00", 98, 102, 100),
+        ("2026-06-27 10:00", 99, 106, 105),  # high 106 >= stop 105 -> stop hit (short sale)
+    ])
+    ex = simulate_exit(candles, pd.Timestamp("2026-06-27 09:00", tz="UTC"),
+                       "short", stop_px=105, target_px=90, time_stop_h=72)
+    assert ex is not None
+    _, reason, _ = ex
+    assert reason == "stop"
