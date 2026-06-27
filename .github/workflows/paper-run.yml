@@ -1,7 +1,7 @@
 name: paper-run
 
 # Run 24/7 in cloud: ogni ora anche a Mac spento. Paper trading; l'LLM è GLM-5.2
-# sul coding plan di Z.ai (secret ZAI_API_KEY), max effort thinking.
+# via OpenRouter (secret OPENROUTER_API_KEY), max effort reasoning.
 # Trigger orario via Cloudflare Worker (lux-paper-cron) → workflow_dispatch: lo
 # scheduler nativo GitHub saltava le run su repo privato. Worker = clock affidabile.
 on:
@@ -22,7 +22,7 @@ jobs:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       COINALYZE_API_KEY: ${{ secrets.COINALYZE_API_KEY }}
-      ZAI_API_KEY: ${{ secrets.ZAI_API_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
       # BYPASS TEMPORANEO: l'hard_check (tier 1) non vetoa per sizing (leva/risk/
@@ -60,9 +60,9 @@ jobs:
             uv run scripts/portfolio_paper.py "$pf" || true
           done
 
-      # gira solo se il secret ZAI_API_KEY esiste (coding plan Z.ai → GLM-5.2)
+      # gira solo se il secret OPENROUTER_API_KEY esiste (OpenRouter → GLM-5.2)
       - name: pipeline LLM (review + decide)
-        if: env.ZAI_API_KEY != ''
+        if: env.OPENROUTER_API_KEY != ''
         run: |
           uv run scripts/review.py || true
           uv run scripts/decide.py BTC,ETH,SOL,SUI,ZEC || true
@@ -84,7 +84,7 @@ jobs:
 
       # GENERAZIONE nuovi challenger — settimanale (lun 00:xx UTC), serve l'LLM ed è pesante.
       - name: evolve (genera challenger)
-        if: env.ZAI_API_KEY != ''
+        if: env.OPENROUTER_API_KEY != ''
         run: |
           if [ "$(date -u +%u)" = "1" ] && [ "$(date -u +%H)" = "00" ]; then
             uv run scripts/evolve_auto.py || true

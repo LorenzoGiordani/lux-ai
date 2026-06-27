@@ -208,7 +208,9 @@ def main() -> None:
     # 3. esegui le decisioni nuove di questo account
     for d in pending_decisions(st["last_decision_ts"]):
         st["last_decision_ts"] = max(st["last_decision_ts"], d["logged_at"])
-        symbol = d["proposal"]["symbol"]
+        # ponytail: normalizza PRIMA del check (vedi agents_paper.py): "ETH/USD"
+        # deve vedere la posizione "ETH" già aperta, altrimenti riapre come duplicato.
+        symbol = canonical_symbol(d["proposal"]["symbol"])
         if symbol in st["positions"] or len(st["positions"]) >= max_conc:
             log_event({"type": "skip", "strategy": ACCOUNT, "symbol": symbol,
                        "reason": "posizione esistente o max concorrenti"})

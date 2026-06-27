@@ -126,7 +126,10 @@ def main() -> None:
     # 2. esegui decisioni nuove
     for d in pending_decisions(st["last_decision_ts"]):
         st["last_decision_ts"] = max(st["last_decision_ts"], d["logged_at"])
-        symbol = d["proposal"]["symbol"]
+        # ponytail: normalizza PRIMA del check, altrimenti "ETH/USD" non vede la
+        # posizione "ETH" già aperta e la riapre come duplicato (bug latente:
+        # il check usava il symbol raw della proposal, la key dict invece è canonical).
+        symbol = canonical_symbol(d["proposal"]["symbol"])
         if symbol in st["positions"] or len(st["positions"]) >= MAX_CONCURRENT:
             log_event({"type": "skip", "strategy": ACCOUNT, "symbol": symbol,
                        "reason": "posizione esistente o max concorrenti"})

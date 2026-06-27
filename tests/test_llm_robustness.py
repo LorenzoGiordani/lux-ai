@@ -1,12 +1,12 @@
-"""Test: layer LLM (GLM-5.2 via Z.ai Coding Plan) — robustezza + nuove capacità.
+"""Test: layer LLM (GLM-5.2 via OpenRouter) — robustezza + nuove capacità.
 
 Tutto OFFLINE (no rete, no chiamate al modello). Verifica:
-  1. NON_TRANSIENT_ERRORS cattura errori reali quota/auth/entitlement del coding
-     plan (fail-fast), senza falsi positivi su prosa di trading.
-  2. extract_text() scarta i blocchi `thinking`; extract_tool_input() estrae il
-     dict dal blocco `tool_use` (structured output).
+  1. NON_TRANSIENT_ERRORS cattura errori reali quota/auth/credit di OpenRouter
+     (fail-fast), senza falsi positivi su prosa di trading.
+  2. extract_text() legge choices[0].message.content (formato OpenAI);
+     extract_tool_input() parsa arguments dal primo tool_call (structured output).
   3. parse_json() robusto a prosa + markdown fence.
-  4. thinking_budget() mappa effort→budget (max overridabile via env).
+  4. reasoning_effort() mappa effort→enum (max→high, none→omesso).
   5. aggregate_proposals(): majority vote dello Strategist (self-consistency).
   6. prompts loader: ruoli/schemi dal yaml, effort + schema_name corretti.
   7. cache applicativo: put poi get ritorna lo stesso risultato.
@@ -17,7 +17,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from scripts.llm import (NON_TRANSIENT_ERRORS, extract_text, extract_tool_input,
-                         parse_json, thinking_budget)
+                         parse_json, reasoning_effort, max_tokens_for)
 from scripts.decide import aggregate_proposals
 from scripts.prompts import get_role, SCHEMA, role_names
 
@@ -31,23 +31,22 @@ def _hits(text: str) -> str | None:
     return None
 
 
-def test_coding_plan_not_entitled_caught():
-    line = '{"error":{"type":"coding_plan_not_entitled","message":"plan not entitled"}}'
-    assert _hits(line)
+def test_insufficient_credits_caught():
+    # OpenRouter 402: "insufficient credits"
+    assert _hits('{"error":{"code":402,"message":"Insufficient credits"}}')
 
 
-def test_weekly_usage_limit_caught():
-    line = '{"error":{"message":"Weekly usage limit reached. Resets in 3 days."}}'
-    assert _hits(line)
-
-
-def test_insufficient_balance_caught():
-    assert _hits("error: insufficient balance on account")
-    assert _hits("insufficient_quota: exceeded quota")
-
-
-def test_unauthorized_caught():
+def test_invalid_api_key_caught():
     assert _hits("401 Unauthorized: invalid api key")
+
+
+def test_no_credit_caught():
+    assert _hits("error: no credit on account")
+
+
+def test_rate_limit_not_non_transient():
+    # 429 rate limit è TRANSIENTE (retry) — NON deve essere catturato qui
+    assert not _hits("429 Too Many Requests: rate limit exceeded")
 
 
 def test_legit_output_not_false_positive():
@@ -56,22 +55,28 @@ def test_legit_output_not_false_positive():
     assert not _hits(legit)
 
 
-# ─── 2. estrazione contenuto ─────────────────────────────────────────────────
-def test_extract_text_skips_thinking():
-    content = [{"type": "thinking", "thinking": "NO"},
-               {"type": "text", "text": "A "},
-               {"type": "text", "text": "B"}]
-    assert extract_text(content) == "A B"
+# ─── 2. estrazione contenuto (formato OpenAI) ────────────────────────────────
+def test_extract_text_returns_content_string():
+    # OpenAI: message.content è una stringa (non lista di blocchi)
+    message = {"role": "assistant", "content": "A B"}
+    assert extract_text(message) == "A B"
 
 
-def test_extract_tool_input():
-    content = [{"type": "thinking", "thinking": "..."},
-               {"type": "tool_use", "input": {"action": "trade", "symbol": "BTC"}}]
-    assert extract_tool_input(content) == {"action": "trade", "symbol": "BTC"}
+def test_extract_text_empty_when_no_content():
+    assert extract_text({"role": "assistant", "content": None}) == ""
+
+
+def test_extract_tool_input_parses_arguments():
+    # arguments è una stringa JSON su OpenAI format (non dict già pronto)
+    message = {"role": "assistant", "content": None,
+               "tool_calls": [{"id": "c1", "type": "function",
+                               "function": {"name": "propose",
+                                            "arguments": '{"action": "trade", "symbol": "BTC"}'}}]}
+    assert extract_tool_input(message) == {"action": "trade", "symbol": "BTC"}
 
 
 def test_extract_tool_input_none_when_absent():
-    assert extract_tool_input([{"type": "text", "text": "x"}]) is None
+    assert extract_tool_input({"role": "assistant", "content": "x"}) is None
 
 
 # ─── 3. parse_json ───────────────────────────────────────────────────────────
@@ -84,21 +89,24 @@ def test_parse_json_plain():
     assert parse_json('{"a": 1}') == {"a": 1}
 
 
-# ─── 4. effort → budget ──────────────────────────────────────────────────────
-def test_thinking_budget_levels():
-    assert thinking_budget("none") == 0
-    assert thinking_budget("low") > 0
-    assert thinking_budget("medium") > thinking_budget("low")
-    assert thinking_budget("max") >= thinking_budget("medium")
+# ─── 4. effort → reasoning_effort enum ───────────────────────────────────────
+def test_reasoning_effort_levels():
+    assert reasoning_effort("max") == "high"
+    assert reasoning_effort("medium") == "medium"
+    assert reasoning_effort("low") == "low"
+    assert reasoning_effort("none") is None
 
 
-def test_thinking_budget_max_env_override(monkeypatch=None):
-    # max è overridabile via GLM_THINKING_BUDGET (simulato impostando l'env)
-    os.environ["GLM_THINKING_BUDGET"] = "9999"
-    try:
-        assert thinking_budget("max") == 9999
-    finally:
-        del os.environ["GLM_THINKING_BUDGET"]
+def test_reasoning_effort_unknown_defaults_none():
+    assert reasoning_effort("inesistente") is None
+
+
+def test_max_tokens_scales_with_effort():
+    # effort alto → più spazio (reasoning + content); none → solo output
+    assert max_tokens_for("max") > max_tokens_for("medium")
+    assert max_tokens_for("medium") > max_tokens_for("low")
+    assert max_tokens_for("none") > 0
+    assert max_tokens_for("inesistente") > 0  # fallback sicuro
 
 
 # ─── 5. self-consistency (aggregate_proposals) ───────────────────────────────
