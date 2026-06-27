@@ -34,6 +34,18 @@ _PERP_CACHE: dict = {}
 import re as _re
 _QUOTE_SUFFIXES = ("USDT", "USDC", "USD", "BUSD", "TUSD", "PERP")
 
+# Alias commodity -> base coin canonico. L'LLM (desk geopolitico) emette nomi
+# incoerenti per lo stesso underlying: NG / NATGAS / NG1! sono tutti natural
+# gas, WTI e' crude oil. Senza questo aliasing le decisioni su "NG" non si
+# riconciliano con la posizione "NATGAS" in state -> feed e posizioni discordano.
+_COMMODITY_ALIASES = {
+    "NG": "NATGAS", "NG1": "NATGAS", "NG1!": "NATGAS", "NATGAS": "NATGAS", "NATURALGAS": "NATGAS",
+    "WTI": "CL", "CRUDE": "CL", "CL": "CL",
+    "BRENT": "BRENTOIL", "BRENTOIL": "BRENTOIL",
+    "XAUUSD": "GOLD", "XAU": "GOLD", "GOLD": "GOLD",
+    "XAGUSD": "SILVER", "XAG": "SILVER", "SILVER": "SILVER",
+}
+
 
 def canonical_symbol(symbol) -> str:
     """Normalizza un simbolo emesso dall'LLM nel BASE coin canonico usato dal sistema.
@@ -80,7 +92,9 @@ def canonical_symbol(symbol) -> str:
                 s = s[: -len(q)]
                 changed = True
     s = s.replace("/", "").replace("-", "")
-    return s
+    # alias commodity: NG/NG1!/WTI/XAUUSD -> NATGAS/CL/GOLD (stesso underlying,
+    # nomi diversi emessi dall'LLM). Solo sui base coin puliti.
+    return _COMMODITY_ALIASES.get(s, s)
 
 
 def _perp_dexs() -> list[str]:

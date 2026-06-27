@@ -133,11 +133,18 @@ def ts_short(s: str) -> str:
 
 
 def clean_symbol(s: str) -> str:
-    # normalizza alla radice (canonical_symbol in pipeline/live): l'LLM emette
-    # "SOL/USDT", "SOLUSDT", "SOL-PERP"... ma lo state usa solo "SOL". Usata qui
-    # anche per riconciliare le decisioni storiche gia' loggate con simbolo sporco.
+    # riduce al BASE coin canonico per display e matching nel feed: l'LLM emette
+    # "SOL/USDT", "SOLUSDT", "SOL-PERP"... e le venue HIP-3 usano "xyz:CL" mentre
+    # la decisione corrispondente dice "CL". Senza ridurre entrambi a "CL" il feed
+    # non riconcilia la decisione con la posizione reale in state (che memorizza
+    # il nome HL completo xyz:CL, necessario a fetch_live).
+    # canonical_symbol preserva xyz: (serve a fetch); qui lo strippiamo via.
     from pipeline.live import canonical_symbol
-    return canonical_symbol(s)
+    c = canonical_symbol(s)
+    if ":" in c:                     # venue HIP-3: "xyz:CL" -> "CL"
+        c = c.split(":", 1)[1]
+    c = c.removeprefix("xyz_")       # legacy: "xyz_NATGAS" -> "NATGAS"
+    return c
 
 
 # descrizione sintetica e onesta di un burst news: la pipeline GDELT salva solo

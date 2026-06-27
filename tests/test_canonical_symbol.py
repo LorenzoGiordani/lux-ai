@@ -42,6 +42,29 @@ def test_canonical_strips_quote_suffixes():
         assert got == expected, f"canonical({raw!r}) = {got!r}, expected {expected!r}"
 
 
+def test_canonical_commodity_aliases():
+    # l'LLM emette nomi incoerenti per lo stesso underlying (desk geopolitico):
+    # NG / NATGAS / NG1! sono tutti natural gas. Devono convergere a NATGAS.
+    assert canonical_symbol("NG") == "NATGAS"
+    assert canonical_symbol("NG1!") == "NATGAS"
+    assert canonical_symbol("NATGAS") == "NATGAS"
+    assert canonical_symbol("WTI") == "CL"
+    assert canonical_symbol("CL") == "CL"
+    assert canonical_symbol("XAUUSD") == "GOLD"
+    assert canonical_symbol("BRENT") == "BRENTOIL"
+
+
+def test_clean_symbol_strips_venue_for_matching():
+    # clean_symbol (dashboard) riduce al base coin: xyz:CL -> CL, cosi' la
+    # decisione "CL" e la posizione "xyz:CL" in state riconciliano nello stesso key.
+    from scripts.dashboard import clean_symbol
+    assert clean_symbol("xyz:CL") == "CL"
+    assert clean_symbol("xyz_NATGAS") == "NATGAS"
+    assert clean_symbol("xyz:NATGAS") == "NATGAS"
+    assert clean_symbol("CL") == "CL"
+    assert clean_symbol("NG") == "NATGAS"
+
+
 def test_canonical_preserves_hip3_and_legacy():
     # i qualificatori di venue HIP-3 (con ':') e il legacy 'xyz_' vanno preservati
     assert canonical_symbol("xyz:NATGAS") == "xyz:NATGAS"
