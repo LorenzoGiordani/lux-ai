@@ -136,6 +136,35 @@ def clean_symbol(s: str) -> str:
     return str(s).removeprefix("xyz_")
 
 
+# descrizione sintetica e onesta di un burst news: la pipeline GDELT salva solo
+# (ts, topic, z, tone) — niente headline. Costruiamo un contesto leggibile dal
+# tema + direzione del tono + intensita', coerente con la filosofia della sezione
+# (il tono non predice la direzione; conta la volatilita').
+_TOPIC_LABEL = {
+    "crypto": "copertura su asset crypto",
+    "fed_macro": "focus su decisioni Fed / macro",
+    "commodities": "copertura su materie prime",
+    "equities": "attenzione sui mercati azionari",
+    "geopolitics": "tensione geopolitica",
+}
+
+
+def event_desc(topic: str, z: float, tone) -> str:
+    base = _TOPIC_LABEL.get(topic, f"burst sul tema {topic}")
+    mag = "forte" if z >= 3 else "marcato" if z >= 2.2 else "lieve"
+    if tone is None:
+        tone_txt = "tono non disponibile"
+    elif tone <= -1.0:
+        tone_txt = "tono fortemente negativo (ribassista)"
+    elif tone < 0:
+        tone_txt = "tono negativo (ribassista)"
+    elif tone >= 1.0:
+        tone_txt = "tono fortemente positivo (rialzista)"
+    else:
+        tone_txt = "tono positivo (rialzista)"
+    return f"Burst {mag} di {base} ({z:.1f}\u03c3). {tone_txt} \u2014 filtro di rischio attivo, nuove entrate sospese."
+
+
 def asset_class(symbols: str) -> str:
     syms = [s.strip() for s in symbols.split(",") if s.strip()]
     if not syms:
@@ -173,11 +202,13 @@ def build_strategies(state: dict) -> list[dict]:
     _NON_MECH = ("desk", "portfolio")
     # tutte le spec con YAML: champion/challenger (attive, anche desk/portfolio) o in state
     yaml_specs = list(all_specs())
-    active_ids = {s["id"] for _, s in yaml_specs
-                  if s.get("status") in ("champion", "challenger")}
     in_state_ids = {sid for sid in state}  # qualsiasi conto in state, anche flat
+    # una strategia e' "attiva" se ha un conto paper (ha girato almeno una volta) o
+    # e' il campione. I challenger promossi nello YAML ma mai attivati nel cron
+    # (nessuno state) sono candidati parcheggiate: non conteggiati come attive —
+    # restano visibili nell'albero di evoluzione (lineage), non tra i conti vivi.
     specs = [(p, s) for p, s in yaml_specs
-             if s["id"] in active_ids or s["id"] in in_state_ids]
+             if s["id"] in in_state_ids or s.get("status") == "champion"]
     for path, spec in specs:
         sid = spec["id"]
         seen.add(sid)
@@ -502,7 +533,9 @@ def build_data() -> dict:
         import pandas as pd
         ev = pd.read_parquet(ev_path).sort_values("ts").tail(15)
         events = [{"ts": ts_short(r.ts), "topic": r.topic, "z": round(float(r.z), 2),
-                   "tone": None if pd.isna(r.tone) else round(float(r.tone), 2)}
+                   "tone": None if pd.isna(r.tone) else round(float(r.tone), 2),
+                   "desc": event_desc(r.topic, float(r.z),
+                                       None if pd.isna(r.tone) else float(r.tone))}
                   for r in ev.itertuples()][::-1]
 
     # trading book: open↔close accoppiati dal journal, in ordine cronologico

@@ -29,8 +29,11 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+import numpy as np
+
 from backtest.engine import Backtest
-from backtest.metrics import compute
+from backtest.metrics import HOURS_PER_YEAR, compute
+from backtest.portfolio import PortfolioBacktest, xs_momentum_weights
 from backtest.strategy import compile_strategy, load
 from backtest.walkforward import evaluate
 
@@ -140,6 +143,136 @@ def backtest_strategy(spec_path: Path, months: int) -> dict | None:
     }
 
 
+# ---------- engine portfolio (cross-section, dollar-neutral) ----------
+# Le strategie portfolio non hanno entry/exit per-simbolo: l'edge e' nello spread
+# mantenuto tra le gambe. Si backtesta come un unico portafoglio ribilanciato, e la
+# metrica e' sull'equity di portafoglio (niente breakdown per-asset: non esistono
+# trade per-simbolo). Il fattore (xsmom/highvol/combo) determina COSA si ranka.
+
+def _close_panel(symbols: list[str], months: int) -> pd.DataFrame | None:
+    """Panel close allineato (inner join su ts comuni) per il basket."""
+    frames = {}
+    for sym in symbols:
+        cp = DATA / "candles" / f"{sym}.parquet"
+        if not cp.exists():
+            return None
+        c = pd.read_parquet(cp)[["ts", "close"]].rename(columns={"close": sym})
+        frames[sym] = c.set_index("ts")[sym]
+    if not frames:
+        return None
+    panel = pd.DataFrame(frames).dropna().sort_index()
+    panel = panel.tail(months * 30 * 24)
+    return panel if len(panel) >= 30 * 24 else None
+
+
+def _signal_panel(close: pd.DataFrame, pf: dict) -> pd.DataFrame:
+    """Pannello del segnale di ranking (un valore per simbolo per ts): xsmom =
+    ritorno trailing, highvol = volatilita' trailing, combo = z-score pesato.
+    Anti-lookahead: ogni segnale usa solo dati <= t."""
+    factors = pf.get("factors")
+    if factors:
+        weights = pf.get("weights", [0.5] * len(factors))
+        parts = []
+        for f, w in zip(factors, weights):
+            if f == "highvol":
+                vl = int(pf.get("vol_lookback_h", 72))
+                parts.append(close.pct_change().rolling(vl).std() * w)
+            else:  # xsmom
+                lb = int(pf.get("lookback_h", 168))
+                parts.append(close.pct_change(lb) * w)
+        sig = sum(parts)
+        mu = sig.mean(axis=1)
+        sd = sig.std(axis=1).replace(0.0, np.nan)
+        return sig.sub(mu, axis=0).div(sd, axis=0)   # z-score cross-section
+    factor = pf.get("factor", "xsmom")
+    if factor == "highvol":
+        vl = int(pf.get("vol_lookback_h", 72))
+        return close.pct_change().rolling(vl).std()
+    lbs = pf.get("lookbacks_h")   # multi-horizon: media dei ritorni trailing
+    if lbs:
+        return sum(close.pct_change(int(lb)) for lb in lbs) / len(lbs)
+    lb = int(pf.get("lookback_h", 168))
+    return close.pct_change(lb)
+
+
+def _portfolio_weight_fn(signal_panel: pd.DataFrame, pf: dict):
+    """weight_fn per PortfolioBacktest.run: recupera il ts dalla riga (`.name`) e
+    ranka il segnale di portafoglio corretto. xs_momentum_weights converte rank -> pesi."""
+    kw = dict(long_q=float(pf.get("long_q", 0.66)), short_q=float(pf.get("short_q", 0.33)),
+              gross=float(pf.get("gross", 1.0)), dollar_neutral=bool(pf.get("dollar_neutral", True)))
+
+    def wf(trailing_row):
+        sig = signal_panel.loc[trailing_row.name] if trailing_row.name in signal_panel.index else trailing_row
+        return xs_momentum_weights(sig, **kw)
+    return wf
+
+
+def _apply_vol_target(port_ret: pd.Series, vt: dict) -> tuple[pd.Series, float]:
+    """Overlay vol-target (Moreira-Muir): scala i rendimenti per m = target/realized
+    (clip floor..cap). Approssimazione onesta del live (che scala il gross a ogni
+    ribilanciamento); restituisce rets scalati + m medio."""
+    if not vt or not vt.get("enabled"):
+        return port_ret, 1.0
+    target = float(vt.get("target_vol_ann", 0.2))
+    win = int(vt.get("vol_window_h", 720))
+    floor = float(vt.get("gross_floor", 0.3))
+    cap = float(vt.get("gross_cap", 1.5))
+    realized = port_ret.rolling(win).std() * np.sqrt(HOURS_PER_YEAR)
+    m = (target / realized).clip(floor, cap).fillna(1.0)
+    return port_ret * m, float(m.mean())
+
+
+def backtest_portfolio_strategy(spec_path: Path, months: int) -> dict | None:
+    spec = load(spec_path)
+    symbols = [s.strip() for s in str(spec.get("paper_symbols", "")).split(",") if s.strip()]
+    if not symbols:
+        return None
+    panel = _close_panel(symbols, months)
+    if panel is None:
+        return None
+    pf = spec.get("portfolio", {}) or {}
+    lookback_h = int(pf.get("lookback_h", pf.get("vol_lookback_h", 168)))
+    rebalance_h = int(pf.get("rebalance_h", 168))
+    bt = PortfolioBacktest(panel)
+    signal_panel = _signal_panel(bt.close, pf)
+    warmup = max(lookback_h, int(pf.get("vol_lookback_h", 0)), max(pf.get("lookbacks_h", [0]) or [0]))
+    equity, port_ret, _ = bt.run(_portfolio_weight_fn(signal_panel, pf),
+                                 lookback_h=max(lookback_h, warmup), rebalance_h=rebalance_h)
+    if equity.empty:
+        return None
+    vt = pf.get("vol_target")
+    port_ret, vt_m = _apply_vol_target(port_ret, vt)
+    equity = (1.0 + port_ret).cumprod()
+    eq_df = pd.DataFrame({"ts": equity.index, "equity": equity.values})
+    basket = pd.DataFrame({"ts": panel.index,
+                           "close": (panel / panel.iloc[0]).mean(axis=1).values})
+    a = _aggregate_portfolio(eq_df, basket)
+    return {
+        "id": spec["id"],
+        "status": spec.get("status", "?"),
+        "engine": "portfolio",
+        "thesis": (spec.get("thesis", "") or "")[:280],
+        "is_benchmark": spec["id"] == BENCHMARK,
+        "window": f"{panel.index.min():%Y-%m-%d} \u2192 {panel.index.max():%Y-%m-%d}",
+        "basket_size": len(symbols),
+        "vol_target": (f"on (m medio {vt_m:.2f})" if vt and vt.get("enabled") else "off"),
+        "aggregate": a,
+        "per_symbol": [],   # n/a: edge cross-section, non per-asset
+    }
+
+
+def _aggregate_portfolio(equity_df: pd.DataFrame, basket: pd.DataFrame) -> dict:
+    m = compute(equity_df, [])
+    ev = evaluate(equity_df, basket)
+    return {
+        "mean_sharpe": round(m["sharpe"], 2),
+        "mean_return": round(m["total_return"], 4),
+        "worst_drawdown": round(m["max_drawdown"], 4),
+        "positive_symbols": "market-neutral",   # n/a per portafogli dollar-neutral
+        "consistency": ev["consistency"],
+    }
+
+
 def _active_specs() -> list[Path]:
     """Tutte le challenger/attive + il benchmark, ordinate (benchmark per primo)."""
     paths = sorted((ROOT / "strategies").glob("*.yaml")) + sorted((ROOT / "strategies" / "generated").glob("*.yaml"))
@@ -148,6 +281,10 @@ def _active_specs() -> list[Path]:
         try:
             s = load(p)
         except Exception:
+            continue
+        # i desk LLM non sono backtestabili per design (LLM = giudice, non oracolo):
+        # le loro decisioni simulate sarebbero contaminazione. Li si valuta solo paper.
+        if s.get("engine") == "desk":
             continue
         if s.get("id") == BENCHMARK:
             out.append(p)
@@ -165,11 +302,15 @@ def main() -> int:
 
     results = []
     for spec_path in _active_specs():
-        r = backtest_strategy(spec_path, months)
+        spec = load(spec_path)
+        r = (backtest_portfolio_strategy(spec_path, months)
+             if spec.get("engine") == "portfolio"
+             else backtest_strategy(spec_path, months))
         if r:
+            tag = "[portfolio]" if r.get("engine") == "portfolio" else ""
             print(f"  {r['id']:<32} mean Sharpe {r['aggregate']['mean_sharpe']:5.2f} | "
                   f"ret {r['aggregate']['mean_return']:+6.2%} | "
-                  f"{r['aggregate']['positive_symbols']} positivi")
+                  f"{r['aggregate']['positive_symbols']} {tag}")
             results.append(r)
 
     payload = {

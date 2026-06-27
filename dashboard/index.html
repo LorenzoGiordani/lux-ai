@@ -209,6 +209,7 @@ table.pos-tbl{ width:100%; border-collapse:collapse; min-width:760px; }
 .side.short{ color:var(--red); background:var(--red-wash); }
 .acct-pill{ font-family:var(--mono); font-size:10px; letter-spacing:.06em; color:var(--text-3); border:1px solid var(--line); border-radius:100px; padding:2px 8px; white-space:nowrap; }
 .muted-cell{ color:var(--text-3); }
+.ev-desc{ font-family:var(--serif); font-size:13.5px; color:var(--text-2); line-height:1.5; max-width:440px; }
 .bar-mini{ display:inline-block; vertical-align:middle; }
 
 /* ---------- decisions feed ---------- */
@@ -613,6 +614,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
 .bt-card.bench{ border-color:var(--amber-dim); box-shadow:inset 3px 0 0 var(--amber); }
 .bt-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:4px; }
 .bt-head h3{ font-family:var(--serif); font-size:18px; margin:0; }
+.bt-eng{ font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-4); margin-left:8px; vertical-align:middle; }
 .bt-badge{ font-family:var(--mono); font-size:10.5px; padding:3px 9px; border-radius:100px; border:1px solid var(--rule); color:var(--text-3); text-transform:uppercase; letter-spacing:.04em; }
 .bt-badge.bench{ color:var(--amber); border-color:var(--amber-dim); background:var(--amber-wash); }
 .bt-agg{ display:grid; grid-template-columns:1fr 1fr; gap:10px 18px; margin:14px 0 16px; padding:12px 0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); }
@@ -882,6 +884,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
             <th>Tema</th>
             <th>Intensità (z)</th>
             <th>Tono</th>
+            <th>Cosa è successo</th>
           </tr>
         </thead>
         <tbody id="events-body"></tbody>
@@ -911,7 +914,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
      ========================================================= -->
 <script id="data" type="application/json">
 {
- "updated_utc": "2026-06-27 14:45",
+ "updated_utc": "2026-06-27 15:06",
  "accounts": [
   {
    "id": "agents-v1",
@@ -3392,6 +3395,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
       [
        "2026-06-27 13:00",
        1591.4
+      ],
+      [
+       "2026-06-27 14:00",
+       1593.6
       ]
      ]
     }
@@ -3985,6 +3992,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
       [
        "2026-06-27 13:00",
        60553.0
+      ],
+      [
+       "2026-06-27 14:00",
+       60583.0
       ]
      ]
     }
@@ -12506,7 +12517,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     "liq_imbalance": 0,
     "kronos_forecast": 1,
     "smart_money_ratio": 0,
-    "oi_trend": 0
+    "oi_trend": -1
    },
    "aligned": false,
    "direction": "—"
@@ -12530,7 +12541,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     "liq_imbalance": 0,
     "kronos_forecast": 0,
     "smart_money_ratio": 0,
-    "oi_trend": 0
+    "oi_trend": 1
    },
    "aligned": false,
    "direction": "—"
@@ -12554,7 +12565,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     "liq_imbalance": 0,
     "kronos_forecast": -1,
     "smart_money_ratio": 0,
-    "oi_trend": 0
+    "oi_trend": 1
    },
    "aligned": false,
    "direction": "—"
@@ -12566,7 +12577,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     "liq_imbalance": 0,
     "kronos_forecast": 1,
     "smart_money_ratio": 0,
-    "oi_trend": 0
+    "oi_trend": -1
    },
    "aligned": false,
    "direction": "—"
@@ -12590,7 +12601,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     "liq_imbalance": 0,
     "kronos_forecast": 0,
     "smart_money_ratio": 0,
-    "oi_trend": 0
+    "oi_trend": -1
    },
    "aligned": false,
    "direction": "—"
@@ -12613,91 +12624,106 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "ts": "2026-06-27 00:00",
    "topic": "geopolitics",
    "z": 2.0,
-   "tone": -1.64
+   "tone": -1.64,
+   "desc": "Burst lieve di tensione geopolitica (2.0σ). tono fortemente negativo (ribassista) — filtro di rischio attivo, nuove entrate sospese."
   },
   {
    "ts": "2026-06-27 00:00",
    "topic": "commodities",
    "z": 2.28,
-   "tone": -2.01
+   "tone": -2.01,
+   "desc": "Burst marcato di copertura su materie prime (2.3σ). tono fortemente negativo (ribassista) — filtro di rischio attivo, nuove entrate sospese."
   },
   {
    "ts": "2026-06-25 00:15",
    "topic": "fed_macro",
    "z": 2.25,
-   "tone": -1.41
+   "tone": -1.41,
+   "desc": "Burst marcato di focus su decisioni Fed / macro (2.3σ). tono fortemente negativo (ribassista) — filtro di rischio attivo, nuove entrate sospese."
   },
   {
    "ts": "2026-06-25 00:00",
    "topic": "equities",
    "z": 2.38,
-   "tone": -0.04
+   "tone": -0.04,
+   "desc": "Burst marcato di attenzione sui mercati azionari (2.4σ). tono negativo (ribassista) — filtro di rischio attivo, nuove entrate sospese."
   },
   {
    "ts": "2026-06-24 05:00",
    "topic": "crypto",
    "z": 2.24,
-   "tone": -1.6
+   "tone": -1.6,
+   "desc": "Burst marcato di copertura su asset crypto (2.2σ). tono fortemente negativo (ribassista) — filtro di rischio attivo, nuove entrate sospese."
   },
   {
    "ts": "2026-06-15 13:30",
    "topic": "geopolitics",
    "z": 2.11,
-   "tone": -1.07
+   "tone": -1.07,
+   "desc": "Burst lieve di tensione geopolitica (2.1σ). tono fortemente negativo (ribassista) — filtro di rischio attivo, nuove entrate sospese."
   },
   {
    "ts": "2026-06-12 10:45",
    "topic": "equities",
    "z": 2.37,
-   "tone": 0.49
+   "tone": 0.49,
+   "desc": "Burst marcato di attenzione sui mercati azionari (2.4σ). tono positivo (rialzista) — filtro di rischio attivo, nuove entrate sospese."
   },
   {
    "ts": "2026-06-11 21:15",
    "topic": "fed_macro",
    "z": 2.26,
-   "tone": -1.28
+   "tone": -1.28,
+   "desc": "Burst marcato di focus su decisioni Fed / macro (2.3σ). tono fortemente negativo (ribassista) — filtro di rischio attivo, nuove entrate sospese."
   },
   {
    "ts": "2026-06-10 00:00",
    "topic": "commodities",
    "z": 2.5,
-   "tone": -2.74
+   "tone": -2.74,
+   "desc": "Burst marcato di copertura su materie prime (2.5σ). tono fortemente negativo (ribassista) — filtro di rischio attivo, nuove entrate sospese."
   },
   {
    "ts": "2026-05-19 20:15",
    "topic": "crypto",
    "z": 2.84,
-   "tone": -3.75
+   "tone": -3.75,
+   "desc": "Burst marcato di copertura su asset crypto (2.8σ). tono fortemente negativo (ribassista) — filtro di rischio attivo, nuove entrate sospese."
   },
   {
    "ts": "2026-04-29 19:00",
    "topic": "commodities",
    "z": 2.41,
-   "tone": -2.67
+   "tone": -2.67,
+   "desc": "Burst marcato di copertura su materie prime (2.4σ). tono fortemente negativo (ribassista) — filtro di rischio attivo, nuove entrate sospese."
   },
   {
    "ts": "2026-04-29 00:00",
    "topic": "fed_macro",
    "z": 2.35,
-   "tone": -2.15
+   "tone": -2.15,
+   "desc": "Burst marcato di focus su decisioni Fed / macro (2.4σ). tono fortemente negativo (ribassista) — filtro di rischio attivo, nuove entrate sospese."
   },
   {
    "ts": "2026-04-24 18:00",
    "topic": "crypto",
    "z": 2.98,
-   "tone": -2.46
+   "tone": -2.46,
+   "desc": "Burst marcato di copertura su asset crypto (3.0σ). tono fortemente negativo (ribassista) — filtro di rischio attivo, nuove entrate sospese."
   },
   {
    "ts": "2026-04-08 19:00",
    "topic": "geopolitics",
    "z": 2.26,
-   "tone": -2.76
+   "tone": -2.76,
+   "desc": "Burst marcato di tensione geopolitica (2.3σ). tono fortemente negativo (ribassista) — filtro di rischio attivo, nuove entrate sospese."
   },
   {
    "ts": "2026-04-07 16:00",
    "topic": "crypto",
    "z": 2.13,
-   "tone": -3.27
+   "tone": -3.27,
+   "desc": "Burst lieve di copertura su asset crypto (2.1σ). tono fortemente negativo (ribassista) — filtro di rischio attivo, nuove entrate sospese."
   }
  ],
  "strategies": [
@@ -12709,7 +12735,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "esce": "perdita massima predefinita (stop), obiettivo raggiunto (target) o troppo tempo senza risultato",
    "rischio": "massimo 1% del capitale a rischio per operazione, leva non oltre 2x",
    "status": "retired",
-   "asset_class": "tutti i perp (111), crypto+stock/commodity",
+   "asset_class": "tutti i perp (110), crypto+stock/commodity",
    "risk_profile": "bilanciato",
    "stats": {
     "n_closed": 195,
@@ -12763,7 +12789,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "esce": "stop, target o tempo massimo scaduto",
    "rischio": "massimo 1% del capitale a rischio per operazione, leva non oltre 2x",
    "status": "retired",
-   "asset_class": "tutti i perp (113), crypto+stock/commodity",
+   "asset_class": "tutti i perp (112), crypto+stock/commodity",
    "risk_profile": "bilanciato",
    "stats": {
     "n_closed": 97,
@@ -12889,7 +12915,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "esce": "stop 4.0%, target 2.0R, tempo max 240h",
    "rischio": "leva max 2x, 1.0% a rischio per operazione",
    "status": "retired",
-   "asset_class": "tutti i perp (111), crypto+stock/commodity",
+   "asset_class": "tutti i perp (110), crypto+stock/commodity",
    "risk_profile": "bilanciato",
    "stats": {
     "n_closed": 39,
@@ -12907,7 +12933,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "esce": "stop ravvicinato, obiettivo raggiunto o troppo tempo senza risultato",
    "rischio": "nessuna leva (1x), massimo 0,6% del capitale a rischio per operazione, al più 2 posizioni insieme",
    "status": "retired",
-   "asset_class": "tutti i perp (180), crypto+stock/commodity",
+   "asset_class": "tutti i perp (178), crypto+stock/commodity",
    "risk_profile": "conservativo",
    "stats": {
     "n_closed": 159,
@@ -12925,7 +12951,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
    "esce": "stop 2.5%, target 3.0R, tempo max 240h",
    "rischio": "leva max 1x, 0.6% a rischio per operazione",
    "status": "retired",
-   "asset_class": "tutti i perp (182), crypto+stock/commodity",
+   "asset_class": "tutti i perp (180), crypto+stock/commodity",
    "risk_profile": "conservativo",
    "stats": {
     "n_closed": 142,
@@ -12969,24 +12995,6 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     "mean_r": 0.00012,
     "win_rate": 0.556,
     "total_pnl": 13.92
-   }
-  },
-  {
-   "id": "xsmom-multihorizon-v1",
-   "nome": "xsmom-multihorizon-v1",
-   "cosa": "CROSS-SECTIONAL MOMENTUM MULTI-ORIZZONTE. Stesso edge del parent xsmom-port-v1 (rank relativo nel basket, dollar-neutral) ma mediato su 3 orizzonti (lb 96/168/336h): il segnale a 96h cattura i movimenti di medio termine, 168h e' il core del parent, 336h il trend di fondo. La medi…",
-   "entra": "segnali: ",
-   "esce": "stop 0%, target 0R, tempo max 0h",
-   "rischio": "leva max 2x, 1.0% a rischio per operazione",
-   "status": "challenger",
-   "asset_class": "crypto",
-   "risk_profile": "bilanciato",
-   "stats": {
-    "n_closed": 0,
-    "sharpe_r": 0.0,
-    "mean_r": 0.0,
-    "win_rate": 0.0,
-    "total_pnl": 0.0
    }
   },
   {
@@ -15959,10 +15967,305 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
   "months": 6,
   "impact_k": 0.5,
   "funding_mode": "storico (dove disponibile)",
-  "generated_at": "2026-06-27T14:29 UTC",
-  "strategies": []
+  "generated_at": "2026-06-27T15:01 UTC",
+  "strategies": [
+   {
+    "id": "tsmom-v1",
+    "status": "retired",
+    "thesis": "Time-series momentum (Moskowitz-Ooi-Pedersen): il segno del ritorno passato predice il ritorno futuro, su ogni asset class — l'edge istituzionale più documentato. Adattato a 1h: concordanza 7g+30g, posizionale con stop largo. Falsificata se: su basket misto crypto+commodities+ind",
+    "is_benchmark": true,
+    "window": "2025-12-22 → 2026-06-20",
+    "basket_size": 8,
+    "aggregate": {
+     "mean_sharpe": -0.58,
+     "mean_return": -0.0925,
+     "worst_drawdown": -0.4303,
+     "positive_symbols": "3/8",
+     "consistency": "12/48"
+    },
+    "per_symbol": [
+     {
+      "symbol": "BTC",
+      "ret": 0.072,
+      "sharpe": 1.36,
+      "max_dd": -0.0819,
+      "trades": 22,
+      "win_rate": 0.364,
+      "pf": 1.52,
+      "consistency": "3/6 fold positivi",
+      "exits": {
+       "stopped": 11,
+       "target": 6,
+       "closed": 5
+      }
+     },
+     {
+      "symbol": "ETH",
+      "ret": 0.0859,
+      "sharpe": 1.3,
+      "max_dd": -0.0773,
+      "trades": 31,
+      "win_rate": 0.355,
+      "pf": 1.51,
+      "consistency": "3/6 fold positivi",
+      "exits": {
+       "stopped": 18,
+       "target": 9,
+       "closed": 4
+      }
+     },
+     {
+      "symbol": "xyz_GOLD",
+      "ret": -0.0737,
+      "sharpe": -0.41,
+      "max_dd": -0.2404,
+      "trades": 238,
+      "win_rate": 0.424,
+      "pf": 1.12,
+      "consistency": "1/6 fold positivi",
+      "exits": {
+       "stopped": 128,
+       "target": 79,
+       "closed": 31
+      }
+     },
+     {
+      "symbol": "xyz_CL",
+      "ret": -0.3982,
+      "sharpe": -3.15,
+      "max_dd": -0.4148,
+      "trades": 290,
+      "win_rate": 0.366,
+      "pf": 0.83,
+      "consistency": "1/6 fold positivi",
+      "exits": {
+       "stopped": 177,
+       "target": 84,
+       "closed": 29
+      }
+     },
+     {
+      "symbol": "xyz_BRENTOIL",
+      "ret": -0.2917,
+      "sharpe": -1.84,
+      "max_dd": -0.4303,
+      "trades": 336,
+      "win_rate": 0.39,
+      "pf": 0.97,
+      "consistency": "0/6 fold positivi",
+      "exits": {
+       "stopped": 191,
+       "target": 116,
+       "closed": 29
+      }
+     },
+     {
+      "symbol": "xyz_SILVER",
+      "ret": -0.2156,
+      "sharpe": -1.52,
+      "max_dd": -0.3254,
+      "trades": 265,
+      "win_rate": 0.381,
+      "pf": 0.94,
+      "consistency": "1/6 fold positivi",
+      "exits": {
+       "stopped": 153,
+       "target": 81,
+       "closed": 31
+      }
+     },
+     {
+      "symbol": "xyz_SP500",
+      "ret": -0.302,
+      "sharpe": -5.56,
+      "max_dd": -0.3022,
+      "trades": 156,
+      "win_rate": 0.429,
+      "pf": 0.88,
+      "consistency": "0/6 fold positivi",
+      "exits": {
+       "stopped": 83,
+       "target": 59,
+       "closed": 14
+      }
+     },
+     {
+      "symbol": "xyz_MU",
+      "ret": 0.3831,
+      "sharpe": 5.2,
+      "max_dd": -0.107,
+      "trades": 116,
+      "win_rate": 0.526,
+      "pf": 1.66,
+      "consistency": "3/6 fold positivi",
+      "exits": {
+       "target": 53,
+       "stopped": 51,
+       "closed": 12
+      }
+     }
+    ]
+   },
+   {
+    "id": "highvol-port-v1",
+    "status": "challenger",
+    "engine": "portfolio",
+    "thesis": "HIGH-VOL ANOMALY (inverso della classica low-vol anomaly). Nel basket crypto, gli asset PIU' VOLATILI delle ultime 72h sovraperformano i piu' calmi su orizzonti medi. E' ortogonale al momentum: ranka la VOLATILITA' (dev standard dei rendimenti), non il rendimento stesso. Tesi: il",
+    "is_benchmark": false,
+    "window": "2025-12-22 → 2026-06-20",
+    "basket_size": 9,
+    "vol_target": "off",
+    "aggregate": {
+     "mean_sharpe": 2.07,
+     "mean_return": 0.3533,
+     "worst_drawdown": -0.1463,
+     "positive_symbols": "market-neutral",
+     "consistency": "4/6 fold positivi"
+    },
+    "per_symbol": []
+   },
+   {
+    "id": "xsmom-highvol-combo-v1",
+    "status": "challenger",
+    "engine": "portfolio",
+    "thesis": "COMBO dei DUE edge ortogonali forti del progetto: xsmom (momentum relativo, corr al beta comune nettato) + HIGH-VOL (risk premium crypto, long alt volatili). I due fattori hanno correlazione rendimenti +0.28 (diversificazione GENUINA, non ridondanza: le varianti xsmom erano corr ",
+    "is_benchmark": false,
+    "window": "2025-12-22 → 2026-06-20",
+    "basket_size": 9,
+    "vol_target": "off",
+    "aggregate": {
+     "mean_sharpe": 1.94,
+     "mean_return": 0.2896,
+     "worst_drawdown": -0.1268,
+     "positive_symbols": "market-neutral",
+     "consistency": "3/6 fold positivi"
+    },
+    "per_symbol": []
+   },
+   {
+    "id": "xsmom-highvol-voltarget-v1",
+    "status": "challenger",
+    "engine": "portfolio",
+    "thesis": "COMBO 50/50 dei due edge ortogonali (xsmom + highvol, corr 0.28) con VOL-TARGET OVERLAY (Moreira-Muir \"Volatility-Managed Portfolios\" 2017). Il blend-ratio sweep dell'audit di robustezza ha mostrato 50/50 marginalmente > del 70/30 scelto in xsmom-highvol-combo-v1 (Sharpe 2.75 vs ",
+    "is_benchmark": false,
+    "window": "2025-12-22 → 2026-06-20",
+    "basket_size": 9,
+    "vol_target": "on (m medio 0.89)",
+    "aggregate": {
+     "mean_sharpe": 1.97,
+     "mean_return": 0.2218,
+     "worst_drawdown": -0.1158,
+     "positive_symbols": "market-neutral",
+     "consistency": "3/6 fold positivi"
+    },
+    "per_symbol": []
+   },
+   {
+    "id": "xsmom-multihorizon-v1",
+    "status": "challenger",
+    "engine": "portfolio",
+    "thesis": "CROSS-SECTIONAL MOMENTUM MULTI-ORIZZONTE. Stesso edge del parent xsmom-port-v1 (rank relativo nel basket, dollar-neutral) ma mediato su 3 orizzonti (lb 96/168/336h): il segnale a 96h cattura i movimenti di medio termine, 168h e' il core del parent, 336h il trend di fondo. La medi",
+    "is_benchmark": false,
+    "window": "2025-12-22 → 2026-06-20",
+    "basket_size": 9,
+    "vol_target": "off",
+    "aggregate": {
+     "mean_sharpe": 2.07,
+     "mean_return": 0.3039,
+     "worst_drawdown": -0.1185,
+     "positive_symbols": "market-neutral",
+     "consistency": "4/6 fold positivi"
+    },
+    "per_symbol": []
+   },
+   {
+    "id": "xsmom-port-v1",
+    "status": "challenger",
+    "engine": "portfolio",
+    "thesis": "Cross-sectional momentum a PORTAFOGLIO: long il top-terzile del basket per forza relativa (ultime 168h), short il bottom-terzile, dollar-neutral, ribilanciato ogni 168h. Lo stesso edge che da -14.5% nell'engine per-simbolo stop-based (l'IC e troppo sottile per trade discreti) ren",
+    "is_benchmark": false,
+    "window": "2025-12-22 → 2026-06-20",
+    "basket_size": 9,
+    "vol_target": "off",
+    "aggregate": {
+     "mean_sharpe": 1.97,
+     "mean_return": 0.2943,
+     "worst_drawdown": -0.1199,
+     "positive_symbols": "market-neutral",
+     "consistency": "3/6 fold positivi"
+    },
+    "per_symbol": []
+   }
+  ]
  },
- "llm_stats": {}
+ "llm_stats": {
+  "total": 14,
+  "roles": [
+   {
+    "role": "strategist",
+    "n": 6,
+    "avg_lat": 58.9,
+    "tok_in": 7539,
+    "tok_out": 13389
+   },
+   {
+    "role": "risk",
+    "n": 2,
+    "avg_lat": 45.2,
+    "tok_in": 1639,
+    "tok_out": 3455
+   },
+   {
+    "role": "smoke",
+    "n": 1,
+    "avg_lat": 4.1,
+    "tok_in": 23,
+    "tok_out": 176
+   },
+   {
+    "role": "smoke_struct",
+    "n": 1,
+    "avg_lat": 6.6,
+    "tok_in": 178,
+    "tok_out": 35
+   },
+   {
+    "role": "evolve",
+    "n": 1,
+    "avg_lat": 29.4,
+    "tok_in": 361,
+    "tok_out": 1008
+   },
+   {
+    "role": "analyst",
+    "n": 1,
+    "avg_lat": 54.8,
+    "tok_in": 5414,
+    "tok_out": 1439
+   },
+   {
+    "role": "bull",
+    "n": 1,
+    "avg_lat": 95.9,
+    "tok_in": 778,
+    "tok_out": 2221
+   },
+   {
+    "role": "bear",
+    "n": 1,
+    "avg_lat": 20.0,
+    "tok_in": 778,
+    "tok_out": 449
+   }
+  ],
+  "by_effort": {
+   "max": 10,
+   "medium": 2,
+   "low": 2
+  },
+  "cached": 0,
+  "tot_tok": 38882
+ }
 }
 </script>
 
@@ -16566,18 +16869,25 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
       ).join('');
       const exits=(p)=>{ const e=p.exits||{}; const k=Object.keys(e); return k.length?k.map(x=>x+' '+e[x]).join(' · '):'—'; };
       card.innerHTML=
-        '<div class="bt-head"><h3>'+s.id+'</h3>'+
+        '<div class="bt-head"><h3>'+s.id+(s.engine==='portfolio'?'<span class="bt-eng">portfolio</span>':'')+'</h3>'+
         '<span class="bt-badge'+(s.is_benchmark?' bench':'')+'">'+(s.is_benchmark?'riferimento':(ST_IT_B[s.status]||s.status))+'</span></div>'+
         '<div class="bt-sharpe-big '+clsOf(a.mean_sharpe)+'">'+(a.mean_sharpe>0?'+':'')+NF2.format(a.mean_sharpe)+'</div>'+
-        '<div class="bt-th">Sharpe medio (basket '+s.basket_size+' asset)</div>'+
+        '<div class="bt-th">'+(s.engine==='portfolio'?'Sharpe di portafoglio (basket '+s.basket_size+' asset, dollar-neutral)':'Sharpe medio (basket '+s.basket_size+' asset)')+'</div>'+
         '<div class="bt-agg">'+
-          '<div><div class="k">Rendimento medio</div><div class="v '+clsOf(a.mean_return)+'">'+(a.mean_return>0?'+':'')+(a.mean_return*100).toFixed(2)+'%</div></div>'+
-          '<div><div class="k">Asset positivi</div><div class="v">'+a.positive_symbols+'</div></div>'+
+          (s.engine==='portfolio'
+            ? '<div><div class="k">Rendimento</div><div class="v '+clsOf(a.mean_return)+'">'+(a.mean_return>0?'+':'')+(a.mean_return*100).toFixed(2)+'%</div></div>'+
+              '<div><div class="k">Esposizione</div><div class="v">'+a.positive_symbols+'</div></div>'+
+              '<div><div class="k">Vol-target</div><div class="v">'+(s.vol_target||'—')+'</div></div>'
+            : '<div><div class="k">Rendimento medio</div><div class="v '+clsOf(a.mean_return)+'">'+(a.mean_return>0?'+':'')+(a.mean_return*100).toFixed(2)+'%</div></div>'+
+              '<div><div class="k">Asset positivi</div><div class="v">'+a.positive_symbols+'</div></div>')+
           '<div><div class="k">Worst drawdown</div><div class="v neg">'+(a.worst_drawdown*100).toFixed(1)+'%</div></div>'+
           '<div><div class="k">Fold positivi</div><div class="v">'+a.consistency+'</div></div>'+
         '</div>'+
-        '<div class="bt-th">Sharpe per asset (barra = forza del contributo)</div>'+
-        '<div class="bt-syms">'+syms+'</div>';
+        (s.engine==='portfolio'
+          ? '<div class="bt-th">Cross-section (market-neutral)</div>'+
+            '<div class="bt-syms"><p class="note" style="padding:8px 0;margin:0">L\'edge sta nello <b>spread</b> mantenuto tra le gambe, non per-asset. Sharpe calcolato sull\'equity di portafoglio ribilanciata ogni ciclo.</p></div>'
+          : '<div class="bt-th">Sharpe per asset (barra = forza del contributo)</div>'+
+            '<div class="bt-syms">'+syms+'</div>');
       host.appendChild(card);
     });
     if(foot) foot.innerHTML='Backtest onesto: media per-simbolo (mai pooled), fee+funding storico+slippage size-aware inclusi. Le barre mostrano la dispersione — l\'edge reale è nel numero di asset positivi, non nel picco su uno solo.';
@@ -16859,7 +17169,8 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
         '<td class="muted-cell num">'+fmtTs(e.ts)+'</td>'+
         '<td style="text-align:left"><span class="acct-pill">'+(TOPIC_IT[e.topic]||e.topic)+'</span></td>'+
         '<td>'+NF2.format(e.z)+'σ</td>'+
-        '<td class="'+(tone>0?'pos':tone<0?'neg':'')+'">'+(tone==null?'—':(tone>0?'+':'')+NF2.format(tone))+'</td>';
+        '<td class="'+(tone>0?'pos':tone<0?'neg':'')+'">'+(tone==null?'—':(tone>0?'+':'')+NF2.format(tone))+'</td>'+
+        '<td class="ev-desc" style="text-align:left">'+(e.desc||'')+'</td>';
       body.appendChild(tr);
     });
   }

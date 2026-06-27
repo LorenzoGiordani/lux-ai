@@ -209,6 +209,7 @@ table.pos-tbl{ width:100%; border-collapse:collapse; min-width:760px; }
 .side.short{ color:var(--red); background:var(--red-wash); }
 .acct-pill{ font-family:var(--mono); font-size:10px; letter-spacing:.06em; color:var(--text-3); border:1px solid var(--line); border-radius:100px; padding:2px 8px; white-space:nowrap; }
 .muted-cell{ color:var(--text-3); }
+.ev-desc{ font-family:var(--serif); font-size:13.5px; color:var(--text-2); line-height:1.5; max-width:440px; }
 .bar-mini{ display:inline-block; vertical-align:middle; }
 
 /* ---------- decisions feed ---------- */
@@ -613,6 +614,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
 .bt-card.bench{ border-color:var(--amber-dim); box-shadow:inset 3px 0 0 var(--amber); }
 .bt-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:4px; }
 .bt-head h3{ font-family:var(--serif); font-size:18px; margin:0; }
+.bt-eng{ font-family:var(--mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--text-4); margin-left:8px; vertical-align:middle; }
 .bt-badge{ font-family:var(--mono); font-size:10.5px; padding:3px 9px; border-radius:100px; border:1px solid var(--rule); color:var(--text-3); text-transform:uppercase; letter-spacing:.04em; }
 .bt-badge.bench{ color:var(--amber); border-color:var(--amber-dim); background:var(--amber-wash); }
 .bt-agg{ display:grid; grid-template-columns:1fr 1fr; gap:10px 18px; margin:14px 0 16px; padding:12px 0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); }
@@ -882,6 +884,7 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
             <th>Tema</th>
             <th>Intensità (z)</th>
             <th>Tono</th>
+            <th>Cosa è successo</th>
           </tr>
         </thead>
         <tbody id="events-body"></tbody>
@@ -1664,18 +1667,25 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
       ).join('');
       const exits=(p)=>{ const e=p.exits||{}; const k=Object.keys(e); return k.length?k.map(x=>x+' '+e[x]).join(' · '):'—'; };
       card.innerHTML=
-        '<div class="bt-head"><h3>'+s.id+'</h3>'+
+        '<div class="bt-head"><h3>'+s.id+(s.engine==='portfolio'?'<span class="bt-eng">portfolio</span>':'')+'</h3>'+
         '<span class="bt-badge'+(s.is_benchmark?' bench':'')+'">'+(s.is_benchmark?'riferimento':(ST_IT_B[s.status]||s.status))+'</span></div>'+
         '<div class="bt-sharpe-big '+clsOf(a.mean_sharpe)+'">'+(a.mean_sharpe>0?'+':'')+NF2.format(a.mean_sharpe)+'</div>'+
-        '<div class="bt-th">Sharpe medio (basket '+s.basket_size+' asset)</div>'+
+        '<div class="bt-th">'+(s.engine==='portfolio'?'Sharpe di portafoglio (basket '+s.basket_size+' asset, dollar-neutral)':'Sharpe medio (basket '+s.basket_size+' asset)')+'</div>'+
         '<div class="bt-agg">'+
-          '<div><div class="k">Rendimento medio</div><div class="v '+clsOf(a.mean_return)+'">'+(a.mean_return>0?'+':'')+(a.mean_return*100).toFixed(2)+'%</div></div>'+
-          '<div><div class="k">Asset positivi</div><div class="v">'+a.positive_symbols+'</div></div>'+
+          (s.engine==='portfolio'
+            ? '<div><div class="k">Rendimento</div><div class="v '+clsOf(a.mean_return)+'">'+(a.mean_return>0?'+':'')+(a.mean_return*100).toFixed(2)+'%</div></div>'+
+              '<div><div class="k">Esposizione</div><div class="v">'+a.positive_symbols+'</div></div>'+
+              '<div><div class="k">Vol-target</div><div class="v">'+(s.vol_target||'—')+'</div></div>'
+            : '<div><div class="k">Rendimento medio</div><div class="v '+clsOf(a.mean_return)+'">'+(a.mean_return>0?'+':'')+(a.mean_return*100).toFixed(2)+'%</div></div>'+
+              '<div><div class="k">Asset positivi</div><div class="v">'+a.positive_symbols+'</div></div>')+
           '<div><div class="k">Worst drawdown</div><div class="v neg">'+(a.worst_drawdown*100).toFixed(1)+'%</div></div>'+
           '<div><div class="k">Fold positivi</div><div class="v">'+a.consistency+'</div></div>'+
         '</div>'+
-        '<div class="bt-th">Sharpe per asset (barra = forza del contributo)</div>'+
-        '<div class="bt-syms">'+syms+'</div>';
+        (s.engine==='portfolio'
+          ? '<div class="bt-th">Cross-section (market-neutral)</div>'+
+            '<div class="bt-syms"><p class="note" style="padding:8px 0;margin:0">L\'edge sta nello <b>spread</b> mantenuto tra le gambe, non per-asset. Sharpe calcolato sull\'equity di portafoglio ribilanciata ogni ciclo.</p></div>'
+          : '<div class="bt-th">Sharpe per asset (barra = forza del contributo)</div>'+
+            '<div class="bt-syms">'+syms+'</div>');
       host.appendChild(card);
     });
     if(foot) foot.innerHTML='Backtest onesto: media per-simbolo (mai pooled), fee+funding storico+slippage size-aware inclusi. Le barre mostrano la dispersione — l\'edge reale è nel numero di asset positivi, non nel picco su uno solo.';
@@ -1957,7 +1967,8 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
         '<td class="muted-cell num">'+fmtTs(e.ts)+'</td>'+
         '<td style="text-align:left"><span class="acct-pill">'+(TOPIC_IT[e.topic]||e.topic)+'</span></td>'+
         '<td>'+NF2.format(e.z)+'σ</td>'+
-        '<td class="'+(tone>0?'pos':tone<0?'neg':'')+'">'+(tone==null?'—':(tone>0?'+':'')+NF2.format(tone))+'</td>';
+        '<td class="'+(tone>0?'pos':tone<0?'neg':'')+'">'+(tone==null?'—':(tone>0?'+':'')+NF2.format(tone))+'</td>'+
+        '<td class="ev-desc" style="text-align:left">'+(e.desc||'')+'</td>';
       body.appendChild(tr);
     });
   }
