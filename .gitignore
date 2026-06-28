@@ -30,6 +30,9 @@ skills-lock.json
 paper/llm_calls.jsonl
 paper/llm_cache/
 
+# backup automatici della pipeline (es. decisions.jsonl.bak.<ts>)
+paper/*.bak.*
+
 # config CLI Supabase temporanea (project-ref, versioni) — non versionare
 supabase/.temp/
 

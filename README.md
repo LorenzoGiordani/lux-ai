@@ -79,7 +79,7 @@ I dati storici (`data/`) non sono nel repo: si rigenerano con i 3 script fetch (
 | `xsection_momentum` | momentum relativo | tutti | rank nel basket (IC +0.089, t +21) |
 | `nadaraya_watson` | struttura prezzo | tutti | envelope kernel-regression (DaviddTech); continuation IC +0.105 (t +5) |
 
-## Risultati finora (backtest 6 mesi, fee/slippage inclusi; paper live dal 11/06/2026)
+## Risultati finora (backtest 12 mesi, fee/slippage inclusi; paper live dal 11/06/2026)
 
 **Evoluzione famiglia funding-squeeze (3 generazioni, crypto)**
 | Strategia | Mean Sharpe (basket 9) | Esito |

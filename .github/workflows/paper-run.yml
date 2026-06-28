@@ -52,13 +52,10 @@ jobs:
           uv run scripts/agents_paper.py --account agents-rr2-v1 --source agents-v1 --target-r 2.0 || true   # A/B RR2: stesse decisioni, zero LLM extra
 
       # xsmom-port RIPRESA 26/06: edge +79.8% a 12m, strumentazione paper fixata.
-      # Gira tutte le engine:portfolio attive (champion/challenger).
+      # Gira tutte le engine:portfolio attive (champion + challenger) via active_specs:
+      # niente più glob pattern — ogni futura portfolio viene inclusa automaticamente.
       - name: portfolio paper trading
-        run: |
-          for pf in strategies/generated/*port-v1.yaml strategies/generated/*combo-v1.yaml strategies/generated/*voltarget-v1.yaml; do
-            [ -f "$pf" ] || continue
-            uv run scripts/portfolio_paper.py "$pf" || true
-          done
+        run: uv run scripts/portfolio_all.py
 
       # gira solo se il secret OPENROUTER_API_KEY esiste (OpenRouter → GLM-5.2)
       - name: pipeline LLM (review + decide)
@@ -97,13 +94,15 @@ jobs:
         run: uv run scripts/sync_supabase.py || true
 
       - name: backtest report (basket multi-asset, honest engine)
-        run: uv run scripts/backtest_report.py || true
+        run: uv run scripts/backtest_report.py
 
       - name: dashboard
+        id: dashboard
+        if: always()
         run: uv run scripts/dashboard.py
 
       - name: deploy dashboard pubblica (lux-ai.pages.dev)
-        if: env.CLOUDFLARE_API_TOKEN != ''
+        if: always() && env.CLOUDFLARE_API_TOKEN != '' && steps.dashboard.outcome == 'success'
         run: |
           mkdir -p /tmp/lux-deploy && cp dashboard/index.html /tmp/lux-deploy/
           npx -y wrangler@4 pages deploy /tmp/lux-deploy --project-name lux-ai --branch main --commit-dirty=true

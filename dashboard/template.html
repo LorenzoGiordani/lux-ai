@@ -319,6 +319,9 @@ table.pos-tbl{ width:100%; border-collapse:collapse; min-width:760px; }
 .pcard:hover{ background:var(--bg-3); }
 .pcard.long{ border-color:var(--green-dim); }
 .pcard.short{ border-color:var(--red-dim); }
+.pcard.book-leg{ border-color:var(--amber); border-style:dashed; background:var(--bg-2); }
+.pcard.book-leg .pcard-strip{ gap:10px; }
+.pcard.book-leg .cell .k{ display:flex; align-items:baseline; gap:4px; font-size:11px; }
 .pcard-head{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; padding:14px 16px 10px; }
 .pcard-head .sym{ flex-direction:row; align-items:baseline; gap:7px; }
 .pcard-head .sym .s-tick{ font-size:15px; }
@@ -1419,7 +1422,10 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
     const body=$('#positions-body'); body.innerHTML=''; POS.length=0;
     const rows=[];
     (DATA.accounts||[]).forEach(a=> (a.positions||[]).forEach(p=>{ if(p.entry_px>0) rows.push({p, acct:a}); }));  // niente entry 0 → no stop Infinity%
-    if(!rows.length){ body.innerHTML=emptyBox('Nessuna posizione aperta','Tutte le strategie sono flat al momento. Il cron ogni 4h ricalcola i segnali e può aprire nuove posizioni quando le tesi reggono.', true); return; }
+    // gambe dei book dollar-neutral (engine:portfolio): posizioni senza entry/stop/target,
+    // vivono come notional. Renderizzate a parte sotto le card direzionali.
+    const legsCount=(DATA.accounts||[]).reduce((n,a)=> n+(a.book||[]).length, 0);
+    if(!rows.length && !legsCount){ body.innerHTML=emptyBox('Nessuna posizione aperta','Tutte le strategie sono flat al momento. Il cron ogni 4h ricalcola i segnali e può aprire nuove posizioni quando le tesi reggono, oppure i book dollar-neutral vengono ribilanciati ogni ciclo.', true); return; }
     rows.forEach(({p,acct})=>{
       const risk=Math.abs(p.entry_px-p.stop_px), reward=Math.abs(p.target_px-p.entry_px);
       const rr=risk?(reward/risk):0;
@@ -1471,6 +1477,32 @@ header.top::after{ content:""; position:absolute; left:0; right:0; bottom:-1px; 
         nowEl:card.querySelector('[data-now]')};
       POS.push(rec);
       paintPos(rec);
+    });
+    // ---------- gambe book dollar-neutral (engine:portfolio) ----------
+    // Le strategie portfolio non hanno entry/stop/target per gamba: l'edge è nello
+    // spread mantenuto, non nel trade direzionale. Si mostrano qui (raggruppate per
+    // conto) con il notional reale, senza forzare R:R/stop fittizi che non esistono.
+    const legsByAcct={};
+    (DATA.accounts||[]).forEach(a=>{ (a.book||[]).forEach(b=>{ (legsByAcct[a.id]=legsByAcct[a.id]||{label:a.label, legs:[]}).legs.push(b); }); });
+    Object.values(legsByAcct).forEach(({label, legs})=>{
+      const gross=legs.reduce((s,b)=>s+Math.abs(b.notional_usd),0);
+      const net=legs.reduce((s,b)=>s+b.notional_usd,0);
+      const head=el('div','pcard book-leg');
+      head.innerHTML=
+        '<div class="pcard-head">'+
+          '<div class="sym"><span class="s-tick">'+label+'</span><span class="s-name">book dollar-neutral</span></div>'+
+          '<span class="acct-pill">portfolio</span>'+
+        '</div>'+
+        '<div class="pcard-sub"><span style="font-family:var(--mono);font-size:11px;color:var(--text-3)">'+
+          legs.length+' gambe · gross '+NF0.format(gross)+' $ · net '+signedUsd(net)+'</span></div>'+
+        '<div class="pcard-strip">'+
+          legs.map(b=>{
+            const d=b.side==='long'?'long':'short';
+            return '<div class="cell"><div class="k">'+b.symbol+' <span class=\'side '+d+'\'>'+(d==='long'?'▲':'▼')+'</span></div>'+
+              '<div class="v '+(b.notional_usd>=0?'pos':'neg')+'">'+signedUsd(b.notional_usd)+' $</div></div>';
+          }).join('')+
+        '</div>';
+      body.appendChild(head);
     });
     updatePosSummary();
   }

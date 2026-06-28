@@ -53,6 +53,17 @@ def active_specs() -> list[tuple[Path, dict]]:
             and s.get("engine") not in NON_MECHANICAL_ENGINES]
 
 
+def portfolio_active_specs() -> list[tuple[Path, dict]]:
+    """champion + challenger con engine:portfolio = ciò che gira via
+    scripts/portfolio_paper.py (book cross-asset dollar-neutral, ribilanciati).
+    Speculare ad active_specs(): il cron/workflow la usa invece dei glob pattern
+    hard-coded, così ogni futura portfolio viene inclusa automaticamente (niente
+    più zombie tipo xsmom-multihorizon-v1 che non matchava *port-v1/*combo/*voltarget)."""
+    return [(f, s) for f, s in all_specs()
+            if s.get("status") in ("champion", "challenger")
+            and s.get("engine") == "portfolio"]
+
+
 def paper_symbols(spec: dict) -> str:
     uni = spec.get("universe", {})
     # nomi da escludere a prescindere (curati a mano: asset dove i segnali non hanno

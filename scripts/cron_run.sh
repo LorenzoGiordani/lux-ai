@@ -21,13 +21,9 @@ stage "paper trading strategie attive"
 stage "executor agenti"
 "$UV" run scripts/agents_paper.py || true
 "$UV" run scripts/agents_paper.py --account agents-rr2-v1 --source agents-v1 --target-r 2.0 || true   # A/B RR2, stesse decisioni
-# xsmom-port RIPRESA 26/06: edge +79.8% confermato a 12m, strumentazione paper fixata
-# (paper_stats ora legge l'equity del book per engine:portfolio).
-# strategie engine:portfolio (xsmom-port, xsmom-multihorizon, highvol-port, combo, voltarget)
-for pf in strategies/generated/*port-v1.yaml strategies/generated/*combo-v1.yaml strategies/generated/*voltarget-v1.yaml; do
-  [ -f "$pf" ] || continue
-  "$UV" run scripts/portfolio_paper.py "$pf" || true
-done
+# strategie engine:portfolio (xsmom-port, xsmom-multihorizon, highvol-port, combo, voltarget):
+# runner dedicato via active_specs — niente più glob pattern (zombie multihorizon fixato).
+"$UV" run scripts/portfolio_all.py
 
 if command -v claude >/dev/null 2>&1; then
     stage "reviewer"
@@ -47,7 +43,7 @@ stage "brain"
 "$UV" run scripts/brain_gen.py || true        # rigenera wiki markdown dai dati paper/
 
 stage "backtest"
-"$UV" run scripts/backtest_report.py || true    # basket multi-asset (sezione dashboard)
+"$UV" run scripts/backtest_report.py    # basket multi-asset (sezione dashboard)
 
 stage "dashboard"
 "$UV" run scripts/dashboard.py

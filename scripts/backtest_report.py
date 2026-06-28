@@ -14,8 +14,8 @@ Output: paper/backtests.json con, per strategia: aggregate + per-symbol + finest
 Letto da dashboard.py → sezione "Backtest" della dashboard pubblica.
 
 Uso:
-  uv run scripts/backtest_report.py                # 6 mesi trailing, strategie attive + riferimento
-  uv run scripts/backtest_report.py --months 12    # finestra più lunga
+  uv run scripts/backtest_report.py                # 12 mesi trailing (1 anno), strategie attive
+  uv run scripts/backtest_report.py --months 6     # finestra più corta
 """
 
 from __future__ import annotations
@@ -36,15 +36,17 @@ from backtest.metrics import HOURS_PER_YEAR, compute
 from backtest.portfolio import PortfolioBacktest, xs_momentum_weights
 from backtest.strategy import compile_strategy, load
 from backtest.walkforward import evaluate
+from pipeline.live import atomic_write_text
 
 DATA = ROOT / "data"
 OUT = ROOT / "paper" / "backtests.json"
-MONTHS_DEFAULT = 6
+MONTHS_DEFAULT = 12   # 1 anno trailing
 IMPACT_K = 0.5   # square-root market impact (Almgren 2005) — rivela mirage su illiquidi
 
-# Strategie da mostrare: tutte le challenger attive + il benchmark documentato (tsmom).
-# Aggiornato leggendo lo status dagli artefatti.
-BENCHMARK = "tsmom-v1"
+# Benchmark disattivato: la dashboard mostra le performance di ciascuna strategia
+# a sé stanti, senza confronto con strategie storiche (tsmom-v1 era retired e
+# fungava solo da card "riferimento"). None = nessuna card di riferimento.
+BENCHMARK = None
 
 
 def _read(path: Path) -> pd.DataFrame | None:
@@ -301,7 +303,7 @@ def _aggregate_portfolio(equity_df: pd.DataFrame, basket: pd.DataFrame) -> dict:
 
 
 def _active_specs() -> list[Path]:
-    """Tutte le challenger/attive + il benchmark, ordinate (benchmark per primo)."""
+    """Tutte le challenger/attive (benchmark disattivato: BENCHMARK=None)."""
     paths = sorted((ROOT / "strategies").glob("*.yaml")) + sorted((ROOT / "strategies" / "generated").glob("*.yaml"))
     out = []
     for p in paths:
@@ -329,16 +331,39 @@ def main() -> int:
 
     results = []
     for spec_path in _active_specs():
-        spec = load(spec_path)
-        r = (backtest_portfolio_strategy(spec_path, months)
-             if spec.get("engine") == "portfolio"
-             else backtest_strategy(spec_path, months))
+        # una spec che throwa (es. dati mancanti, bug in un segnale) non fa crollare
+        # il report intero: la si salta e si logga. Cosi' un problema su una strategia
+        # non cancella i backtest di tutte le altre — e non lascia la dashboard vuota.
+        try:
+            spec = load(spec_path)
+            r = (backtest_portfolio_strategy(spec_path, months)
+                 if spec.get("engine") == "portfolio"
+                 else backtest_strategy(spec_path, months))
+        except Exception as e:
+            print(f"  [skip] {spec_path.name}: {e}", file=sys.stderr)
+            continue
         if r:
             tag = "[portfolio]" if r.get("engine") == "portfolio" else ""
             print(f"  {r['id']:<32} mean Sharpe {r['aggregate']['mean_sharpe']:5.2f} | "
                   f"ret {r['aggregate']['mean_return']:+6.2%} | "
                   f"{r['aggregate']['positive_symbols']} {tag}")
             results.append(r)
+
+    # ponytail: non sovrascrivere un report buono con uno vuoto. Se il run corrente
+    # produce 0 strategie (dati candele assenti in cloud, API down, rete giu'),
+    # mantengo l'ultimo report valido — la dashboard non torna mai vuota.
+    # Soffitto: il report resta datato finche' un run non torna a produrre strategie;
+    # upgrade path = cache candele persistente nel cloud o fetch piu' robusto.
+    if not results and OUT.exists():
+        try:
+            prev = json.loads(OUT.read_text())
+        except (json.JSONDecodeError, ValueError):
+            prev = {}
+        if prev.get("strategies"):
+            print(f"\n[backtest] 0 strategie calcolate — mantengo il report precedente "
+                  f"({len(prev['strategies'])} strategie, {prev.get('generated_at')})",
+                  file=sys.stderr)
+            return 0
 
     payload = {
         "months": months,
