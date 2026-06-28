@@ -2468,3 +2468,14 @@
 {"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9984.71, "open_positions": 0, "logged_at": "2026-06-28T17:16:32.306034+00:00"}
 {"type": "skip", "strategy": "geopolitics-v1", "symbol": "CL", "reason": "posizione esistente o max concorrenti", "logged_at": "2026-06-28T17:19:21.066129+00:00"}
 {"type": "heartbeat", "strategy": "geopolitics-v1", "equity": 10126.02, "open_positions": 5, "logged_at": "2026-06-28T17:19:21.067520+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10267.73, "open_positions": 3, "logged_at": "2026-06-28T18:15:55.525698+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9984.71, "open_positions": 0, "logged_at": "2026-06-28T18:15:56.013328+00:00"}
+{"type": "heartbeat", "strategy": "highvol-port-v1", "equity": 9793.0, "open_positions": 6, "logged_at": "2026-06-28T18:16:01.358055+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-highvol-combo-v1", "equity": 10095.32, "open_positions": 6, "logged_at": "2026-06-28T18:16:07.645640+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-highvol-voltarget-v1", "equity": 10069.67, "open_positions": 6, "logged_at": "2026-06-28T18:16:14.221578+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-multihorizon-v1", "equity": 10082.84, "open_positions": 6, "logged_at": "2026-06-28T18:16:22.031123+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-port-v1", "equity": 9812.52, "open_positions": 4, "logged_at": "2026-06-28T18:16:28.306301+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10267.73, "open_positions": 3, "logged_at": "2026-06-28T18:21:18.684912+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9984.71, "open_positions": 0, "logged_at": "2026-06-28T18:21:19.172787+00:00"}
+{"type": "skip", "strategy": "geopolitics-v1", "symbol": "CL", "reason": "posizione esistente o max concorrenti", "logged_at": "2026-06-28T18:23:06.676874+00:00"}
+{"type": "heartbeat", "strategy": "geopolitics-v1", "equity": 10126.02, "open_positions": 5, "logged_at": "2026-06-28T18:23:06.678252+00:00"}
