@@ -2413,3 +2413,14 @@
 {"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9984.71, "open_positions": 0, "logged_at": "2026-06-28T12:21:25.218966+00:00"}
 {"type": "skip", "strategy": "geopolitics-v1", "symbol": "NATGAS", "reason": "posizione esistente o max concorrenti", "logged_at": "2026-06-28T12:23:54.777438+00:00"}
 {"type": "heartbeat", "strategy": "geopolitics-v1", "equity": 10126.02, "open_positions": 5, "logged_at": "2026-06-28T12:23:54.778822+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10267.73, "open_positions": 3, "logged_at": "2026-06-28T13:15:55.909919+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9984.71, "open_positions": 0, "logged_at": "2026-06-28T13:15:56.406451+00:00"}
+{"type": "heartbeat", "strategy": "highvol-port-v1", "equity": 9787.76, "open_positions": 6, "logged_at": "2026-06-28T13:16:02.137483+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-highvol-combo-v1", "equity": 10052.68, "open_positions": 6, "logged_at": "2026-06-28T13:16:08.412228+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-highvol-voltarget-v1", "equity": 10027.46, "open_positions": 6, "logged_at": "2026-06-28T13:16:15.513047+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-multihorizon-v1", "equity": 10041.07, "open_positions": 6, "logged_at": "2026-06-28T13:16:22.917053+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-port-v1", "equity": 9815.9, "open_positions": 4, "logged_at": "2026-06-28T13:16:29.486581+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10267.73, "open_positions": 3, "logged_at": "2026-06-28T13:20:12.748062+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9984.71, "open_positions": 0, "logged_at": "2026-06-28T13:20:13.242628+00:00"}
+{"type": "skip", "strategy": "geopolitics-v1", "symbol": "NATGAS", "reason": "posizione esistente o max concorrenti", "logged_at": "2026-06-28T13:22:33.786722+00:00"}
+{"type": "heartbeat", "strategy": "geopolitics-v1", "equity": 10126.02, "open_positions": 5, "logged_at": "2026-06-28T13:22:33.788134+00:00"}
