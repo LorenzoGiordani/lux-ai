@@ -2390,3 +2390,13 @@
 {"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9984.71, "open_positions": 0, "logged_at": "2026-06-28T02:18:31.608856+00:00"}
 {"type": "skip", "strategy": "geopolitics-v1", "symbol": "GOLD", "reason": "posizione esistente o max concorrenti", "logged_at": "2026-06-28T02:20:26.496145+00:00"}
 {"type": "heartbeat", "strategy": "geopolitics-v1", "equity": 10126.02, "open_positions": 5, "logged_at": "2026-06-28T02:20:26.497365+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10267.73, "open_positions": 3, "logged_at": "2026-06-28T03:15:55.982561+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9984.71, "open_positions": 0, "logged_at": "2026-06-28T03:15:56.476656+00:00"}
+{"type": "heartbeat", "strategy": "highvol-port-v1", "equity": 9817.04, "open_positions": 6, "logged_at": "2026-06-28T03:16:01.022365+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-port-v1", "equity": 9642.23, "open_positions": 4, "logged_at": "2026-06-28T03:16:07.464259+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-highvol-combo-v1", "equity": 10006.7, "open_positions": 6, "logged_at": "2026-06-28T03:16:13.740940+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-highvol-voltarget-v1", "equity": 9982.41, "open_positions": 6, "logged_at": "2026-06-28T03:16:20.709899+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10267.73, "open_positions": 3, "logged_at": "2026-06-28T03:20:46.393070+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9984.71, "open_positions": 0, "logged_at": "2026-06-28T03:20:46.888973+00:00"}
+{"type": "skip", "strategy": "geopolitics-v1", "symbol": "ETH", "reason": "posizione esistente o max concorrenti", "logged_at": "2026-06-28T03:30:14.603169+00:00"}
+{"type": "heartbeat", "strategy": "geopolitics-v1", "equity": 10126.02, "open_positions": 5, "logged_at": "2026-06-28T03:30:14.604353+00:00"}
