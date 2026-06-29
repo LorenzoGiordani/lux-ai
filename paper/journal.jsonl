@@ -2555,3 +2555,12 @@
 {"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9983.79, "open_positions": 0, "logged_at": "2026-06-29T01:19:38.424304+00:00"}
 {"type": "skip", "strategy": "geopolitics-v1", "symbol": "BRENTOIL", "reason": "posizione esistente o max concorrenti", "logged_at": "2026-06-29T01:22:01.435250+00:00"}
 {"type": "heartbeat", "strategy": "geopolitics-v1", "equity": 10126.02, "open_positions": 5, "logged_at": "2026-06-29T01:22:01.436706+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10267.73, "open_positions": 3, "logged_at": "2026-06-29T02:16:03.112983+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9983.79, "open_positions": 0, "logged_at": "2026-06-29T02:16:03.607723+00:00"}
+{"type": "heartbeat", "strategy": "highvol-port-v1", "equity": 9745.79, "open_positions": 6, "logged_at": "2026-06-29T02:16:09.074627+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-highvol-combo-v1", "equity": 10065.83, "open_positions": 6, "logged_at": "2026-06-29T02:16:16.328360+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-highvol-voltarget-v1", "equity": 10040.55, "open_positions": 6, "logged_at": "2026-06-29T02:16:23.095350+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-multihorizon-v1", "equity": 10054.66, "open_positions": 6, "logged_at": "2026-06-29T02:16:31.065912+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-port-v1", "equity": 9843.92, "open_positions": 4, "logged_at": "2026-06-29T02:16:37.899921+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10267.73, "open_positions": 3, "logged_at": "2026-06-29T02:16:46.421938+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9983.79, "open_positions": 0, "logged_at": "2026-06-29T02:16:46.902227+00:00"}
