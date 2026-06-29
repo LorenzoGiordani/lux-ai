@@ -2,7 +2,7 @@
  "months": 12,
  "impact_k": 0.5,
  "funding_mode": "storico (dove disponibile)",
- "generated_at": "2026-06-29T20:23 UTC",
+ "generated_at": "2026-06-29T22:23 UTC",
  "strategies": [
   {
    "id": "highvol-port-v1",
@@ -14,9 +14,9 @@
    "basket_size": 9,
    "vol_target": "off",
    "aggregate": {
-    "mean_sharpe": 2.14,
-    "mean_return": 0.4296,
-    "worst_drawdown": -0.1345,
+    "mean_sharpe": 2.03,
+    "mean_return": 0.4013,
+    "worst_drawdown": -0.1337,
     "positive_symbols": "market-neutral",
     "consistency": "4/6 fold positivi"
    },
@@ -32,11 +32,11 @@
    "basket_size": 9,
    "vol_target": "off",
    "aggregate": {
-    "mean_sharpe": 0.86,
-    "mean_return": 0.1219,
-    "worst_drawdown": -0.1545,
+    "mean_sharpe": 0.59,
+    "mean_return": 0.0743,
+    "worst_drawdown": -0.1501,
     "positive_symbols": "market-neutral",
-    "consistency": "2/6 fold positivi"
+    "consistency": "3/6 fold positivi"
    },
    "per_symbol": []
   },
@@ -50,11 +50,11 @@
    "basket_size": 9,
    "vol_target": "on (m medio 0.85)",
    "aggregate": {
-    "mean_sharpe": 0.68,
-    "mean_return": 0.071,
-    "worst_drawdown": -0.13,
+    "mean_sharpe": 0.45,
+    "mean_return": 0.0421,
+    "worst_drawdown": -0.1237,
     "positive_symbols": "market-neutral",
-    "consistency": "2/6 fold positivi"
+    "consistency": "3/6 fold positivi"
    },
    "per_symbol": []
   },
@@ -68,9 +68,9 @@
    "basket_size": 9,
    "vol_target": "off",
    "aggregate": {
-    "mean_sharpe": -0.15,
-    "mean_return": -0.0472,
-    "worst_drawdown": -0.2765,
+    "mean_sharpe": -0.14,
+    "mean_return": -0.0457,
+    "worst_drawdown": -0.2638,
     "positive_symbols": "market-neutral",
     "consistency": "2/6 fold positivi"
    },
@@ -86,9 +86,9 @@
    "basket_size": 9,
    "vol_target": "off",
    "aggregate": {
-    "mean_sharpe": 0.86,
-    "mean_return": 0.1219,
-    "worst_drawdown": -0.1545,
+    "mean_sharpe": 0.66,
+    "mean_return": 0.0877,
+    "worst_drawdown": -0.1416,
     "positive_symbols": "market-neutral",
     "consistency": "2/6 fold positivi"
    },

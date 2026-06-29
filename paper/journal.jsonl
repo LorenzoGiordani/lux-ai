@@ -2778,3 +2778,14 @@
 {"type": "heartbeat", "strategy": "xsmom-port-v1", "equity": 9748.61, "open_positions": 6, "logged_at": "2026-06-29T21:16:26.721259+00:00"}
 {"type": "heartbeat", "strategy": "agents-v1", "equity": 10267.73, "open_positions": 3, "logged_at": "2026-06-29T21:16:32.960259+00:00"}
 {"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9979.83, "open_positions": 0, "logged_at": "2026-06-29T21:16:33.456845+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10267.73, "open_positions": 3, "logged_at": "2026-06-29T22:15:58.839809+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9979.83, "open_positions": 0, "logged_at": "2026-06-29T22:15:59.330782+00:00"}
+{"type": "heartbeat", "strategy": "highvol-port-v1", "equity": 9764.61, "open_positions": 6, "logged_at": "2026-06-29T22:16:03.991998+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-highvol-combo-v1", "equity": 10244.88, "open_positions": 6, "logged_at": "2026-06-29T22:16:09.759247+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-highvol-voltarget-v1", "equity": 10215.91, "open_positions": 6, "logged_at": "2026-06-29T22:16:16.013859+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-multihorizon-v1", "equity": 10232.78, "open_positions": 6, "logged_at": "2026-06-29T22:16:24.165861+00:00"}
+{"type": "heartbeat", "strategy": "xsmom-port-v1", "equity": 9745.7, "open_positions": 6, "logged_at": "2026-06-29T22:16:30.544385+00:00"}
+{"type": "heartbeat", "strategy": "agents-v1", "equity": 10267.73, "open_positions": 3, "logged_at": "2026-06-29T22:20:40.687078+00:00"}
+{"type": "heartbeat", "strategy": "agents-rr2-v1", "equity": 9979.83, "open_positions": 0, "logged_at": "2026-06-29T22:20:41.169805+00:00"}
+{"type": "skip", "strategy": "geopolitics-v1", "symbol": "GOLD", "reason": "posizione esistente o max concorrenti", "logged_at": "2026-06-29T22:22:40.413841+00:00"}
+{"type": "heartbeat", "strategy": "geopolitics-v1", "equity": 10126.02, "open_positions": 5, "logged_at": "2026-06-29T22:22:40.415599+00:00"}
