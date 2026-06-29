@@ -757,17 +757,72 @@ def build_data() -> dict:
     }
 
 
+# Sito multipagina: una pagina per voce di nav. (file, etichetta, [section id]).
+# I dati (build_data) sono identici su tutte le pagine → scritti UNA volta in
+# data.js (window.__DATA__), che ogni pagina carica via <script src>. Il template
+# resta single-file: lo splittiamo in head (shell+nav) / sezioni / tail (footer+JS),
+# e ogni pagina = head + le sue sezioni + tail. La sezione #strategia (dettaglio,
+# toggle via JS) viaggia con #strategie.
+PAGES = [
+    ("index.html",        "Stato",        ["stato"]),
+    ("strategie.html",    "Strategie",    ["strategie", "strategia"]),
+    ("portafogli.html",   "Portafogli",   ["portafogli"]),
+    ("backtest.html",     "Backtest",     ["backtest"]),
+    ("posizioni.html",    "Posizioni",    ["posizioni"]),
+    ("rischio.html",      "Rischio",      ["rischio"]),
+    ("decisioni.html",    "Decisioni",    ["decisioni"]),
+    ("trading-book.html", "Trading book", ["book"]),
+    ("lezioni.html",      "Lezioni",      ["lezioni"]),
+    ("evoluzione.html",   "Evoluzione",   ["evoluzione"]),
+    ("eventi.html",       "Eventi",       ["eventi"]),
+    ("llm.html",          "LLM",          ["llm"]),
+]
+
+
+def _nav_inner(active_file: str) -> str:
+    links = "".join(
+        f'<a href="{fn}"{" class=\"active\"" if fn == active_file else ""}>{label}</a>'
+        for fn, label, _ in PAGES)
+    return f'<div class="wrap secnav-inner">\n    {links}\n  </div>'
+
+
 def main() -> None:
     data = build_data()
+    out_dir = ROOT / "dashboard"
+    from pipeline.live import atomic_write_text
+
+    # dati condivisi: una volta sola, non 12× embedded
+    atomic_write_text(out_dir / "data.js",
+                      "window.__DATA__ = "
+                      + json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+                      + ";\n")
+
     html = TEMPLATE.read_text()
-    block = f'<script id="data" type="application/json">\n{json.dumps(data, ensure_ascii=False, indent=1)}\n</script>'
-    # replacement come FUNZIONE: verbatim, niente interpretazione di \n, \1 ecc. nel blocco
-    out, n = re.subn(r'<script id="data" type="application/json">.*?</script>', lambda _: block, html, flags=re.DOTALL)
+    # il blob #data del template (placeholder) → riferimento esterno a data.js
+    html, n = re.subn(r'<script id="data" type="application/json">.*?</script>',
+                      '<script src="data.js"></script>', html, flags=re.DOTALL)
     if n != 1:
         sys.exit("ERRORE: blocco #data non trovato nel template")
-    from pipeline.live import atomic_write_text
-    atomic_write_text(OUT, out)
-    print(f"dashboard LUX AI → {OUT}")
+
+    # split head / sezioni / tail attorno a <main>…</main>
+    pre, _, post = html.partition("</main>")
+    if not post:
+        sys.exit("ERRORE: </main> non trovato nel template")
+    head, tail = pre[:pre.index("<section id=")], "</main>" + post
+    parts = re.split(r"(?=<section id=)", pre[pre.index("<section id="):])
+    sections = {m.group(1): p for p in parts
+                if (m := re.match(r'<section id="([^"]+)"', p))}
+
+    for fn, _label, ids in PAGES:
+        missing = [i for i in ids if i not in sections]
+        if missing:
+            sys.exit(f"ERRORE: sezioni {missing} non trovate nel template")
+        page_head = re.sub(r'<div class="wrap secnav-inner">.*?</div>',
+                           lambda _: _nav_inner(fn), head, count=1, flags=re.DOTALL)
+        page = page_head + "".join(sections[i] for i in ids) + tail
+        atomic_write_text(out_dir / fn, page)
+
+    print(f"dashboard LUX AI → {len(PAGES)} pagine + data.js in {out_dir}")
 
 
 if __name__ == "__main__":

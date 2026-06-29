@@ -3,8 +3,8 @@ name: deploy-dashboard
 # Deploy istantaneo della dashboard pubblica su Cloudflare Pages
 # (lux-ai.pages.dev) appena si cambia il frontend (template.html, dashboard.py)
 # o su richiesta manuale. Non aspetta il paper-run orario, così i fix UI
-# vanno online subito. Rigenera index.html dai dati già committati e fa
-# il deploy dello stesso singolo file che usa paper-run.yml.
+# vanno online subito. Rigenera le pagine del sito multipagina (index.html +
+# le sezioni + data.js) dai dati già committati e le deploya, come paper-run.yml.
 
 on:
   workflow_dispatch:
@@ -47,20 +47,21 @@ jobs:
       - name: sync deps (uv)
         run: uv sync --frozen 2>/dev/null || uv sync
 
-      - name: rigenera index.html dai dati correnti
+      - name: rigenera le pagine dai dati correnti
         run: uv run scripts/dashboard.py
 
       - name: deploy dashboard pubblica (lux-ai.pages.dev)
         if: env.CLOUDFLARE_API_TOKEN != ''
         run: |
-          mkdir -p /tmp/lux-deploy && cp dashboard/index.html /tmp/lux-deploy/
+          mkdir -p /tmp/lux-deploy && cp dashboard/*.html dashboard/data.js /tmp/lux-deploy/
+          rm -f /tmp/lux-deploy/template.html   # sorgente, non si pubblica
           npx -y wrangler@4 pages deploy /tmp/lux-deploy --project-name lux-ai --branch main --commit-dirty=true
 
-      - name: committa index.html rigenerato (se cambiato)
+      - name: committa dashboard rigenerata (se cambiata)
         run: |
           git config user.name "lux-ai-cron"
           git config user.email "actions@users.noreply.github.com"
-          git add dashboard/index.html
+          git add dashboard/*.html dashboard/data.js
           if ! git diff --cached --quiet; then
             git commit -m "chore: dashboard rebuild [deploy-dashboard]"
             for i in 1 2 3; do
