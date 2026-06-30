@@ -15,7 +15,7 @@
     "stop_px": 66.808760300244,
     "target_px": 79.24305688402835,
     "opened_at": "2026-06-27 22:00:00+00:00",
-    "checked_until": "2026-06-30 17:00:00+00:00",
+    "checked_until": "2026-06-30 18:00:00+00:00",
     "time_stop_h": 72,
     "thesis": "SOL \u00e8 l'unica major positiva su 7d (+1.6%) in un mercato dove ETH -7.3% e BTC -4.4%. Forza relativa = assorbimento reale, non rumore. Funding negativo (-0.4% APR): shorts pagano per stare corti su un asset che rifiuta di scendere \u2014 polvere da sparo per squeeze. BTC flat 24h a $60.5k con funding neutro suggerisce stabilizzazione, che \u00e8 il trigger per short covering su SOL. Nessun lux_confluence allineato su alcun asset \u2192 size ridotta e disciplina rigorosa. Asimmetria: downside protetto dalla forza relativa gi\u00e0 dimostrata, upside esplosivo se i shorts sono costretti al cover. Stop a $68 (sotto il supporto recente, fuori dal rumore a ~6.5 ATR). Target $80 (~1.8R).",
     "invalidation": "1) SOL perde $68 \u2192 la forza relativa era finta, il setup squeeze decade. 2) BTC rompe $58k \u2192 beta trascina tutto gi\u00f9, SOL non fa eccezione anche con forza relativa. Uscita immediata senza esitazione in entrambi i casi.",
@@ -27,7 +27,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-30 17:00:00+00:00"
+    "_last_ts": "2026-06-30 18:00:00+00:00"
    },
    "ETH/USDT": {
     "strategy": "agents-v1",
@@ -75,7 +75,7 @@
     "stop_px": 68.187175,
     "target_px": 76.622701,
     "opened_at": "2026-06-27 01:00:00+00:00",
-    "checked_until": "2026-06-30 16:00:00+00:00",
+    "checked_until": "2026-06-30 18:00:00+00:00",
     "time_stop_h": 96,
     "thesis": "LONG WTI Crude Oil su escalation cinetica USA-Iran. Edge causale diretto: il conflitto nel Golfo minaccia fisicamente lo Stretto di Hormuz (~20% del flusso greggio globale), facendo esplodere i premi war-risk sulle assicurazioni marittime. Il posizionamento crea un'asimmetria spietata: CL \u00e8 in regime bear con tsmom -1 e vol_compression (ATR 1.04% compresso). Questo shock esogeno rompe la compressione verso l'ALTO, intrappolando i trend-follower bearish in un violento short-squeeze. Il brief identifica questo come l'edge direzionale pi\u00f9 pulito cross-asset. Si va contro tsmom -1 \u2014 esplicitamente giustificato: un catalyst geopolitico cinetico \u00e8 un evento esogeno che sovrascrive i segnali di momentum basati sui dati storici. I modelli trend-following non possono prezzare un conflitto in corso. Leva moderata (2x) e risk 1% riflettono la natura binaria dell'evento.",
     "invalidation": "1) De-escalazione diplomatica rapida (cessate il fuoco / negoziato emergenza) \u2014 il risk premium geopolitico collassa e subiamo un vol-crush. 2) Annuncio di rilascio massivo dalle Riserve Strategiche (SPR) da parte della Casa Bianca per inondare il mercato e sopprimere i prezzi. In entrambi i casi, la tesi di supply disruption viene invalidata e il trade va chiuso immediatamente, anche prima dello stop meccanico.",
@@ -87,7 +87,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-30 16:00:00+00:00"
+    "_last_ts": "2026-06-30 18:00:00+00:00"
    },
    "xyz:NATGAS": {
     "strategy": "geopolitics-v1",
@@ -98,7 +98,7 @@
     "stop_px": 3.067645,
     "target_px": 3.655067,
     "opened_at": "2026-06-27 20:00:00+00:00",
-    "checked_until": "2026-06-30 16:00:00+00:00",
+    "checked_until": "2026-06-30 18:00:00+00:00",
     "time_stop_h": 72,
     "thesis": "LONG NG su LUX confluence aligned (+1) e tsmom +1 \u2014 unico asset con momentum positivo in tape risk-off. La tesi NON \u00e8 un play geopolitico (il brief avverte che il burst GDELT \u00e8 non-attribuibile a NG); \u00e8 un trade sul segnale LUX validato, con optionality gratuita su escalation supply-side EU/Russia. La divergenza di NG contro tutto il resto (crypto/oro in liquidazione) \u00e8 essa stessa informazione: il capitale sta cercando forza, e NG \u00e8 l'unica direzione che funziona. ETH short scartato: canale narrativo pulito ma niente allineamento LUX + funding negativo erode P&L in chop regime + rischio short-squeeze se il burst \u00e8 rumore.",
     "invalidation": "Stop al -6% (fuori ATR noise, sotto struttura di momentum). Chiusura anche se: (1) LUX signal reverte nei prossimi tick di confluenza, o (2) se entro 72h il burst GDELT si rivela chiaramente non-energy-related E il momentum NG perde +1 tsmom, il trade perde sia la tesi geopolitica opzionale sia il fondamentale momentum.",
@@ -110,10 +110,10 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-30 16:00:00+00:00"
+    "_last_ts": "2026-06-30 18:00:00+00:00"
    }
   },
-  "last_decision_ts": "2026-06-30T16:23:26.155495+00:00"
+  "last_decision_ts": "2026-06-30T19:18:57.629331+00:00"
  },
  "tsmom-atr-v1": {
   "equity": 9324.897124664369,
@@ -479,27 +479,27 @@
   "positions": {}
  },
  "highvol-port-v1": {
-  "equity": 9759.409825839923,
+  "equity": 9753.396293637667,
   "positions": {
    "BTC": {
-    "notional": -1634.2887206093885,
-    "px": 58400.0
+    "notional": -1641.592647939509,
+    "px": 58661.0
    },
    "ETH": {
-    "notional": -1678.747060081249,
-    "px": 1570.3
+    "notional": -1687.7271755398765,
+    "px": 1578.7
    },
    "XRP": {
-    "notional": -1670.2055786121036,
-    "px": 1.0383
+    "notional": -1677.44426213686,
+    "px": 1.0428
    },
    "WLD": {
-    "notional": 1472.6416450963482,
-    "px": 0.40963
+    "notional": 1476.8119068162216,
+    "px": 0.41079
    },
    "ZEC": {
-    "notional": 1636.1600342530608,
-    "px": 397.42
+    "notional": 1649.498966644435,
+    "px": 400.66
    },
    "CRV": {
     "notional": 1640.3495057932494,
@@ -831,6 +831,10 @@
    {
     "ts": "2026-06-30T18:16:03.169341+00:00",
     "eq": 9759.41
+   },
+   {
+    "ts": "2026-06-30T19:16:02.153353+00:00",
+    "eq": 9753.4
    }
   ]
  },
