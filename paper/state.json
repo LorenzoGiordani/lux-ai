@@ -15,7 +15,7 @@
     "stop_px": 66.808760300244,
     "target_px": 79.24305688402835,
     "opened_at": "2026-06-27 22:00:00+00:00",
-    "checked_until": "2026-06-30 12:00:00+00:00",
+    "checked_until": "2026-06-30 13:00:00+00:00",
     "time_stop_h": 72,
     "thesis": "SOL \u00e8 l'unica major positiva su 7d (+1.6%) in un mercato dove ETH -7.3% e BTC -4.4%. Forza relativa = assorbimento reale, non rumore. Funding negativo (-0.4% APR): shorts pagano per stare corti su un asset che rifiuta di scendere \u2014 polvere da sparo per squeeze. BTC flat 24h a $60.5k con funding neutro suggerisce stabilizzazione, che \u00e8 il trigger per short covering su SOL. Nessun lux_confluence allineato su alcun asset \u2192 size ridotta e disciplina rigorosa. Asimmetria: downside protetto dalla forza relativa gi\u00e0 dimostrata, upside esplosivo se i shorts sono costretti al cover. Stop a $68 (sotto il supporto recente, fuori dal rumore a ~6.5 ATR). Target $80 (~1.8R).",
     "invalidation": "1) SOL perde $68 \u2192 la forza relativa era finta, il setup squeeze decade. 2) BTC rompe $58k \u2192 beta trascina tutto gi\u00f9, SOL non fa eccezione anche con forza relativa. Uscita immediata senza esitazione in entrambi i casi.",
@@ -27,7 +27,7 @@
     "tp1_px": null,
     "tp1_frac": 0.0,
     "trail_dist": null,
-    "_last_ts": "2026-06-30 12:00:00+00:00"
+    "_last_ts": "2026-06-30 13:00:00+00:00"
    },
    "ETH/USDT": {
     "strategy": "agents-v1",
@@ -494,27 +494,27 @@
   "positions": {}
  },
  "highvol-port-v1": {
-  "equity": 9760.18261679659,
+  "equity": 9755.205711703471,
   "positions": {
    "BTC": {
-    "notional": -1633.5611263159662,
-    "px": 58374.0
+    "notional": -1642.9918677345513,
+    "px": 58711.0
    },
    "ETH": {
-    "notional": -1658.9694248449862,
-    "px": 1551.8
+    "notional": -1674.6846268975842,
+    "px": 1566.5
    },
    "XRP": {
-    "notional": -1652.028439983271,
-    "px": 1.027
+    "notional": -1664.4146317922987,
+    "px": 1.0347
    },
    "WLD": {
-    "notional": 1468.9027897612893,
-    "px": 0.40859
+    "notional": 1471.2395743457012,
+    "px": 0.40924
    },
    "ZEC": {
-    "notional": 1601.9893123862691,
-    "px": 389.12
+    "notional": 1632.20775798895,
+    "px": 396.46
    },
    "CRV": {
     "notional": 1640.3495057932494,
@@ -826,6 +826,10 @@
    {
     "ts": "2026-06-30T13:16:03.576102+00:00",
     "eq": 9760.18
+   },
+   {
+    "ts": "2026-06-30T14:16:04.511154+00:00",
+    "eq": 9755.21
    }
   ]
  },
