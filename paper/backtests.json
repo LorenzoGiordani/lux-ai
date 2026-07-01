@@ -2,7 +2,7 @@
  "months": 12,
  "impact_k": 0.5,
  "funding_mode": "storico (dove disponibile)",
- "generated_at": "2026-07-01T18:26 UTC",
+ "generated_at": "2026-07-01T19:17 UTC",
  "strategies": [
   {
    "id": "highvol-port-v1",
@@ -14,8 +14,8 @@
    "basket_size": 9,
    "vol_target": "off",
    "aggregate": {
-    "mean_sharpe": 1.38,
-    "mean_return": 0.2462,
+    "mean_sharpe": 1.34,
+    "mean_return": 0.237,
     "worst_drawdown": -0.138,
     "positive_symbols": "market-neutral",
     "consistency": "4/6 fold positivi"
@@ -32,8 +32,8 @@
    "basket_size": 9,
    "vol_target": "off",
    "aggregate": {
-    "mean_sharpe": 0.76,
-    "mean_return": 0.1027,
+    "mean_sharpe": 0.81,
+    "mean_return": 0.1102,
     "worst_drawdown": -0.1698,
     "positive_symbols": "market-neutral",
     "consistency": "4/6 fold positivi"
@@ -50,8 +50,8 @@
    "basket_size": 9,
    "vol_target": "on (m medio 0.84)",
    "aggregate": {
-    "mean_sharpe": 0.63,
-    "mean_return": 0.0645,
+    "mean_sharpe": 0.66,
+    "mean_return": 0.0679,
     "worst_drawdown": -0.156,
     "positive_symbols": "market-neutral",
     "consistency": "3/6 fold positivi"
@@ -68,8 +68,8 @@
    "basket_size": 9,
    "vol_target": "off",
    "aggregate": {
-    "mean_sharpe": 1.5,
-    "mean_return": 0.2408,
+    "mean_sharpe": 1.55,
+    "mean_return": 0.2504,
     "worst_drawdown": -0.1468,
     "positive_symbols": "market-neutral",
     "consistency": "3/6 fold positivi"
@@ -86,8 +86,8 @@
    "basket_size": 9,
    "vol_target": "off",
    "aggregate": {
-    "mean_sharpe": 0.24,
-    "mean_return": 0.0156,
+    "mean_sharpe": 0.28,
+    "mean_return": 0.0225,
     "worst_drawdown": -0.2369,
     "positive_symbols": "market-neutral",
     "consistency": "4/6 fold positivi"
